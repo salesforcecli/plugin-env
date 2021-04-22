@@ -14,7 +14,6 @@
   "Test": "test",
   "Component": "component",
   "Page": "page",
-
   "AlphaNumericNameError": "Name must contain only alphanumeric characters.",
   "NameMustStartWithLetterError": "Name must start with a letter.",
   "EndWithUnderscoreError": "Name can't end with an underscore.",

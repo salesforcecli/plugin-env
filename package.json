@@ -1,12 +1,11 @@
 {
-  "name": "@salesforce/plugin-template",
-  "description": "A template repository for sfdx plugins",
-  "version": "1.0.0",
+  "name": "@salesforce/plugin-env",
+  "description": "An sf plugin for logging into and interacting with different Salesforce environments.",
+  "version": "0.0.1",
   "author": "Salesforce",
   "bugs": "https://github.com/forcedotcom/cli/issues",
   "dependencies": {
-    "@oclif/config": "^1",
-    "@salesforce/command": "^3.1.0",
+    "@oclif/core": "^0.5.0",
     "@salesforce/core": "^2.20.10",
     "tslib": "^2"
   },
@@ -56,18 +55,17 @@
     "/messages",
     "/oclif.manifest.json"
   ],
-  "homepage": "https://github.com/salesforcecli/plugin-template",
+  "homepage": "https://github.com/salesforcecli/plugin-env",
   "keywords": [
     "force",
     "salesforce",
-    "sfdx",
-    "salesforcedx",
-    "sfdx-plugin"
+    "sf",
+    "sf env"
   ],
   "license": "BSD-3-Clause",
   "oclif": {
     "commands": "./lib/commands",
-    "bin": "sfdx",
+    "bin": "sf",
     "devPlugins": [
       "@oclif/plugin-help",
       "@oclif/plugin-command-snapshot",
@@ -75,11 +73,12 @@
     ],
     "topics": {
       "hello": {
-        "description": "Commands to say hello."
+        "description": "Commands to login to and interact with Salesforce environments."
       }
-    }
+    },
+    "topicSeparator": " "
   },
-  "repository": "salesforcecli/plugin-template",
+  "repository": "salesforcecli/plugin-env",
   "scripts": {
     "build": "sf-build",
     "clean": "sf-clean",

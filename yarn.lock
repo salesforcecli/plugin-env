@@ -380,7 +380,7 @@
     is-wsl "^2.1.1"
     tslib "^2.0.0"
 
-"@oclif/core@^0.5.0":
+"@oclif/core@^0.5.4":
   version "0.5.4"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-0.5.4.tgz#ca5ed27eea04f926a43eced2d050581e4f7444ca"
   integrity sha512-nmjdcnRgH8XWd0QKLxpfaBIOXMCgilPALl8Hu7VBM7x23JswvgqWiYT3TsdPm+Ut57E1yqHHXyrWD88vld8+LQ==

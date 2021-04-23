@@ -5,9 +5,8 @@
   "author": "Salesforce",
   "bugs": "https://github.com/forcedotcom/cli/issues",
   "dependencies": {
-    "@oclif/core": "^0.5.0",
-    "@salesforce/core": "^2.20.10",
-    "tslib": "^2"
+    "@oclif/core": "^0.5.4",
+    "@salesforce/core": "^2.20.10"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1",
@@ -66,6 +65,7 @@
   "oclif": {
     "commands": "./lib/commands",
     "bin": "sf",
+    "topicSeparator": " ",
     "devPlugins": [
       "@oclif/plugin-help",
       "@oclif/plugin-command-snapshot",
@@ -75,8 +75,7 @@
       "hello": {
         "description": "Commands to login to and interact with Salesforce environments."
       }
-    },
-    "topicSeparator": " "
+    }
   },
   "repository": "salesforcecli/plugin-env",
   "scripts": {

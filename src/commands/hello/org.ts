@@ -27,7 +27,7 @@ export default class Org extends Command {
 
   // eslint-disable-next-line @typescript-eslint/require-await
   public async run(): Promise<AnyJson> {
-    this.log('display');
+    this.log('Hello world!');
 
     return {};
   }

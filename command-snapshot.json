@@ -2,6 +2,6 @@
   {
     "command": "hello:org",
     "plugin": "@salesforce/plugin-env",
-    "flags": ["apiversion", "force", "json", "loglevel", "name", "targetdevhubusername", "targetusername"]
+    "flags": []
   }
 ]

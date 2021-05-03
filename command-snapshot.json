@@ -1,7 +1,7 @@
 [
   {
-    "command": "hello:org",
+    "command": "env:connect",
     "plugin": "@salesforce/plugin-env",
-    "flags": []
+    "flags": ["login-url"]
   }
 ]

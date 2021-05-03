@@ -60,7 +60,7 @@ export default class EnvConnect extends Command {
   public async run(): Promise<AuthFields> {
     this.flags = (await this.parse(EnvConnect)).flags;
 
-    const method = this.determinConnectMethod();
+    const method = this.determineConnectMethod();
     let result: AuthFields = {};
     switch (method) {
       case ConnectMethod.ORG_JWT:
@@ -75,8 +75,8 @@ export default class EnvConnect extends Command {
     return result;
   }
 
-  private determinConnectMethod(): ConnectMethod {
-    if (this.flags['jwt-key-file'] && this.flags.username) return ConnectMethod.ORG_JWT;
+  private determineConnectMethod(): ConnectMethod {
+    if (this.flags['jwt-key-file'] && this.flags.username && this.flags.clientid) return ConnectMethod.ORG_JWT;
     else return ConnectMethod.ORG_WEB;
   }
 
@@ -114,7 +114,8 @@ export default class EnvConnect extends Command {
       result = authInfo.getFields(true);
     } catch (err) {
       const msg = getString(err, 'message');
-      throw SfdxError.create('@salesforce/plugin-auth', 'jwt.grant', 'JwtGrantError', [msg]);
+      const error = `We encountered a JSON web token error, which is likely not an issue with Salesforce CLI. Here’s the error: ${msg}`;
+      throw new SfdxError('JwtGrantError', error);
     }
     const successMsg = `Successfully authorized ${result.username} with ID ${result.orgId}`;
     this.log(successMsg);

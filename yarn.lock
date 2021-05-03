@@ -380,7 +380,7 @@
     is-wsl "^2.1.1"
     tslib "^2.0.0"
 
-"@oclif/core@^0.5.0":
+"@oclif/core@^0.5.4":
   version "0.5.4"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-0.5.4.tgz#ca5ed27eea04f926a43eced2d050581e4f7444ca"
   integrity sha512-nmjdcnRgH8XWd0QKLxpfaBIOXMCgilPALl8Hu7VBM7x23JswvgqWiYT3TsdPm+Ut57E1yqHHXyrWD88vld8+LQ==
@@ -497,6 +497,13 @@
   version "1.2.6"
   resolved "https://registry.npmjs.org/@oclif/test/-/test-1.2.6.tgz#0cc5b4f762c4007f3aeda1608a374cf02e76fe9d"
   integrity sha512-8BQm0VFwTf/JpDnI3x6Lbp3S4RRUvQcv8WalKm82+7FNEylWMAXFNgBuzG65cNPj11J2jhlVo0gOWGF6hbiaJQ==
+  dependencies:
+    fancy-test "^1.4.3"
+
+"@oclif/test@^1.2.8":
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/@oclif/test/-/test-1.2.8.tgz#a5b2ebd747832217d9af65ac30b58780c4c17c5e"
+  integrity sha512-HCh0qPge1JCqTEw4s2ScnicEZd4Ro4/0VvdjpsfCiX6fuDV53fRZ2uqLTgxKGHrVoqOZnVrRZHyhFyEsFGs+zQ==
   dependencies:
     fancy-test "^1.4.3"
 

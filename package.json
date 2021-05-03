@@ -77,8 +77,8 @@
       "@salesforce/plugin-command-reference"
     ],
     "topics": {
-      "hello": {
-        "description": "Commands to login to and interact with Salesforce environments."
+      "env": {
+        "description": "Commands to work with enviornments."
       }
     }
   },

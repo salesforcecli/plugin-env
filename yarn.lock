@@ -549,10 +549,10 @@
     chalk "^2.4.2"
     cli-ux "^4.9.3"
 
-"@salesforce/core@3.0.0":
-  version "3.0.0"
-  resolved "https://registry.npmjs.org/@salesforce/core/-/core-3.0.0.tgz#d26e43c35c9711d7fab7caa862fa69048c770d1f"
-  integrity sha512-Q5gLhlYqrPo+vXAivmWSjneBluo7tgYO6xfJC1IdUnm1OEL9RZBFY8bWXhuoikulP4hczIK13XqDrt2cq/Nvjw==
+"@salesforce/core@3.0.1-v3.0":
+  version "3.0.1-v3.0"
+  resolved "https://registry.npmjs.org/@salesforce/core/-/core-3.0.1-v3.0.tgz#8e2ba5b5b6c88099c757ee80ab0d6056b37b0f4d"
+  integrity sha512-ACJRRWlot6PrC4IU2Wk5iyXUhPP47VstXyoBRagBBBlYfYQexcES2bnMZgFk9XMSVBBhv3T1zhVV/pTmkPPW8g==
   dependencies:
     "@salesforce/bunyan" "^2.0.0"
     "@salesforce/kit" "^1.5.0"
@@ -745,7 +745,7 @@
   resolved "https://registry.npmjs.org/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
   integrity sha512-rr+OQyAjxze7GgWrSaJwydHStIhHq2lvY3BOC2Mj7KnzI7XK0Uw1TOOdI9lDoajEbSWLiYgoo4f1R51erQfhPQ==
 
-"@types/glob@^7.1.1":
+"@types/glob@*", "@types/glob@^7.1.1":
   version "7.1.3"
   resolved "https://registry.npmjs.org/@types/glob/-/glob-7.1.3.tgz#e6ba80f36b7daad2c685acd9266382e68985c183"
   integrity sha512-SEYeGAIQIQX8NN6LDKprLjbrd5dARM5EXsd8GI/A5l0apYI1fGMWgPHSe4ZKL4eozlAyI+doUE9XbYS4xCkQ1w==
@@ -823,6 +823,14 @@
   version "4.0.0"
   resolved "https://registry.npmjs.org/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
   integrity sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
+
+"@types/shelljs@^0.8.8":
+  version "0.8.8"
+  resolved "https://registry.npmjs.org/@types/shelljs/-/shelljs-0.8.8.tgz#e439c69929b88a2c8123c1a55e09eb708315addf"
+  integrity sha512-lD3LWdg6j8r0VRBFahJVaxoW0SIcswxKaFUrmKl33RJVeeoNYQAz4uqCJ5Z6v4oIBOsC5GozX+I5SorIKiTcQA==
+  dependencies:
+    "@types/glob" "*"
+    "@types/node" "*"
 
 "@types/sinon@*", "@types/sinon@^9.0.4":
   version "9.0.4"

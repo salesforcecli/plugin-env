@@ -81,6 +81,7 @@ export default class EnvConnect extends Command {
   }
 
   private async executeJwtOrgFlow(): Promise<AuthFields> {
+    this.log('Executing salesforce org JWT auth flow...');
     let result: AuthFields = {};
 
     try {
@@ -123,6 +124,7 @@ export default class EnvConnect extends Command {
   }
 
   private async executeWebLoginOrgFlow(): Promise<AuthFields> {
+    this.log('Executing salesforce org web auth flow...');
     try {
       const oauthConfig: OAuth2Options = this.flags['instance-url'] ? { loginUrl: this.flags['instance-url'] } : {};
       const oauthServer = await WebOAuthServer.create({ oauthConfig });

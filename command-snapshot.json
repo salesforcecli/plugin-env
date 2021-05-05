@@ -2,6 +2,6 @@
   {
     "command": "env:connect",
     "plugin": "@salesforce/plugin-env",
-    "flags": ["clientid", "instance-url", "jwt-key-file", "username"]
+    "flags": ["client-id", "instance-url", "jwt-key-file", "username"]
   }
 ]

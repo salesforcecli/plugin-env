@@ -17,7 +17,7 @@ import { getString } from '@salesforce/ts-types';
 // const messages = Messages.loadMessages('@salesforce/plugin-env', 'connect');
 
 // eslint-disable-next-line no-shadow
-enum ConnectMethod {
+export enum ConnectMethod {
   ORG_WEB = 'org_web',
   ORG_JWT = 'org_jwt',
 }
@@ -36,14 +36,14 @@ export default class EnvConnect extends Command {
     'jwt-key-file': Flags.string({
       char: 'f',
       description: 'path to a file containing the private key',
-      dependsOn: ['username', 'clientid'],
+      dependsOn: ['username', 'client-id'],
     }),
     username: Flags.string({
       char: 'u',
       description: 'authentication username',
-      dependsOn: ['jwt-key-file', 'clientid'],
+      dependsOn: ['jwt-key-file', 'client-id'],
     }),
-    clientid: Flags.string({
+    'client-id': Flags.string({
       char: 'i',
       description: 'OAuth client ID (sometimes called the consumer key)',
       dependsOn: ['username', 'jwt-key-file'],
@@ -51,10 +51,10 @@ export default class EnvConnect extends Command {
   };
 
   public flags: {
+    'client-id': string;
     'instance-url': string;
     'jwt-key-file': string;
     username: string;
-    clientid: string;
   };
 
   public async run(): Promise<AuthFields> {
@@ -75,8 +75,8 @@ export default class EnvConnect extends Command {
     return result;
   }
 
-  private determineConnectMethod(): ConnectMethod {
-    if (this.flags['jwt-key-file'] && this.flags.username && this.flags.clientid) return ConnectMethod.ORG_JWT;
+  public determineConnectMethod(): ConnectMethod {
+    if (this.flags['jwt-key-file'] && this.flags.username && this.flags['client-id']) return ConnectMethod.ORG_JWT;
     else return ConnectMethod.ORG_WEB;
   }
 
@@ -86,7 +86,7 @@ export default class EnvConnect extends Command {
 
     try {
       const oauth2OptionsBase = {
-        clientId: this.flags.clientid,
+        clientId: this.flags['client-id'],
         privateKeyFile: this.flags['jwt-key-file'],
       };
 

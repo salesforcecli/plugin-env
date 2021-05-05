@@ -4,7 +4,7 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import * as path from 'path';
+import { join } from 'path';
 import { execCmd, TestSession, prepareForJwt } from '@salesforce/cli-plugins-testkit';
 import { expect } from 'chai';
 import { Env } from '@salesforce/kit';
@@ -80,7 +80,7 @@ describe('env connect NUTs', () => {
       expectOrgIdToExist(json.result);
       expectUrlToExist(json.result, 'instanceUrl');
       expectUrlToExist(json.result, 'loginUrl');
-      expect(json.result.privateKey).to.equal(path.join(testSession.homeDir, 'jwtKey'));
+      expect(json.result.privateKey).to.equal(join(testSession.homeDir, 'jwtKey'));
       expect(json.result.username).to.equal(username);
     });
 

@@ -5,7 +5,7 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import * as os from 'os';
+import { EOL } from 'os';
 import * as open from 'open';
 
 import { Command, Flags } from '@oclif/core';
@@ -24,9 +24,9 @@ export enum ConnectMethod {
 
 export default class EnvConnect extends Command {
   // public static readonly description = messages.getMessage('description');
-  // public static readonly examples = messages.getMessage('examples').split(os.EOL);
+  // public static readonly examples = messages.getMessage('examples').split(EOL);
   public static readonly description = 'connect to a Salesforce account or environment';
-  public static readonly examples = ''.split(os.EOL);
+  public static readonly examples = ''.split(EOL);
   public static flags = {
     'instance-url': Flags.string({
       char: 'r',

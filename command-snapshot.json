@@ -7,6 +7,6 @@
   {
     "command": "env:list",
     "plugin": "@salesforce/plugin-env",
-    "flags": ["all"]
+    "flags": ["all", "columns", "csv", "extended", "filter", "no-header", "no-truncate", "output", "sort"]
   }
 ]

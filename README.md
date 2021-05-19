@@ -63,59 +63,8 @@ sfdx plugins
 ## Commands
 
 <!-- commands -->
-
-- [`sf env:connect`](#sf-envconnect)
-- [`sf env:list`](#sf-envlist)
-
-## `sf env:connect`
-
-connect to a Salesforce account or environment
-
-```
-USAGE
-  $ sf env:connect
-
-OPTIONS
-  -f, --jwt-key-file=jwt-key-file  path to a file containing the private key
-  -i, --client-id=client-id        OAuth client ID (sometimes called the consumer key)
-  -r, --instance-url=instance-url  [default: https://login.salesforce.com] the login URL
-  -u, --username=username          authentication username
-
-EXAMPLE
-```
-
-_See code: [src/commands/env/connect.ts](https://github.com/salesforcecli/plugin-env/blob/v0.0.1/src/commands/env/connect.ts)_
-
-## `sf env:list`
-
-list environments
-
-```
-USAGE
-  $ sf env:list
-
-OPTIONS
-  -a, --all               show all environments regardless of whether they're connected or not
-  -x, --extended          show extra columns
-  --columns=columns       only show provided columns (comma-separated)
-  --csv                   output is csv format [alias: --output=csv]
-  --filter=filter         filter property by partial string matching, ex: name=foo
-  --no-header             hide table header from output
-  --no-truncate           do not truncate output to fit screen
-  --output=csv|json|yaml  output in a more machine friendly format
-  --sort=sort             property to sort by (prepend '-' for descending)
-
-EXAMPLE
-  sf env list
-  sf env list --all
-```
-
-_See code: [src/commands/env/list.ts](https://github.com/salesforcecli/plugin-env/blob/v0.0.1/src/commands/env/list.ts)_
-
-<!-- commandsstop -->
-
-- [`sf env:connect`](#sf-envconnect)
-- [`sf env:list`](#sf-envlist)
+* [`sf env:connect`](#sf-envconnect)
+* [`sf env:list`](#sf-envlist)
 
 ## `sf env:connect`
 
@@ -155,11 +104,10 @@ OPTIONS
   --output=csv|json|yaml  output in a more machine friendly format
   --sort=sort             property to sort by (prepend '-' for descending)
 
-EXAMPLE
+EXAMPLES
   sf env list
   sf env list --all
 ```
 
 _See code: [src/commands/env/list.ts](https://github.com/salesforcecli/plugin-env/blob/v0.0.1/src/commands/env/list.ts)_
-
 <!-- commandsstop -->

@@ -3,5 +3,10 @@
     "command": "env:connect",
     "plugin": "@salesforce/plugin-env",
     "flags": ["client-id", "instance-url", "jwt-key-file", "username"]
+  },
+  {
+    "command": "env:list",
+    "plugin": "@salesforce/plugin-env",
+    "flags": ["all", "columns", "csv", "extended", "filter", "no-header", "no-truncate", "output", "sort"]
   }
 ]

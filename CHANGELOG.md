@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.2](https://github.com/salesforcecli/plugin-env/compare/v0.0.1...v0.0.2) (2021-05-24)
+
+
+### Features
+
+* remove env connect ([f598b53](https://github.com/salesforcecli/plugin-env/commit/f598b5373cff7a01e38b6caa91c385e9e470a94d))
+
 ### 0.0.1 (2021-05-19)
 
 

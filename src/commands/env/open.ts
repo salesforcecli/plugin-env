@@ -10,7 +10,7 @@ import { EOL } from 'os';
 import { Command, Flags } from '@oclif/core';
 import { Messages, Org, SfdxError } from '@salesforce/core';
 import * as open from 'open';
-import { isArray } from '../../../../sfdx-core/node_modules/@salesforce/ts-types/lib';
+import { isArray } from '@salesforce/ts-types';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'open');
@@ -76,9 +76,18 @@ export default class EnvOpen extends Command {
       if (flags['url-only']) {
         this.log(url);
       } else {
-        const browser = flags.browser;
+        let browser = flags.browser;
+
+        if (browser?.toLowerCase().includes('chrome')) {
+          browser = open.apps.chrome as string;
+        }
+
+        if (browser?.toLowerCase().includes('firefox')) {
+          browser = open.apps.firefox as string;
+        }
+
         this.log(`Opening ${nameOrAlias} in ${browser ? browser : 'the default browser'}.`);
-        await open(url, { app: { name: flags.browser } });
+        await open(url, { app: { name: browser }, wait: false });
       }
     } else {
       throw new SfdxError(`The environment ${nameOrAlias} doesn't support bring opened`);

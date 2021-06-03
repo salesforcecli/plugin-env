@@ -9,24 +9,20 @@ import { EOL } from 'os';
 
 import { Command, flags } from '@oclif/command';
 import { cli, Table } from 'cli-ux';
-import { AuthInfo, SfOrg, SfdxError } from '@salesforce/core';
+import { AuthInfo, SfOrg, Messages, SfdxError } from '@salesforce/core';
 
-// TODO: add back once md messages are supported
-// Messages.importMessagesDirectory(__dirname);
-// const messages = Messages.loadMessages('@salesforce/plugin-env', 'list');
+Messages.importMessagesDirectory(__dirname);
+const messages = Messages.loadMessages('@salesforce/plugin-env', 'list');
 
 export type SfOrgs = SfOrg[];
 
 export default class EnvList extends Command {
-  // TODO: add back once md messages are supported
-  // public static readonly description = messages.getMessage('description');
-  // public static readonly examples = messages.getMessage('examples').split(EOL);
-  public static readonly description = 'list environments';
-  public static readonly examples = 'sf env list\nsf env list --all'.split(EOL);
+  public static readonly description = messages.getMessage('description');
+  public static readonly examples = messages.getMessage('examples').split(EOL);
   public static flags = {
     all: flags.boolean({
       char: 'a',
-      description: "show all environments regardless of whether they're connected or not",
+      description: messages.getMessage('flags.all.summary'),
     }),
     ...cli.table.flags(),
   };
@@ -65,15 +61,13 @@ export default class EnvList extends Command {
             get: (row) => row.error ?? '',
           } as Table.table.Columns<Partial<SfOrg>>;
         }
-        cli.styledHeader('Authenticated Envs');
-        cli.table(authorizations, columns, this.flags);
+        cli.table(authorizations, columns, { title: 'Authenticated Envs', ...this.flags });
       } else {
-        throw new SfdxError('There are no authorizations available.');
+        throw messages.createError('error.NoAuthsAvailable');
       }
     } catch (error) {
       const err = error as SfdxError;
-      // TODO: add back once md messages are supported
-      // cli.log(messages.getMessage('noResultsFound'));
+      cli.log(messages.getMessage('error.NoResultsFound'));
       cli.error(err);
     }
 

@@ -59,7 +59,7 @@ export default class EnvOpen extends Command {
       // @ts-ignore in the next core version
       url = conn.options.authInfo.getOrgFrontDoorUrl(); // eslint-disable-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
     } catch (err) {
-      if (err.name !== 'NamedOrgNotFoundError' && err.name !== 'AuthInfoCreationError') {
+      if (err instanceof Error && err.name !== 'NamedOrgNotFoundError' && err.name !== 'AuthInfoCreationError') {
         throw err;
       }
       /* Expected - Do nothing */

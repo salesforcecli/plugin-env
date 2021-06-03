@@ -5,6 +5,11 @@
     "flags": ["all", "columns", "csv", "extended", "filter", "no-header", "no-truncate", "output", "sort"]
   },
   {
+    "command": "env:display",
+    "plugin": "@salesforce/plugin-env",
+    "flags": ["environment"]
+  },
+  {
     "command": "env:open",
     "plugin": "@salesforce/plugin-env",
     "flags": ["browser", "path", "target-env", "url-only"]

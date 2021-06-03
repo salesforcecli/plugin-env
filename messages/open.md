@@ -55,3 +55,15 @@ Specify a browser by its app name according to your operating system. For exampl
   to use Chrome on macOS:
 
   sf env open --target-env test-org --path /apex/StartHere --browser "google chrome"
+
+# error.NoDefaultEnv
+
+No default target-env found. Use --target-env to specify which env to open.
+
+# error.NoEnvFound
+
+No environment found for %s.
+
+# error.EnvironmentNotSupported
+
+The environment %s doesn't support bring opened.

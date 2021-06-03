@@ -10,6 +10,7 @@ import { EOL } from 'os';
 import { Command, Flags } from '@oclif/core';
 import { Messages, Org, SfdxError } from '@salesforce/core';
 import * as open from 'open';
+import type { Options } from 'open';
 import { isArray } from '@salesforce/ts-types';
 
 Messages.importMessagesDirectory(__dirname);
@@ -45,6 +46,11 @@ export default class EnvOpen extends Command {
     const nameOrAlias = flags['target-env'];
     let url;
 
+    if (!nameOrAlias) {
+      // TODO this should be retrieved from sf config once we have those commands. If not found, still throw.
+      throw messages.createError('error.NoDefaultEnv');
+    }
+
     try {
       const org = await Org.create({ aliasOrUsername: nameOrAlias });
       const conn = org.getConnection();
@@ -53,7 +59,10 @@ export default class EnvOpen extends Command {
       // @ts-ignore in the next core version
       url = conn.options.authInfo.getOrgFrontDoorUrl(); // eslint-disable-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
     } catch (err) {
-      /* Do nothing */
+      if (err.name !== 'NamedOrgNotFoundError' && err.name !== 'AuthInfoCreationError') {
+        throw err;
+      }
+      /* Expected - Do nothing */
     }
 
     if (!url) {
@@ -66,7 +75,7 @@ export default class EnvOpen extends Command {
       const foundEnv = foundEnvs.find((env) => env.name === nameOrAlias);
 
       if (!foundEnv) {
-        throw new SfdxError(`No environment found for ${nameOrAlias}`);
+        throw messages.createError('error.NoEnvFound', [nameOrAlias]);
       }
 
       url = foundEnv.openUrl;
@@ -76,21 +85,46 @@ export default class EnvOpen extends Command {
       if (flags['url-only']) {
         this.log(url);
       } else {
-        let browser = flags.browser;
+        const browser = flags.browser;
+        const browserName = browser ? browser : 'the default browser';
 
-        if (browser?.toLowerCase().includes('chrome')) {
-          browser = open.apps.chrome as string;
-        }
-
-        if (browser?.toLowerCase().includes('firefox')) {
-          browser = open.apps.firefox as string;
-        }
-
-        this.log(`Opening ${nameOrAlias} in ${browser ? browser : 'the default browser'}.`);
-        await open(url, { app: { name: browser }, wait: false });
+        await this.open(url, browser);
+        this.log(`Opening ${nameOrAlias} in ${browserName}.`);
       }
     } else {
-      throw new SfdxError(`The environment ${nameOrAlias} doesn't support bring opened`);
+      throw messages.createError('error.EnvironmentNotSupported', [nameOrAlias]);
     }
+  }
+
+  // TODO login and env open should probably share the same open code. Maybe we should use cli-ux.open?
+  private async open(url: string, browser: string): Promise<void> {
+    let options: Options;
+
+    if (browser) {
+      if (browser?.toLowerCase().includes('chrome')) {
+        browser = open.apps.chrome as string;
+      }
+
+      if (browser?.toLowerCase().includes('firefox')) {
+        browser = open.apps.firefox as string;
+      }
+      options = { app: { name: browser } };
+    }
+
+    const chunks = [];
+    const process = await open(url, options);
+
+    return new Promise((resolve, reject) => {
+      process.stderr.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
+      process.once('error', (err) => reject(new SfdxError(err.message, 'OpenError')));
+      process.once('close', (code) => {
+        if (code > 0) {
+          const errorMessage = Buffer.concat(chunks).toString('utf8');
+          reject(new SfdxError(errorMessage, 'OpenError'));
+        } else {
+          resolve();
+        }
+      });
+    });
   }
 }

@@ -61,7 +61,7 @@ export default class EnvDisplay extends Command {
             columns
           );
         } else {
-          throw new SfdxError(messages.getMessage('error.NoEnvFound'));
+          throw new SfdxError(messages.getMessage('error.NoEnvFound', [this.flags.environment]));
         }
       } else {
         throw messages.createError('error.NoAuthsAvailable');

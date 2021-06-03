@@ -120,19 +120,30 @@ export default class EnvOpen extends Command {
 
     return new Promise((resolve, reject) => {
       process.stderr.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
-      // This never seems to fire. See https://github.com/sindresorhus/open/issues/144
-      process.once('error', (err) => reject(new SfdxError(err.message, 'OpenError')));
-      // Because of the above, it seems, process.once('close') is never fired on windows (or is also fired before we get it)
-      // So we can look at stderr. This command will fail is stderr only conains a warning, but it is the best we have right now
-      // without using another library. We can use cli-ux but it doesn't have the open.app.chrome/firefox/edge properties.
-      process.stderr.once('close', () => {
+
+      const resolveOrReject = (code): void => {
+        // stderr could contain warnings or random data, so we will only error if we know there is a valid error.
+        const validErrors = ['Unable to find application named'];
         const errorMessage = Buffer.concat(chunks).toString('utf8');
-        if (errorMessage) {
+
+        if (code > 0 || validErrors.find((error) => errorMessage.includes(error))) {
           reject(new SfdxError(errorMessage, 'OpenError'));
         } else {
           resolve();
         }
-      });
+      };
+
+      // This never seems to fire.
+      process.once('error', (err) => reject(new SfdxError(err.message, 'OpenError')));
+
+      // These are sometimes not fired (non-deterministic) for whatever reason, especially on windows. We will just rely on known errors in stderr.
+      // It could be because of See https://github.com/sindresorhus/open/issues/144 but hacking around the open library didn't
+      // seem to fix it.
+      // process.once('close', resolveOrReject);
+      // process.once('exit', resolveOrReject);
+
+      // Nothing is ever printed to stdout, but we really only care about stderr.
+      process.stderr.once('close', resolveOrReject);
     });
   }
 }

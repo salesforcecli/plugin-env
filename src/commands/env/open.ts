@@ -108,6 +108,10 @@ export default class EnvOpen extends Command {
       if (browser?.toLowerCase().includes('firefox')) {
         browser = open.apps.firefox as string;
       }
+
+      if (browser?.toLowerCase().includes('edge')) {
+        browser = open.apps.edge as string;
+      }
       options = { app: { name: browser } };
     }
 
@@ -116,10 +120,14 @@ export default class EnvOpen extends Command {
 
     return new Promise((resolve, reject) => {
       process.stderr.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
+      // This never seems to fire. See https://github.com/sindresorhus/open/issues/144
       process.once('error', (err) => reject(new SfdxError(err.message, 'OpenError')));
-      process.once('close', (code) => {
-        if (code > 0) {
-          const errorMessage = Buffer.concat(chunks).toString('utf8');
+      // Because of the above, it seems, process.once('close') is never fired on windows (or is also fired before we get it)
+      // So we can look at stderr. This command will fail is stderr only conains a warning, but it is the best we have right now
+      // without using another library. We can use cli-ux but it doesn't have the open.app.chrome/firefox/edge properties.
+      process.stderr.once('close', () => {
+        const errorMessage = Buffer.concat(chunks).toString('utf8');
+        if (errorMessage) {
           reject(new SfdxError(errorMessage, 'OpenError'));
         } else {
           resolve();

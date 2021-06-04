@@ -64,6 +64,7 @@ sfdx plugins
 
 <!-- commands -->
 * [`sf env:list`](#sf-envlist)
+* [`sf env:open`](#sf-envopen)
 
 ## `sf env:list`
 
@@ -89,5 +90,51 @@ EXAMPLES
   sf env list --all
 ```
 
-_See code: [src/commands/env/list.ts](https://github.com/salesforcecli/plugin-env/blob/v0.0.1/src/commands/env/list.ts)_
+_See code: [src/commands/env/list.ts](https://github.com/salesforcecli/plugin-env/blob/v0.0.2/src/commands/env/list.ts)_
+
+## `sf env:open`
+
+You can open the following types of environments in a web browser: scratch orgs, sandboxes, Dev Hubs, and production orgs.
+
+```
+USAGE
+  $ sf env:open
+
+OPTIONS
+  -e, --target-env=target-env  Environment name or alias to open.
+  -p, --path=path              Path to append to the end of the login URL.
+  -r, --url-only               Display the URL, but don’t launch it in a browser.
+  --browser=browser            Browser in which to open the environment.
+
+DESCRIPTION
+  If you run the command without flags, it attempts to open your default environment in your default web browser.
+
+  Each of your environments is associated with an instance URL, such as https://login.salesforce.com. To open a specific 
+  web page at that URL, specify the portion of the URL after "<URL>/" with the --path flag, such as /apex/YourPage to 
+  open a Visualforce page.
+  You can open the following types of environments in a web browser: scratch orgs, sandboxes, Dev Hubs, and production 
+  orgs.
+
+  If you run the command without flags, it attempts to open your default environment in your default web browser.
+
+  Each of your environments is associated with an instance URL, such as https://login.salesforce.com. To open a specific 
+  web page at that URL, specify the portion of the URL after "<URL>/" with the --path flag, such as /apex/YourPage to 
+  open a Visualforce page.
+
+EXAMPLES
+  To open your default environment, run the command without flags:
+  sf env open
+  This example opens the Visualforce page /apex/StartHere in a scratch org
+  with alias "test-org":
+  sf env open --target-env test-org --path /apex/StartHere
+  If you want to view the URL for the preceding command, but not launch it in a browser,
+  add the --url-only flag:
+  sf env open --target-env test-org --path /apex/StartHere --url-only
+  The preceding examples open the environment in your default web browser. To use
+  a different browser, set the --browser flag to its OS-specific name. For example,
+  to use Chrome on macOS:
+  sf env open --target-env test-org --path /apex/StartHere --browser "google chrome"
+```
+
+_See code: [src/commands/env/open.ts](https://github.com/salesforcecli/plugin-env/blob/v0.0.2/src/commands/env/open.ts)_
 <!-- commandsstop -->

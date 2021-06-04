@@ -9,7 +9,7 @@ import { EOL } from 'os';
 
 import { Command, flags } from '@oclif/command';
 import { cli, Table } from 'cli-ux';
-import { AuthInfo, Authorization, SfdxError } from '@salesforce/core';
+import { AuthInfo, SfOrg, SfdxError } from '@salesforce/core';
 
 // TODO: add back once md messages are supported
 // Messages.importMessagesDirectory(__dirname);
@@ -33,10 +33,10 @@ export default class EnvList extends Command {
     all: boolean;
   };
 
-  public async run(): Promise<Authorization[]> {
+  public async run(): Promise<SfOrg[]> {
     this.flags = this.parse(EnvList).flags;
 
-    let authorizations: Authorization[];
+    let authorizations: SfOrg[];
 
     try {
       if (await AuthInfo.hasAuthentications()) {
@@ -56,12 +56,12 @@ export default class EnvList extends Command {
           oauthMethod: {
             header: 'OAuth Method',
           },
-        } as Table.table.Columns<Partial<Authorization>>;
+        } as Table.table.Columns<Partial<SfOrg>>;
         if (hasErrors) {
           columns.error = {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
             get: (row) => row.error ?? '',
-          } as Table.table.Columns<Partial<Authorization>>;
+          } as Table.table.Columns<Partial<SfOrg>>;
         }
         cli.styledHeader('Authenticated Envs');
         cli.table(authorizations, columns, this.flags);

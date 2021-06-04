@@ -67,3 +67,7 @@ No environment found for %s.
 # error.EnvironmentNotSupported
 
 The environment %s doesn't support bring opened.
+
+# error.ApplicationNotFound
+
+Unable to find application named %s.

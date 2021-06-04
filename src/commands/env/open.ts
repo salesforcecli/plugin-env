@@ -8,7 +8,7 @@
 import { EOL } from 'os';
 
 import { Command, Flags } from '@oclif/core';
-import { Messages, Org, SfdxError } from '@salesforce/core';
+import { Logger, Messages, Org, SfdxError } from '@salesforce/core';
 import * as open from 'open';
 import type { Options } from 'open';
 import { isArray } from '@salesforce/ts-types';
@@ -123,11 +123,17 @@ export default class EnvOpen extends Command {
 
       const resolveOrReject = (code): void => {
         // stderr could contain warnings or random data, so we will only error if we know there is a valid error.
-        const validErrors = ['Unable to find application named'];
+        const validErrors = [
+          'Unable to find application named',
+          'InvalidOperationException',
+          'cannot find file',
+          'cannot be run',
+        ];
         const errorMessage = Buffer.concat(chunks).toString('utf8');
 
         if (code > 0 || validErrors.find((error) => errorMessage.includes(error))) {
-          reject(new SfdxError(errorMessage, 'OpenError'));
+          Logger.childFromRoot('open').debug(errorMessage);
+          reject(messages.createError('error.ApplicationNotFound', [browser]));
         } else {
           resolve();
         }

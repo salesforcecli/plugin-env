@@ -14,6 +14,8 @@ import { AuthInfo, SfOrg, Messages, SfdxError } from '@salesforce/core';
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'display');
 
+export type SfOrgs = SfOrg[];
+
 export default class EnvDisplay extends Command {
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessage('examples').split(EOL);
@@ -30,7 +32,7 @@ export default class EnvDisplay extends Command {
 
   // TODO: Change SfOrg type to a more generalized auth type once we have Functions envs integrated.
 
-  public async run(): Promise<SfOrg[]> {
+  public async run(): Promise<SfOrgs> {
     this.flags = this.parse(EnvDisplay).flags;
 
     let authorizations: SfOrg[];

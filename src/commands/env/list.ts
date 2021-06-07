@@ -15,6 +15,8 @@ import { AuthInfo, SfOrg, SfdxError } from '@salesforce/core';
 // Messages.importMessagesDirectory(__dirname);
 // const messages = Messages.loadMessages('@salesforce/plugin-env', 'list');
 
+export type SfOrgs = SfOrg[];
+
 export default class EnvList extends Command {
   // TODO: add back once md messages are supported
   // public static readonly description = messages.getMessage('description');
@@ -33,7 +35,7 @@ export default class EnvList extends Command {
     all: boolean;
   };
 
-  public async run(): Promise<SfOrg[]> {
+  public async run(): Promise<SfOrgs> {
     this.flags = this.parse(EnvList).flags;
 
     let authorizations: SfOrg[];

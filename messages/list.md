@@ -4,8 +4,8 @@ List the environments you’ve created or logged into.
 
 # examples
 
-sf env list
-sf env list --all
+- sf env list
+- sf env list --all
 
 # flags.all.summary
 

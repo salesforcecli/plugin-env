@@ -5,8 +5,6 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import { EOL } from 'os';
-
 import { Command, flags } from '@oclif/command';
 import { cli, Table } from 'cli-ux';
 import { AuthInfo, SfOrg, Messages, SfdxError } from '@salesforce/core';
@@ -18,7 +16,7 @@ export type SfOrgs = SfOrg[];
 
 export default class EnvList extends Command {
   public static readonly description = messages.getMessage('description');
-  public static readonly examples = messages.getMessage('examples').split(EOL);
+  public static readonly examples = messages.getMessages('examples');
   public static flags = {
     all: flags.boolean({
       char: 'a',

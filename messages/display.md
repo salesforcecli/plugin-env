@@ -4,8 +4,8 @@ Display details about a specific environment
 
 # examples
 
-sf env display -e my-scratch-org
-sf env display -e user@name.com
+- sf env display -e my-scratch-org
+- sf env display -e user@name.com
 
 # flags.environment.summary
 

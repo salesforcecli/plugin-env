@@ -1,5 +1,10 @@
 [
   {
+    "command": "env:display",
+    "plugin": "@salesforce/plugin-env",
+    "flags": ["environment"]
+  },
+  {
     "command": "env:list",
     "plugin": "@salesforce/plugin-env",
     "flags": ["all", "columns", "csv", "extended", "filter", "no-header", "no-truncate", "output", "sort"]

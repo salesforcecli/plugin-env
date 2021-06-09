@@ -404,10 +404,10 @@
     is-wsl "^2.1.1"
     tslib "^2.0.0"
 
-"@oclif/core@^0.5.4":
-  version "0.5.10"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-0.5.10.tgz#63e0d1f26b64972996790ecc9912ecb2c039c66a"
-  integrity sha512-CbeMktVzyVjkikIL0a+tS/EXqNYagsYuGFt86WjI8E4ushQJLMkcN/8DPCY37CLYisnklKzeclsdIdFeHCA/9w==
+"@oclif/core@^0.5.12":
+  version "0.5.12"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-0.5.12.tgz#d665bc25d562b3d26e9ae100f2862cef59aa23c5"
+  integrity sha512-qNv0SoZLPiITr/w43iCEmYLRGZdJ1uZ+33BBFPpM21lQZzydZ1bxOIdpkyWNN11s03qxCj8M5rG5cIQ3g21AAQ==
   dependencies:
     "@oclif/linewrap" "^1.0.0"
     chalk "^4.1.0"
@@ -3483,6 +3483,11 @@ http-signature@~1.2.0:
     jsprim "^1.2.2"
     sshpk "^1.7.0"
 
+human-signals@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-1.1.1.tgz#c5b1cd14f50aeae09ab6c59fe63ba3395fe4dfa3"
+  integrity sha512-SEQu7vl8KjNL2eoGBLF3+wAjpsNfA9XMlXAYj/3EdaNfAlxKthD1xjEQfGOUhllCGGJVNY34bRr6lPINhNjyZw==
+
 human-signals@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-2.1.0.tgz#dc91fcba42e4d06e4abaed33b3e7a3c02f514ea0"
@@ -4924,7 +4929,7 @@ npm-run-path@^3.0.0:
   dependencies:
     path-key "^3.0.0"
 
-npm-run-path@^4.0.1:
+npm-run-path@^4.0.0, npm-run-path@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/npm-run-path/-/npm-run-path-4.0.1.tgz#b7ecd1e5ed53da8e37a55e1c2269e0b97ed748ea"
   integrity sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==

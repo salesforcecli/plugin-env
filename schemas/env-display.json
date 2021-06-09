@@ -1,13 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$ref": "#/definitions/SfOrgs",
+  "$ref": "#/definitions/SfOrg",
   "definitions": {
-    "SfOrgs": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/SfOrg"
-      }
-    },
     "SfOrg": {
       "type": "object",
       "additionalProperties": {

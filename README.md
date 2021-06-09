@@ -63,19 +63,38 @@ sfdx plugins
 ## Commands
 
 <!-- commands -->
+* [`sf env:display`](#sf-envdisplay)
 * [`sf env:list`](#sf-envlist)
 * [`sf env:open`](#sf-envopen)
 
+## `sf env:display`
+
+Display details about a specific environment
+
+```
+USAGE
+  $ sf env:display
+
+OPTIONS
+  -e, --environment=environment  Environment name or alias to display.
+
+EXAMPLES
+  sf env display -e my-scratch-org
+  sf env display -e user@name.com
+```
+
+_See code: [src/commands/env/display.ts](https://github.com/salesforcecli/plugin-env/blob/v0.0.4/src/commands/env/display.ts)_
+
 ## `sf env:list`
 
-list environments
+List the environments you’ve created or logged into.
 
 ```
 USAGE
   $ sf env:list
 
 OPTIONS
-  -a, --all               show all environments regardless of whether they're connected or not
+  -a, --all               Show all environments, including inactive orgs.
   -x, --extended          show extra columns
   --columns=columns       only show provided columns (comma-separated)
   --csv                   output is csv format [alias: --output=csv]
@@ -90,7 +109,7 @@ EXAMPLES
   sf env list --all
 ```
 
-_See code: [src/commands/env/list.ts](https://github.com/salesforcecli/plugin-env/blob/v0.0.3/src/commands/env/list.ts)_
+_See code: [src/commands/env/list.ts](https://github.com/salesforcecli/plugin-env/blob/v0.0.4/src/commands/env/list.ts)_
 
 ## `sf env:open`
 
@@ -136,5 +155,5 @@ EXAMPLES
   sf env open --target-env test-org --path /apex/StartHere --browser "google chrome"
 ```
 
-_See code: [src/commands/env/open.ts](https://github.com/salesforcecli/plugin-env/blob/v0.0.3/src/commands/env/open.ts)_
+_See code: [src/commands/env/open.ts](https://github.com/salesforcecli/plugin-env/blob/v0.0.4/src/commands/env/open.ts)_
 <!-- commandsstop -->

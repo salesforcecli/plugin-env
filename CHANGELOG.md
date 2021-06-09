@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.5](https://github.com/salesforcecli/plugin-env/compare/v0.0.4...v0.0.5) (2021-06-09)
+
+
+### Features
+
+* add env display command ([#52](https://github.com/salesforcecli/plugin-env/issues/52)) ([7b5388b](https://github.com/salesforcecli/plugin-env/commit/7b5388b737ed9c77b73f81c97dcab775aa583af5))
+
 ### [0.0.4](https://github.com/salesforcecli/plugin-env/compare/v0.0.3...v0.0.4) (2021-06-07)
 
 

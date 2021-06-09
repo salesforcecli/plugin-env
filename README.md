@@ -83,7 +83,7 @@ EXAMPLES
   sf env display -e user@name.com
 ```
 
-_See code: [src/commands/env/display.ts](https://github.com/salesforcecli/plugin-env/blob/v0.0.4/src/commands/env/display.ts)_
+_See code: [src/commands/env/display.ts](https://github.com/salesforcecli/plugin-env/blob/v0.0.5/src/commands/env/display.ts)_
 
 ## `sf env:list`
 
@@ -109,7 +109,7 @@ EXAMPLES
   sf env list --all
 ```
 
-_See code: [src/commands/env/list.ts](https://github.com/salesforcecli/plugin-env/blob/v0.0.4/src/commands/env/list.ts)_
+_See code: [src/commands/env/list.ts](https://github.com/salesforcecli/plugin-env/blob/v0.0.5/src/commands/env/list.ts)_
 
 ## `sf env:open`
 
@@ -155,5 +155,5 @@ EXAMPLES
   sf env open --target-env test-org --path /apex/StartHere --browser "google chrome"
 ```
 
-_See code: [src/commands/env/open.ts](https://github.com/salesforcecli/plugin-env/blob/v0.0.4/src/commands/env/open.ts)_
+_See code: [src/commands/env/open.ts](https://github.com/salesforcecli/plugin-env/blob/v0.0.5/src/commands/env/open.ts)_
 <!-- commandsstop -->

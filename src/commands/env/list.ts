@@ -5,9 +5,10 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import { Command, flags } from '@oclif/command';
+import { Command, Flags } from '@oclif/core';
 import { cli, Table } from 'cli-ux';
 import { AuthInfo, SfOrg, Messages, SfdxError } from '@salesforce/core';
+import { OutputFlags } from '@oclif/core/lib/interfaces';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'list');
@@ -18,19 +19,16 @@ export default class EnvList extends Command {
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
   public static flags = {
-    all: flags.boolean({
+    all: Flags.boolean({
       char: 'a',
       description: messages.getMessage('flags.all.summary'),
     }),
-    ...cli.table.flags(),
-  };
-
-  public flags: {
-    all: boolean;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ...(cli.table.flags() as OutputFlags<any>),
   };
 
   public async run(): Promise<SfOrgs> {
-    this.flags = this.parse(EnvList).flags;
+    const { flags } = await this.parse(EnvList);
 
     let authorizations: SfOrg[];
 
@@ -59,7 +57,7 @@ export default class EnvList extends Command {
             get: (row) => row.error ?? '',
           } as Table.table.Columns<Partial<SfOrg>>;
         }
-        cli.table(authorizations, columns, { title: 'Authenticated Envs', ...this.flags });
+        cli.table(authorizations, columns, { title: 'Authenticated Envs', ...flags });
       } else {
         throw messages.createError('error.NoAuthsAvailable');
       }

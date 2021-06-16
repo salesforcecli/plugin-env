@@ -40,19 +40,16 @@ Specify a browser by its app name according to your operating system. For exampl
 
 - To open your default environment, run the command without flags:
   sf env open
-- This example opens the Visualforce page /apex/StartHere in a scratch org
+- Open the Visualforce page /apex/StartHere in a scratch org
   with alias "test-org":
 
   sf env open --target-env test-org --path /apex/StartHere
 
-- If you want to view the URL for the preceding command, but not launch it in a browser,
-  add the --url-only flag:
+- View the URL but don't launch it in a browser:
 
   sf env open --target-env test-org --path /apex/StartHere --url-only
 
-- The preceding examples open the environment in your default web browser. To use
-  a different browser, set the --browser flag to its OS-specific name. For example,
-  to use Chrome on macOS:
+- Open the environment in a Google Chrome browser:
 
   sf env open --target-env test-org --path /apex/StartHere --browser "google chrome"
 

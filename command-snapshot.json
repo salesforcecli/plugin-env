@@ -2,11 +2,11 @@
   {
     "command": "env:list",
     "plugin": "@salesforce/plugin-env",
-    "flags": ["all", "columns", "csv", "extended", "filter", "no-header", "no-truncate", "output", "sort"]
+    "flags": ["all", "columns", "csv", "extended", "filter", "json", "no-header", "no-truncate", "output", "sort"]
   },
   {
     "command": "env:open",
     "plugin": "@salesforce/plugin-env",
-    "flags": ["browser", "path", "target-env", "url-only"]
+    "flags": ["browser", "json", "path", "target-env", "url-only"]
   }
 ]

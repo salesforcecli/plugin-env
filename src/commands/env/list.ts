@@ -7,9 +7,10 @@
 
 import { EOL } from 'os';
 
-import { Command, flags } from '@oclif/command';
+import { Command, Flags } from '@oclif/core';
 import { cli, Table } from 'cli-ux';
 import { AuthInfo, SfOrg, SfdxError } from '@salesforce/core';
+import { FlagOutput } from '@oclif/core/lib/interfaces';
 
 // TODO: add back once md messages are supported
 // Messages.importMessagesDirectory(__dirname);
@@ -22,19 +23,15 @@ export default class EnvList extends Command {
   public static readonly description = 'list environments';
   public static readonly examples = 'sf env list\nsf env list --all'.split(EOL);
   public static flags = {
-    all: flags.boolean({
+    all: Flags.boolean({
       char: 'a',
       description: "show all environments regardless of whether they're connected or not",
     }),
-    ...cli.table.flags(),
-  };
-
-  public flags: {
-    all: boolean;
+    ...(cli.table.flags() as FlagOutput),
   };
 
   public async run(): Promise<SfOrg[]> {
-    this.flags = this.parse(EnvList).flags;
+    const { flags } = await this.parse(EnvList);
 
     let authorizations: SfOrg[];
 
@@ -64,7 +61,7 @@ export default class EnvList extends Command {
           } as Table.table.Columns<Partial<SfOrg>>;
         }
         cli.styledHeader('Authenticated Envs');
-        cli.table(authorizations, columns, this.flags);
+        cli.table(authorizations, columns, flags);
       } else {
         throw new SfdxError('There are no authorizations available.');
       }

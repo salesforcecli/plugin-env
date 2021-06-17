@@ -5,8 +5,6 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import { EOL } from 'os';
-
 import { Command, Flags } from '@oclif/core';
 import { Logger, Messages, Org, SfdxError } from '@salesforce/core';
 import * as open from 'open';
@@ -19,25 +17,32 @@ const messages = Messages.loadMessages('@salesforce/plugin-env', 'open');
 type Environment = { name: string; openUrl: string };
 
 export default class EnvOpen extends Command {
-  // Use summary and description until a summary is supported in oclif
-  public static readonly description = messages.getMessage('description') + EOL + messages.getMessage('description');
+  public static readonly summary = messages.getMessage('summary');
+  public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
 
   public static flags = {
     path: Flags.string({
       char: 'p',
-      description: messages.getMessage('flags.path.summary'),
+      summary: messages.getMessage('flags.path.summary'),
+      description: messages.getMessage('flags.path.description'),
     }),
     'url-only': Flags.boolean({
       char: 'r',
-      description: messages.getMessage('flags.url-only.summary'),
+      summary: messages.getMessage('flags.url-only.summary'),
     }),
     'target-env': Flags.string({
       char: 'e',
-      description: messages.getMessage('flags.target-env.summary'),
+      summary: messages.getMessage('flags.target-env.summary'),
+      description: messages.getMessage('flags.target-env.description'),
     }),
     browser: Flags.string({
-      description: messages.getMessage('flags.browser.summary'),
+      summary: messages.getMessage('flags.browser.summary'),
+      description: messages.getMessage('flags.browser.description'),
+    }),
+    json: Flags.boolean({
+      helpGroup: 'CLI',
+      summary: 'output results in JSON',
     }),
   };
 

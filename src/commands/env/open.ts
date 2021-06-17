@@ -40,10 +40,6 @@ export default class EnvOpen extends Command {
       summary: messages.getMessage('flags.browser.summary'),
       description: messages.getMessage('flags.browser.description'),
     }),
-    json: Flags.boolean({
-      helpGroup: 'CLI',
-      summary: 'output results in JSON',
-    }),
   };
 
   public async run(): Promise<void> {

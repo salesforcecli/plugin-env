@@ -10,7 +10,7 @@ If you run the command without flags, it attempts to open your default environme
 
 # flags.path.summary
 
-Path to append to the end of the open URL./YourPage to open a Visualforce page./YourPage to open a Visualforce page./YourPage to open a Visualforce page./YourPage to open a Visualforce page./YourPage to open a Visualforce page./YourPage to open a Visualforce page./YourPage to open a Visualforce page./YourPage to open a Visualforce page./YourPage to open a Visualforce page./YourPage to open a Visualforce page./YourPage to open a Visualforce page./YourPage to open a Visualforce page./YourPage to open a Visualforce page./YourPage to open a Visualforce page./YourPage to open a Visualforce page./YourPage to open a Visualforce page./YourPage to open a Visualforce page./YourPage to open a Visualforce page./YourPage to open a Visualforce page./YourPage to open a Visualforce page./YourPage to open a Visualforce page./YourPage to open a Visualforce page./YourPage to open a Visualforce page.
+Path to append to the end of the open URL.
 
 # flags.path.description
 

@@ -1,4 +1,4 @@
-# plugin-env;
+# plugin-env
 
 [![NPM](https://img.shields.io/npm/v/@salesforce/plugin-env.svg?label=@salesforce/plugin-env)](https://www.npmjs.com/package/@salesforce/plugin-env) [![CircleCI](https://circleci.com/gh/salesforcecli/plugin-env/tree/main.svg?style=shield)](https://circleci.com/gh/salesforcecli/plugin-env/tree/main) [![Downloads/week](https://img.shields.io/npm/dw/@salesforce/plugin-env.svg)](https://npmjs.org/package/@salesforce/plugin-env) [![License](https://img.shields.io/badge/License-BSD%203--Clause-brightgreen.svg)](https://raw.githubusercontent.com/salesforcecli/plugin-env/main/LICENSE.txt)
 
@@ -63,18 +63,39 @@ sfdx plugins
 ## Commands
 
 <!-- commands -->
-* [`sf env:list`](#sf-envlist)
+
+- [`sf env:display`](#sf-envdisplay)
+- [`sf env:list`](#sf-envlist)
+- [`sf env:open`](#sf-envopen)
+
+## `sf env:display`
+
+Display details about a specific environment
+
+```
+USAGE
+  $ sf env:display
+
+OPTIONS
+  -e, --environment=environment  Environment name or alias to display.
+
+EXAMPLES
+  sf env display -e my-scratch-org
+  sf env display -e user@name.com
+```
+
+_See code: [src/commands/env/display.ts](https://github.com/salesforcecli/plugin-env/blob/v0.0.5/src/commands/env/display.ts)_
 
 ## `sf env:list`
 
-list environments
+List the environments you’ve created or logged into.
 
 ```
 USAGE
   $ sf env:list
 
 OPTIONS
-  -a, --all               show all environments regardless of whether they're connected or not
+  -a, --all               Show all environments, including inactive orgs.
   -x, --extended          show extra columns
   --columns=columns       only show provided columns (comma-separated)
   --csv                   output is csv format [alias: --output=csv]
@@ -89,5 +110,52 @@ EXAMPLES
   sf env list --all
 ```
 
-_See code: [src/commands/env/list.ts](https://github.com/salesforcecli/plugin-env/blob/v0.0.1/src/commands/env/list.ts)_
+_See code: [src/commands/env/list.ts](https://github.com/salesforcecli/plugin-env/blob/v0.0.5/src/commands/env/list.ts)_
+
+## `sf env:open`
+
+You can open the following types of environments in a web browser: scratch orgs, sandboxes, Dev Hubs, and production orgs.
+
+```
+USAGE
+  $ sf env:open
+
+OPTIONS
+  -e, --target-env=target-env  Environment name or alias to open.
+  -p, --path=path              Path to append to the end of the login URL.
+  -r, --url-only               Display the URL, but don’t launch it in a browser.
+  --browser=browser            Browser in which to open the environment.
+
+DESCRIPTION
+  If you run the command without flags, it attempts to open your default environment in your default web browser.
+
+  Each of your environments is associated with an instance URL, such as https://login.salesforce.com. To open a specific
+  web page at that URL, specify the portion of the URL after "<URL>/" with the --path flag, such as /apex/YourPage to
+  open a Visualforce page.
+  You can open the following types of environments in a web browser: scratch orgs, sandboxes, Dev Hubs, and production
+  orgs.
+
+  If you run the command without flags, it attempts to open your default environment in your default web browser.
+
+  Each of your environments is associated with an instance URL, such as https://login.salesforce.com. To open a specific
+  web page at that URL, specify the portion of the URL after "<URL>/" with the --path flag, such as /apex/YourPage to
+  open a Visualforce page.
+
+EXAMPLES
+  To open your default environment, run the command without flags:
+  sf env open
+  This example opens the Visualforce page /apex/StartHere in a scratch org
+  with alias "test-org":
+  sf env open --target-env test-org --path /apex/StartHere
+  If you want to view the URL for the preceding command, but not launch it in a browser,
+  add the --url-only flag:
+  sf env open --target-env test-org --path /apex/StartHere --url-only
+  The preceding examples open the environment in your default web browser. To use
+  a different browser, set the --browser flag to its OS-specific name. For example,
+  to use Chrome on macOS:
+  sf env open --target-env test-org --path /apex/StartHere --browser "google chrome"
+```
+
+_See code: [src/commands/env/open.ts](https://github.com/salesforcecli/plugin-env/blob/v0.0.5/src/commands/env/open.ts)_
+
 <!-- commandsstop -->

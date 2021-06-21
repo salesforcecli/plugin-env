@@ -16,6 +16,8 @@ const messages = Messages.loadMessages('@salesforce/plugin-env', 'open');
 
 type Environment = { name: string; openUrl: string };
 
+export type OpenResult = { url: string };
+
 export default class EnvOpen extends Command {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
@@ -42,10 +44,10 @@ export default class EnvOpen extends Command {
     }),
   };
 
-  public async run(): Promise<void> {
+  public async run(): Promise<OpenResult> {
     const { flags } = await this.parse(EnvOpen);
     const nameOrAlias = flags['target-env'];
-    let url;
+    let url: string;
 
     if (!nameOrAlias) {
       // TODO this should be retrieved from sf config once we have those commands. If not found, still throw.
@@ -95,6 +97,7 @@ export default class EnvOpen extends Command {
     } else {
       throw messages.createError('error.EnvironmentNotSupported', [nameOrAlias]);
     }
+    return { url };
   }
 
   // TODO login and env open should probably share the same open code. Maybe we should use cli-ux.open?

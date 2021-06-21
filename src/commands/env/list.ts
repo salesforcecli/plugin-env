@@ -5,32 +5,29 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import { EOL } from 'os';
-
 import { Command, Flags } from '@oclif/core';
 import { cli, Table } from 'cli-ux';
-import { AuthInfo, SfOrg, SfdxError } from '@salesforce/core';
-import { FlagOutput } from '@oclif/core/lib/interfaces';
+import { AuthInfo, SfOrg, Messages, SfdxError } from '@salesforce/core';
+import { OutputFlags } from '@oclif/core/lib/interfaces';
 
-// TODO: add back once md messages are supported
-// Messages.importMessagesDirectory(__dirname);
-// const messages = Messages.loadMessages('@salesforce/plugin-env', 'list');
+Messages.importMessagesDirectory(__dirname);
+const messages = Messages.loadMessages('@salesforce/plugin-env', 'list');
+
+export type SfOrgs = SfOrg[];
 
 export default class EnvList extends Command {
-  // TODO: add back once md messages are supported
-  // public static readonly description = messages.getMessage('description');
-  // public static readonly examples = messages.getMessage('examples').split(EOL);
-  public static readonly description = 'list environments';
-  public static readonly examples = 'sf env list\nsf env list --all'.split(EOL);
+  public static readonly description = messages.getMessage('description');
+  public static readonly examples = messages.getMessages('examples');
   public static flags = {
     all: Flags.boolean({
       char: 'a',
-      description: "show all environments regardless of whether they're connected or not",
+      description: messages.getMessage('flags.all.summary'),
     }),
-    ...(cli.table.flags() as FlagOutput),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ...(cli.table.flags() as OutputFlags<any>),
   };
 
-  public async run(): Promise<SfOrg[]> {
+  public async run(): Promise<SfOrgs> {
     const { flags } = await this.parse(EnvList);
 
     let authorizations: SfOrg[];
@@ -60,15 +57,13 @@ export default class EnvList extends Command {
             get: (row) => row.error ?? '',
           } as Table.table.Columns<Partial<SfOrg>>;
         }
-        cli.styledHeader('Authenticated Envs');
-        cli.table(authorizations, columns, flags);
+        cli.table(authorizations, columns, { title: 'Authenticated Envs', ...flags });
       } else {
-        throw new SfdxError('There are no authorizations available.');
+        throw messages.createError('error.NoAuthsAvailable');
       }
     } catch (error) {
       const err = error as SfdxError;
-      // TODO: add back once md messages are supported
-      // cli.log(messages.getMessage('noResultsFound'));
+      cli.log(messages.getMessage('error.NoResultsFound'));
       cli.error(err);
     }
 

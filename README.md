@@ -63,9 +63,10 @@ sfdx plugins
 ## Commands
 
 <!-- commands -->
-* [`sf env:display`](#sf-envdisplay)
-* [`sf env:list`](#sf-envlist)
-* [`sf env:open`](#sf-envopen)
+
+- [`sf env:display`](#sf-envdisplay)
+- [`sf env:list`](#sf-envlist)
+- [`sf env:open`](#sf-envopen)
 
 ## `sf env:display`
 
@@ -128,16 +129,16 @@ OPTIONS
 DESCRIPTION
   If you run the command without flags, it attempts to open your default environment in your default web browser.
 
-  Each of your environments is associated with an instance URL, such as https://login.salesforce.com. To open a specific 
-  web page at that URL, specify the portion of the URL after "<URL>/" with the --path flag, such as /apex/YourPage to 
+  Each of your environments is associated with an instance URL, such as https://login.salesforce.com. To open a specific
+  web page at that URL, specify the portion of the URL after "<URL>/" with the --path flag, such as /apex/YourPage to
   open a Visualforce page.
-  You can open the following types of environments in a web browser: scratch orgs, sandboxes, Dev Hubs, and production 
+  You can open the following types of environments in a web browser: scratch orgs, sandboxes, Dev Hubs, and production
   orgs.
 
   If you run the command without flags, it attempts to open your default environment in your default web browser.
 
-  Each of your environments is associated with an instance URL, such as https://login.salesforce.com. To open a specific 
-  web page at that URL, specify the portion of the URL after "<URL>/" with the --path flag, such as /apex/YourPage to 
+  Each of your environments is associated with an instance URL, such as https://login.salesforce.com. To open a specific
+  web page at that URL, specify the portion of the URL after "<URL>/" with the --path flag, such as /apex/YourPage to
   open a Visualforce page.
 
 EXAMPLES
@@ -156,4 +157,5 @@ EXAMPLES
 ```
 
 _See code: [src/commands/env/open.ts](https://github.com/salesforcecli/plugin-env/blob/v0.0.5/src/commands/env/open.ts)_
+
 <!-- commandsstop -->

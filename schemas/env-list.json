@@ -31,12 +31,7 @@
         },
         "oauthMethod": {
           "type": "string",
-          "enum": [
-            "jwt",
-            "web",
-            "token",
-            "unknown"
-          ]
+          "enum": ["jwt", "web", "token", "unknown"]
         },
         "error": {
           "type": "string"
@@ -66,12 +61,7 @@
       "description": "Any valid JSON value."
     },
     "JsonPrimitive": {
-      "type": [
-        "null",
-        "boolean",
-        "number",
-        "string"
-      ],
+      "type": ["null", "boolean", "number", "string"],
       "description": "Any valid JSON primitive value."
     },
     "JsonCollection": {

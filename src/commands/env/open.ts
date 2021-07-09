@@ -27,7 +27,6 @@ export default class EnvOpen extends Command {
     path: Flags.string({
       char: 'p',
       summary: messages.getMessage('flags.path.summary'),
-      description: messages.getMessage('flags.path.description'),
     }),
     'url-only': Flags.boolean({
       char: 'r',

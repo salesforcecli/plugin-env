@@ -1,19 +1,34 @@
+# summary
+  
+Display details about an environment.
+
 # description
 
-Display details about a specific environment
+Specify an environment with either the username you used when you ran the "sf login" command or the environment's alias. Run "sf env list" to view all your environments and their aliases.
+
+Output depends on the type of environment. For example, scratch org details include the access token, alias, username of the associated Dev Hub, the creation and expiration date, the generated scratch org username, and more.  Compute environment details include the associated orgs, the list of functions, the project name, and more.
 
 # examples
 
-- sf env display -e my-scratch-org
-- sf env display -e user@name.com
+- Display details about a scratch org with alias my-scratch-org:
+
+ <%= config.bin %> <%= command.id %> --environment=my-scratch-org
+
+- Specify a username instead of an alias:
+
+ <%= config.bin %> <%= command.id %> --environment=test-123456-abcdefg@example.com
+
+- Specify JSON format and redirect output into a file:
+
+ <%= config.bin %> <%= command.id %> --environment=my-scratch-org --json > tmp/MyOrdDesc.json
 
 # flags.environment.summary
 
-Environment name or alias to display.
+Environment alias or login user.
 
 # error.NoResultsFound
 
-No results found
+No results found.
 
 # error.NoEnvFound
 
@@ -21,7 +36,7 @@ No environment found for %s.
 
 # error.NoDefaultEnv
 
-No default environment found. Use -e or --environment to specify which env to open.
+No default environment found. Use -e or --environment to specify an environment to open.
 
 # error.NoAuthsAvailable
 

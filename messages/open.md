@@ -6,15 +6,31 @@ Open an environment in your web browser.
 
 You can open the following types of environments in a web browser: scratch orgs, sandboxes, Dev Hubs, and production orgs.
 
-If you run the command without flags, it attempts to open your default environment in your default web browser.
+If you run the command without flags, it attempts to open your default environment in your default web browser. Run "sf env list" to view your default environment.
+
+Each of your environments is associated with an instance URL, such as https://login.salesforce.com. To open a specific web page, specify the portion of the URL after "<URL>/" with the --path flag, such as /apex/YourPage to open a Visualforce page.
+
+# examples
+
+- Open your default environment:
+
+  <%= config.bin %> <%= command.id %>
+
+- Open the Visualforce page /apex/StartHere in a scratch org with alias test-org:
+
+  <%= config.bin %> <%= command.id %> --target-env test-org --path /apex/StartHere
+
+- View the URL but don't launch it in a browser:
+
+  <%= config.bin %> <%= command.id %> --target-env test-org --path /apex/StartHere --url-only
+
+- Open the environment in the Google Chrome browser:
+
+  <%= config.bin %> <%= command.id %> --target-env test-org --path /apex/StartHere --browser chrome
 
 # flags.path.summary
 
-Path to append to the end of the open URL.
-
-# flags.path.description
-
-Each of your environments is associated with an instance URL, such as https://<mydomian>.my.salesforce.com. To open a specific web page at that URL, specify the portion of the URL after "<URL>/" with the --path flag, such as /apex/YourPage to open a Visualforce page.
+Path to append to the end of the login URL.
 
 # flags.url-only.summary
 
@@ -22,7 +38,7 @@ Display the URL, but don’t launch it in a browser.
 
 # flags.target-env.summary
 
-Environment name or alias to open.
+Environment login user or alias to open.
 
 # flags.target-env.description
 
@@ -36,31 +52,11 @@ Browser in which to open the environment.
 
 # flags.browser.description
 
-Specify a browser by its app name according to your operating system. For example, Chrome’s app name is "google chrome" on macOS, "google-chrome" on Linux and "chrome" on Windows. So to open an environment in Chrome on macOS, specify --browser "google chrome". If you don’t specify --browser, the environment opens in your default browser.
-
-For convenience, "chrome", "firefox", and "edge" are mapped to the OS specific app name.
-
-# examples
-
-- To open your default environment, run the command without flags:
-
-  <%= config.bin %> env open
-
-- This example opens the Visualforce page /apex/StartHere in a scratch org with alias "test-org":
-
-  <%= config.bin %> env open --target-env test-org --path /apex/StartHere
-
-- If you want to view the URL for the preceding command, but not launch it in a browser:
-
-  <%= config.bin %> env open --target-env test-org --path /apex/StartHere --url-only
-
-- The preceding examples open the environment in your default web browser. To use a different browser, set the --browser flag to its OS-specific name. For example, to use Chrome on macOS:
-
-  <%= config.bin %> env open --target-env test-org --path /apex/StartHere --browser "google chrome"
+You can specify that the environment open in one of the following browsers: Firefox, Safari, Google Chrome, or Windows Edge. If you don’t specify --browser, the environment opens in your default browser.
 
 # error.NoDefaultEnv
 
-No default target-env found. Use --target-env to specify which env to open.
+No default target-env found. Use --target-env to specify the environment to open.
 
 # error.NoEnvFound
 
@@ -68,8 +64,8 @@ No environment found for %s.
 
 # error.EnvironmentNotSupported
 
-The environment %s doesn't support bring opened.
+The environment %s doesn't support being opened.
 
 # error.ApplicationNotFound
 
-Unable to find application named %s.
+Can't find application named %s.

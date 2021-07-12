@@ -69,30 +69,38 @@ sfdx plugins
 
 ## `sf env display`
 
-Display details about a specific environment
+Specify an environment with either the username you used when you ran the "sf login" command or the environment's alias. Run "sf env list" to view all your environments and their aliases.
 
 ```
 USAGE
   $ sf env display [--json] [-e <value>]
 
 FLAGS
-  -e, --environment=<value>  Environment name or alias to display.
+  -e, --environment=<value>  Environment alias or login user.
 
 GLOBAL FLAGS
   --json  format output as json
 
 DESCRIPTION
-  Display details about a specific environment
+  Specify an environment with either the username you used when you ran the "sf login" command or the environment's
+  alias. Run "sf env list" to view all your environments and their aliases.
+
+  Output depends on the type of environment. For example, scratch org details include the access token, alias, username
+  of the associated Dev Hub, the creation and expiration date, the generated scratch org username, and more.  Compute
+  environment details include the associated orgs, the list of functions, the project name, and more.
 
 EXAMPLES
-  $ sf env display -e my-scratch-org
-
-  $ sf env display -e user@name.com
+  - Display details about a scratch org with alias my-scratch-org:
+   sf env display --environment=my-scratch-org
+  - Specify a username instead of an alias:
+   sf env display --environment=test-123456-abcdefg@example.com
+  - Specify JSON format and redirect output into a file:
+   sf env display --environment=my-scratch-org --json > tmp/MyOrdDesc.json
 ```
 
 ## `sf env list`
 
-List the environments you’ve created or logged into.
+By default, the command displays only active environments. For orgs, active means unexpired scratch orgs and orgs you’re currently logged into. For compute environments, active means the environments connected to orgs you’re currently logged into. Use the --all flag to list expired or deleted scratch orgs and compute environments that aren’t connected to logged-in orgs. Warning: the latter list could be very long.
 
 ```
 USAGE
@@ -100,7 +108,7 @@ USAGE
     csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
-  -a, --all          Show all environments, including inactive orgs.
+  -a, --all          Show all environments, even inactive ones.
   -x, --extended     show extra columns
   --columns=<value>  only show provided columns (comma-separated)
   --csv              output is csv format [alias: --output=csv]
@@ -117,12 +125,38 @@ GLOBAL FLAGS
   --json  format output as json
 
 DESCRIPTION
-  List the environments you’ve created or logged into.
+  By default, the command displays only active environments. For orgs, active means unexpired scratch orgs and orgs
+  you’re currently logged into. For compute environments, active means the environments connected to orgs you’re
+  currently logged into. Use the --all flag to list expired or deleted scratch orgs and compute environments that aren’t
+  connected to logged-in orgs. Warning: the latter list could be very long.
+
+  Output is displayed in multiple tables, one for each environment type.  For example, the Salesforce Orgs table lists
+  the non-scratch orgs you’re logged into, such as sandboxes, Dev Hubs, production orgs, and so on. Scratch orgs and
+  compute environments get their own tables.
+
+  For non-scratch orgs, the Username column refers to the user you logged into the org with. For scratch orgs it refers
+  to the username that was generated for you when you created the scratch org. The first column indicates the default
+  environment for each type.
+
+  Run "sf env display" to view details about a specific environment.
 
 EXAMPLES
-  $ sf env list
+  List all environments:
 
-  $ sf env list --all
+    $ sf env list --all
+
+  Filter the output to list only connected orgs. Rows from only the Salesforce Orgs table are displayed because it’s
+  the only table with a "Status" column.
+
+    $ sf env list --filter "Status=Connected"
+
+  List only scratch orgs that expire after May 30, 2021:
+
+    $ sf env list --filter "Expiration>2021-05-30"
+
+  Display only the Alias column and sort the aliases in descending order:
+
+    $ sf env list --sort "-Alias" --columns "Alias"
 ```
 
 ## `sf env open`
@@ -134,8 +168,8 @@ USAGE
   $ sf env open [--json] [-p <value>] [-r] [-e <value>] [--browser <value>]
 
 FLAGS
-  -e, --target-env=<value>  Environment name or alias to open.
-  -p, --path=<value>        Path to append to the end of the open URL.
+  -e, --target-env=<value>  Environment login user or alias to open.
+  -p, --path=<value>        Path to append to the end of the login URL.
   -r, --url-only            Display the URL, but don’t launch it in a browser.
   --browser=<value>         Browser in which to open the environment.
 
@@ -148,28 +182,32 @@ DESCRIPTION
   You can open the following types of environments in a web browser: scratch orgs, sandboxes, Dev Hubs, and production
   orgs.
 
-  If you run the command without flags, it attempts to open your default environment in your default web browser.
+  If you run the command without flags, it attempts to open your default environment in your default web browser. Run
+  "sf env list" to view your default environment.
+
+  Each of your environments is associated with an instance URL, such as https://login.salesforce.com. To open a specific
+  web page, specify the portion of the URL after "<URL>/" with the --path flag, such as /apex/YourPage to open a
+  Visualforce page.
 
 EXAMPLES
-  To open your default environment, run the command without flags:
+  Open your default environment:
 
     $ sf env open
 
-  This example opens the Visualforce page /apex/StartHere in a scratch org with alias "test-org":
+  Open the Visualforce page /apex/StartHere in a scratch org with alias test-org:
 
     $ sf env open --target-env test-org --path /apex/StartHere
 
-  If you want to view the URL for the preceding command, but not launch it in a browser:
+  View the URL but don't launch it in a browser:
 
     $ sf env open --target-env test-org --path /apex/StartHere --url-only
 
-  The preceding examples open the environment in your default web browser. To use a different browser, set the
-  --browser flag to its OS-specific name. For example, to use Chrome on macOS:
+  Open the environment in the Google Chrome browser:
 
-    $ sf env open --target-env test-org --path /apex/StartHere --browser "google chrome"
+    $ sf env open --target-env test-org --path /apex/StartHere --browser chrome
 
 FLAG DESCRIPTIONS
-  -e, --target-env=<value>  Environment name or alias to open.
+  -e, --target-env=<value>  Environment login user or alias to open.
 
     Specify the login user or alias that’s associated with the environment. For scratch orgs, the login user is
     generated by the command that created the scratch org. You can also set an alias for the scratch org when you create
@@ -178,18 +216,9 @@ FLAG DESCRIPTIONS
     For Dev Hubs, sandboxes, and production orgs, specify the alias you set when you logged into the org with "sf
     login".
 
-  -p, --path=<value>  Path to append to the end of the open URL.
-
-    Each of your environments is associated with an instance URL, such as https://<mydomian>.my.salesforce.com. To open
-    a specific web page at that URL, specify the portion of the URL after "<URL>/" with the --path flag, such as
-    /apex/YourPage to open a Visualforce page.
-
   --browser=<value>  Browser in which to open the environment.
 
-    Specify a browser by its app name according to your operating system. For example, Chrome’s app name is "google
-    chrome" on macOS, "google-chrome" on Linux and "chrome" on Windows. So to open an environment in Chrome on macOS,
-    specify --browser "google chrome". If you don’t specify --browser, the environment opens in your default browser.
-
-    For convenience, "chrome", "firefox", and "edge" are mapped to the OS specific app name.
+    You can specify that the environment open in one of the following browsers: Firefox, Safari, Google Chrome, or
+    Windows Edge. If you don’t specify --browser, the environment opens in your default browser.
 ```
 <!-- commandsstop -->

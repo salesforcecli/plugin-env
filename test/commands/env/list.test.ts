@@ -29,6 +29,7 @@ const expectedSfOrgs: SfOrg[] = [
 
 describe('list unit tests', () => {
   test
+    .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
     .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<SfOrg[]> => expectedSfOrgs)
     .stdout()
     .command(['env:list', '--json'])
@@ -37,6 +38,7 @@ describe('list unit tests', () => {
       expect(sfOrgs).to.be.deep.equal(expectedSfOrgs);
     });
   test
+    .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
     .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<SfOrg[]> => expectedSfOrgs)
     .stdout()
     .command(['env:list'])
@@ -52,6 +54,7 @@ describe('list unit tests', () => {
       });
     });
   test
+    .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
     .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<SfOrg[]> => expectedSfOrgs)
     .stdout()
     .command(['env:list', '--columns', 'org Id,username'])
@@ -67,6 +70,7 @@ describe('list unit tests', () => {
       });
     });
   test
+    .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
     .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<SfOrg[]> => expectedSfOrgs)
     .stdout()
     .command(['env:list', '--filter', 'alias=someAlias'])
@@ -77,6 +81,7 @@ describe('list unit tests', () => {
       expect(stdout).to.not.include('someOtherAlias');
     });
   test
+    .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
     .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<SfOrg[]> => expectedSfOrgs)
     .stdout()
     .command(['env:list', '--sort', '-alias'])

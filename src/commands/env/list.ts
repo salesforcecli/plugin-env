@@ -16,6 +16,7 @@ const messages = Messages.loadMessages('@salesforce/plugin-env', 'list');
 export type SfOrgs = SfOrg[];
 
 export default class EnvList extends Command {
+  public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
   public static flags = {

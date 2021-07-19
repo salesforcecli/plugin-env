@@ -57,8 +57,7 @@ export default class EnvDisplay extends Command {
                 key,
                 value: Object.values(foundAuthorization)[i] ?? '',
               })),
-              columns,
-              { ...flags }
+              columns
             );
           }
         } else {

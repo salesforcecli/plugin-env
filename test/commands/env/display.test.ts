@@ -43,6 +43,7 @@ describe('display unit tests', () => {
       expect(sfOrgs).to.be.deep.equal(expectedSfOrgs[0]);
     });
   test
+    .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
     .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<Array<Partial<SfOrg>>> => expectedSfOrgs)
     .stdout()
     .command(['env:display', '--environment', expectedSfOrgs[0].username])
@@ -57,6 +58,7 @@ describe('display unit tests', () => {
       });
     });
   test
+    .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
     .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<Array<Partial<SfOrg>>> => expectedSfOrgs)
     .stdout()
     .command(['env:display', '--environment', expectedSfOrgs[1].alias])
@@ -72,6 +74,7 @@ describe('display unit tests', () => {
     });
   // this test will start to fail when env plugin incorporates more than authorization environment
   test
+    .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
     .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<Array<Partial<SfOrg>>> => expectedSfOrgs)
     .stdout()
     .stderr()

@@ -85,9 +85,9 @@ export default class EnvOpen extends Command {
 
     if (url) {
       if (flags.path) {
-        const fdUrl = new URL(url);
-        fdUrl.searchParams.append('retURL', flags.path);
-        url = fdUrl.toString();
+        const frontDoorUrl = new URL(url);
+        frontDoorUrl.searchParams.append('retURL', flags.path);
+        url = frontDoorUrl.toString();
       }
       if (flags['url-only']) {
         this.log(url);

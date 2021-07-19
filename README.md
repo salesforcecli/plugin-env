@@ -82,6 +82,8 @@ GLOBAL FLAGS
   --json  format output as json
 
 DESCRIPTION
+  Display details about an environment.
+
   Specify an environment with either the username you used when you ran the "sf login" command or the environment's
   alias. Run "sf env list" to view all your environments and their aliases.
 
@@ -125,6 +127,8 @@ GLOBAL FLAGS
   --json  format output as json
 
 DESCRIPTION
+  List the environments you’ve created or logged into.
+
   By default, the command displays only active environments. For orgs, active means unexpired scratch orgs and orgs
   you’re currently logged into. For compute environments, active means the environments connected to orgs you’re
   currently logged into. Use the --all flag to list expired or deleted scratch orgs and compute environments that aren’t

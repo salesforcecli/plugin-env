@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.10](https://github.com/salesforcecli/plugin-env/compare/v0.0.9...v0.0.10) (2021-07-19)
+
+
+### Bug Fixes
+
+* add help summaries to env list and env display ([#88](https://github.com/salesforcecli/plugin-env/issues/88)) ([c6875aa](https://github.com/salesforcecli/plugin-env/commit/c6875aab68f3108d574e8aff61688455070c743b))
+
 ### [0.0.9](https://github.com/salesforcecli/plugin-env/compare/v0.0.8...v0.0.9) (2021-07-12)
 
 ### [0.0.8](https://github.com/salesforcecli/plugin-env/compare/v0.0.7...v0.0.8) (2021-07-11)

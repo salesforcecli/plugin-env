@@ -50,10 +50,16 @@ export default class EnvDisplay extends Command {
             value: {},
           };
 
-          cli.table(
-            Object.keys(foundAuthorization).map((key, i) => ({ key, value: Object.values(foundAuthorization)[i] })),
-            columns
-          );
+          if (!flags.json) {
+            cli.table(
+              Object.keys(foundAuthorization).map((key, i) => ({
+                key,
+                value: Object.values(foundAuthorization)[i] ?? '',
+              })),
+              columns,
+              { ...flags }
+            );
+          }
         } else {
           throw new SfdxError(messages.getMessage('error.NoEnvFound', [flags.environment]));
         }

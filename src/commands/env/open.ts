@@ -5,6 +5,7 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
+import { URL } from 'url';
 import { Command, Flags } from '@oclif/core';
 import { Logger, Messages, Org, SfdxError } from '@salesforce/core';
 import * as open from 'open';
@@ -57,9 +58,8 @@ export default class EnvOpen extends Command {
       const org = await Org.create({ aliasOrUsername: nameOrAlias });
       const conn = org.getConnection();
       await org.refreshAuth();
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore in the next core version
-      url = conn.options.authInfo.getOrgFrontDoorUrl(); // eslint-disable-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
+      const authInfo = conn.getAuthInfo();
+      url = authInfo.getOrgFrontDoorUrl();
     } catch (err) {
       if (err instanceof Error && err.name !== 'NamedOrgNotFoundError' && err.name !== 'AuthInfoCreationError') {
         throw err;
@@ -84,6 +84,11 @@ export default class EnvOpen extends Command {
     }
 
     if (url) {
+      if (flags.path) {
+        const fdUrl = new URL(url);
+        fdUrl.searchParams.append('retURL', flags.path);
+        url = fdUrl.toString();
+      }
       if (flags['url-only']) {
         this.log(url);
       } else {

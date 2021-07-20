@@ -19,7 +19,7 @@ export default class EnvDisplay extends Command {
   public static flags = {
     'target-env': Flags.string({
       char: 'e',
-      description: messages.getMessage('flags.environment.summary'),
+      description: messages.getMessage('flags.target-env.summary'),
     }),
   };
 

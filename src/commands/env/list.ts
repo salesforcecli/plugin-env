@@ -8,44 +8,41 @@
 import { Command, Flags } from '@oclif/core';
 import { cli, Table } from 'cli-ux';
 import { AuthInfo, SfOrg, Messages, SfdxError } from '@salesforce/core';
+import { OutputFlags } from '@oclif/core/lib/interfaces';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'list');
 
 export type SfOrgs = SfOrg[];
+type IFlags = typeof Flags;
+/* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return */
+const massageFlagOptions = (
+  flags,
+  mapper = (k, v): [string, any] => {
+    return [k, v];
+  }
+): IFlags => {
+  return Object.entries(flags)
+    .map(mapper)
+    .reduce((outputFlags, [key, value]) => {
+      Reflect.set(outputFlags, key, value);
+      return outputFlags;
+    }, {} as IFlags);
+};
+
+const tableFlags = massageFlagOptions(cli.table.flags() as any, ([key, value]) => {
+  value['summary'] = messages.getMessage(`flags.${key as string}.summary`);
+  return [key, value];
+}) as OutputFlags<any>;
+/* eslint-enable @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return */
 
 export default class EnvList extends Command {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
   public static flags = {
-    extended: Flags.boolean({
-      char: 'x',
-      summary: messages.getMessage('flags.extended.summary'),
-    }),
-    columns: Flags.string({
-      summary: messages.getMessage('flags.columns.summary'),
-      multiple: true,
-    }),
-    csv: Flags.boolean({
-      summary: messages.getMessage('flags.csv.summary'),
-    }),
-    filter: Flags.string({
-      summary: messages.getMessage('flags.filter.summary'),
-    }),
-    'no-header': Flags.boolean({
-      summary: messages.getMessage('flags.no-header.summary'),
-    }),
-    'no-truncate': Flags.boolean({
-      summary: messages.getMessage('flags.no-truncate.summary'),
-    }),
-    output: Flags.string({
-      summary: messages.getMessage('flags.output.summary'),
-      options: ['csv', 'json', 'yaml'],
-    }),
-    sort: Flags.string({
-      summary: messages.getMessage('flags.sort.summary'),
-    }),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ...tableFlags,
   };
 
   public async run(): Promise<SfOrgs> {
@@ -80,17 +77,7 @@ export default class EnvList extends Command {
         }
 
         if (!flags.json) {
-          cli.table(authorizations, columns, {
-            title: 'Authenticated Envs',
-            extended: flags.extended,
-            columns: flags.columns?.join(','),
-            csv: flags.csv,
-            filter: flags.filter,
-            'no-header': flags['no-header'],
-            'no-truncate': flags['no-truncate'],
-            output: flags.output,
-            sort: flags.sort,
-          });
+          cli.table(authorizations, columns, { ...flags });
         }
       } else {
         throw messages.createError('error.NoAuthsAvailable');

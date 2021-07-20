@@ -12,15 +12,15 @@ Output depends on the type of environment. For example, scratch org details incl
 
 - Display details about a scratch org with alias my-scratch-org:
 
-<%= config.bin %> <%= command.id %> --target-env=my-scratch-org
+  <%= config.bin %> <%= command.id %> --target-env=my-scratch-org
 
 - Specify a username instead of an alias:
 
-<%= config.bin %> <%= command.id %> --target-env=test-123456-abcdefg@example.com
+  <%= config.bin %> <%= command.id %> --target-env=test-123456-abcdefg@example.com
 
 - Specify JSON format and redirect output into a file:
 
-<%= config.bin %> <%= command.id %> --target-env=my-scratch-org --json > tmp/MyOrdDesc.json
+  <%= config.bin %> <%= command.id %> --target-env=my-scratch-org --json > tmp/MyOrdDesc.json
 
 # flags.target-env.summary
 

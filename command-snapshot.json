@@ -2,7 +2,7 @@
   {
     "command": "env:display",
     "plugin": "@salesforce/plugin-env",
-    "flags": ["environment", "json"]
+    "flags": ["json", "target-env"]
   },
   {
     "command": "env:list",

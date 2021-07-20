@@ -17,7 +17,7 @@ export default class EnvDisplay extends Command {
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
   public static flags = {
-    environment: Flags.string({
+    'target-env': Flags.string({
       char: 'e',
       description: messages.getMessage('flags.environment.summary'),
     }),
@@ -35,15 +35,16 @@ export default class EnvDisplay extends Command {
       if (await AuthInfo.hasAuthentications()) {
         authorizations = await AuthInfo.listAllAuthorizations();
 
-        if (!flags.environment) {
+        const targetEnv = Reflect.get(flags, 'target-env') as string;
+
+        if (!targetEnv) {
           // TODO this should be retrieved from sf config once we have those commands. If not found, still throw.
           throw messages.createError('error.NoDefaultEnv');
         }
 
-        foundAuthorization = authorizations.filter((auth) => auth.username === flags.environment)[0];
-        if (!foundAuthorization) {
-          foundAuthorization = authorizations.filter((auth) => auth.alias === flags.environment)[0];
-        }
+        foundAuthorization =
+          authorizations.find((auth) => auth.username === targetEnv) ??
+          authorizations.find((auth) => auth.alias === targetEnv);
 
         if (foundAuthorization) {
           const columns = {
@@ -61,7 +62,7 @@ export default class EnvDisplay extends Command {
             );
           }
         } else {
-          throw new SfdxError(messages.getMessage('error.NoEnvFound', [flags.environment]));
+          throw new SfdxError(messages.getMessage('error.NoEnvFound', [targetEnv]));
         }
       } else {
         throw messages.createError('error.NoAuthsAvailable');

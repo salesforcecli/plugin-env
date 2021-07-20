@@ -36,7 +36,7 @@ export default class EnvList extends Command {
     try {
       if (await AuthInfo.hasAuthentications()) {
         authorizations = await AuthInfo.listAllAuthorizations();
-        const hasErrors = authorizations.filter((auth) => !!auth.error).length > 0;
+        const hasErrors = authorizations.some((auth) => !!auth.error);
         const columns = {
           alias: {
             get: (row) => row.alias ?? '',
@@ -58,7 +58,9 @@ export default class EnvList extends Command {
             get: (row) => row.error ?? '',
           } as Table.table.Columns<Partial<SfOrg>>;
         }
-        cli.table(authorizations, columns, { title: 'Authenticated Envs', ...flags });
+        if (!flags.json) {
+          cli.table(authorizations, columns, { title: 'Authenticated Envs', ...flags });
+        }
       } else {
         throw messages.createError('error.NoAuthsAvailable');
       }

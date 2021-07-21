@@ -1,12 +1,12 @@
 # summary
-  
+
 List the environments you’ve created or logged into.
 
 # description
 
 By default, the command displays only active environments. For orgs, active means unexpired scratch orgs and orgs you’re currently logged into. For compute environments, active means the environments connected to orgs you’re currently logged into. Use the --all flag to list expired or deleted scratch orgs and compute environments that aren’t connected to logged-in orgs. Warning: the latter list could be very long.
 
-Output is displayed in multiple tables, one for each environment type.  For example, the Salesforce Orgs table lists the non-scratch orgs you’re logged into, such as sandboxes, Dev Hubs, production orgs, and so on. Scratch orgs and compute environments get their own tables.
+Output is displayed in multiple tables, one for each environment type. For example, the Salesforce Orgs table lists the non-scratch orgs you’re logged into, such as sandboxes, Dev Hubs, production orgs, and so on. Scratch orgs and compute environments get their own tables.
 
 For non-scratch orgs, the Username column refers to the user you logged into the org with. For scratch orgs it refers to the username that was generated for you when you created the scratch org. The first column indicates the default environment for each type.
 
@@ -30,9 +30,37 @@ Run "sf env display" to view details about a specific environment.
 
   <%= config.bin %> <%= command.id %> --sort "-Alias" --columns "Alias"
 
-# flags.all.summary
+# flags.extended.summary
 
-Show all environments, even inactive ones.
+Show extra columns.
+
+# flags.columns.summary
+
+Only show provided columns.
+
+# flags.csv.summary
+
+Output in csv format [alias: --output=csv]
+
+# flags.filter.summary
+
+Filter property by partial string matching.
+
+# flags.no-header.summary
+
+Hide table header from output.
+
+# flags.no-truncate.summary
+
+Do not truncate output to fit screen.
+
+# flags.output.summary
+
+Output in a more machine friendly format.
+
+# flags.sort.summary
+
+Property to sort by (prepend '-' for descending).
 
 # error.NoAuthsAvailable
 

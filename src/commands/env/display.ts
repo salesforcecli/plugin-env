@@ -35,7 +35,7 @@ export default class EnvDisplay extends Command {
       if (await AuthInfo.hasAuthentications()) {
         authorizations = await AuthInfo.listAllAuthorizations();
 
-        const targetEnv = Reflect.get(flags, 'target-env') as string;
+        const targetEnv = flags['target-env'];
 
         if (!targetEnv) {
           // TODO this should be retrieved from sf config once we have those commands. If not found, still throw.

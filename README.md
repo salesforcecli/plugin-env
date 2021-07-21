@@ -92,12 +92,17 @@ DESCRIPTION
   environment details include the associated orgs, the list of functions, the project name, and more.
 
 EXAMPLES
-  - Display details about a scratch org with alias my-scratch-org:
-  $ sf env display --target-env=my-scratch-org
-  - Specify a username instead of an alias:
-  $ sf env display --target-env=test-123456-abcdefg@example.com
-  - Specify JSON format and redirect output into a file:
-  $ sf env display --target-env=my-scratch-org --json > tmp/MyOrdDesc.json
+  Display details about a scratch org with alias my-scratch-org:
+
+    $ sf env display --target-env=my-scratch-org
+
+  Specify a username instead of an alias:
+
+    $ sf env display --target-env=test-123456-abcdefg@example.com
+
+  Specify JSON format and redirect output into a file:
+
+    $ sf env display --target-env=my-scratch-org --json > tmp/MyOrdDesc.json
 ```
 
 ## `sf env list`

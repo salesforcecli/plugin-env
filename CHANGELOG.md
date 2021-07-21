@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.12](https://github.com/salesforcecli/plugin-env/compare/v0.0.11...v0.0.12) (2021-07-21)
+
+
+### Bug Fixes
+
+* rename flag --environment to --target-env ([#92](https://github.com/salesforcecli/plugin-env/issues/92)) ([d0c8f47](https://github.com/salesforcecli/plugin-env/commit/d0c8f470b547f64098c0cd896d1b1a378bf97aab))
+
 ### [0.0.11](https://github.com/salesforcecli/plugin-env/compare/v0.0.10...v0.0.11) (2021-07-21)
 
 

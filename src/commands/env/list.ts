@@ -8,7 +8,6 @@
 import { Command, Flags } from '@oclif/core';
 import { cli, Table } from 'cli-ux';
 import { AuthInfo, SfOrg, Messages, SfdxError } from '@salesforce/core';
-import { OutputFlags } from '@oclif/core/lib/interfaces';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'list');
@@ -20,12 +19,33 @@ export default class EnvList extends Command {
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
   public static flags = {
-    all: Flags.boolean({
-      char: 'a',
-      description: messages.getMessage('flags.all.summary'),
+    extended: Flags.boolean({
+      char: 'x',
+      summary: messages.getMessage('flags.extended.summary'),
     }),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ...(cli.table.flags() as OutputFlags<any>),
+    columns: Flags.string({
+      summary: messages.getMessage('flags.columns.summary'),
+      multiple: true,
+    }),
+    csv: Flags.boolean({
+      summary: messages.getMessage('flags.csv.summary'),
+    }),
+    filter: Flags.string({
+      summary: messages.getMessage('flags.filter.summary'),
+    }),
+    'no-header': Flags.boolean({
+      summary: messages.getMessage('flags.no-header.summary'),
+    }),
+    'no-truncate': Flags.boolean({
+      summary: messages.getMessage('flags.no-truncate.summary'),
+    }),
+    output: Flags.string({
+      summary: messages.getMessage('flags.output.summary'),
+      options: ['csv', 'json', 'yaml'],
+    }),
+    sort: Flags.string({
+      summary: messages.getMessage('flags.sort.summary'),
+    }),
   };
 
   public async run(): Promise<SfOrgs> {
@@ -58,8 +78,19 @@ export default class EnvList extends Command {
             get: (row) => row.error ?? '',
           } as Table.table.Columns<Partial<SfOrg>>;
         }
+
         if (!flags.json) {
-          cli.table(authorizations, columns, { title: 'Authenticated Envs', ...flags });
+          cli.table(authorizations, columns, {
+            title: 'Authenticated Envs',
+            extended: flags.extended,
+            columns: flags.columns?.join(','),
+            csv: flags.csv,
+            filter: flags.filter,
+            'no-header': flags['no-header'],
+            'no-truncate': flags['no-truncate'],
+            output: flags.output,
+            sort: flags.sort,
+          });
         }
       } else {
         throw messages.createError('error.NoAuthsAvailable');

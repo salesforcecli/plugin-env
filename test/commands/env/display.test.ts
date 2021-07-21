@@ -37,7 +37,7 @@ describe('display unit tests', () => {
     .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
     .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<Array<Partial<SfOrg>>> => expectedSfOrgs)
     .stdout()
-    .command(['env:display', '--environment', expectedSfOrgs[0].username, '--json'])
+    .command(['env:display', '--target-env', expectedSfOrgs[0].username, '--json'])
     .it('should fetch requested username with json output', (ctx) => {
       const sfOrgs = JSON.parse(ctx.stdout) as Array<Partial<SfOrg>>;
       expect(sfOrgs).to.be.deep.equal(expectedSfOrgs[0]);
@@ -46,7 +46,7 @@ describe('display unit tests', () => {
     .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
     .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<Array<Partial<SfOrg>>> => expectedSfOrgs)
     .stdout()
-    .command(['env:display', '--environment', expectedSfOrgs[0].username])
+    .command(['env:display', '--target-env', expectedSfOrgs[0].username])
     .it('should fetch requested username with human output', (ctx) => {
       const stdout = ctx.stdout;
       expectedSfOrgs.slice(0, 1).forEach((sfOrg) => {
@@ -61,7 +61,7 @@ describe('display unit tests', () => {
     .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
     .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<Array<Partial<SfOrg>>> => expectedSfOrgs)
     .stdout()
-    .command(['env:display', '--environment', expectedSfOrgs[1].alias])
+    .command(['env:display', '--target-env', expectedSfOrgs[1].alias])
     .it('should fetch requested alias with human output', (ctx) => {
       const stdout = ctx.stdout;
       expectedSfOrgs.slice(1).forEach((sfOrg) => {
@@ -81,8 +81,8 @@ describe('display unit tests', () => {
     .command(['env:display'])
     .catch((error) =>
       expect(error.message).to.to.include(
-        'No default environment found. Use -e or --environment to specify an environment to open.'
+        'No default environment found. Use -e or --target-env to specify an environment to open.'
       )
     )
-    .it('should throw error if --environment is not specified');
+    .it('should throw error if --target-env is not specified');
 });

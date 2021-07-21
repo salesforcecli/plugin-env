@@ -25,7 +25,7 @@ describe('env display NUTs', () => {
   });
 
   it('should display dev hub', () => {
-    const command = `env display --environment ${usernameOrAlias}`;
+    const command = `env display --target-env ${usernameOrAlias}`;
     const output = execCmd(command, { ensureExitCode: 0 }).shellOutput.stdout;
     expect(output).to.contain(usernameOrAlias);
   });

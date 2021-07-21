@@ -76,7 +76,7 @@ USAGE
   $ sf env display [--json] [-e <value>]
 
 FLAGS
-  -e, --environment=<value>  Environment alias or login user.
+  -e, --target-env=<value>  Environment alias or login user.
 
 GLOBAL FLAGS
   --json  format output as json
@@ -88,16 +88,16 @@ DESCRIPTION
   alias. Run "sf env list" to view all your environments and their aliases.
 
   Output depends on the type of environment. For example, scratch org details include the access token, alias, username
-  of the associated Dev Hub, the creation and expiration date, the generated scratch org username, and more.  Compute
+  of the associated Dev Hub, the creation and expiration date, the generated scratch org username, and more. Compute
   environment details include the associated orgs, the list of functions, the project name, and more.
 
 EXAMPLES
   - Display details about a scratch org with alias my-scratch-org:
-   sf env display --environment=my-scratch-org
+  $ sf env display --target-env=my-scratch-org
   - Specify a username instead of an alias:
-   sf env display --environment=test-123456-abcdefg@example.com
+  $ sf env display --target-env=test-123456-abcdefg@example.com
   - Specify JSON format and redirect output into a file:
-   sf env display --environment=my-scratch-org --json > tmp/MyOrdDesc.json
+  $ sf env display --target-env=my-scratch-org --json > tmp/MyOrdDesc.json
 ```
 
 ## `sf env list`
@@ -106,22 +106,21 @@ By default, the command displays only active environments. For orgs, active mean
 
 ```
 USAGE
-  $ sf env list [--json] [-a] [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output
-    csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+  $ sf env list [--json] [-x] [--columns <value>] [--csv] [--filter <value>] [--no-header] [--no-truncate]
+    [--output csv|json|yaml] [--sort <value>]
 
 FLAGS
-  -a, --all          Show all environments, even inactive ones.
-  -x, --extended     show extra columns
-  --columns=<value>  only show provided columns (comma-separated)
-  --csv              output is csv format [alias: --output=csv]
-  --filter=<value>   filter property by partial string matching, ex: name=foo
-  --no-header        hide table header from output
-  --no-truncate      do not truncate output to fit screen
+  -x, --extended        Show extra columns.
+  --columns=<value>...  Only show provided columns.
+  --csv                 Output in csv format [alias: --output=csv]
+  --filter=<value>      Filter property by partial string matching.
+  --no-header           Hide table header from output.
+  --no-truncate         Do not truncate output to fit screen.
 
-  --output=<option>  output in a more machine friendly format
-                     <options: csv|json|yaml>
+  --output=<option>     Output in a more machine friendly format.
+                        <options: csv|json|yaml>
 
-  --sort=<value>     property to sort by (prepend '-' for descending)
+  --sort=<value>        Property to sort by (prepend '-' for descending).
 
 GLOBAL FLAGS
   --json  format output as json
@@ -134,7 +133,7 @@ DESCRIPTION
   currently logged into. Use the --all flag to list expired or deleted scratch orgs and compute environments that aren’t
   connected to logged-in orgs. Warning: the latter list could be very long.
 
-  Output is displayed in multiple tables, one for each environment type.  For example, the Salesforce Orgs table lists
+  Output is displayed in multiple tables, one for each environment type. For example, the Salesforce Orgs table lists
   the non-scratch orgs you’re logged into, such as sandboxes, Dev Hubs, production orgs, and so on. Scratch orgs and
   compute environments get their own tables.
 

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.11](https://github.com/salesforcecli/plugin-env/compare/v0.0.10...v0.0.11) (2021-07-21)
+
+
+### Bug Fixes
+
+* better help for cli-ux table flags ([#91](https://github.com/salesforcecli/plugin-env/issues/91)) ([ab61c18](https://github.com/salesforcecli/plugin-env/commit/ab61c1881f8603f1563ac86aa65fdbbce270bb5b))
+
 ### [0.0.10](https://github.com/salesforcecli/plugin-env/compare/v0.0.9...v0.0.10) (2021-07-19)
 
 

@@ -454,10 +454,33 @@
     is-wsl "^2.1.1"
     tslib "^2.0.0"
 
-"@oclif/core@^0.5.19", "@oclif/core@^0.5.21":
+"@oclif/core@^0.5.19":
   version "0.5.21"
   resolved "https://registry.npmjs.org/@oclif/core/-/core-0.5.21.tgz#9686b899fb8431275f3aa357ff110f8e6f2c968d"
   integrity sha512-bfwh2ow3XeTgYXjV0h2dn5mq9261WZ/iaY0p2wL2lvRfMAFvGc1AbN5Wfd5s2hDhvU+dMP7fbHB1ymbTBJM5Ig==
+  dependencies:
+    "@oclif/linewrap" "^1.0.0"
+    chalk "^4.1.0"
+    clean-stack "^3.0.0"
+    cli-ux "^5.1.0"
+    debug "^4.1.1"
+    fs-extra "^9.0.1"
+    get-package-type "^0.1.0"
+    globby "^11.0.1"
+    indent-string "^4.0.0"
+    is-wsl "^2.1.1"
+    lodash.template "^4.4.0"
+    semver "^7.3.2"
+    string-width "^4.2.0"
+    strip-ansi "^6.0.0"
+    tslib "^2.0.0"
+    widest-line "^3.1.0"
+    wrap-ansi "^7.0.0"
+
+"@oclif/core@^0.5.26":
+  version "0.5.26"
+  resolved "https://registry.npmjs.org/@oclif/core/-/core-0.5.26.tgz#9fe166a70aec59308f6fa12540fc6eee88246b8a"
+  integrity sha512-huHSYO67jbhh4SJda8xB8ia9G/i7jpfNpI7NwGnHv5RLyeoA3DcPNr1bU8wwvvD4+xKk2u7XjjKFtoR2sZR4eA==
   dependencies:
     "@oclif/linewrap" "^1.0.0"
     chalk "^4.1.0"
@@ -673,10 +696,10 @@
     mkdirp "1.0.4"
     sfdx-faye "^1.0.9"
 
-"@salesforce/core@v3-beta":
-  version "3.3.3"
-  resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-3.3.3.tgz#8c0acdf0268d3c634e48c54c2caf6b883f1e7059"
-  integrity sha512-eUbkLO+40o5B9EmrAReaS8jJLY2OkrZZlaVzDOXb4VpnsCOLjvI2aZHrDoIoghm99u7/8Usggkvfo4o1N4Ga9w==
+"@salesforce/core@^3.3.4":
+  version "3.3.4"
+  resolved "https://registry.npmjs.org/@salesforce/core/-/core-3.3.4.tgz#9d8bb10b4691d52b70c3b56e7155ffa7272271ab"
+  integrity sha512-rs5Vev5dO1CUEVhy4MSNPtmbVN9JZI7ypc99OAmjcVCf56140o9up8XrIGjdaDZh6Xa78hGmBXs/WNZ3cchwXg==
   dependencies:
     "@salesforce/bunyan" "^2.0.0"
     "@salesforce/kit" "^1.5.8"
@@ -1858,6 +1881,38 @@ cli-ux@^5.1.0, cli-ux@^5.2.1:
     string-width "^4.2.0"
     strip-ansi "^6.0.0"
     supports-color "^7.1.0"
+    supports-hyperlinks "^2.1.0"
+    tslib "^2.0.0"
+
+cli-ux@^5.6.3:
+  version "5.6.3"
+  resolved "https://registry.npmjs.org/cli-ux/-/cli-ux-5.6.3.tgz#eecdb2e0261171f2b28f2be6b18c490291c3a287"
+  integrity sha512-/oDU4v8BiDjX2OKcSunGH0iGDiEtj2rZaGyqNuv9IT4CgcSMyVWAMfn0+rEHaOc4n9ka78B0wo1+N1QX89f7mw==
+  dependencies:
+    "@oclif/command" "^1.6.0"
+    "@oclif/errors" "^1.2.1"
+    "@oclif/linewrap" "^1.0.0"
+    "@oclif/screen" "^1.0.3"
+    ansi-escapes "^4.3.0"
+    ansi-styles "^4.2.0"
+    cardinal "^2.1.1"
+    chalk "^4.1.0"
+    clean-stack "^3.0.0"
+    cli-progress "^3.4.0"
+    extract-stack "^2.0.0"
+    fs-extra "^8.1"
+    hyperlinker "^1.0.0"
+    indent-string "^4.0.0"
+    is-wsl "^2.2.0"
+    js-yaml "^3.13.1"
+    lodash "^4.17.11"
+    natural-orderby "^2.0.1"
+    object-treeify "^1.1.4"
+    password-prompt "^1.1.2"
+    semver "^7.3.2"
+    string-width "^4.2.0"
+    strip-ansi "^6.0.0"
+    supports-color "^8.1.0"
     supports-hyperlinks "^2.1.0"
     tslib "^2.0.0"
 
@@ -7266,9 +7321,9 @@ strip-json-comments@~2.0.1:
   resolved "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
   integrity sha1-PFMZQukIwml8DsNEhYwobHygpgo=
 
-supports-color@8.1.1:
+supports-color@8.1.1, supports-color@^8.1.0:
   version "8.1.1"
-  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-8.1.1.tgz#cd6fc17e28500cff56c1b86c0a7fd4a54a73005c"
+  resolved "https://registry.npmjs.org/supports-color/-/supports-color-8.1.1.tgz#cd6fc17e28500cff56c1b86c0a7fd4a54a73005c"
   integrity sha512-MpUEN2OodtUzxvKQl72cUF7RQ5EiHsGvSsVG0ia9c5RbWGL2CI4C7EpPS8UTBIplnlzZiNuV56w+FuNxy3ty2Q==
   dependencies:
     has-flag "^4.0.0"

@@ -7,7 +7,7 @@
 
 import { Command, Flags } from '@oclif/core';
 import { cli, Table } from 'cli-ux';
-import { AuthInfo, SfOrg, Messages, SfdxError } from '@salesforce/core';
+import { AuthInfo, SfOrg, Messages, SfdxError, ConfigAggregator } from '@salesforce/core';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'list');
@@ -51,11 +51,15 @@ export default class EnvList extends Command {
   public async run(): Promise<SfOrgs> {
     const { flags } = await this.parse(EnvList);
 
-    let authorizations: SfOrg[];
+    let authorizations: Array<SfOrg & { configs?: string[] }>;
+    const config = (await ConfigAggregator.create()).getConfigInfo();
 
     try {
       if (await AuthInfo.hasAuthentications()) {
         authorizations = await AuthInfo.listAllAuthorizations();
+        for (const auth of authorizations) {
+          auth.configs = config.filter((c) => c.value === auth.alias || c.value === auth.username).map((c) => c.key);
+        }
         const hasErrors = authorizations.some((auth) => !!auth.error);
         const columns = {
           alias: {
@@ -71,11 +75,14 @@ export default class EnvList extends Command {
           oauthMethod: {
             header: 'OAuth Method',
           },
+          configs: {
+            header: 'Config',
+            get: (row: { configs?: string[] }) => (row.configs ? row.configs.join(', ') : ''),
+          },
         } as Table.table.Columns<Partial<SfOrg>>;
         if (hasErrors) {
           columns.error = {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
-            get: (row) => row.error ?? '',
+            get: (row: { error?: string }) => row.error ?? '',
           } as Table.table.Columns<Partial<SfOrg>>;
         }
 

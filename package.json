@@ -79,7 +79,7 @@
     ],
     "topics": {
       "env": {
-        "description": "Commands to work with enviornments."
+        "description": "Manage your environments, such as orgs."
       }
     }
   },

@@ -6,7 +6,7 @@
  */
 
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
-import { ConfigAggregator } from '@salesforce/core';
+import { ConfigAggregator, OrgConfigProperties } from '@salesforce/core';
 import { expect } from 'chai';
 
 describe('env list NUTs', () => {
@@ -15,7 +15,7 @@ describe('env list NUTs', () => {
   before(async () => {
     session = await TestSession.create({});
 
-    usernameOrAlias = ConfigAggregator.getValue('defaultdevhubusername').value as string;
+    usernameOrAlias = ConfigAggregator.getValue(OrgConfigProperties.TARGET_ORG).value as string;
 
     if (!usernameOrAlias) throw Error('no default username set');
   });

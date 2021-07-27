@@ -107,7 +107,7 @@ EXAMPLES
 
 ## `sf env list`
 
-By default, the command displays only active environments. For orgs, active means unexpired scratch orgs and orgs you’re currently logged into. For compute environments, active means the environments connected to orgs you’re currently logged into. Use the --all flag to list expired or deleted scratch orgs and compute environments that aren’t connected to logged-in orgs. Warning: the latter list could be very long.
+The command displays only active environments. For orgs, active means unexpired scratch orgs and orgs you’re currently logged into. 
 
 ```
 USAGE
@@ -116,16 +116,16 @@ USAGE
 
 FLAGS
   -x, --extended        Show extra columns.
-  --columns=<value>...  Only show provided columns.
+  --columns=<value>...  List of columns to display.
   --csv                 Output in csv format [alias: --output=csv]
   --filter=<value>      Filter property by partial string matching.
   --no-header           Hide table header from output.
-  --no-truncate         Do not truncate output to fit screen.
+  --no-truncate         Don't truncate output to fit screen.
 
-  --output=<option>     Output in a more machine friendly format.
+  --output=<option>     Format in which to display the output.
                         <options: csv|json|yaml>
 
-  --sort=<value>        Property to sort by (prepend '-' for descending).
+  --sort=<value>        Column to sort by (prepend '-' for descending).
 
 GLOBAL FLAGS
   --json  format output as json
@@ -133,38 +133,42 @@ GLOBAL FLAGS
 DESCRIPTION
   List the environments you’ve created or logged into.
 
-  By default, the command displays only active environments. For orgs, active means unexpired scratch orgs and orgs
-  you’re currently logged into. For compute environments, active means the environments connected to orgs you’re
-  currently logged into. Use the --all flag to list expired or deleted scratch orgs and compute environments that aren’t
-  connected to logged-in orgs. Warning: the latter list could be very long.
+  The command displays only active environments. For orgs, active means unexpired scratch orgs and orgs you’re currently
+  logged into.
 
   Output is displayed in multiple tables, one for each environment type. For example, the Salesforce Orgs table lists
-  the non-scratch orgs you’re logged into, such as sandboxes, Dev Hubs, production orgs, and so on. Scratch orgs and
-  compute environments get their own tables.
+  the non-scratch orgs you’re logged into, such as sandboxes, Dev Hubs, production orgs, and so on. Scratch orgs get
+  their own table.
 
   For non-scratch orgs, the Username column refers to the user you logged into the org with. For scratch orgs it refers
-  to the username that was generated for you when you created the scratch org. The first column indicates the default
-  environment for each type.
+  to the username that was generated for you when you created the scratch org. The table also displays the default
+  environment for each type, the instance URL, and how you authorized (logged into) the org, either using a web browser
+  or JWT.
+
+  Use the table-manipulation flags, such as --filter and --sort, to change how the data is displayed.
 
   Run "sf env display" to view details about a specific environment.
 
 EXAMPLES
-  List all environments:
+  List all active environments:
 
-    $ sf env list --all
+    $ sf env list
 
-  Filter the output to list only connected orgs. Rows from only the Salesforce Orgs table are displayed because it’s
-  the only table with a "Status" column.
+  Filter the output to list only orgs you authorized using a web browser; "OAuth Method" is the name of a column:
 
-    $ sf env list --filter "Status=Connected"
-
-  List only scratch orgs that expire after May 30, 2021:
-
-    $ sf env list --filter "Expiration>2021-05-30"
+    $ sf env list --filter "OAuth Method=web"
 
   Display only the Alias column and sort the aliases in descending order:
 
     $ sf env list --sort "-Alias" --columns "Alias"
+
+  Don't truncate the displayed output:
+
+    $ sf env list --no-truncate
+
+  Display only the table data, not the headers, in comma-separated value (csv) format:
+
+    $ sf env list --csv --no-header
 ```
 
 ## `sf env open`

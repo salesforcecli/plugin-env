@@ -5,17 +5,23 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
+import * as path from 'path';
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
-import { ConfigAggregator, OrgConfigProperties } from '@salesforce/core';
+import { SfdxPropertyKeys } from '@salesforce/core';
+import { env } from '@salesforce/kit';
 import { expect } from 'chai';
 
 describe('env display NUTs', () => {
   let session: TestSession;
   let usernameOrAlias: string;
   before(async () => {
+    env.setString('TESTKIT_EXECUTABLE_PATH', path.join(process.cwd(), 'bin', 'dev'));
     session = await TestSession.create({});
 
-    usernameOrAlias = ConfigAggregator.getValue(OrgConfigProperties.TARGET_ORG).value as string;
+    const config = execCmd<Array<{ value: string }>>(`config get ${SfdxPropertyKeys.DEFAULT_DEV_HUB_USERNAME} --json`, {
+      cli: 'sf',
+    }).jsonOutput;
+    usernameOrAlias = config[0].value;
 
     if (!usernameOrAlias) throw Error('no default username set');
   });

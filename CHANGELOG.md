@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.15](https://github.com/salesforcecli/plugin-env/compare/v0.0.14...v0.0.15) (2021-07-28)
+
+
+### Features
+
+* add column for config ([#96](https://github.com/salesforcecli/plugin-env/issues/96)) ([4159426](https://github.com/salesforcecli/plugin-env/commit/41594265cf902b1137505444e22ec0c3849f6c8c))
+
 ### [0.0.14](https://github.com/salesforcecli/plugin-env/compare/v0.0.13...v0.0.14) (2021-07-27)
 
 ### [0.0.13](https://github.com/salesforcecli/plugin-env/compare/v0.0.12...v0.0.13) (2021-07-22)

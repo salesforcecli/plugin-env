@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.18](https://github.com/salesforcecli/plugin-env/compare/v0.0.16...v0.0.18) (2021-07-29)
+
+
+### Bug Fixes
+
+* bump version to force release ([7619300](https://github.com/salesforcecli/plugin-env/commit/76193006c8c0aa88a436eb8b026eb2ddc0e8f4a4))
+* exclude field timestamp for r1 ([b2ea721](https://github.com/salesforcecli/plugin-env/commit/b2ea7218abac30cf7431aa074f8444e58698e321))
+* hide extended flag from help ([#99](https://github.com/salesforcecli/plugin-env/issues/99)) ([e106778](https://github.com/salesforcecli/plugin-env/commit/e106778114e1ba5830e435d6273426e003a15e68))
+
 ### [0.0.16](https://github.com/salesforcecli/plugin-env/compare/v0.0.15...v0.0.16) (2021-07-28)
 
 

@@ -54,10 +54,12 @@ export default class EnvDisplay extends Command {
 
           if (!flags.json) {
             cli.table(
-              Object.keys(foundAuthorization).map((key, i) => ({
-                key,
-                value: Object.values(foundAuthorization)[i] ?? '',
-              })),
+              Object.keys(foundAuthorization)
+                .filter((key) => key !== 'timestamp')
+                .map((key, i) => ({
+                  key,
+                  value: Object.values(foundAuthorization)[i] ?? '',
+                })),
               columns
             );
           }

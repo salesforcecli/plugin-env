@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.17](https://github.com/salesforcecli/plugin-env/compare/v0.0.16...v0.0.17) (2021-07-29)
+
+
+### Bug Fixes
+
+* hide extended flag from help ([#99](https://github.com/salesforcecli/plugin-env/issues/99)) ([e106778](https://github.com/salesforcecli/plugin-env/commit/e106778114e1ba5830e435d6273426e003a15e68))
+
 ### [0.0.16](https://github.com/salesforcecli/plugin-env/compare/v0.0.15...v0.0.16) (2021-07-28)
 
 

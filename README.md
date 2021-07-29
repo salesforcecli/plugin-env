@@ -111,11 +111,10 @@ The command displays only active environments. For orgs, active means unexpired 
 
 ```
 USAGE
-  $ sf env list [--json] [-x] [--columns <value>] [--csv] [--filter <value>] [--no-header] [--no-truncate]
+  $ sf env list [--json] [--columns <value>] [--csv] [--filter <value>] [--no-header] [--no-truncate]
     [--output csv|json|yaml] [--sort <value>]
 
 FLAGS
-  -x, --extended        Show extra columns.
   --columns=<value>...  List of columns to display.
   --csv                 Output in csv format [alias: --output=csv]
   --filter=<value>      Filter property by partial string matching.

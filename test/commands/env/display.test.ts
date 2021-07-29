@@ -20,6 +20,7 @@ const expectedSfOrgs: Array<Partial<SfOrg>> = [
     instanceUrl: 'https://some.salesforce.com',
     oauthMethod: 'jwt',
     username: 'some-user@some.salesforce.com',
+    timestamp: '2021-07-28T18:04:08.652Z',
   },
   {
     orgId: '00Dxx54321987654321',
@@ -28,6 +29,7 @@ const expectedSfOrgs: Array<Partial<SfOrg>> = [
     alias: 'someOtherAlias',
     oauthMethod: 'web',
     username: 'some-other-user@some.other.salesforce.com',
+    timestamp: '2021-07-28T18:04:08.652Z',
     error: 'some auth error',
   },
 ];
@@ -55,6 +57,7 @@ describe('display unit tests', () => {
         expect(stdout).to.include(sfOrg.username);
         expect(stdout).to.include(sfOrg.oauthMethod);
         expect(stdout).to.include(sfOrg.instanceUrl);
+        expect(stdout).to.not.include('timestamp');
       });
     });
   test
@@ -70,6 +73,7 @@ describe('display unit tests', () => {
         expect(stdout).to.include(sfOrg.username);
         expect(stdout).to.include(sfOrg.oauthMethod);
         expect(stdout).to.include(sfOrg.instanceUrl);
+        expect(stdout).to.not.include('timestamp');
       });
     });
   // this test will start to fail when env plugin incorporates more than authorization environment

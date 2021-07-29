@@ -22,6 +22,7 @@ export default class EnvList extends Command {
     extended: Flags.boolean({
       char: 'x',
       summary: messages.getMessage('flags.extended.summary'),
+      hidden: true,
     }),
     columns: Flags.string({
       summary: messages.getMessage('flags.columns.summary'),

@@ -7,12 +7,12 @@
 import { expect, test } from '@oclif/test';
 import { AuthInfo, SfOrg } from '@salesforce/core';
 
-const expectedSfOrgs: SfOrg[] = [
+const expectedSfOrgs = [
   {
     orgId: '00Dxx12345678912345',
     accessToken: '00Dxx12345678912345!fdkjlfsakjlsafdjldijafsjklsdfjklafdsjkl',
     instanceUrl: 'https://some.salesforce.com',
-    alias: 'someAlias',
+    aliases: ['someAlias'],
     oauthMethod: 'jwt',
     username: 'some-user@some.salesforce.com',
   },
@@ -20,9 +20,10 @@ const expectedSfOrgs: SfOrg[] = [
     orgId: '00Dxx54321987654321',
     accessToken: '00Dxx54321987654321!lasfdlkjasfdljkerwklj;afsdlkjdhk;f',
     instanceUrl: 'https://some.other.salesforce.com',
-    alias: 'someOtherAlias',
+    aliases: ['someOtherAlias'],
     oauthMethod: 'web',
     username: 'some-other-user@some.other.salesforce.com',
+    devhubUsername: 'some-user@some.salesforce.com',
     error: 'some auth error',
   },
 ];
@@ -30,7 +31,7 @@ const expectedSfOrgs: SfOrg[] = [
 describe('list unit tests', () => {
   test
     .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
-    .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<SfOrg[]> => expectedSfOrgs)
+    .stub(AuthInfo, 'listAllAuthorizations', async () => expectedSfOrgs)
     .stdout()
     .command(['env:list', '--json'])
     .it('should fetch active orgs with json output', (ctx) => {
@@ -39,14 +40,14 @@ describe('list unit tests', () => {
     });
   test
     .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
-    .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<SfOrg[]> => expectedSfOrgs)
+    .stub(AuthInfo, 'listAllAuthorizations', async () => expectedSfOrgs)
     .stdout()
     .command(['env:list'])
     .it('should fetch active orgs with human output', (ctx) => {
       const stdout = ctx.stdout;
       expect(stdout).to.be.ok;
       expectedSfOrgs.forEach((sfOrg) => {
-        expect(stdout).to.include(sfOrg.alias);
+        expect(stdout).to.include(sfOrg.aliases);
         expect(stdout).to.include(sfOrg.orgId);
         expect(stdout).to.include(sfOrg.username);
         expect(stdout).to.include(sfOrg.oauthMethod);
@@ -55,14 +56,14 @@ describe('list unit tests', () => {
     });
   test
     .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
-    .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<SfOrg[]> => expectedSfOrgs)
+    .stub(AuthInfo, 'listAllAuthorizations', async () => expectedSfOrgs)
     .stdout()
     .command(['env:list', '--columns', 'org Id,username'])
     .it('should fetch active orgs with human output and display selected columns', (ctx) => {
       const stdout = ctx.stdout;
       expect(stdout).to.be.ok;
       expectedSfOrgs.forEach((sfOrg) => {
-        expect(stdout).to.not.include(sfOrg.alias);
+        expect(stdout).to.not.include(sfOrg.aliases);
         expect(stdout).to.include(sfOrg.orgId);
         expect(stdout).to.include(sfOrg.username);
         expect(stdout).to.not.include(sfOrg.oauthMethod);
@@ -71,9 +72,9 @@ describe('list unit tests', () => {
     });
   test
     .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
-    .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<SfOrg[]> => expectedSfOrgs)
+    .stub(AuthInfo, 'listAllAuthorizations', async () => expectedSfOrgs)
     .stdout()
-    .command(['env:list', '--filter', 'alias=someAlias'])
+    .command(['env:list', '--filter', 'aliases=someAlias'])
     .it('should fetch active orgs with human output and filtered data', (ctx) => {
       const stdout = ctx.stdout;
       expect(stdout).to.be.ok;
@@ -82,9 +83,9 @@ describe('list unit tests', () => {
     });
   test
     .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
-    .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<SfOrg[]> => expectedSfOrgs)
+    .stub(AuthInfo, 'listAllAuthorizations', async () => expectedSfOrgs)
     .stdout()
-    .command(['env:list', '--sort', '-alias'])
+    .command(['env:list', '--sort', '-aliases'])
     .it('should fetch active orgs with human output and sorted results', (ctx) => {
       const stdout = ctx.stdout.replace(/\n/g, '');
       expect(stdout).to.be.ok;

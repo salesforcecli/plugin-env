@@ -12,7 +12,7 @@ import { AuthInfo, SfOrg, Messages, SfdxError, ConfigAggregator } from '@salesfo
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'list');
 
-export type SfOrgs = SfOrg[];
+export type Environments = SfOrg[];
 
 export default class EnvList extends Command {
   public static readonly summary = messages.getMessage('summary');
@@ -48,67 +48,94 @@ export default class EnvList extends Command {
       summary: messages.getMessage('flags.sort.summary'),
     }),
   };
+  private flags!: {
+    json: boolean;
+    extended: boolean;
+    columns: string[];
+    csv: boolean;
+    filter: string;
+    'no-header': boolean;
+    'no-truncate': boolean;
+    output: string;
+    sort: string;
+  };
 
-  public async run(): Promise<SfOrgs> {
+  public async run(): Promise<Environments> {
     const { flags } = await this.parse(EnvList);
+    this.flags = flags;
 
-    let authorizations: Array<SfOrg & { configs?: string[] }>;
-    const config = (await ConfigAggregator.create()).getConfigInfo();
-
+    if (!(await AuthInfo.hasAuthentications())) throw messages.createError('error.NoAuthsAvailable');
+    const envs = [] as Environments;
     try {
-      if (await AuthInfo.hasAuthentications()) {
-        authorizations = await AuthInfo.listAllAuthorizations();
-        for (const auth of authorizations) {
-          auth.configs = config.filter((c) => c.value === auth.alias || c.value === auth.username).map((c) => c.key);
-        }
-        const hasErrors = authorizations.some((auth) => !!auth.error);
-        const columns = {
-          alias: {
-            get: (row) => row.alias ?? '',
-          },
-          username: {},
-          orgId: {
-            header: 'Org ID',
-          },
-          instanceUrl: {
-            header: 'Instance URL',
-          },
-          oauthMethod: {
-            header: 'OAuth Method',
-          },
-          configs: {
-            header: 'Config',
-            get: (row: { configs?: string[] }) => (row.configs ? row.configs.join(', ') : ''),
-          },
-        } as Table.table.Columns<Partial<SfOrg>>;
-        if (hasErrors) {
-          columns.error = {
-            get: (row: { error?: string }) => row.error ?? '',
-          } as Table.table.Columns<Partial<SfOrg>>;
-        }
-
-        if (!flags.json) {
-          cli.table(authorizations, columns, {
-            title: 'Authenticated Envs',
-            extended: flags.extended,
-            columns: flags.columns?.join(','),
-            csv: flags.csv,
-            filter: flags.filter,
-            'no-header': flags['no-header'],
-            'no-truncate': flags['no-truncate'],
-            output: flags.output,
-            sort: flags.sort,
-          });
-        }
-      } else {
-        throw messages.createError('error.NoAuthsAvailable');
-      }
+      const orgs = await this.handleSfOrgs();
+      envs.push(...orgs);
     } catch (error) {
       const err = error as SfdxError;
       cli.log(messages.getMessage('error.NoResultsFound'));
       cli.error(err);
     }
 
-    return authorizations;
+    return envs;
+  }
+
+  private async handleSfOrgs(): Promise<SfOrg[]> {
+    const config = (await ConfigAggregator.create()).getConfigInfo();
+    const auths = await AuthInfo.listAllAuthorizations();
+
+    const grouped = {
+      nonScratchOrgs: [] as SfOrg[],
+      scratchOrgs: [] as SfOrg[],
+    };
+    for (const auth of auths) {
+      auth.configs = config.filter((c) => c.value === auth.alias || c.value === auth.username).map((c) => c.key);
+      if (auth.devHubUsername) {
+        grouped.scratchOrgs = grouped.scratchOrgs.concat(auth);
+      } else {
+        grouped.nonScratchOrgs = grouped.nonScratchOrgs.concat(auth);
+      }
+    }
+
+    const buildSfTable = (orgs: SfOrg[], title: string): void => {
+      if (!orgs.length) return;
+      const hasErrors = orgs.some((auth) => !!auth.error);
+      const columns = {
+        aliases: {
+          get: (row: { aliases?: string[] }) => (row.aliases ? row.aliases.join(', ') : ''),
+        },
+        username: {},
+        orgId: { header: 'Org ID' },
+        instanceUrl: { header: 'Instance URL' },
+        oauthMethod: { header: 'OAuth Method' },
+        configs: {
+          header: 'Config',
+          get: (row: { configs?: string[] }) => (row.configs ? row.configs.join(', ') : ''),
+        },
+      } as Table.table.Columns<Partial<SfOrg>>;
+      if (hasErrors) {
+        columns.error = {
+          get: (row: { error?: string }) => row.error ?? '',
+        } as Table.table.Columns<Partial<SfOrg>>;
+      }
+
+      cli.table(orgs, columns, {
+        title,
+        extended: this.flags.extended,
+        columns: this.flags.columns?.join(','),
+        csv: this.flags.csv,
+        filter: this.flags.filter,
+        'no-header': this.flags['no-header'],
+        'no-truncate': this.flags['no-truncate'],
+        output: this.flags.output,
+        sort: this.flags.sort,
+      });
+      this.log();
+    };
+
+    if (!this.flags.json) {
+      buildSfTable(grouped.nonScratchOrgs, 'Salesforce Orgs');
+      buildSfTable(grouped.scratchOrgs, 'Scratch Orgs');
+    }
+
+    return auths;
   }
 }

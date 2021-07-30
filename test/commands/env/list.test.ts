@@ -5,7 +5,7 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import { expect, test } from '@oclif/test';
-import { AuthInfo, SfOrg } from '@salesforce/core';
+import { AuthInfo, OrgAuthorization } from '@salesforce/core';
 
 const expectedSfOrgs = [
   {
@@ -35,7 +35,7 @@ describe('list unit tests', () => {
     .stdout()
     .command(['env:list', '--json'])
     .it('should fetch active orgs with json output', (ctx) => {
-      const sfOrgs = JSON.parse(ctx.stdout) as SfOrg[];
+      const sfOrgs = JSON.parse(ctx.stdout) as OrgAuthorization[];
       expect(sfOrgs).to.be.deep.equal(expectedSfOrgs);
     });
   test

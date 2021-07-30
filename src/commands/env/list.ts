@@ -7,12 +7,12 @@
 
 import { Command, Flags } from '@oclif/core';
 import { cli, Table } from 'cli-ux';
-import { AuthInfo, SfOrg, Messages, SfdxError, ConfigAggregator } from '@salesforce/core';
+import { AuthInfo, OrgAuthorization, Messages, SfdxError } from '@salesforce/core';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'list');
 
-export type Environments = SfOrg[];
+export type Environments = OrgAuthorization[];
 
 export default class EnvList extends Command {
   public static readonly summary = messages.getMessage('summary');
@@ -61,8 +61,7 @@ export default class EnvList extends Command {
   };
 
   public async run(): Promise<Environments> {
-    const { flags } = await this.parse(EnvList);
-    this.flags = flags;
+    this.flags = (await this.parse(EnvList)).flags;
 
     if (!(await AuthInfo.hasAuthentications())) throw messages.createError('error.NoAuthsAvailable');
     const envs = [] as Environments;
@@ -78,24 +77,22 @@ export default class EnvList extends Command {
     return envs;
   }
 
-  private async handleSfOrgs(): Promise<SfOrg[]> {
-    const config = (await ConfigAggregator.create()).getConfigInfo();
+  private async handleSfOrgs(): Promise<OrgAuthorization[]> {
     const auths = await AuthInfo.listAllAuthorizations();
 
     const grouped = {
-      nonScratchOrgs: [] as SfOrg[],
-      scratchOrgs: [] as SfOrg[],
+      nonScratchOrgs: [] as OrgAuthorization[],
+      scratchOrgs: [] as OrgAuthorization[],
     };
     for (const auth of auths) {
-      auth.configs = config.filter((c) => c.value === auth.alias || c.value === auth.username).map((c) => c.key);
-      if (auth.devHubUsername) {
+      if (auth.isScratchOrg) {
         grouped.scratchOrgs = grouped.scratchOrgs.concat(auth);
       } else {
         grouped.nonScratchOrgs = grouped.nonScratchOrgs.concat(auth);
       }
     }
 
-    const buildSfTable = (orgs: SfOrg[], title: string): void => {
+    const buildSfTable = (orgs: OrgAuthorization[], title: string): void => {
       if (!orgs.length) return;
       const hasErrors = orgs.some((auth) => !!auth.error);
       const columns = {
@@ -110,11 +107,11 @@ export default class EnvList extends Command {
           header: 'Config',
           get: (row: { configs?: string[] }) => (row.configs ? row.configs.join(', ') : ''),
         },
-      } as Table.table.Columns<Partial<SfOrg>>;
+      } as Table.table.Columns<Partial<OrgAuthorization>>;
       if (hasErrors) {
         columns.error = {
           get: (row: { error?: string }) => row.error ?? '',
-        } as Table.table.Columns<Partial<SfOrg>>;
+        } as Table.table.Columns<Partial<OrgAuthorization>>;
       }
 
       cli.table(orgs, columns, {

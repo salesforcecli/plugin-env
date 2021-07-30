@@ -11,25 +11,24 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import { expect, test } from '@oclif/test';
-import { AuthInfo, SfOrg } from '@salesforce/core';
+import { AuthInfo, OrgAuthorization } from '@salesforce/core';
 
-const expectedSfOrgs: Array<Partial<SfOrg>> = [
+const expectedSfOrgs: Array<Partial<OrgAuthorization>> = [
   {
     orgId: '00Dxx12345678912345',
     accessToken: '00Dxx12345678912345!fdkjlfsakjlsafdjldijafsjklsdfjklafdsjkl',
     instanceUrl: 'https://some.salesforce.com',
     oauthMethod: 'jwt',
     username: 'some-user@some.salesforce.com',
-    timestamp: '2021-07-28T18:04:08.652Z',
+    aliases: [],
   },
   {
     orgId: '00Dxx54321987654321',
     accessToken: '00Dxx54321987654321!lasfdlkjasfdljkerwklj;afsdlkjdhk;f',
     instanceUrl: 'https://some.other.salesforce.com',
-    alias: 'someOtherAlias',
+    aliases: ['someOtherAlias'],
     oauthMethod: 'web',
     username: 'some-other-user@some.other.salesforce.com',
-    timestamp: '2021-07-28T18:04:08.652Z',
     error: 'some auth error',
   },
 ];
@@ -37,22 +36,22 @@ const expectedSfOrgs: Array<Partial<SfOrg>> = [
 describe('display unit tests', () => {
   test
     .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
-    .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<Array<Partial<SfOrg>>> => expectedSfOrgs)
+    .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<Array<Partial<OrgAuthorization>>> => expectedSfOrgs)
     .stdout()
     .command(['env:display', '--target-env', expectedSfOrgs[0].username, '--json'])
     .it('should fetch requested username with json output', (ctx) => {
-      const sfOrgs = JSON.parse(ctx.stdout) as Array<Partial<SfOrg>>;
+      const sfOrgs = JSON.parse(ctx.stdout) as Array<Partial<OrgAuthorization>>;
       expect(sfOrgs).to.be.deep.equal(expectedSfOrgs[0]);
     });
   test
     .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
-    .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<Array<Partial<SfOrg>>> => expectedSfOrgs)
+    .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<Array<Partial<OrgAuthorization>>> => expectedSfOrgs)
     .stdout()
     .command(['env:display', '--target-env', expectedSfOrgs[0].username])
     .it('should fetch requested username with human output', (ctx) => {
       const stdout = ctx.stdout;
       expectedSfOrgs.slice(0, 1).forEach((sfOrg) => {
-        expect(stdout).to.not.include(sfOrg.alias);
+        expect(stdout).to.not.include(sfOrg.aliases[0]);
         expect(stdout).to.include(sfOrg.orgId);
         expect(stdout).to.include(sfOrg.username);
         expect(stdout).to.include(sfOrg.oauthMethod);
@@ -62,13 +61,13 @@ describe('display unit tests', () => {
     });
   test
     .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
-    .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<Array<Partial<SfOrg>>> => expectedSfOrgs)
+    .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<Array<Partial<OrgAuthorization>>> => expectedSfOrgs)
     .stdout()
-    .command(['env:display', '--target-env', expectedSfOrgs[1].alias])
+    .command(['env:display', '--target-env', expectedSfOrgs[1].aliases[0]])
     .it('should fetch requested alias with human output', (ctx) => {
       const stdout = ctx.stdout;
       expectedSfOrgs.slice(1).forEach((sfOrg) => {
-        expect(stdout).to.include(sfOrg.alias);
+        expect(stdout).to.include(sfOrg.aliases[0]);
         expect(stdout).to.include(sfOrg.orgId);
         expect(stdout).to.include(sfOrg.username);
         expect(stdout).to.include(sfOrg.oauthMethod);
@@ -79,7 +78,7 @@ describe('display unit tests', () => {
   // this test will start to fail when env plugin incorporates more than authorization environment
   test
     .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
-    .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<Array<Partial<SfOrg>>> => expectedSfOrgs)
+    .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<Array<Partial<OrgAuthorization>>> => expectedSfOrgs)
     .stdout()
     .stderr()
     .command(['env:display'])

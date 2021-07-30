@@ -5,23 +5,55 @@
     "Environments": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/SfOrg"
+        "$ref": "#/definitions/OrgAuthorization"
       }
     },
-    "SfOrg": {
+    "OrgAuthorization": {
       "type": "object",
-      "additionalProperties": {
-        "$ref": "#/definitions/Optional%3CAnyJson%3E"
-      },
       "properties": {
-        "alias": {
+        "orgId": {
           "type": "string"
         },
         "username": {
           "type": "string"
         },
-        "orgId": {
-          "type": "string"
+        "oauthMethod": {
+          "type": "string",
+          "enum": [
+            "jwt",
+            "web",
+            "token",
+            "unknown"
+          ]
+        },
+        "aliases": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "configs": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "isScratchOrg": {
+          "type": "boolean"
         },
         "instanceUrl": {
           "type": "string"
@@ -29,66 +61,16 @@
         "accessToken": {
           "type": "string"
         },
-        "oauthMethod": {
-          "type": "string",
-          "enum": ["jwt", "web", "token", "unknown"]
-        },
         "error": {
           "type": "string"
         }
-      }
-    },
-    "Optional<AnyJson>": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/AnyJson"
-        },
-        {
-          "not": {}
-        }
-      ],
-      "description": "A union type for either the parameterized type `T` or `undefined` -- the opposite of  {@link  NonOptional } ."
-    },
-    "AnyJson": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/JsonPrimitive"
-        },
-        {
-          "$ref": "#/definitions/JsonCollection"
-        }
-      ],
-      "description": "Any valid JSON value."
-    },
-    "JsonPrimitive": {
-      "type": ["null", "boolean", "number", "string"],
-      "description": "Any valid JSON primitive value."
-    },
-    "JsonCollection": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/JsonMap"
-        },
-        {
-          "$ref": "#/definitions/JsonArray"
-        }
-      ],
-      "description": "Any valid JSON collection value."
-    },
-    "JsonMap": {
-      "type": "object",
-      "additionalProperties": {
-        "$ref": "#/definitions/Optional%3CAnyJson%3E"
       },
-      "properties": {},
-      "description": "Any JSON-compatible object."
-    },
-    "JsonArray": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/AnyJson"
-      },
-      "description": "Any JSON-compatible array."
+      "required": [
+        "orgId",
+        "username",
+        "oauthMethod"
+      ],
+      "additionalProperties": false
     }
   }
 }

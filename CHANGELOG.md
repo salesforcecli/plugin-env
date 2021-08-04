@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.20](https://github.com/salesforcecli/plugin-env/compare/v0.0.19...v0.0.20) (2021-08-04)
+
+
+### Features
+
+* separate tables for scratch orgs ([#100](https://github.com/salesforcecli/plugin-env/issues/100)) ([c3b18d8](https://github.com/salesforcecli/plugin-env/commit/c3b18d8a6a0de9a75f0710bfe5458651d7a0c431))
+
 ### [0.0.19](https://github.com/salesforcecli/plugin-env/compare/v0.0.18...v0.0.19) (2021-08-03)
 
 

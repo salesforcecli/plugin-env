@@ -7,7 +7,7 @@
 
 import { Command, Flags } from '@oclif/core';
 import { cli } from 'cli-ux';
-import { AuthInfo, SfOrg, Messages, SfdxError } from '@salesforce/core';
+import { AuthInfo, OrgAuthorization, Messages, SfdxError } from '@salesforce/core';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'display');
@@ -23,13 +23,13 @@ export default class EnvDisplay extends Command {
     }),
   };
 
-  // TODO: Change SfOrg type to a more generalized auth type once we have Functions envs integrated.
+  // TODO: Change OrgAuthorization type to a more generalized auth type once we have Functions envs integrated.
 
-  public async run(): Promise<SfOrg> {
+  public async run(): Promise<OrgAuthorization> {
     const { flags } = await this.parse(EnvDisplay);
 
-    let authorizations: SfOrg[];
-    let foundAuthorization: SfOrg;
+    let authorizations: OrgAuthorization[];
+    let foundAuthorization: OrgAuthorization;
 
     try {
       if (await AuthInfo.hasAuthentications()) {
@@ -44,7 +44,7 @@ export default class EnvDisplay extends Command {
 
         foundAuthorization =
           authorizations.find((auth) => auth.username === targetEnv) ??
-          authorizations.find((auth) => auth.alias === targetEnv);
+          authorizations.find((auth) => auth.aliases?.includes(targetEnv));
 
         if (foundAuthorization) {
           const columns = {

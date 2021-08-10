@@ -19,12 +19,7 @@
         },
         "oauthMethod": {
           "type": "string",
-          "enum": [
-            "jwt",
-            "web",
-            "token",
-            "unknown"
-          ]
+          "enum": ["jwt", "web", "token", "unknown"]
         },
         "aliases": {
           "anyOf": [
@@ -55,6 +50,9 @@
         "isScratchOrg": {
           "type": "boolean"
         },
+        "isDevHub": {
+          "type": "boolean"
+        },
         "instanceUrl": {
           "type": "string"
         },
@@ -63,13 +61,20 @@
         },
         "error": {
           "type": "string"
+        },
+        "isExpired": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "string",
+              "const": "unknown"
+            }
+          ]
         }
       },
-      "required": [
-        "orgId",
-        "username",
-        "oauthMethod"
-      ],
+      "required": ["orgId", "username", "oauthMethod", "isExpired"],
       "additionalProperties": false
     }
   }

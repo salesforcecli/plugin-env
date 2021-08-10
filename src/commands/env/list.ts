@@ -19,10 +19,9 @@ export default class EnvList extends Command {
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
   public static flags = {
-    extended: Flags.boolean({
-      char: 'x',
-      summary: messages.getMessage('flags.extended.summary'),
-      hidden: true,
+    all: Flags.boolean({
+      summary: messages.getMessage('flags.all.summary'),
+      char: 'a',
     }),
     columns: Flags.string({
       summary: messages.getMessage('flags.columns.summary'),
@@ -30,6 +29,11 @@ export default class EnvList extends Command {
     }),
     csv: Flags.boolean({
       summary: messages.getMessage('flags.csv.summary'),
+    }),
+    extended: Flags.boolean({
+      char: 'x',
+      summary: messages.getMessage('flags.extended.summary'),
+      hidden: true,
     }),
     filter: Flags.string({
       summary: messages.getMessage('flags.filter.summary'),
@@ -49,11 +53,12 @@ export default class EnvList extends Command {
     }),
   };
   private flags!: {
-    json: boolean;
-    extended: boolean;
+    all: boolean;
     columns: string[];
     csv: boolean;
+    extended: boolean;
     filter: string;
+    json: boolean;
     'no-header': boolean;
     'no-truncate': boolean;
     output: string;
@@ -78,7 +83,14 @@ export default class EnvList extends Command {
   }
 
   private async handleSfOrgs(): Promise<OrgAuthorization[]> {
-    const auths = await AuthInfo.listAllAuthorizations();
+    let auths: OrgAuthorization[];
+
+    if (this.flags.all) {
+      auths = await AuthInfo.listAllAuthorizations();
+    } else {
+      // Only get active auths
+      auths = await AuthInfo.listAllAuthorizations((auth) => auth.isExpired !== false);
+    }
 
     const grouped = {
       nonScratchOrgs: [] as OrgAuthorization[],

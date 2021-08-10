@@ -4,13 +4,13 @@ List the environments you’ve created or logged into.
 
 # description
 
-The command displays only active environments. For orgs, active means unexpired scratch orgs and orgs you’re currently logged into. 
+The command displays only active environments. For orgs, active means unexpired scratch orgs and orgs you’re currently logged into.
 
 Output is displayed in multiple tables, one for each environment type. For example, the Salesforce Orgs table lists the non-scratch orgs you’re logged into, such as sandboxes, Dev Hubs, production orgs, and so on. Scratch orgs get their own table.
 
 For non-scratch orgs, the Username column refers to the user you logged into the org with. For scratch orgs it refers to the username that was generated for you when you created the scratch org. The table also displays the default environment for each type, the instance URL, and how you authorized (logged into) the org, either using a web browser or JWT.
 
-Use the table-manipulation flags, such as --filter and --sort, to change how the data is displayed. 
+Use the table-manipulation flags, such as --filter and --sort, to change how the data is displayed.
 
 Run "sf env display" to view details about a specific environment.
 
@@ -19,6 +19,10 @@ Run "sf env display" to view details about a specific environment.
 - List all active environments:
 
   <%= config.bin %> <%= command.id %>
+
+- List all environments:
+
+  <%= config.bin %> <%= command.id %> --all
 
 - Filter the output to list only orgs you authorized using a web browser; "OAuth Method" is the name of a column:
 
@@ -31,10 +35,14 @@ Run "sf env display" to view details about a specific environment.
 - Don't truncate the displayed output:
 
   <%= config.bin %> <%= command.id %> --no-truncate
-  
+
 - Display only the table data, not the headers, in comma-separated value (csv) format:
 
   <%= config.bin %> <%= command.id %> --csv --no-header
+
+# flags.all.summary
+
+Show all envs regardless of status.
 
 # flags.extended.summary
 
@@ -62,7 +70,7 @@ Don't truncate output to fit screen.
 
 # flags.output.summary
 
-Format in which to display the output. 
+Format in which to display the output.
 
 # flags.sort.summary
 

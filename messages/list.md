@@ -42,7 +42,7 @@ Run "sf env display" to view details about a specific environment.
 
 # flags.all.summary
 
-Show all envs regardless of status.
+Show all environments, even inactive ones. 
 
 # flags.extended.summary
 

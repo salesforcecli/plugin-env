@@ -89,7 +89,7 @@ export default class EnvList extends Command {
       auths = await AuthInfo.listAllAuthorizations();
     } else {
       // Only get active auths
-      auths = await AuthInfo.listAllAuthorizations((auth) => auth.isExpired !== false);
+      auths = await AuthInfo.listAllAuthorizations((auth) => auth.isExpired !== true);
     }
 
     const grouped = {

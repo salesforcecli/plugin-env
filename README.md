@@ -79,7 +79,7 @@ FLAGS
   -e, --target-env=<value>  Environment alias or login user.
 
 GLOBAL FLAGS
-  --json  format output as json
+  --json  Format output as json.
 
 DESCRIPTION
   Display details about an environment.
@@ -107,14 +107,15 @@ EXAMPLES
 
 ## `sf env list`
 
-The command displays only active environments. For orgs, active means unexpired scratch orgs and orgs you’re currently logged into. 
+The command displays only active environments. For orgs, active means unexpired scratch orgs and orgs you’re currently logged into.
 
 ```
 USAGE
-  $ sf env list [--json] [--columns <value>] [--csv] [--filter <value>] [--no-header] [--no-truncate]
+  $ sf env list [--json] [-a] [--columns <value>] [--csv] [--filter <value>] [--no-header] [--no-truncate]
     [--output csv|json|yaml] [--sort <value>]
 
 FLAGS
+  -a, --all             Show all environments, even inactive ones.
   --columns=<value>...  List of columns to display.
   --csv                 Output in csv format [alias: --output=csv]
   --filter=<value>      Filter property by partial string matching.
@@ -127,7 +128,7 @@ FLAGS
   --sort=<value>        Column to sort by (prepend '-' for descending).
 
 GLOBAL FLAGS
-  --json  format output as json
+  --json  Format output as json.
 
 DESCRIPTION
   List the environments you’ve created or logged into.
@@ -152,6 +153,10 @@ EXAMPLES
   List all active environments:
 
     $ sf env list
+
+  List all environments:
+
+    $ sf env list --all
 
   Filter the output to list only orgs you authorized using a web browser; "OAuth Method" is the name of a column:
 
@@ -185,7 +190,7 @@ FLAGS
   --browser=<value>         Browser in which to open the environment.
 
 GLOBAL FLAGS
-  --json  format output as json
+  --json  Format output as json.
 
 DESCRIPTION
   Open an environment in your web browser.

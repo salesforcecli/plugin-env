@@ -28,6 +28,8 @@ const expectedSfOrgs = [
   },
 ];
 
+const expectedColumnNames = ['Aliases', 'Username', 'Org ID', 'Instance URL', 'Auth Method', 'Config'];
+
 describe('list unit tests', () => {
   test
     .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
@@ -46,6 +48,7 @@ describe('list unit tests', () => {
     .it('should fetch active orgs with human output', (ctx) => {
       const stdout = ctx.stdout;
       expect(stdout).to.be.ok;
+      expectedColumnNames.forEach((columnName) => expect(stdout).to.include(columnName));
       expectedSfOrgs.forEach((sfOrg) => {
         expect(stdout).to.include(sfOrg.aliases);
         expect(stdout).to.include(sfOrg.orgId);
@@ -62,6 +65,10 @@ describe('list unit tests', () => {
     .it('should fetch active orgs with human output and display selected columns', (ctx) => {
       const stdout = ctx.stdout;
       expect(stdout).to.be.ok;
+      ['Org ID', 'Username'].forEach((columnName) => expect(stdout).to.include(columnName));
+      ['Aliases', 'Instance URL', 'Auth Method', 'Config'].forEach((columnName) =>
+        expect(stdout).to.not.include(columnName)
+      );
       expectedSfOrgs.forEach((sfOrg) => {
         expect(stdout).to.not.include(sfOrg.aliases);
         expect(stdout).to.include(sfOrg.orgId);

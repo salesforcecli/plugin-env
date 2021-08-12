@@ -114,7 +114,7 @@ export default class EnvList extends Command {
         username: {},
         orgId: { header: 'Org ID' },
         instanceUrl: { header: 'Instance URL' },
-        oauthMethod: { header: 'OAuth Method' },
+        oauthMethod: { header: 'Auth Method' },
         configs: {
           header: 'Config',
           get: (row: { configs?: string[] }) => (row.configs ? row.configs.join(', ') : ''),

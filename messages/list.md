@@ -4,13 +4,13 @@ List the environments you’ve created or logged into.
 
 # description
 
-The command displays only active environments. For orgs, active means unexpired scratch orgs and orgs you’re currently logged into.
+By default, the command displays active environments. For orgs, active means unexpired scratch orgs and orgs you’re currently logged into.
 
 Output is displayed in multiple tables, one for each environment type. For example, the Salesforce Orgs table lists the non-scratch orgs you’re logged into, such as sandboxes, Dev Hubs, production orgs, and so on. Scratch orgs get their own table.
 
-For non-scratch orgs, the Username column refers to the user you logged into the org with. For scratch orgs it refers to the username that was generated for you when you created the scratch org. The table also displays the default environment for each type, the instance URL, and how you authorized (logged into) the org, either using a web browser or JWT.
+For non-scratch orgs, the Username column refers to the user you logged into the org with. For scratch orgs it refers to the username that was generated for you when you created the scratch org. The table also displays the local alias for the org, the org's ID, the instance URL that hosts the org, and how you authorized (logged into) the org, either using a web browser or JWT. The Config column indicates your default scratch org or Dev Hub org with the target-org or target-dev-hub variable, respectively. 
 
-Use the table-manipulation flags, such as --filter and --sort, to change how the data is displayed.
+Use the table manipulation flags, such as --filter and --sort, to change how the data is displayed.
 
 Run "sf env display" to view details about a specific environment.
 
@@ -20,19 +20,19 @@ Run "sf env display" to view details about a specific environment.
 
   <%= config.bin %> <%= command.id %>
 
-- List all environments:
+- List both active and inactive environments:
 
   <%= config.bin %> <%= command.id %> --all
 
-- Filter the output to list only orgs you authorized using a web browser; "OAuth Method" is the name of a column:
+- Filter the output to list only orgs you authorized using a web browser; "Auth Method" is the name of a column:
 
-  <%= config.bin %> <%= command.id %> --filter "OAuth Method=web"
+  <%= config.bin %> <%= command.id %> --filter "Auth Method=web"
 
-- Display only the Alias column and sort the aliases in descending order:
+- Display only the Aliases column and sort the aliases in descending order:
 
-  <%= config.bin %> <%= command.id %> --sort "-Alias" --columns "Alias"
+  <%= config.bin %> <%= command.id %> --sort "-Aliases" --columns "Aliases"
 
-- Don't truncate the displayed output:
+- Don't truncate the displayed output and instead wrap text that's wider than your terminal:
 
   <%= config.bin %> <%= command.id %> --no-truncate
 

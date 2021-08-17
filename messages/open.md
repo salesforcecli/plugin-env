@@ -1,20 +1,14 @@
 # summary
 
-Open an environment in your web browser.
+Open an environment in a web browser.
 
 # description
 
-You can open the following types of environments in a web browser: scratch orgs, sandboxes, Dev Hubs, and production orgs.
-
-If you run the command without flags, it attempts to open your default environment in your default web browser. Run "sf env list" to view your default environment.
+You can open the following types of environments in a web browser: scratch orgs, sandboxes, Dev Hubs, and production orgs. Run "sf env list" to view your environments and their aliases and login usernames.
 
 Each of your environments is associated with an instance URL, such as https://login.salesforce.com. To open a specific web page, specify the portion of the URL after "<URL>/" with the --path flag, such as /apex/YourPage to open a Visualforce page.
 
 # examples
-
-- Open your default environment:
-
-  <%= config.bin %> <%= command.id %>
 
 - Open the Visualforce page /apex/StartHere in a scratch org with alias test-org:
 
@@ -38,7 +32,7 @@ Display the URL, but don’t launch it in a browser.
 
 # flags.target-env.summary
 
-Environment login user or alias to open.
+Login user or alias of the environment to open.
 
 # flags.target-env.description
 
@@ -52,7 +46,7 @@ Browser in which to open the environment.
 
 # flags.browser.description
 
-You can specify that the environment open in one of the following browsers: Firefox, Safari, Google Chrome, or Windows Edge. If you don’t specify --browser, the environment opens in your default browser.
+You can specify that the environment open in one of the following browsers: Firefox, Safari, Google Chrome, or Windows Edge. If you don’t specify --browser, the environment opens in your default browser. The exact names of the browser applications differ depending on the operating system you're on; check your documentation for details. 
 
 # error.NoDefaultEnv
 

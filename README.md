@@ -107,7 +107,7 @@ EXAMPLES
 
 ## `sf env list`
 
-The command displays only active environments. For orgs, active means unexpired scratch orgs and orgs you’re currently logged into.
+By default, the command displays active environments. For orgs, active means unexpired scratch orgs and orgs you’re currently logged into.
 
 ```
 USAGE
@@ -133,19 +133,20 @@ GLOBAL FLAGS
 DESCRIPTION
   List the environments you’ve created or logged into.
 
-  The command displays only active environments. For orgs, active means unexpired scratch orgs and orgs you’re currently
-  logged into.
+  By default, the command displays active environments. For orgs, active means unexpired scratch orgs and orgs you’re
+  currently logged into.
 
   Output is displayed in multiple tables, one for each environment type. For example, the Salesforce Orgs table lists
   the non-scratch orgs you’re logged into, such as sandboxes, Dev Hubs, production orgs, and so on. Scratch orgs get
   their own table.
 
   For non-scratch orgs, the Username column refers to the user you logged into the org with. For scratch orgs it refers
-  to the username that was generated for you when you created the scratch org. The table also displays the default
-  environment for each type, the instance URL, and how you authorized (logged into) the org, either using a web browser
-  or JWT.
+  to the username that was generated for you when you created the scratch org. The table also displays the local alias
+  for the org, the org's ID, the instance URL that hosts the org, and how you authorized (logged into) the org, either
+  using a web browser or JWT. The Config column indicates your default scratch org or Dev Hub org with the target-org or
+  target-dev-hub variable, respectively.
 
-  Use the table-manipulation flags, such as --filter and --sort, to change how the data is displayed.
+  Use the table manipulation flags, such as --filter and --sort, to change how the data is displayed.
 
   Run "sf env display" to view details about a specific environment.
 
@@ -154,19 +155,19 @@ EXAMPLES
 
     $ sf env list
 
-  List all environments:
+  List both active and inactive environments:
 
     $ sf env list --all
 
-  Filter the output to list only orgs you authorized using a web browser; "OAuth Method" is the name of a column:
+  Filter the output to list only orgs you authorized using a web browser; "Auth Method" is the name of a column:
 
-    $ sf env list --filter "OAuth Method=web"
+    $ sf env list --filter "Auth Method=web"
 
-  Display only the Alias column and sort the aliases in descending order:
+  Display only the Aliases column and sort the aliases in descending order:
 
-    $ sf env list --sort "-Alias" --columns "Alias"
+    $ sf env list --sort "-Aliases" --columns "Aliases"
 
-  Don't truncate the displayed output:
+  Don't truncate the displayed output and instead wrap text that's wider than your terminal:
 
     $ sf env list --no-truncate
 
@@ -177,14 +178,14 @@ EXAMPLES
 
 ## `sf env open`
 
-You can open the following types of environments in a web browser: scratch orgs, sandboxes, Dev Hubs, and production orgs.
+You can open the following types of environments in a web browser: scratch orgs, sandboxes, Dev Hubs, and production orgs. Run "sf env list" to view your environments and their aliases and login usernames.
 
 ```
 USAGE
   $ sf env open [--json] [-p <value>] [-r] [-e <value>] [--browser <value>]
 
 FLAGS
-  -e, --target-env=<value>  Environment login user or alias to open.
+  -e, --target-env=<value>  Login user or alias of the environment to open.
   -p, --path=<value>        Path to append to the end of the login URL.
   -r, --url-only            Display the URL, but don’t launch it in a browser.
   --browser=<value>         Browser in which to open the environment.
@@ -193,23 +194,16 @@ GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Open an environment in your web browser.
+  Open an environment in a web browser.
 
   You can open the following types of environments in a web browser: scratch orgs, sandboxes, Dev Hubs, and production
-  orgs.
-
-  If you run the command without flags, it attempts to open your default environment in your default web browser. Run
-  "sf env list" to view your default environment.
+  orgs. Run "sf env list" to view your environments and their aliases and login usernames.
 
   Each of your environments is associated with an instance URL, such as https://login.salesforce.com. To open a specific
   web page, specify the portion of the URL after "<URL>/" with the --path flag, such as /apex/YourPage to open a
   Visualforce page.
 
 EXAMPLES
-  Open your default environment:
-
-    $ sf env open
-
   Open the Visualforce page /apex/StartHere in a scratch org with alias test-org:
 
     $ sf env open --target-env test-org --path /apex/StartHere
@@ -223,7 +217,7 @@ EXAMPLES
     $ sf env open --target-env test-org --path /apex/StartHere --browser chrome
 
 FLAG DESCRIPTIONS
-  -e, --target-env=<value>  Environment login user or alias to open.
+  -e, --target-env=<value>  Login user or alias of the environment to open.
 
     Specify the login user or alias that’s associated with the environment. For scratch orgs, the login user is
     generated by the command that created the scratch org. You can also set an alias for the scratch org when you create
@@ -235,6 +229,7 @@ FLAG DESCRIPTIONS
   --browser=<value>  Browser in which to open the environment.
 
     You can specify that the environment open in one of the following browsers: Firefox, Safari, Google Chrome, or
-    Windows Edge. If you don’t specify --browser, the environment opens in your default browser.
+    Windows Edge. If you don’t specify --browser, the environment opens in your default browser. The exact names of the
+    browser applications differ depending on the operating system you're on; check your documentation for details.
 ```
 <!-- commandsstop -->

@@ -10,7 +10,7 @@ sfdx plugins:install plugin-env@x.y.z
 
 ## Issues
 
-Please report any issues at https://github.com/forcedotcom/cli/issues
+Please report any issues at https://github.com/salesforcecli/cli/issues
 
 ## Contributing
 

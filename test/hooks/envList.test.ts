@@ -96,6 +96,7 @@ describe('envList hook', () => {
   });
 
   it('should return non-expired salesforce orgs', async () => {
+    sandbox.stub(AuthInfo, 'hasAuthentications').resolves(true);
     sandbox.stub(AuthInfo, 'listAllAuthorizations').resolves(ORGS.slice(0, 3) as OrgAuthorization[]);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -115,6 +116,7 @@ describe('envList hook', () => {
   });
 
   it('should return all salesforce orgs', async () => {
+    sandbox.stub(AuthInfo, 'hasAuthentications').resolves(true);
     sandbox.stub(AuthInfo, 'listAllAuthorizations').resolves(ORGS as OrgAuthorization[]);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore

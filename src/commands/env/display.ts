@@ -7,7 +7,8 @@
 
 import { Command, Flags } from '@oclif/core';
 import { cli } from 'cli-ux';
-import { AuthInfo, OrgAuthorization, Messages, SfdxError } from '@salesforce/core';
+import { Messages, SfdxError } from '@salesforce/core';
+import { SfHook, JsonObject } from '@salesforce/sf-plugins-core';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'display');
@@ -23,51 +24,29 @@ export default class EnvDisplay extends Command {
     }),
   };
 
-  // TODO: Change OrgAuthorization type to a more generalized auth type once we have Functions envs integrated.
-
-  public async run(): Promise<OrgAuthorization> {
+  public async run(): Promise<JsonObject> {
     const { flags } = await this.parse(EnvDisplay);
+    // TODO: access this from ConfigAggregator once target-env config var is supported.
+    const targetEnv = flags['target-env'];
 
-    let authorizations: OrgAuthorization[];
-    let foundAuthorization: OrgAuthorization;
+    if (!targetEnv) throw messages.createError('error.NoDefaultEnv');
+
+    let result: JsonObject = {};
 
     try {
-      if (await AuthInfo.hasAuthentications()) {
-        authorizations = await AuthInfo.listAllAuthorizations();
+      const results = await SfHook.run(this.config, 'sf:env:display', { targetEnv });
+      result = results.successes.find((s) => !!s.result)?.result || null;
 
-        const targetEnv = flags['target-env'];
+      if (!result) {
+        throw messages.createError('error.NoEnvFound', [targetEnv]);
+      }
 
-        if (!targetEnv) {
-          // TODO this should be retrieved from sf config once we have those commands. If not found, still throw.
-          throw messages.createError('error.NoDefaultEnv');
-        }
-
-        foundAuthorization =
-          authorizations.find((auth) => auth.username === targetEnv) ??
-          authorizations.find((auth) => auth.aliases?.includes(targetEnv));
-
-        if (foundAuthorization) {
-          const columns = {
-            key: {},
-            value: {},
-          };
-
-          if (!flags.json) {
-            cli.table(
-              Object.keys(foundAuthorization)
-                .filter((key) => key !== 'timestamp')
-                .map((key, i) => ({
-                  key,
-                  value: Object.values(foundAuthorization)[i] ?? '',
-                })),
-              columns
-            );
-          }
-        } else {
-          throw new SfdxError(messages.getMessage('error.NoEnvFound', [targetEnv]));
-        }
-      } else {
-        throw messages.createError('error.NoAuthsAvailable');
+      if (!this.jsonEnabled()) {
+        const columns = { key: {}, value: {} };
+        cli.table(
+          Object.keys(result).map((key, i) => ({ key, value: Object.values(result)[i] ?? '' })),
+          columns
+        );
       }
     } catch (error) {
       const err = error as SfdxError;
@@ -75,6 +54,6 @@ export default class EnvDisplay extends Command {
       cli.error(err);
     }
 
-    return foundAuthorization;
+    return result;
   }
 }

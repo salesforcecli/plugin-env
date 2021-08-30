@@ -5,8 +5,9 @@
   "author": "Salesforce",
   "bugs": "https://github.com/forcedotcom/cli/issues",
   "dependencies": {
-    "@oclif/core": "^0.5.31",
-    "@salesforce/core": "3.4.3",
+    "@oclif/core": "^0.5.34",
+    "@salesforce/core": "3.4.2",
+    "@salesforce/sf-plugins-core": "^0.0.13",
     "cli-ux": "^5.6.3",
     "open": "^8.2.0",
     "tslib": "^2"
@@ -74,6 +75,10 @@
     "commands": "./lib/commands",
     "bin": "sf",
     "topicSeparator": " ",
+    "hooks": {
+      "sf:env:display": "./lib/hooks/envDisplay",
+      "sf:env:list": "./lib/hooks/envList"
+    },
     "devPlugins": [
       "@oclif/plugin-help",
       "@oclif/plugin-command-snapshot",

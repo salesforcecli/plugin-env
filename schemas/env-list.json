@@ -5,77 +5,31 @@
     "Environments": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/OrgAuthorization"
+        "$ref": "#/definitions/TableObject"
       }
     },
-    "OrgAuthorization": {
+    "TableObject": {
       "type": "object",
-      "properties": {
-        "orgId": {
-          "type": "string"
-        },
-        "username": {
-          "type": "string"
-        },
-        "oauthMethod": {
-          "type": "string",
-          "enum": ["jwt", "web", "token", "unknown"]
-        },
-        "aliases": {
-          "anyOf": [
-            {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "configs": {
-          "anyOf": [
-            {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "isScratchOrg": {
-          "type": "boolean"
-        },
-        "isDevHub": {
-          "type": "boolean"
-        },
-        "instanceUrl": {
-          "type": "string"
-        },
-        "accessToken": {
-          "type": "string"
-        },
-        "error": {
-          "type": "string"
-        },
-        "isExpired": {
-          "anyOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "string",
-              "const": "unknown"
-            }
-          ]
-        }
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          },
+          {
+            "not": {}
+          }
+        ]
       },
-      "required": ["orgId", "username", "oauthMethod", "isExpired"],
-      "additionalProperties": false
+      "description": "Describes an object that is intended to be rendered in a table, which requires that no value is an array."
     }
   }
 }

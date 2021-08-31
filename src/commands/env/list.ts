@@ -8,12 +8,13 @@
 import { Command, Flags } from '@oclif/core';
 import { cli } from 'cli-ux';
 import { Messages, SfdxError } from '@salesforce/core';
-import { SfHook, TableObject } from '@salesforce/sf-plugins-core';
+import { JsonObject, SfHook } from '@salesforce/sf-plugins-core';
+import { toKey, toValue } from '../../utils';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'list');
 
-export type Environments = TableObject[];
+export type Environments = JsonObject[];
 
 export default class EnvList extends Command {
   public static readonly summary = messages.getMessage('summary');
@@ -84,9 +85,15 @@ export default class EnvList extends Command {
       for (const table of tables) {
         final.push(...table.data);
         if (!this.jsonEnabled()) {
-          const columns = table.columns.reduce((x, y) => {
-            return { ...x, [y]: { header: y } };
+          const columns = table.data.flatMap(Object.keys).reduce((x, y) => {
+            if (x[y]) return x;
+            const columnEntry = {
+              header: toKey(y, table.keys),
+              get: (v: JsonObject[keyof JsonObject]): string | number | boolean => toValue(v[y]),
+            };
+            return { ...x, [y]: columnEntry };
           }, {});
+
           cli.table(table.data, columns, { ...tableOpts, title: table.title });
           cli.log();
         }

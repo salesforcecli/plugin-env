@@ -5,10 +5,10 @@
     "Environments": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/TableObject"
+        "$ref": "#/definitions/JsonObject"
       }
     },
-    "TableObject": {
+    "JsonObject": {
       "type": "object",
       "additionalProperties": {
         "anyOf": [
@@ -16,10 +16,28 @@
             "type": "string"
           },
           {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
             "type": "number"
           },
           {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          {
             "type": "boolean"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "boolean"
+            }
           },
           {
             "type": "null"
@@ -28,8 +46,7 @@
             "not": {}
           }
         ]
-      },
-      "description": "Describes an object that is intended to be rendered in a table, which requires that no value is an array."
+      }
     }
   }
 }

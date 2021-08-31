@@ -9,6 +9,7 @@ import { Command, Flags } from '@oclif/core';
 import { cli } from 'cli-ux';
 import { Messages, SfdxError } from '@salesforce/core';
 import { SfHook, JsonObject } from '@salesforce/sf-plugins-core';
+import { toKey, toValue } from '../../utils';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'display');
@@ -31,22 +32,25 @@ export default class EnvDisplay extends Command {
 
     if (!targetEnv) throw messages.createError('error.NoDefaultEnv');
 
-    let result: JsonObject = {};
+    let data: JsonObject = {};
 
     try {
       const results = await SfHook.run(this.config, 'sf:env:display', { targetEnv });
-      result = results.successes.find((s) => !!s.result)?.result || null;
+      const result = results.successes.find((s) => !!s.result)?.result || null;
 
       if (!result) {
         throw messages.createError('error.NoEnvFound', [targetEnv]);
       }
 
+      data = result.data;
+
       if (!this.jsonEnabled()) {
         const columns = { key: {}, value: {} };
-        cli.table(
-          Object.keys(result).map((key, i) => ({ key, value: Object.values(result)[i] ?? '' })),
-          columns
-        );
+        const tableData = Object.entries(data).map(([key, value]) => ({
+          key: toKey(key, result.keys),
+          value: toValue(value),
+        }));
+        cli.table(tableData, columns);
       }
     } catch (error) {
       const err = error as SfdxError;
@@ -54,6 +58,6 @@ export default class EnvDisplay extends Command {
       cli.error(err);
     }
 
-    return result;
+    return data;
   }
 }

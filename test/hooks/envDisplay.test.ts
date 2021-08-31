@@ -46,7 +46,7 @@ describe('envDisplay hook', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const result = await hook({ targetEnv: 'some-user@some.salesforce.com' });
-    expect(result).to.deep.equal(ORGS[0]);
+    expect(result.data).to.deep.equal(ORGS[0]);
   });
 
   it('should return a salesforce org by alias', async () => {
@@ -54,6 +54,6 @@ describe('envDisplay hook', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const result = await hook({ targetEnv: 'someOtherAlias' });
-    expect(result).to.deep.equal(ORGS[1]);
+    expect(result.data).to.deep.equal(ORGS[1]);
   });
 });

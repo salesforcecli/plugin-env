@@ -10,10 +10,13 @@ import { SfHook } from '@salesforce/sf-plugins-core';
 
 const hook: SfHook.EnvDisplay<OrgAuthorization> = async function (opts) {
   const orgs = await AuthInfo.listAllAuthorizations();
-  const match =
+  const data =
     orgs.find((org) => org.username === opts.targetEnv) ?? orgs.find((org) => org.aliases?.includes(opts.targetEnv));
-  delete match['timestamp'];
-  return match;
+  delete data['timestamp'];
+  return {
+    data,
+    keys: { orgId: 'Org ID', oauthMethod: 'Auth Method' },
+  };
 };
 
 export default hook;

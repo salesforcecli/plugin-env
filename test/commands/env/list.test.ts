@@ -7,32 +7,30 @@
 import { expect, test } from '@oclif/test';
 import { OrgAuthorization } from '@salesforce/core';
 import { SfHook } from '@salesforce/sf-plugins-core';
-import { SalesforceOrg } from '../../../src/hooks/envList';
+import { KEYS, SalesforceOrg } from '../../../src/hooks/envList';
 
 const expectedSfOrgs: SalesforceOrg[] = [
   {
-    'Org ID': '00Dxx12345678912345',
-    'Instance Url': 'https://some.salesforce.com',
-    Aliases: 'someAlias',
-    'Auth Method': 'jwt',
-    Username: 'some-user@some.salesforce.com',
-    Config: '',
+    orgId: '00Dxx12345678912345',
+    instanceUrl: 'https://some.salesforce.com',
+    aliases: ['someAlias'],
+    oauthMethod: 'jwt',
+    username: 'some-user@some.salesforce.com',
+    configs: [],
   },
   {
-    'Org ID': '00Dxx54321987654321',
-    'Instance Url': 'https://some.other.salesforce.com',
-    Aliases: 'someOtherAlias',
-    'Auth Method': 'web',
-    Username: 'some-other-user@some.other.salesforce.com',
-    Error: 'some auth error',
-    Config: '',
+    orgId: '00Dxx54321987654321',
+    instanceUrl: 'https://some.other.salesforce.com',
+    aliases: ['someOtherAlias'],
+    oauthMethod: 'web',
+    username: 'some-other-user@some.other.salesforce.com',
+    error: 'some auth error',
+    configs: [],
   },
 ];
 
-const expectedColumnNames = ['Aliases', 'Username', 'Org ID', 'Instance Url', 'Auth Method', 'Config'];
-
 const makeTableObj = (title: string, data: SalesforceOrg[]) => {
-  return { title, data, columns: expectedColumnNames };
+  return { title, data, keys: KEYS };
 };
 
 describe('list unit tests', () => {
@@ -58,13 +56,12 @@ describe('list unit tests', () => {
     .it('should list active orgs with human output', (ctx) => {
       const stdout = ctx.stdout;
       expect(stdout).to.be.ok;
-      expectedColumnNames.forEach((columnName) => expect(stdout).to.include(columnName));
       expectedSfOrgs.forEach((sfOrg) => {
-        expect(stdout).to.include(sfOrg.Aliases);
-        expect(stdout).to.include(sfOrg['Org ID']);
-        expect(stdout).to.include(sfOrg.Username);
-        expect(stdout).to.include(sfOrg['Auth Method']);
-        expect(stdout).to.include(sfOrg['Instance Url']);
+        expect(stdout).to.include(sfOrg.aliases[0]);
+        expect(stdout).to.include(sfOrg.orgId);
+        expect(stdout).to.include(sfOrg.username);
+        expect(stdout).to.include(sfOrg.oauthMethod);
+        expect(stdout).to.include(sfOrg.instanceUrl);
       });
     });
 
@@ -83,11 +80,11 @@ describe('list unit tests', () => {
         expect(stdout).to.not.include(columnName)
       );
       expectedSfOrgs.forEach((sfOrg) => {
-        expect(stdout).to.not.include(sfOrg.Aliases);
-        expect(stdout).to.include(sfOrg['Org ID']);
-        expect(stdout).to.include(sfOrg.Username);
-        expect(stdout).to.not.include(sfOrg['Auth Method']);
-        expect(stdout).to.not.include(sfOrg['Instance Url']);
+        expect(stdout).to.not.include(sfOrg.aliases[0]);
+        expect(stdout).to.include(sfOrg.orgId);
+        expect(stdout).to.include(sfOrg.username);
+        expect(stdout).to.not.include(sfOrg.oauthMethod);
+        expect(stdout).to.not.include(sfOrg.instanceUrl);
       });
     });
 

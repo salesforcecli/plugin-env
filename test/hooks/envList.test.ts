@@ -8,7 +8,7 @@
 import { expect } from 'chai';
 import { AuthInfo, OrgAuthorization } from '@salesforce/core';
 import * as sinon from 'sinon';
-import hook from '../../src/hooks/envList';
+import hook, { KEYS } from '../../src/hooks/envList';
 
 const ORGS = [
   {
@@ -18,6 +18,7 @@ const ORGS = [
     oauthMethod: 'jwt',
     username: 'some-user@some.salesforce.com',
     aliases: [],
+    configs: [],
   },
   {
     orgId: '00Dxx54321987654321',
@@ -27,6 +28,7 @@ const ORGS = [
     oauthMethod: 'web',
     username: 'some-other-user@some.other.salesforce.com',
     error: 'some auth error',
+    configs: [],
   },
   {
     orgId: '00Dxx54321987654327',
@@ -36,6 +38,7 @@ const ORGS = [
     oauthMethod: 'web',
     username: 'some-other-scratch@some.other.salesforce.com',
     isScratchOrg: true,
+    configs: [],
   },
   {
     orgId: '00Dxx54321987654327',
@@ -45,42 +48,44 @@ const ORGS = [
     username: 'some-other-scratch@some.other.salesforce.com',
     isScratchOrg: true,
     isExpired: true,
+    configs: [],
+    aliases: [],
   },
 ];
 
 const EXPECTED_ORGS = [
   {
-    'Org ID': '00Dxx12345678912345',
-    'Instance Url': 'https://some.salesforce.com',
-    'Auth Method': 'jwt',
-    Username: 'some-user@some.salesforce.com',
-    Aliases: '',
-    Config: '',
+    orgId: '00Dxx12345678912345',
+    instanceUrl: 'https://some.salesforce.com',
+    oauthMethod: 'jwt',
+    username: 'some-user@some.salesforce.com',
+    aliases: [],
+    configs: [],
   },
   {
-    'Org ID': '00Dxx54321987654321',
-    'Instance Url': 'https://some.other.salesforce.com',
-    Aliases: 'someOtherAlias',
-    'Auth Method': 'web',
-    Username: 'some-other-user@some.other.salesforce.com',
-    Error: 'some auth error',
-    Config: '',
+    orgId: '00Dxx54321987654321',
+    instanceUrl: 'https://some.other.salesforce.com',
+    aliases: ['someOtherAlias'],
+    oauthMethod: 'web',
+    username: 'some-other-user@some.other.salesforce.com',
+    error: 'some auth error',
+    configs: [],
   },
   {
-    'Org ID': '00Dxx54321987654327',
-    'Instance Url': 'https://some.other.scratch.salesforce.com',
-    Aliases: 'MyScratch',
-    'Auth Method': 'web',
-    Username: 'some-other-scratch@some.other.salesforce.com',
-    Config: '',
+    orgId: '00Dxx54321987654327',
+    instanceUrl: 'https://some.other.scratch.salesforce.com',
+    aliases: ['MyScratch'],
+    oauthMethod: 'web',
+    username: 'some-other-scratch@some.other.salesforce.com',
+    configs: [],
   },
   {
-    'Org ID': '00Dxx54321987654327',
-    'Instance Url': 'https://some.other.scratch.salesforce.com',
-    Aliases: '',
-    'Auth Method': 'web',
-    Username: 'some-other-scratch@some.other.salesforce.com',
-    Config: '',
+    orgId: '00Dxx54321987654327',
+    instanceUrl: 'https://some.other.scratch.salesforce.com',
+    aliases: [],
+    oauthMethod: 'web',
+    username: 'some-other-scratch@some.other.salesforce.com',
+    configs: [],
   },
 ];
 
@@ -105,12 +110,12 @@ describe('envList hook', () => {
       {
         title: 'Salesforce Orgs',
         data: EXPECTED_ORGS.slice(0, 2),
-        columns: ['Aliases', 'Username', 'Org ID', 'Instance Url', 'Auth Method', 'Config', 'Error'],
+        keys: KEYS,
       },
       {
         title: 'Scratch Orgs',
         data: [EXPECTED_ORGS[2]],
-        columns: ['Aliases', 'Username', 'Org ID', 'Instance Url', 'Auth Method', 'Config'],
+        keys: KEYS,
       },
     ]);
   });
@@ -125,12 +130,12 @@ describe('envList hook', () => {
       {
         title: 'Salesforce Orgs',
         data: EXPECTED_ORGS.slice(0, 2),
-        columns: ['Aliases', 'Username', 'Org ID', 'Instance Url', 'Auth Method', 'Config', 'Error'],
+        keys: KEYS,
       },
       {
         title: 'Scratch Orgs',
         data: EXPECTED_ORGS.slice(2),
-        columns: ['Aliases', 'Username', 'Org ID', 'Instance Url', 'Auth Method', 'Config'],
+        keys: KEYS,
       },
     ]);
   });

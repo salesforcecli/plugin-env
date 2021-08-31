@@ -21,7 +21,7 @@ const ORG = {
 
 describe('display unit tests', () => {
   test
-    .stub(SfHook, 'run', async () => ({ successes: [{ result: ORG }], failures: [] }))
+    .stub(SfHook, 'run', async () => ({ successes: [{ result: { data: ORG } }], failures: [] }))
     .stdout()
     .command(['env:display', '--target-env', ORG.username, '--json'])
     .it('should display requested username with json output', (ctx) => {
@@ -30,7 +30,7 @@ describe('display unit tests', () => {
     });
 
   test
-    .stub(SfHook, 'run', async () => ({ successes: [{ result: ORG }], failures: [] }))
+    .stub(SfHook, 'run', async () => ({ successes: [{ result: { data: ORG } }], failures: [] }))
     .stdout()
     .command(['env:display', '--target-env', ORG.username, '--json'])
     .it('should display requested username with human output', (ctx) => {
@@ -42,7 +42,7 @@ describe('display unit tests', () => {
     });
 
   test
-    .stub(SfHook, 'run', async () => ({ successes: [{ result: ORG }], failures: [] }))
+    .stub(SfHook, 'run', async () => ({ successes: [{ result: { data: ORG } }], failures: [] }))
     .stdout()
     .command(['env:display', '--target-env', ORG.aliases[0], '--json'])
     .it('should display requested alias with json output', (ctx) => {
@@ -51,7 +51,7 @@ describe('display unit tests', () => {
     });
 
   test
-    .stub(SfHook, 'run', async () => ({ successes: [{ result: ORG }], failures: [] }))
+    .stub(SfHook, 'run', async () => ({ successes: [{ result: { data: ORG } }], failures: [] }))
     .stdout()
     .command(['env:display', '--target-env', ORG.aliases[0], '--json'])
     .it('should display requested alias with human output', (ctx) => {

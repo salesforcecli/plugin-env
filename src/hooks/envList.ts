@@ -12,42 +12,35 @@ Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'list');
 
 export type SalesforceOrg = {
-  Aliases: string;
-  Username: string;
-  'Org ID': string;
-  'Instance Url': string;
-  'Auth Method': string;
-  Config: string;
-  Error?: string;
+  aliases: string[];
+  username: string;
+  orgId: string;
+  instanceUrl: string;
+  oauthMethod: string;
+  configs: string[];
+  error?: string;
 };
 
 function extractData(orgs: OrgAuthorization[]): SalesforceOrg[] {
   return orgs.map((org) => {
     const base: SalesforceOrg = {
-      Aliases: org.aliases ? org.aliases.join(', ') : '',
-      Username: org.username,
-      'Org ID': org.orgId,
-      'Instance Url': org.instanceUrl,
-      'Auth Method': org.oauthMethod,
-      Config: org.configs ? org.configs.join(', ') : '',
+      aliases: org.aliases,
+      username: org.username,
+      orgId: org.orgId,
+      instanceUrl: org.instanceUrl,
+      oauthMethod: org.oauthMethod,
+      configs: org.configs,
     };
-    if (org.error) base.Error = org.error || '';
+    if (org.error) base.error = org.error || '';
     return base;
   });
 }
 
-function extractColumns(orgs: OrgAuthorization[]): Array<keyof SalesforceOrg> {
-  const columns: Array<keyof SalesforceOrg> = [
-    'Aliases',
-    'Username',
-    'Org ID',
-    'Instance Url',
-    'Auth Method',
-    'Config',
-  ];
-  const hasErrors = orgs.some((org) => !!org.error);
-  return hasErrors ? [...columns, 'Error'] : columns;
-}
+export const KEYS = {
+  orgId: 'Org ID',
+  oauthMethod: 'Auth Method',
+  configs: 'Config',
+};
 
 const hook: SfHook.EnvList<SalesforceOrg> = async function (opts) {
   if (!(await AuthInfo.hasAuthentications())) throw messages.createError('error.NoAuthsAvailable');
@@ -71,13 +64,13 @@ const hook: SfHook.EnvList<SalesforceOrg> = async function (opts) {
   const salesforceOrgs = {
     title: 'Salesforce Orgs',
     data: extractData(grouped.nonScratchOrgs),
-    columns: extractColumns(grouped.nonScratchOrgs),
+    keys: KEYS,
   };
 
   const scratchOrgs = {
     title: 'Scratch Orgs',
     data: extractData(grouped.scratchOrgs),
-    columns: extractColumns(grouped.scratchOrgs),
+    keys: KEYS,
   };
 
   return [salesforceOrgs, scratchOrgs];

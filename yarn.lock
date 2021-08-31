@@ -879,10 +879,10 @@
   resolved "https://registry.yarnpkg.com/@salesforce/schemas/-/schemas-1.1.0.tgz#bbf94a11ee036f2b0ec6ba82306cd9565a6ba26b"
   integrity sha512-6D7DvE6nFxpLyyTnrOIbbAeCJw2r/EpinFAcMh6gU0gA/CGfSbwV/8uR3uHLYL2zCyCZLH8jJ4dZ3BzCMqc+Eg==
 
-"@salesforce/sf-plugins-core@^0.0.13":
-  version "0.0.13"
-  resolved "https://registry.npmjs.org/@salesforce/sf-plugins-core/-/sf-plugins-core-0.0.13.tgz#c7f762d94f1cb9bb36b3f486eaa24f66eccaf488"
-  integrity sha512-hw7dlMNwGlAuJAPaXWotj0JjOEZxr8yyC9Y/NwW1vtM/NFragv77z6QxUDBsebA6t9C+vub8rH0JTP950dvBpg==
+"@salesforce/sf-plugins-core@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.npmjs.org/@salesforce/sf-plugins-core/-/sf-plugins-core-0.0.15.tgz#f7458258c14aad6c1819511ae9a9dd1d474b4f6a"
+  integrity sha512-k5i2s2mmx7prWZrZUp8FByU9Gdi7AwgpBz0cF+9TpQ8nLdqIyWZez3fNRr79SUTBFE1/sExHtN/wUJX5j5m1tA==
   dependencies:
     "@oclif/core" "^0.5.33"
     "@salesforce/kit" "^1.5.8"
@@ -1062,11 +1062,6 @@
   version "15.12.4"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-15.12.4.tgz#e1cf817d70a1e118e81922c4ff6683ce9d422e26"
   integrity sha512-zrNj1+yqYF4WskCMOHwN+w9iuD12+dGm0rQ35HLl9/Ouuq52cEtd0CH9qMgrdNmi5ejC1/V7vKEXYubB+65DkA==
-
-"@types/node@^16.7.8":
-  version "16.7.8"
-  resolved "https://registry.npmjs.org/@types/node/-/node-16.7.8.tgz#2448be5f24fe6b77114632b6350fcd219334651e"
-  integrity sha512-8upnoQU0OPzbIkm+ZMM0zCeFCkw2s3mS0IWdx0+AAaWqm4fkBb0UJp8Edl7FVKRamYbpJC/aVsHpKWBIbiC7Zg==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"

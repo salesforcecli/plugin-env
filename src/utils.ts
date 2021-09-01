@@ -6,7 +6,7 @@
  */
 
 import { isArray } from '@salesforce/ts-types';
-import { camelCaseToTitleCase } from '@salesforce/kit';
+import { capitalCase } from 'change-case';
 import { JsonObject } from '@salesforce/sf-plugins-core';
 
 export function toValue(val: JsonObject[keyof JsonObject]): string | boolean | number {
@@ -16,5 +16,5 @@ export function toValue(val: JsonObject[keyof JsonObject]): string | boolean | n
 }
 
 export function toKey(key: string, translations: Record<string, string> = {}): string {
-  return translations[key] ?? camelCaseToTitleCase(key);
+  return translations[key] ?? capitalCase(key);
 }

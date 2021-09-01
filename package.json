@@ -8,6 +8,7 @@
     "@oclif/core": "^0.5.34",
     "@salesforce/core": "3.4.2",
     "@salesforce/sf-plugins-core": "^0.0.15",
+    "change-case": "^4.1.2",
     "cli-ux": "^5.6.3",
     "open": "^8.2.0",
     "tslib": "^2"

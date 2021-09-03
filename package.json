@@ -3,7 +3,7 @@
   "description": "An sf plugin for logging into and interacting with different Salesforce environments.",
   "version": "0.0.25",
   "author": "Salesforce",
-  "bugs": "https://github.com/forcedotcom/cli/issues",
+  "bugs": "https://github.com/salesforcecli/cli/issues",
   "dependencies": {
     "@oclif/core": "^0.5.34",
     "@salesforce/core": "3.4.2",

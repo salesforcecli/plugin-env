@@ -4,87 +4,71 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-/*
- * Copyright (c) 2020, salesforce.com, inc.
- * All rights reserved.
- * Licensed under the BSD 3-Clause license.
- * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
- */
-import { expect, test } from '@oclif/test';
-import { AuthInfo, OrgAuthorization } from '@salesforce/core';
 
-const expectedSfOrgs: Array<Partial<OrgAuthorization>> = [
-  {
-    orgId: '00Dxx12345678912345',
-    accessToken: '00Dxx12345678912345!fdkjlfsakjlsafdjldijafsjklsdfjklafdsjkl',
-    instanceUrl: 'https://some.salesforce.com',
-    oauthMethod: 'jwt',
-    username: 'some-user@some.salesforce.com',
-    aliases: [],
-  },
-  {
-    orgId: '00Dxx54321987654321',
-    accessToken: '00Dxx54321987654321!lasfdlkjasfdljkerwklj;afsdlkjdhk;f',
-    instanceUrl: 'https://some.other.salesforce.com',
-    aliases: ['someOtherAlias'],
-    oauthMethod: 'web',
-    username: 'some-other-user@some.other.salesforce.com',
-    error: 'some auth error',
-  },
-];
+import { expect, test } from '@oclif/test';
+import { OrgAuthorization } from '@salesforce/core';
+import { SfHook } from '@salesforce/sf-plugins-core';
+
+const ORG = {
+  orgId: '00Dxx12345678912345',
+  accessToken: '00Dxx12345678912345!fdkjlfsakjlsafdjldijafsjklsdfjklafdsjkl',
+  instanceUrl: 'https://some.salesforce.com',
+  oauthMethod: 'jwt',
+  username: 'some-user@some.salesforce.com',
+  aliases: ['MyOrg'],
+  config: ['target-org'],
+};
 
 describe('display unit tests', () => {
   test
-    .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
-    .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<Array<Partial<OrgAuthorization>>> => expectedSfOrgs)
+    .stub(SfHook, 'run', async () => ({ successes: [{ result: { data: ORG } }], failures: [] }))
     .stdout()
-    .command(['env:display', '--target-env', expectedSfOrgs[0].username, '--json'])
-    .it('should fetch requested username with json output', (ctx) => {
-      const sfOrgs = JSON.parse(ctx.stdout) as Array<Partial<OrgAuthorization>>;
-      expect(sfOrgs).to.be.deep.equal(expectedSfOrgs[0]);
+    .command(['env:display', '--target-env', ORG.username, '--json'])
+    .it('should display requested username with json output', (ctx) => {
+      const actual = JSON.parse(ctx.stdout) as OrgAuthorization;
+      expect(actual).to.be.deep.equal(ORG);
     });
+
   test
-    .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
-    .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<Array<Partial<OrgAuthorization>>> => expectedSfOrgs)
+    .stub(SfHook, 'run', async () => ({ successes: [{ result: { data: ORG } }], failures: [] }))
     .stdout()
-    .command(['env:display', '--target-env', expectedSfOrgs[0].username])
-    .it('should fetch requested username with human output', (ctx) => {
-      const stdout = ctx.stdout;
-      expectedSfOrgs.slice(0, 1).forEach((sfOrg) => {
-        expect(stdout).to.not.include(sfOrg.aliases[0]);
-        expect(stdout).to.include(sfOrg.orgId);
-        expect(stdout).to.include(sfOrg.username);
-        expect(stdout).to.include(sfOrg.oauthMethod);
-        expect(stdout).to.include(sfOrg.instanceUrl);
-        expect(stdout).to.not.include('timestamp');
-      });
+    .command(['env:display', '--target-env', ORG.username, '--json'])
+    .it('should display requested username with human output', (ctx) => {
+      expect(ctx.stdout).to.include(ORG.orgId);
+      expect(ctx.stdout).to.include(ORG.username);
+      expect(ctx.stdout).to.include(ORG.oauthMethod);
+      expect(ctx.stdout).to.include(ORG.instanceUrl);
+      expect(ctx.stdout).to.not.include('timestamp');
     });
+
   test
-    .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
-    .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<Array<Partial<OrgAuthorization>>> => expectedSfOrgs)
+    .stub(SfHook, 'run', async () => ({ successes: [{ result: { data: ORG } }], failures: [] }))
     .stdout()
-    .command(['env:display', '--target-env', expectedSfOrgs[1].aliases[0]])
-    .it('should fetch requested alias with human output', (ctx) => {
-      const stdout = ctx.stdout;
-      expectedSfOrgs.slice(1).forEach((sfOrg) => {
-        expect(stdout).to.include(sfOrg.aliases[0]);
-        expect(stdout).to.include(sfOrg.orgId);
-        expect(stdout).to.include(sfOrg.username);
-        expect(stdout).to.include(sfOrg.oauthMethod);
-        expect(stdout).to.include(sfOrg.instanceUrl);
-        expect(stdout).to.not.include('timestamp');
-      });
+    .command(['env:display', '--target-env', ORG.aliases[0], '--json'])
+    .it('should display requested alias with json output', (ctx) => {
+      const actual = JSON.parse(ctx.stdout) as OrgAuthorization;
+      expect(actual).to.be.deep.equal(ORG);
     });
-  // this test will start to fail when env plugin incorporates more than authorization environment
+
   test
-    .stub(AuthInfo, 'hasAuthentications', async (): Promise<boolean> => true)
-    .stub(AuthInfo, 'listAllAuthorizations', async (): Promise<Array<Partial<OrgAuthorization>>> => expectedSfOrgs)
+    .stub(SfHook, 'run', async () => ({ successes: [{ result: { data: ORG } }], failures: [] }))
+    .stdout()
+    .command(['env:display', '--target-env', ORG.aliases[0], '--json'])
+    .it('should display requested alias with human output', (ctx) => {
+      expect(ctx.stdout).to.include(ORG.orgId);
+      expect(ctx.stdout).to.include(ORG.username);
+      expect(ctx.stdout).to.include(ORG.oauthMethod);
+      expect(ctx.stdout).to.include(ORG.instanceUrl);
+      expect(ctx.stdout).to.not.include('timestamp');
+    });
+
+  test
     .stdout()
     .stderr()
     .command(['env:display'])
     .catch((error) =>
       expect(error.message).to.to.include(
-        'No default environment found. Use -e or --target-env to specify an environment to open.'
+        'No default environment found. Use -e or --target-env to specify an environment to display.'
       )
     )
     .it('should throw error if --target-env is not specified');

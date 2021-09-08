@@ -6,13 +6,15 @@
  */
 
 import { Command, Flags } from '@oclif/core';
-import { cli, Table } from 'cli-ux';
-import { AuthInfo, OrgAuthorization, Messages, SfdxError } from '@salesforce/core';
+import { cli } from 'cli-ux';
+import { Messages, SfdxError } from '@salesforce/core';
+import { JsonObject, SfHook } from '@salesforce/sf-plugins-core';
+import { toKey, toValue } from '../../utils';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'list');
 
-export type Environments = OrgAuthorization[];
+export type Environments = JsonObject[];
 
 export default class EnvList extends Command {
   public static readonly summary = messages.getMessage('summary');
@@ -29,11 +31,6 @@ export default class EnvList extends Command {
     }),
     csv: Flags.boolean({
       summary: messages.getMessage('flags.csv.summary'),
-    }),
-    extended: Flags.boolean({
-      char: 'x',
-      summary: messages.getMessage('flags.extended.summary'),
-      hidden: true,
     }),
     filter: Flags.string({
       summary: messages.getMessage('flags.filter.summary'),
@@ -56,7 +53,6 @@ export default class EnvList extends Command {
     all: boolean;
     columns: string[];
     csv: boolean;
-    extended: boolean;
     filter: string;
     json: boolean;
     'no-header': boolean;
@@ -67,84 +63,47 @@ export default class EnvList extends Command {
 
   public async run(): Promise<Environments> {
     this.flags = (await this.parse(EnvList)).flags;
+    const tableOpts = {
+      columns: this.flags.columns?.join(','),
+      csv: this.flags.csv,
+      filter: this.flags.filter,
+      'no-header': this.flags['no-header'],
+      'no-truncate': this.flags['no-truncate'],
+      output: this.flags.output,
+      sort: this.flags.sort,
+    };
 
-    if (!(await AuthInfo.hasAuthentications())) throw messages.createError('error.NoAuthsAvailable');
-    const envs = [] as Environments;
+    const final: Environments = [];
+
     try {
-      const orgs = await this.handleSfOrgs();
-      envs.push(...orgs);
+      const results = await SfHook.run(this.config, 'sf:env:list', { all: this.flags.all });
+      const tables = results.successes
+        .map((r) => r.result)
+        .reduce((x, y) => x.concat(y), [])
+        .filter((t) => t.data.length > 0);
+
+      for (const table of tables) {
+        final.push(...table.data);
+        if (!this.jsonEnabled()) {
+          const columns = table.data.flatMap(Object.keys).reduce((x, y) => {
+            if (x[y]) return x;
+            const columnEntry = {
+              header: toKey(y, table.keys),
+              get: (v: JsonObject[keyof JsonObject]): string | number | boolean => toValue(v[y]),
+            };
+            return { ...x, [y]: columnEntry };
+          }, {});
+
+          cli.table(table.data, columns, { ...tableOpts, title: table.title });
+          cli.log();
+        }
+      }
     } catch (error) {
       const err = error as SfdxError;
       cli.log(messages.getMessage('error.NoResultsFound'));
       cli.error(err);
     }
 
-    return envs;
-  }
-
-  private async handleSfOrgs(): Promise<OrgAuthorization[]> {
-    let auths: OrgAuthorization[];
-
-    if (this.flags.all) {
-      auths = await AuthInfo.listAllAuthorizations();
-    } else {
-      // Only get active auths
-      auths = await AuthInfo.listAllAuthorizations((auth) => auth.isExpired !== true);
-    }
-
-    const grouped = {
-      nonScratchOrgs: [] as OrgAuthorization[],
-      scratchOrgs: [] as OrgAuthorization[],
-    };
-    for (const auth of auths) {
-      if (auth.isScratchOrg) {
-        grouped.scratchOrgs = grouped.scratchOrgs.concat(auth);
-      } else {
-        grouped.nonScratchOrgs = grouped.nonScratchOrgs.concat(auth);
-      }
-    }
-
-    const buildSfTable = (orgs: OrgAuthorization[], title: string): void => {
-      if (!orgs.length) return;
-      const hasErrors = orgs.some((auth) => !!auth.error);
-      const columns = {
-        aliases: {
-          get: (row: { aliases?: string[] }) => (row.aliases ? row.aliases.join(', ') : ''),
-        },
-        username: {},
-        orgId: { header: 'Org ID' },
-        instanceUrl: { header: 'Instance URL' },
-        oauthMethod: { header: 'Auth Method' },
-        configs: {
-          header: 'Config',
-          get: (row: { configs?: string[] }) => (row.configs ? row.configs.join(', ') : ''),
-        },
-      } as Table.table.Columns<Partial<OrgAuthorization>>;
-      if (hasErrors) {
-        columns.error = {
-          get: (row: { error?: string }) => row.error ?? '',
-        } as Table.table.Columns<Partial<OrgAuthorization>>;
-      }
-
-      cli.table(orgs, columns, {
-        title,
-        extended: this.flags.extended,
-        columns: this.flags.columns?.join(','),
-        csv: this.flags.csv,
-        filter: this.flags.filter,
-        'no-header': this.flags['no-header'],
-        'no-truncate': this.flags['no-truncate'],
-        output: this.flags.output,
-        sort: this.flags.sort,
-      });
-      this.log();
-    };
-
-    if (!this.flags.json) {
-      buildSfTable(grouped.nonScratchOrgs, 'Salesforce Orgs');
-      buildSfTable(grouped.scratchOrgs, 'Scratch Orgs');
-    }
-
-    return auths;
+    return final;
   }
 }

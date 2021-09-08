@@ -3,10 +3,12 @@
   "description": "An sf plugin for logging into and interacting with different Salesforce environments.",
   "version": "0.0.25",
   "author": "Salesforce",
-  "bugs": "https://github.com/forcedotcom/cli/issues",
+  "bugs": "https://github.com/salesforcecli/cli/issues",
   "dependencies": {
-    "@oclif/core": "^0.5.31",
-    "@salesforce/core": "3.4.3",
+    "@oclif/core": "^0.5.35",
+    "@salesforce/core": "3.4.5",
+    "@salesforce/sf-plugins-core": "^0.0.16",
+    "change-case": "^4.1.2",
     "cli-ux": "^5.6.3",
     "open": "^8.2.0",
     "tslib": "^2"
@@ -74,6 +76,10 @@
     "commands": "./lib/commands",
     "bin": "sf",
     "topicSeparator": " ",
+    "hooks": {
+      "sf:env:display": "./lib/hooks/envDisplay",
+      "sf:env:list": "./lib/hooks/envList"
+    },
     "devPlugins": [
       "@oclif/plugin-help",
       "@oclif/plugin-command-snapshot",

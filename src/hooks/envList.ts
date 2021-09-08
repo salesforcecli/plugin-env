@@ -54,11 +54,8 @@ const hook: SfHook.EnvList<SalesforceOrg> = async function (opts) {
     scratchOrgs: [] as OrgAuthorization[],
   };
   for (const org of orgs) {
-    if (org.isScratchOrg) {
-      grouped.scratchOrgs = grouped.scratchOrgs.concat(org);
-    } else {
-      grouped.nonScratchOrgs = grouped.nonScratchOrgs.concat(org);
-    }
+    if (org.isScratchOrg) grouped.scratchOrgs.push(org);
+    else grouped.nonScratchOrgs.push(org);
   }
 
   const salesforceOrgs = {

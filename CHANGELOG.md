@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.26](https://github.com/salesforcecli/plugin-env/compare/v0.0.25...v0.0.26) (2021-09-08)
+
+
+### Features
+
+* use hooks for list and display ([2af7d2f](https://github.com/salesforcecli/plugin-env/commit/2af7d2f5ebfdc769979a659e5cd87c56b61b50d1))
+
+
+### Bug Fixes
+
+* use change-case ([4e56488](https://github.com/salesforcecli/plugin-env/commit/4e5648862d11337d4f0a6e93ab3acb704278c53d))
+* use latest sf-plugins-core ([936749f](https://github.com/salesforcecli/plugin-env/commit/936749f515b49e66a4b4635d54b594b89d8d0eab))
+
 ### [0.0.25](https://github.com/salesforcecli/plugin-env/compare/v0.0.24...v0.0.25) (2021-08-18)
 
 

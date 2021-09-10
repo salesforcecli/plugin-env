@@ -42,8 +42,8 @@ describe('list unit tests', () => {
     .stdout()
     .command(['env:list', '--json'])
     .it('should list active orgs with json output', (ctx) => {
-      const sfOrgs = JSON.parse(ctx.stdout) as OrgAuthorization[];
-      expect(sfOrgs).to.be.deep.equal(expectedSfOrgs);
+      const sfOrgs = JSON.parse(ctx.stdout) as { result: OrgAuthorization[] };
+      expect(sfOrgs.result).to.be.deep.equal(expectedSfOrgs);
     });
 
   test

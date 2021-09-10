@@ -7,7 +7,7 @@
 
 import * as path from 'path';
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
-import { SfdxPropertyKeys } from '@salesforce/core';
+import { OrgConfigProperties } from '@salesforce/core';
 import { env } from '@salesforce/kit';
 import { expect } from 'chai';
 
@@ -18,9 +18,9 @@ describe('env display NUTs', () => {
     env.setString('TESTKIT_EXECUTABLE_PATH', path.join(process.cwd(), 'bin', 'dev'));
     session = await TestSession.create({});
 
-    const config = execCmd<Array<{ value: string }>>(`config get ${SfdxPropertyKeys.DEFAULT_DEV_HUB_USERNAME} --json`, {
+    const config = execCmd<Array<{ value: string }>>(`config get ${OrgConfigProperties.TARGET_DEV_HUB} --json`, {
       cli: 'sf',
-    }).jsonOutput;
+    }).jsonOutput.result;
     usernameOrAlias = config[0].value;
 
     if (!usernameOrAlias) throw Error('no default username set');

@@ -6,7 +6,8 @@
  */
 
 import { URL } from 'url';
-import { Command, Flags } from '@oclif/core';
+import { Flags } from '@oclif/core';
+import { SfCommand } from '@salesforce/command';
 import { Logger, Messages, Org, SfdxError } from '@salesforce/core';
 import * as open from 'open';
 import type { Options } from 'open';
@@ -19,7 +20,7 @@ type Environment = { name: string; openUrl: string };
 
 export type OpenResult = { url: string };
 
-export default class EnvOpen extends Command {
+export default class EnvOpen extends SfCommand<OpenResult> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');

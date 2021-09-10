@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.27](https://github.com/salesforcecli/plugin-env/compare/v0.0.26...v0.0.27) (2021-09-10)
+
+
+### Features
+
+* use SfCommand ([#135](https://github.com/salesforcecli/plugin-env/issues/135)) ([4182bcc](https://github.com/salesforcecli/plugin-env/commit/4182bccfbf926f87debd9cca717a6295a8ff1acd))
+
 ### [0.0.26](https://github.com/salesforcecli/plugin-env/compare/v0.0.25...v0.0.26) (2021-09-08)
 
 

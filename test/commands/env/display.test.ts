@@ -25,8 +25,8 @@ describe('display unit tests', () => {
     .stdout()
     .command(['env:display', '--target-env', ORG.username, '--json'])
     .it('should display requested username with json output', (ctx) => {
-      const actual = JSON.parse(ctx.stdout) as OrgAuthorization;
-      expect(actual).to.be.deep.equal(ORG);
+      const actual = JSON.parse(ctx.stdout) as { result: OrgAuthorization };
+      expect(actual.result).to.be.deep.equal(ORG);
     });
 
   test
@@ -46,8 +46,8 @@ describe('display unit tests', () => {
     .stdout()
     .command(['env:display', '--target-env', ORG.aliases[0], '--json'])
     .it('should display requested alias with json output', (ctx) => {
-      const actual = JSON.parse(ctx.stdout) as OrgAuthorization;
-      expect(actual).to.be.deep.equal(ORG);
+      const actual = JSON.parse(ctx.stdout) as { result: OrgAuthorization };
+      expect(actual.result).to.be.deep.equal(ORG);
     });
 
   test

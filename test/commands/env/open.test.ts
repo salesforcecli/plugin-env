@@ -4,18 +4,6 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-/*
- * Copyright (c) 2020, salesforce.com, inc.
- * All rights reserved.
- * Licensed under the BSD 3-Clause license.
- * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
- */
-/*
- * Copyright (c) 2020, salesforce.com, inc.
- * All rights reserved.
- * Licensed under the BSD 3-Clause license.
- * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
- */
 import { expect, test } from '@oclif/test';
 import { AuthInfo, Connection, Org, SfOrg } from '@salesforce/core';
 
@@ -70,11 +58,11 @@ describe('open unit tests', () => {
     ])
     .it('should open environment with redirect path with json output', (ctx) => {
       const stdout = ctx.stdout;
-      const url = JSON.parse(stdout) as OpenResult;
+      const { result } = JSON.parse(stdout) as { result: OpenResult };
       const urlStartRegEx = new RegExp(`^${expectedSfOrgs[0].instanceUrl}.*`);
       const urlEndRegEx = new RegExp(`.*[?,&]retURL=${encodeURIComponent('/foo/bar/baz/')}`);
-      expect(url.url).match(urlStartRegEx);
-      expect(url.url).match(urlEndRegEx);
+      expect(result.url).match(urlStartRegEx);
+      expect(result.url).match(urlEndRegEx);
     });
   test
     .stub(Connection.prototype, 'getAuthInfo', (): AuthInfo => {
@@ -100,8 +88,8 @@ describe('open unit tests', () => {
     .command(['env:open', '--target-env', expectedSfOrgs[0].username, '--json'])
     .it('should open requested environment', (ctx) => {
       const stdout = ctx.stdout;
-      const url = JSON.parse(stdout) as OpenResult;
-      expect(url.url).to.be.equal(expectedSfOrgs[0].instanceUrl);
+      const { result } = JSON.parse(stdout) as { result: OpenResult };
+      expect(result.url).to.be.equal(expectedSfOrgs[0].instanceUrl);
     });
   test
     .stdout()

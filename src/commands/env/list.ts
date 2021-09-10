@@ -5,7 +5,8 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import { Command, Flags } from '@oclif/core';
+import { Flags } from '@oclif/core';
+import { SfCommand } from '@salesforce/command';
 import { cli } from 'cli-ux';
 import { Messages, SfdxError } from '@salesforce/core';
 import { JsonObject, SfHook } from '@salesforce/sf-plugins-core';
@@ -16,7 +17,7 @@ const messages = Messages.loadMessages('@salesforce/plugin-env', 'list');
 
 export type Environments = JsonObject[];
 
-export default class EnvList extends Command {
+export default class EnvList extends SfCommand<Environments> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');

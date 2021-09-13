@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.28](https://github.com/salesforcecli/plugin-env/compare/v0.0.27...v0.0.28) (2021-09-13)
+
+
+### Bug Fixes
+
+* bump deps so that are uniform across plugins ([#137](https://github.com/salesforcecli/plugin-env/issues/137)) ([453c3ed](https://github.com/salesforcecli/plugin-env/commit/453c3ed598114a2d5a92ba2ebc59f44ffe677f63))
+
 ### [0.0.27](https://github.com/salesforcecli/plugin-env/compare/v0.0.26...v0.0.27) (2021-09-10)
 
 

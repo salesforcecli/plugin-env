@@ -12,7 +12,7 @@ const hook: SfHook.EnvDisplay<OrgAuthorization> = async function (opts) {
   const orgs = await AuthInfo.listAllAuthorizations();
   const data =
     orgs.find((org) => org.username === opts.targetEnv) ?? orgs.find((org) => org.aliases?.includes(opts.targetEnv));
-  delete data['timestamp'];
+  if (data) delete data['timestamp'];
   return {
     data,
     keys: { orgId: 'Org ID', oauthMethod: 'Auth Method' },

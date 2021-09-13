@@ -121,10 +121,8 @@ FLAGS
   --filter=<value>      Filter property by partial string matching.
   --no-header           Hide table header from output.
   --no-truncate         Don't truncate output to fit screen.
-
   --output=<option>     Format in which to display the output.
                         <options: csv|json|yaml>
-
   --sort=<value>        Column to sort by (prepend '-' for descending).
 
 GLOBAL FLAGS

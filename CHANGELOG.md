@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.29](https://github.com/salesforcecli/plugin-env/compare/v0.0.28...v0.0.29) (2021-09-14)
+
+
+### Features
+
+* **cli:** add plugin-functions to devPlugins for implementation of list and display hooks [skip ci] ([#139](https://github.com/salesforcecli/plugin-env/issues/139)) ([33fac72](https://github.com/salesforcecli/plugin-env/commit/33fac725adb0f9a4943a4c5a8528ff42a82fa256))
+
+
+### Bug Fixes
+
+* check if data exists ([#138](https://github.com/salesforcecli/plugin-env/issues/138)) ([520988b](https://github.com/salesforcecli/plugin-env/commit/520988b7e538d6d2a3a3c971b01db0672f91498a))
+
 ### [0.0.28](https://github.com/salesforcecli/plugin-env/compare/v0.0.27...v0.0.28) (2021-09-13)
 
 

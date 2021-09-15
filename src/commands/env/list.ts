@@ -6,10 +6,9 @@
  */
 
 import { Flags } from '@oclif/core';
-import { SfCommand } from '@salesforce/command';
 import { cli } from 'cli-ux';
 import { Messages, SfdxError } from '@salesforce/core';
-import { JsonObject, SfHook } from '@salesforce/sf-plugins-core';
+import { SfCommand, JsonObject, SfHook } from '@salesforce/sf-plugins-core';
 import { toKey, toValue } from '../../utils';
 
 Messages.importMessagesDirectory(__dirname);

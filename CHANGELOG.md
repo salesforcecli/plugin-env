@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.30](https://github.com/salesforcecli/plugin-env/compare/v0.0.29...v0.0.30) (2021-09-15)
+
+
+### Bug Fixes
+
+* replace command with sf-plugins-core ([#140](https://github.com/salesforcecli/plugin-env/issues/140)) ([17ff5b2](https://github.com/salesforcecli/plugin-env/commit/17ff5b26bf7b8f4b078d315c5bfa0a9bdaa4d0a6))
+
 ### [0.0.29](https://github.com/salesforcecli/plugin-env/compare/v0.0.28...v0.0.29) (2021-09-14)
 
 

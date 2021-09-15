@@ -7,7 +7,7 @@
 
 import { Flags } from '@oclif/core';
 import { cli } from 'cli-ux';
-import { Messages, SfdxError } from '@salesforce/core';
+import { Messages } from '@salesforce/core';
 import { SfCommand, JsonObject, SfHook } from '@salesforce/sf-plugins-core';
 import { toKey, toValue } from '../../utils';
 
@@ -75,13 +75,16 @@ export default class EnvList extends SfCommand<Environments> {
 
     const final: Environments = [];
 
-    try {
-      const results = await SfHook.run(this.config, 'sf:env:list', { all: this.flags.all });
-      const tables = results.successes
-        .map((r) => r.result)
-        .reduce((x, y) => x.concat(y), [])
-        .filter((t) => t.data.length > 0);
+    const results = await SfHook.run(this.config, 'sf:env:list', { all: this.flags.all });
+    const tables = results.successes
+      .map((r) => r.result)
+      .reduce((x, y) => x.concat(y), [])
+      .filter((t) => t.data.length > 0);
 
+    if (tables.length === 0) {
+      cli.log(messages.getMessage('error.NoResultsFound'));
+      return [];
+    } else {
       for (const table of tables) {
         final.push(...table.data);
         if (!this.jsonEnabled()) {
@@ -98,10 +101,6 @@ export default class EnvList extends SfCommand<Environments> {
           cli.log();
         }
       }
-    } catch (error) {
-      const err = error as SfdxError;
-      cli.log(messages.getMessage('error.NoResultsFound'));
-      cli.error(err);
     }
 
     return final;

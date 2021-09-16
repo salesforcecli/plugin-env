@@ -54,8 +54,8 @@ export default class EnvDisplay extends SfCommand<JsonObject> {
       }
     } catch (error) {
       const err = error as SfdxError;
-      cli.log(messages.getMessage('error.NoResultsFound'));
-      cli.error(err);
+      this.log(messages.getMessage('error.NoResultsFound'));
+      this.error(err);
     }
 
     return data;

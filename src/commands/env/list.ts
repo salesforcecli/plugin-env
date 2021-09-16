@@ -82,7 +82,7 @@ export default class EnvList extends SfCommand<Environments> {
       .filter((t) => t.data.length > 0);
 
     if (tables.length === 0) {
-      cli.log(messages.getMessage('error.NoResultsFound'));
+      this.log(messages.getMessage('error.NoResultsFound'));
       return [];
     } else {
       for (const table of tables) {
@@ -98,7 +98,7 @@ export default class EnvList extends SfCommand<Environments> {
           }, {});
 
           cli.table(table.data, columns, { ...tableOpts, title: table.title });
-          cli.log();
+          this.log();
         }
       }
     }

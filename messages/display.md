@@ -4,9 +4,9 @@ Display details about an environment.
 
 # description
 
-Specify an environment with either the username you used when you ran the "sf login" command or the environment's alias. Run "sf env list" to view all your environments and their aliases.
+Specify an environment with either the username you used when you logged into the environment with "sf login", or the alias you gave the environment when you created it. Run "sf env list" to view all your environments and their aliases.
 
-Output depends on the type of environment. For example, scratch org details include the access token, alias, username of the associated Dev Hub, the creation and expiration date, the generated scratch org username, and more. Compute environment details include the associated orgs, the list of functions, the project name, and more.
+Output depends on the type of environment. For example, scratch org details include the access token, alias, username of the associated Dev Hub, the creation and expiration date, the generated scratch org username, and more. Compute environment details include the alias, connected orgs, creation date, project name, and more.
 
 # examples
 
@@ -40,4 +40,4 @@ No default environment found. Use -e or --target-env to specify an environment t
 
 # error.NoAuthsAvailable
 
-There are no authentications available.
+No authenticated environments found. Log in or create an environment, and then try again.

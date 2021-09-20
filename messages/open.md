@@ -50,7 +50,7 @@ You can specify that the environment open in one of the following browsers: Fire
 
 # error.NoDefaultEnv
 
-No default target-env found. Use --target-env to specify the environment to open.
+No default environment found. Use -e or --target-env to specify an environment to open. 
 
 # error.NoEnvFound
 

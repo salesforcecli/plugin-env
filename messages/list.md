@@ -6,9 +6,11 @@ List the environments you’ve created or logged into.
 
 By default, the command displays active environments. For orgs, active means unexpired scratch orgs and orgs you’re currently logged into.
 
-Output is displayed in multiple tables, one for each environment type. For example, the Salesforce Orgs table lists the non-scratch orgs you’re logged into, such as sandboxes, Dev Hubs, production orgs, and so on. Scratch orgs get their own table.
+Output is displayed in multiple tables, one for each environment type. For example, the Salesforce Orgs table lists the non-scratch orgs you’re logged into, such as sandboxes, Dev Hubs, production orgs, and so on. Scratch orgs and compute environments get their own tables.
 
-For non-scratch orgs, the Username column refers to the user you logged into the org with. For scratch orgs it refers to the username that was generated for you when you created the scratch org. The table also displays the local alias for the org, the org's ID, the instance URL that hosts the org, and how you authorized (logged into) the org, either using a web browser or JWT. The Config column indicates your default scratch org or Dev Hub org with the target-org or target-dev-hub variable, respectively. 
+The two org tables show similar information, such as aliases, information about the org, and how you authorized (logged into) it, such as with a web browser or JWT. The scratch org table also shows the expiration date. For non-scratch orgs, the Username column refers to the user you logged into the org with. For scratch orgs it refers to the username that was generated for you when you created the scratch org. Your default scratch org or Dev Hub org is indicated with the "target-org" or "target-dev-hub" configuration variable, respectively, in the Config column.
+
+The compute environment table shows the alias, information about the connected orgs, the project name, and more. 
 
 Use the table manipulation flags, such as --filter and --sort, to change how the data is displayed.
 
@@ -78,7 +80,7 @@ Column to sort by (prepend '-' for descending).
 
 # error.NoAuthsAvailable
 
-There are no authentications available.
+No authenticated environments found. Log in or create an environment, and then try again.
 
 # error.NoResultsFound
 

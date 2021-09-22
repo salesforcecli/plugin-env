@@ -88,4 +88,4 @@ No results found.
 
 # warning.RequestedColumnsNotPresentInEnvironment
 
-The columns specified on the command line (%s) are not present in Environment "%s".
+The columns you specified (%s) aren't available in the table for environment "%s".

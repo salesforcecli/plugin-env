@@ -96,7 +96,7 @@ describe('open unit tests', () => {
     .command(['env:open'])
     .catch((error) =>
       expect(error.message).to.to.include(
-        'No default target-env found. Use --target-env to specify the environment to open.'
+        'No default environment found. Use -e or --target-env to specify an environment to open.'
       )
     )
     .it('should throw error if --target-env is not specified');

@@ -10,7 +10,7 @@ Output is displayed in multiple tables, one for each environment type. For examp
 
 The two org tables show similar information, such as aliases, information about the org, and how you authorized (logged into) it, such as with a web browser or JWT. The scratch org table also shows the expiration date. For non-scratch orgs, the Username column refers to the user you logged into the org with. For scratch orgs it refers to the username that was generated for you when you created the scratch org. Your default scratch org or Dev Hub org is indicated with the "target-org" or "target-dev-hub" configuration variable, respectively, in the Config column.
 
-The compute environment table shows the alias, information about the connected orgs, the project name, and more. 
+The compute environment table shows the alias, information about the connected orgs, the project name, and more.
 
 Use the table manipulation flags, such as --filter and --sort, to change how the data is displayed.
 
@@ -44,7 +44,7 @@ Run "sf env display" to view details about a specific environment.
 
 # flags.all.summary
 
-Show all environments, even inactive ones. 
+Show all environments, even inactive ones.
 
 # flags.extended.summary
 
@@ -85,3 +85,7 @@ No authenticated environments found. Log in or create an environment, and then t
 # error.NoResultsFound
 
 No results found.
+
+# warning.RequestedColumnsNotPresentInEnvironment
+
+The columns specified on the command line (%s) are not present in Environment "%s".

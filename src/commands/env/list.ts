@@ -118,14 +118,7 @@ export default class EnvList extends SfCommand<Environments> {
             return { ...x, [y]: columnEntry };
           }, {});
 
-          if (
-            Object.entries(columns).some(([, value]) => {
-              if (this.flags?.columns) {
-                return this.flags?.columns.includes(value['header']);
-              }
-              return true;
-            })
-          ) {
+          if (this.checkTableForNamedColumns(columns)) {
             cli.table(table.data, columns, { ...tableOpts, title: table.title });
             this.log();
           } else {
@@ -138,5 +131,14 @@ export default class EnvList extends SfCommand<Environments> {
     }
 
     return final;
+  }
+
+  private checkTableForNamedColumns(columns): boolean {
+    return Object.entries(columns).some(([, value]) => {
+      if (this.flags?.columns) {
+        return this.flags?.columns.includes(value['header']);
+      }
+      return true;
+    });
   }
 }

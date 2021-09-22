@@ -69,7 +69,7 @@ sfdx plugins
 
 ## `sf env display`
 
-Specify an environment with either the username you used when you ran the "sf login" command or the environment's alias. Run "sf env list" to view all your environments and their aliases.
+Specify an environment with either the username you used when you logged into the environment with "sf login", or the alias you gave the environment when you created it. Run "sf env list" to view all your environments and their aliases.
 
 ```
 USAGE
@@ -84,12 +84,12 @@ GLOBAL FLAGS
 DESCRIPTION
   Display details about an environment.
 
-  Specify an environment with either the username you used when you ran the "sf login" command or the environment's
-  alias. Run "sf env list" to view all your environments and their aliases.
+  Specify an environment with either the username you used when you logged into the environment with "sf login", or the
+  alias you gave the environment when you created it. Run "sf env list" to view all your environments and their aliases.
 
   Output depends on the type of environment. For example, scratch org details include the access token, alias, username
   of the associated Dev Hub, the creation and expiration date, the generated scratch org username, and more. Compute
-  environment details include the associated orgs, the list of functions, the project name, and more.
+  environment details include the alias, connected orgs, creation date, project name, and more.
 
 EXAMPLES
   Display details about a scratch org with alias my-scratch-org:
@@ -135,14 +135,16 @@ DESCRIPTION
   currently logged into.
 
   Output is displayed in multiple tables, one for each environment type. For example, the Salesforce Orgs table lists
-  the non-scratch orgs you’re logged into, such as sandboxes, Dev Hubs, production orgs, and so on. Scratch orgs get
-  their own table.
+  the non-scratch orgs you’re logged into, such as sandboxes, Dev Hubs, production orgs, and so on. Scratch orgs and
+  compute environments get their own tables.
 
-  For non-scratch orgs, the Username column refers to the user you logged into the org with. For scratch orgs it refers
-  to the username that was generated for you when you created the scratch org. The table also displays the local alias
-  for the org, the org's ID, the instance URL that hosts the org, and how you authorized (logged into) the org, either
-  using a web browser or JWT. The Config column indicates your default scratch org or Dev Hub org with the target-org or
-  target-dev-hub variable, respectively.
+  The two org tables show similar information, such as aliases, information about the org, and how you authorized
+  (logged into) it, such as with a web browser or JWT. The scratch org table also shows the expiration date. For
+  non-scratch orgs, the Username column refers to the user you logged into the org with. For scratch orgs it refers to
+  the username that was generated for you when you created the scratch org. Your default scratch org or Dev Hub org is
+  indicated with the "target-org" or "target-dev-hub" configuration variable, respectively, in the Config column.
+
+  The compute environment table shows the alias, information about the connected orgs, the project name, and more.
 
   Use the table manipulation flags, such as --filter and --sort, to change how the data is displayed.
 

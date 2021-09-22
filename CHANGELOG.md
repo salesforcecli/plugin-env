@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.33](https://github.com/salesforcecli/plugin-env/compare/v0.0.32...v0.0.33) (2021-09-22)
+
+
+### Bug Fixes
+
+* minor edit of description and a err messages ([693746b](https://github.com/salesforcecli/plugin-env/commit/693746b6335e889811d5adc3c95e1798e0c9c693))
+* minor edit of error message ([88b4905](https://github.com/salesforcecli/plugin-env/commit/88b490581107022ae5d00931873620e2b263e1ee))
+* minor edits to help and error messages ([c3dd2b5](https://github.com/salesforcecli/plugin-env/commit/c3dd2b52c33ca4bd067632db82686ddc6b4addd7))
+* update "open" tests w/edited error message ([76de065](https://github.com/salesforcecli/plugin-env/commit/76de065134850af19059b8d97f5348f84c771a4a))
+
 ### [0.0.32](https://github.com/salesforcecli/plugin-env/compare/v0.0.31...v0.0.32) (2021-09-16)
 
 

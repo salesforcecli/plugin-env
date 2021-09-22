@@ -3,9 +3,12 @@
   "$ref": "#/definitions/Environments",
   "definitions": {
     "Environments": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/JsonObject"
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/JsonObject"
+        }
       }
     },
     "JsonObject": {

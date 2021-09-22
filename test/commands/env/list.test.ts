@@ -5,9 +5,9 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import { expect, test } from '@oclif/test';
-import { OrgAuthorization } from '@salesforce/core';
 import { SfHook } from '@salesforce/sf-plugins-core';
 import { KEYS, SalesforceOrg } from '../../../src/hooks/envList';
+import { Environments } from '../../../lib/commands/env/list';
 
 const expectedSfOrgs: SalesforceOrg[] = [
   {
@@ -29,8 +29,11 @@ const expectedSfOrgs: SalesforceOrg[] = [
   },
 ];
 
+const expectedEnvironments: Environments = {
+  salesforceOrgs: expectedSfOrgs,
+};
 const makeTableObj = (title: string, data: SalesforceOrg[]) => {
-  return { title, data, keys: KEYS };
+  return { type: 'salesforceOrgs', title, data, keys: KEYS };
 };
 
 describe('list unit tests', () => {
@@ -42,8 +45,8 @@ describe('list unit tests', () => {
     .stdout()
     .command(['env:list', '--json'])
     .it('should list active orgs with json output', (ctx) => {
-      const sfOrgs = JSON.parse(ctx.stdout) as { result: OrgAuthorization[] };
-      expect(sfOrgs.result).to.be.deep.equal(expectedSfOrgs);
+      const sfOrgs = JSON.parse(ctx.stdout) as { result: Environments };
+      expect(sfOrgs.result).to.be.deep.equal(expectedEnvironments);
     });
 
   test
@@ -71,7 +74,7 @@ describe('list unit tests', () => {
       failures: [],
     }))
     .stdout()
-    .command(['env:list', '--columns', 'org Id,username'])
+    .command(['env:list', '--columns', 'Org Id', '--columns', 'Username'])
     .it('should list active orgs with human output and display selected columns', (ctx) => {
       const stdout = ctx.stdout;
       expect(stdout).to.be.ok;

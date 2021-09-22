@@ -108,11 +108,13 @@ describe('envList hook', () => {
     const result = await hook({ all: false });
     expect(result).to.deep.equal([
       {
+        type: 'salesforceOrgs',
         title: 'Salesforce Orgs',
         data: EXPECTED_ORGS.slice(0, 2),
         keys: KEYS,
       },
       {
+        type: 'scratchOrgs',
         title: 'Scratch Orgs',
         data: [EXPECTED_ORGS[2]],
         keys: KEYS,
@@ -128,11 +130,13 @@ describe('envList hook', () => {
     const result = await hook({ all: true });
     expect(result).to.deep.equal([
       {
+        type: 'salesforceOrgs',
         title: 'Salesforce Orgs',
         data: EXPECTED_ORGS.slice(0, 2),
         keys: KEYS,
       },
       {
+        type: 'scratchOrgs',
         title: 'Scratch Orgs',
         data: EXPECTED_ORGS.slice(2),
         keys: KEYS,

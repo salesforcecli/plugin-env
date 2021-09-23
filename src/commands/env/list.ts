@@ -8,13 +8,33 @@
 import { Flags } from '@oclif/core';
 import { cli } from 'cli-ux';
 import { Messages } from '@salesforce/core';
-import { SfCommand, JsonObject, SfHook } from '@salesforce/sf-plugins-core';
+import { SfCommand, JsonObject, SfHook, EnvList as Env } from '@salesforce/sf-plugins-core';
 import { toKey, toValue } from '../../utils';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'list');
 
-export type Environments = JsonObject[];
+const envTypeValues = Object.keys(Env.EnvType);
+const envOrderBy = (a: Env.Table<JsonObject>, b: Env.Table<JsonObject>): number => {
+  // both a && b are well known
+  if (envTypeValues.includes(a.type) && envTypeValues.includes(a.type)) {
+    if (a.type === Env.EnvType.salesforceOrgs && b.type !== Env.EnvType.salesforceOrgs) return -1;
+    if (a.type !== Env.EnvType.salesforceOrgs && b.type === Env.EnvType.salesforceOrgs) return 1;
+    if (a.type === Env.EnvType.scratchOrgs && b.type !== Env.EnvType.scratchOrgs) return -1;
+    return 1;
+  }
+  // both a && b are user defined - use natural sort
+  if (!envTypeValues.includes(a.type) && !envTypeValues.includes(a.type)) {
+    return a.type.localeCompare(b.type);
+  }
+  // well known always come before user defined
+  if (envTypeValues.includes(a.type)) return -1;
+  return 1;
+};
+
+export type Environments = {
+  [type: string]: JsonObject[];
+};
 
 export default class EnvList extends SfCommand<Environments> {
   public static readonly summary = messages.getMessage('summary');
@@ -73,20 +93,21 @@ export default class EnvList extends SfCommand<Environments> {
       sort: this.flags.sort,
     };
 
-    const final: Environments = [];
+    let final: Environments = {};
 
     const results = await SfHook.run(this.config, 'sf:env:list', { all: this.flags.all });
     const tables = results.successes
       .map((r) => r.result)
       .reduce((x, y) => x.concat(y), [])
-      .filter((t) => t.data.length > 0);
+      .filter((t) => t.data.length > 0)
+      .sort(envOrderBy);
 
     if (tables.length === 0) {
       this.log(messages.getMessage('error.NoResultsFound'));
-      return [];
+      return {};
     } else {
       for (const table of tables) {
-        final.push(...table.data);
+        final = { ...final, ...{ [table.type]: table.data } };
         if (!this.jsonEnabled()) {
           const columns = table.data.flatMap(Object.keys).reduce((x, y) => {
             if (x[y]) return x;
@@ -97,12 +118,27 @@ export default class EnvList extends SfCommand<Environments> {
             return { ...x, [y]: columnEntry };
           }, {});
 
-          cli.table(table.data, columns, { ...tableOpts, title: table.title });
-          this.log();
+          if (this.checkTableForNamedColumns(columns)) {
+            cli.table(table.data, columns, { ...tableOpts, title: table.title });
+            this.log();
+          } else {
+            cli.warn(
+              messages.getMessage('warning.RequestedColumnsNotPresentInEnvironment', [tableOpts.columns, table.title])
+            );
+          }
         }
       }
     }
 
     return final;
+  }
+
+  private checkTableForNamedColumns(columns): boolean {
+    return Object.entries(columns).some(([, value]) => {
+      if (this.flags?.columns) {
+        return this.flags?.columns.includes(value['header']);
+      }
+      return true;
+    });
   }
 }

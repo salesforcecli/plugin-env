@@ -6,7 +6,7 @@
  */
 
 import { AuthInfo, Messages, OrgAuthorization } from '@salesforce/core';
-import { SfHook } from '@salesforce/sf-plugins-core';
+import { SfHook, EnvList } from '@salesforce/sf-plugins-core';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'list');
@@ -59,12 +59,14 @@ const hook: SfHook.EnvList<SalesforceOrg> = async function (opts) {
   }
 
   const salesforceOrgs = {
+    type: EnvList.EnvType.salesforceOrgs,
     title: 'Salesforce Orgs',
     data: extractData(grouped.nonScratchOrgs),
     keys: KEYS,
   };
 
   const scratchOrgs = {
+    type: EnvList.EnvType.scratchOrgs,
     title: 'Scratch Orgs',
     data: extractData(grouped.scratchOrgs),
     keys: KEYS,

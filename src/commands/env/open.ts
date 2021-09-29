@@ -76,7 +76,6 @@ export default class EnvOpen extends SfCommand<OpenResult> {
         url = frontDoorUrl.toString();
       }
       if (flags['url-only']) {
-        // this.warn(messages.getMessage('warning.security'));
         this.logSensitive(url);
       } else {
         const browser = flags.browser;

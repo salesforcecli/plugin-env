@@ -50,6 +50,7 @@ export default class EnvDisplay extends SfCommand<JsonObject> {
           key: toKey(key, result.keys),
           value: toValue(value),
         }));
+        this.logSensitive();
         cli.table(tableData, columns);
       }
     } catch (error) {

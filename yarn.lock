@@ -1214,10 +1214,10 @@
     cli-ux "^5.6.3"
     inquirer "^8.1.1"
 
-"@salesforce/sf-plugins-core@^0.0.27":
-  version "0.0.27"
-  resolved "https://registry.npmjs.org/@salesforce/sf-plugins-core/-/sf-plugins-core-0.0.27.tgz#41a2d8d6c0f6ba1c46d6c23ff546b1ae0c2404e7"
-  integrity sha512-FpIyIDB46WWWAEVo+y4uGrKfugtLXq6+Gmli21l40f+J166rCvE8yszF+0nvD8V9xGw3By0XEkwMC6fTseYqKw==
+"@salesforce/sf-plugins-core@^0.0.28":
+  version "0.0.28"
+  resolved "https://registry.npmjs.org/@salesforce/sf-plugins-core/-/sf-plugins-core-0.0.28.tgz#8bdff4661c0cead311ce1875b806012b6aa302f8"
+  integrity sha512-y9v71Q1160yGnB7vVS+L2zgH+STEaqzRyFtI+7qAlvixDGFTpVcBMcVpFovS/ZXP36C5puAgajqy476O2Bfndw==
   dependencies:
     "@oclif/core" "^0.5.41"
     "@salesforce/core" "^3.6.2"

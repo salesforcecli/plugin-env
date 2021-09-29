@@ -5,9 +5,9 @@
   "author": "Salesforce",
   "bugs": "https://github.com/salesforcecli/cli/issues",
   "dependencies": {
-    "@oclif/core": "^0.5.39",
+    "@oclif/core": "^0.5.41",
     "@salesforce/core": "3.6.2",
-    "@salesforce/sf-plugins-core": "^0.0.25",
+    "@salesforce/sf-plugins-core": "^0.0.28",
     "change-case": "^4.1.2",
     "cli-ux": "^5.6.3",
     "open": "^8.2.0",

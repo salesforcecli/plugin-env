@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.35](https://github.com/salesforcecli/plugin-env/compare/v0.0.34...v0.0.35) (2021-09-29)
+
+
+### Bug Fixes
+
+* warn users about frontdoor url ([#149](https://github.com/salesforcecli/plugin-env/issues/149)) ([8d177ce](https://github.com/salesforcecli/plugin-env/commit/8d177cedcb17f9259db7f1026e5e939640c4da02))
+
 ### [0.0.34](https://github.com/salesforcecli/plugin-env/compare/v0.0.33...v0.0.34) (2021-09-23)
 
 

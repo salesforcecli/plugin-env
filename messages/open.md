@@ -46,11 +46,11 @@ Browser in which to open the environment.
 
 # flags.browser.description
 
-You can specify that the environment open in one of the following browsers: Firefox, Safari, Google Chrome, or Windows Edge. If you don’t specify --browser, the environment opens in your default browser. The exact names of the browser applications differ depending on the operating system you're on; check your documentation for details. 
+You can specify that the environment open in one of the following browsers: Firefox, Safari, Google Chrome, or Windows Edge. If you don’t specify --browser, the environment opens in your default browser. The exact names of the browser applications differ depending on the operating system you're on; check your documentation for details.
 
 # error.NoDefaultEnv
 
-No default environment found. Use -e or --target-env to specify an environment to open. 
+No default environment found. Use -e or --target-env to specify an environment to open.
 
 # error.NoEnvFound
 

@@ -11,12 +11,9 @@ import { SfCommand } from '@salesforce/sf-plugins-core';
 import { Logger, Messages, Org, SfdxError } from '@salesforce/core';
 import * as open from 'open';
 import type { Options } from 'open';
-import { isArray } from '@salesforce/ts-types';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'open');
-
-type Environment = { name: string; openUrl: string };
 
 export type OpenResult = { url: string };
 
@@ -69,19 +66,7 @@ export default class EnvOpen extends SfCommand<OpenResult> {
     }
 
     if (!url) {
-      let foundEnvs: Environment[] = [];
-      const push = (envs: Environment | Environment[]): void => {
-        foundEnvs = [...foundEnvs, ...(isArray(envs) ? envs : [envs])];
-      };
-      await this.config.runHook('environments-request', { push });
-
-      const foundEnv = foundEnvs.find((env) => env.name === nameOrAlias);
-
-      if (!foundEnv) {
-        throw messages.createError('error.NoEnvFound', [nameOrAlias]);
-      }
-
-      url = foundEnv.openUrl;
+      throw messages.createError('error.NoEnvFound', [nameOrAlias]);
     }
 
     if (url) {
@@ -91,7 +76,8 @@ export default class EnvOpen extends SfCommand<OpenResult> {
         url = frontDoorUrl.toString();
       }
       if (flags['url-only']) {
-        this.log(url);
+        // this.warn(messages.getMessage('warning.security'));
+        this.logSensitive(url);
       } else {
         const browser = flags.browser;
         const browserName = browser ? browser : 'the default browser';
@@ -130,7 +116,7 @@ export default class EnvOpen extends SfCommand<OpenResult> {
     return new Promise((resolve, reject) => {
       process.stderr.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
 
-      const resolveOrReject = (code): void => {
+      const resolveOrReject = (code: number): void => {
         // stderr could contain warnings or random data, so we will only error if we know there is a valid error.
         const validErrors = [
           'Unable to find application named',

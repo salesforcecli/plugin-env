@@ -36,7 +36,7 @@ export default class EnvDisplay extends SfCommand<JsonObject> {
 
     try {
       const results = await SfHook.run(this.config, 'sf:env:display', { targetEnv });
-      const result = results.successes.find((s) => !!s.result)?.result || null;
+      const result = results.successes.find((s) => !!s.result?.data)?.result || null;
 
       if (!result) {
         throw messages.createError('error.NoEnvFound', [targetEnv]);

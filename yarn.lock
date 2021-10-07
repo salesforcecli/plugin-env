@@ -651,7 +651,7 @@
     supports-color "^5.4.0"
     tslib "^1"
 
-"@oclif/command@^1.5.10", "@oclif/command@^1.5.13", "@oclif/command@^1.5.17", "@oclif/command@^1.5.20", "@oclif/command@^1.6", "@oclif/command@^1.6.0", "@oclif/command@^1.8.0":
+"@oclif/command@^1.5.10", "@oclif/command@^1.5.13", "@oclif/command@^1.5.17", "@oclif/command@^1.5.20", "@oclif/command@^1.6.0", "@oclif/command@^1.8.0":
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/@oclif/command/-/command-1.8.0.tgz#c1a499b10d26e9d1a611190a81005589accbb339"
   integrity sha512-5vwpq6kbvwkQwKqAoOU3L72GZ3Ta8RRrewKj9OJRolx28KLJJ8Dg9Rf7obRwt5jQA9bkYd8gqzMTrI7H3xLfaw==
@@ -663,7 +663,7 @@
     debug "^4.1.1"
     semver "^7.3.2"
 
-"@oclif/config@^1", "@oclif/config@^1.12.6", "@oclif/config@^1.12.8", "@oclif/config@^1.15.1", "@oclif/config@^1.17.0":
+"@oclif/config@^1", "@oclif/config@^1.12.8", "@oclif/config@^1.15.1", "@oclif/config@^1.17.0":
   version "1.17.0"
   resolved "https://registry.yarnpkg.com/@oclif/config/-/config-1.17.0.tgz#ba8639118633102a7e481760c50054623d09fcab"
   integrity sha512-Lmfuf6ubjQ4ifC/9bz1fSCHc6F6E653oyaRXxg+lgT4+bYf9bk+nqrUpAbrXyABkCqgIBiFr3J4zR/kiFdE1PA==
@@ -698,7 +698,7 @@
     widest-line "^3.1.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/core@^0.5.34", "@oclif/core@^0.5.38", "@oclif/core@^0.5.39":
+"@oclif/core@^0.5.38", "@oclif/core@^0.5.39":
   version "0.5.41"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-0.5.41.tgz#54ab600b1b6017f3849e629401eafd4f4e3a5c2e"
   integrity sha512-zEYbpxSQr80t7MkLMHOmZr8QCrCIbVrI7fLSZWlsvD2AEM0vvzuhWymjo9/kHy2/kNfxwu7NTI4i2a0zoHu11w==
@@ -7158,14 +7158,11 @@ object.values@^1.1.3, object.values@^1.1.4:
     es-abstract "^1.18.2"
 
 oclif@^2.0.0-main.2:
-  version "2.0.0-main.2"
-  resolved "https://registry.yarnpkg.com/oclif/-/oclif-2.0.0-main.2.tgz#12b6d976700a771474f15a8407a8e02869e34a6f"
-  integrity sha512-RNJn/FeeuKI4Bv0PM6DoXCztC6+0kdJZuPJ0Jhq5rUNoZLg+2Sijn2ACKjgNH+R/VQOoMkJltbo+VBSbxV96eg==
+  version "2.0.0-main.6"
+  resolved "https://registry.yarnpkg.com/oclif/-/oclif-2.0.0-main.6.tgz#f8b03e0135ec8a2e6aa79079c8131aba3dabeb60"
+  integrity sha512-+ojXpxEr+AVZNSskgTfHsTUv4HiAVh5DMOZMLvsnZZl0/9+cyQ9DqAgndBmw++laC0FOoBjBsFgjY2xGS4V7lg==
   dependencies:
-    "@oclif/command" "^1.6"
-    "@oclif/config" "^1.12.6"
-    "@oclif/core" "^0.5.34"
-    "@oclif/errors" "^1.2.2"
+    "@oclif/core" "^1.0.0"
     "@oclif/fixpack" "^2.3.0"
     "@oclif/plugin-help" "^3"
     "@oclif/plugin-not-found" "^1.2.2"

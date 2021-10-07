@@ -10,7 +10,7 @@ sfdx plugins:install plugin-env@x.y.z
 
 ## Issues
 
-Please report any issues at https://github.com/salesforcecli/cli/issues
+Please report any issues at https://github.com/forcedotcom/cli/issues
 
 ## Contributing
 
@@ -63,9 +63,16 @@ sfdx plugins
 ## Commands
 
 <!-- commands -->
-* [`sf env display`](#sf-env-display)
-* [`sf env list`](#sf-env-list)
-* [`sf env open`](#sf-env-open)
+- [plugin-env](#plugin-env)
+  - [Install](#install)
+  - [Issues](#issues)
+  - [Contributing](#contributing)
+    - [CLA](#cla)
+    - [Build](#build)
+  - [Commands](#commands)
+  - [`sf env display`](#sf-env-display)
+  - [`sf env list`](#sf-env-list)
+  - [`sf env open`](#sf-env-open)
 
 ## `sf env display`
 

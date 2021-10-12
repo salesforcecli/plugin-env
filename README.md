@@ -63,16 +63,9 @@ sfdx plugins
 ## Commands
 
 <!-- commands -->
-- [plugin-env](#plugin-env)
-  - [Install](#install)
-  - [Issues](#issues)
-  - [Contributing](#contributing)
-    - [CLA](#cla)
-    - [Build](#build)
-  - [Commands](#commands)
-  - [`sf env display`](#sf-env-display)
-  - [`sf env list`](#sf-env-list)
-  - [`sf env open`](#sf-env-open)
+* [`sf env display`](#sf-env-display)
+* [`sf env list`](#sf-env-list)
+* [`sf env open`](#sf-env-open)
 
 ## `sf env display`
 

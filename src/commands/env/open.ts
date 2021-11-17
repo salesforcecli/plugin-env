@@ -109,11 +109,13 @@ export default class EnvOpen extends SfCommand<OpenResult> {
       options = { app: { name: browser } };
     }
 
-    const chunks = [];
+    const chunks: Buffer[] = [];
     const process = await open(url, options);
 
     return new Promise((resolve, reject) => {
-      process.stderr.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
+      process.stderr.on('data', (chunk) => {
+        chunks.push(Buffer.from(chunk as ArrayBuffer));
+      });
 
       const resolveOrReject = (code: number): void => {
         // stderr could contain warnings or random data, so we will only error if we know there is a valid error.

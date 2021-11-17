@@ -113,7 +113,7 @@ export default class EnvList extends SfCommand<Environments> {
             if (x[y]) return x;
             const columnEntry = {
               header: toKey(y, table.keys),
-              get: (v: JsonObject[keyof JsonObject]): string | number | boolean => toValue(v[y]),
+              get: (v: JsonObject): string | number | boolean => toValue(v[y]),
             };
             return { ...x, [y]: columnEntry };
           }, {});
@@ -133,7 +133,7 @@ export default class EnvList extends SfCommand<Environments> {
     return final;
   }
 
-  private checkTableForNamedColumns(columns): boolean {
+  private checkTableForNamedColumns(columns: Record<string, { header?: string }>): boolean {
     return Object.entries(columns).some(([, value]) => {
       if (this.flags?.columns) {
         return this.flags?.columns.includes(value['header']);

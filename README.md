@@ -63,13 +63,14 @@ sfdx plugins
 ## Commands
 
 <!-- commands -->
-* [`sf env display`](#sf-env-display)
-* [`sf env list`](#sf-env-list)
-* [`sf env open`](#sf-env-open)
+
+- [`sf env display`](#sf-env-display)
+- [`sf env list`](#sf-env-list)
+- [`sf env open`](#sf-env-open)
 
 ## `sf env display`
 
-Specify an environment with either the username you used when you logged into the environment with "sf login", or the alias you gave the environment when you created it. Run "sf env list" to view all your environments and their aliases.
+Display details about an environment.
 
 ```
 USAGE
@@ -107,7 +108,7 @@ EXAMPLES
 
 ## `sf env list`
 
-By default, the command displays active environments. For orgs, active means unexpired scratch orgs and orgs you’re currently logged into.
+List the environments you’ve created or logged into.
 
 ```
 USAGE
@@ -178,7 +179,7 @@ EXAMPLES
 
 ## `sf env open`
 
-You can open the following types of environments in a web browser: scratch orgs, sandboxes, Dev Hubs, and production orgs. Run "sf env list" to view your environments and their aliases and login usernames.
+Open an environment in a web browser.
 
 ```
 USAGE
@@ -232,4 +233,5 @@ FLAG DESCRIPTIONS
     Windows Edge. If you don’t specify --browser, the environment opens in your default browser. The exact names of the
     browser applications differ depending on the operating system you're on; check your documentation for details.
 ```
+
 <!-- commandsstop -->

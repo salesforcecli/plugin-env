@@ -6,7 +6,6 @@
  */
 
 import { Flags } from '@oclif/core';
-import { cli } from 'cli-ux';
 import { Messages } from '@salesforce/core';
 import { SfCommand, JsonObject, SfHook, EnvList as Env } from '@salesforce/sf-plugins-core';
 import { toKey, toValue } from '../../utils';
@@ -30,6 +29,17 @@ const envOrderBy = (a: Env.Table<JsonObject>, b: Env.Table<JsonObject>): number 
   // well known always come before user defined
   if (envTypeValues.includes(a.type)) return -1;
   return 1;
+};
+
+const buildColumns = (table: Env.Table<JsonObject>): Record<string, { header?: string }> => {
+  return table.data.flatMap(Object.keys).reduce((x, y) => {
+    if (x[y]) return x;
+    const columnEntry = {
+      header: toKey(y, table.keys),
+      get: (v: JsonObject): string | number | boolean => toValue(v[y]),
+    };
+    return { ...x, [y]: columnEntry };
+  }, {});
 };
 
 export type Environments = {
@@ -108,24 +118,14 @@ export default class EnvList extends SfCommand<Environments> {
     } else {
       for (const table of tables) {
         final = { ...final, ...{ [table.type]: table.data } };
-        if (!this.jsonEnabled()) {
-          const columns = table.data.flatMap(Object.keys).reduce((x, y) => {
-            if (x[y]) return x;
-            const columnEntry = {
-              header: toKey(y, table.keys),
-              get: (v: JsonObject): string | number | boolean => toValue(v[y]),
-            };
-            return { ...x, [y]: columnEntry };
-          }, {});
-
-          if (this.checkTableForNamedColumns(columns)) {
-            cli.table(table.data, columns, { ...tableOpts, title: table.title });
-            this.log();
-          } else {
-            cli.warn(
-              messages.getMessage('warning.RequestedColumnsNotPresentInEnvironment', [tableOpts.columns, table.title])
-            );
-          }
+        const columns = buildColumns(table);
+        if (this.checkTableForNamedColumns(columns)) {
+          this.table(table.data, columns, { ...tableOpts, title: table.title });
+          this.log();
+        } else {
+          this.warn(
+            messages.getMessage('warning.RequestedColumnsNotPresentInEnvironment', [tableOpts.columns, table.title])
+          );
         }
       }
     }

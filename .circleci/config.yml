@@ -65,7 +65,6 @@ workflows:
                 - latest
             exclude:
               - os: windows
-                node_version: latest
           requires:
             - release-management/test-package
       - release-management/release-package:

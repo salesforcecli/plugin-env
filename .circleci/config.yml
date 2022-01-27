@@ -58,13 +58,11 @@ workflows:
             parameters:
               os:
                 - linux
-                - windows
+                # - windows
               sfdx_version:
                 - latest
               node_version:
                 - latest
-            exclude:
-              - os: windows
           requires:
             - release-management/test-package
       - release-management/release-package:

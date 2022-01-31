@@ -50,15 +50,12 @@ workflows:
                 - latest
                 - lts
                 - maintenance
-            exclude:
-              - os: windows
-                node_version: latest
       - release-management/test-nut:
           matrix:
             parameters:
               os:
                 - linux
-                # - windows
+                - windows
               sfdx_version:
                 - latest
               node_version:

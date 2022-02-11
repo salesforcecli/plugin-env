@@ -6,7 +6,6 @@
  */
 
 import { Flags } from '@oclif/core';
-import { cli } from 'cli-ux';
 import { Messages, SfdxError } from '@salesforce/core';
 import { SfCommand, SfHook, JsonObject } from '@salesforce/sf-plugins-core';
 import { toKey, toValue } from '../../utils';
@@ -44,15 +43,13 @@ export default class EnvDisplay extends SfCommand<JsonObject> {
 
       data = result.data;
 
-      if (!this.jsonEnabled()) {
-        const columns = { key: {}, value: {} };
-        const tableData = Object.entries(data).map(([key, value]) => ({
-          key: toKey(key, result.keys),
-          value: toValue(value),
-        }));
-        this.logSensitive();
-        cli.table(tableData, columns);
-      }
+      const columns = { key: {}, value: {} };
+      const tableData = Object.entries(data).map(([key, value]) => ({
+        key: toKey(key, result.keys),
+        value: toValue(value),
+      }));
+      this.logSensitive();
+      this.table(tableData, columns);
     } catch (error) {
       const err = error as SfdxError;
       this.log(messages.getMessage('error.NoResultsFound'));

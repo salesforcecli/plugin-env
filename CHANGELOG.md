@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/salesforcecli/plugin-env/compare/v1.1.0...v1.1.1) (2022-02-16)
+
+### Bug Fixes
+
+- bump deps ([#236](https://github.com/salesforcecli/plugin-env/issues/236)) ([cf6e1cd](https://github.com/salesforcecli/plugin-env/commit/cf6e1cdd07e4c9d487918b6e65ed7155c9561e8f))
+
 ## [1.1.0](https://github.com/salesforcecli/plugin-env/compare/v1.0.4...v1.1.0) (2022-01-28)
 
 ### Features

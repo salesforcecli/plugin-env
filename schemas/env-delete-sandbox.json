@@ -1,46 +1,19 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$ref": "#/definitions/JsonObject",
+  "$ref": "#/definitions/SandboxDeleteResponse",
   "definitions": {
-    "JsonObject": {
+    "SandboxDeleteResponse": {
       "type": "object",
-      "additionalProperties": {
-        "anyOf": [
-          {
-            "type": "string"
-          },
-          {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          {
-            "type": "number"
-          },
-          {
-            "type": "array",
-            "items": {
-              "type": "number"
-            }
-          },
-          {
-            "type": "boolean"
-          },
-          {
-            "type": "array",
-            "items": {
-              "type": "boolean"
-            }
-          },
-          {
-            "type": "null"
-          },
-          {
-            "not": {}
-          }
-        ]
-      }
+      "properties": {
+        "orgId": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      },
+      "required": ["orgId", "username"],
+      "additionalProperties": false
     }
   }
 }

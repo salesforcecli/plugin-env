@@ -13,12 +13,16 @@
  */
 import { Flags } from '@oclif/core';
 import { Messages, Org } from '@salesforce/core';
-import { SfCommand, JsonObject } from '@salesforce/sf-plugins-core';
+import { SfCommand } from '@salesforce/sf-plugins-core';
 
 Messages.importMessagesDirectory(__dirname);
-const messages = Messages.loadMessages('@salesforce/plugin-env', 'delete_scratch');
+const messages = Messages.loadMessages('@salesforce/plugin-env', 'delete_sandbox');
 
-export default class EnvDeleteSandbox extends SfCommand<JsonObject> {
+export interface SandboxDeleteResponse {
+  orgId: string;
+  username: string;
+}
+export default class EnvDeleteSandbox extends SfCommand<SandboxDeleteResponse> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
@@ -33,7 +37,7 @@ export default class EnvDeleteSandbox extends SfCommand<JsonObject> {
     }),
   };
 
-  public async run(): Promise<JsonObject> {
+  public async run(): Promise<SandboxDeleteResponse> {
     const { flags } = await this.parse(EnvDeleteSandbox);
     const org = await Org.create({ aliasOrUsername: flags['target-env'] });
 

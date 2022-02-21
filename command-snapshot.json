@@ -2,13 +2,13 @@
   {
     "command": "env:delete:sandbox",
     "plugin": "@salesforce/plugin-env",
-    "flags": ["json", "no-prompt", "target-env"],
+    "flags": ["json", "no-prompt", "target-org"],
     "alias": []
   },
   {
     "command": "env:delete:scratch",
     "plugin": "@salesforce/plugin-env",
-    "flags": ["json", "no-prompt", "target-env"],
+    "flags": ["json", "no-prompt", "target-org"],
     "alias": []
   },
   {

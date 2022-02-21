@@ -34,13 +34,13 @@ describe('env delete scratch NUTs', () => {
   });
 
   it('should delete the 1st scratch org by alias', () => {
-    const command = `env delete scratch --target-env ${scratchOrgAlias} --no-prompt --json`;
+    const command = `env delete scratch --target-org ${scratchOrgAlias} --no-prompt --json`;
     const output = execCmd<ScratchDeleteResponse>(command, { ensureExitCode: 0 }).jsonOutput.result;
     expect(output.username).to.equal(scratchUsernames[0]);
   });
 
   it('should delete the 2nd scratch org by username', () => {
-    const command = `env delete scratch --target-env ${scratchUsernames[1]} --no-prompt --json`;
+    const command = `env delete scratch --target-org ${scratchUsernames[1]} --no-prompt --json`;
     const output = execCmd<ScratchDeleteResponse>(command, { ensureExitCode: 0 }).jsonOutput.result;
     expect(output.username).to.equal(scratchUsernames[1]);
   });

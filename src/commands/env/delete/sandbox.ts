@@ -27,9 +27,9 @@ export default class EnvDeleteSandbox extends SfCommand<SandboxDeleteResponse> {
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
   public static flags = {
-    'target-env': Flags.string({
+    'target-org': Flags.string({
       char: 'e',
-      description: messages.getMessage('flags.target-env.summary'),
+      description: messages.getMessage('flags.target-org.summary'),
     }),
     'no-prompt': Flags.boolean({
       char: 'p',
@@ -39,7 +39,7 @@ export default class EnvDeleteSandbox extends SfCommand<SandboxDeleteResponse> {
 
   public async run(): Promise<SandboxDeleteResponse> {
     const { flags } = await this.parse(EnvDeleteSandbox);
-    const org = await Org.create({ aliasOrUsername: flags['target-env'] });
+    const org = await Org.create({ aliasOrUsername: flags['target-org'] });
 
     if (flags['no-prompt'] || (await this.promptForConfirmation(org.getUsername()))) {
       try {

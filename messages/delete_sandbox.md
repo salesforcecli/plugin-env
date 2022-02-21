@@ -10,27 +10,23 @@ Specify an environment with either the username you used when you logged into th
 
 - Delete a sandbox with alias my-sandbox:
 
-  <%= config.bin %> <%= command.id %> --target-env=my-sandbox
+  <%= config.bin %> <%= command.id %> --target-org=my-sandbox
 
 - Specify a username instead of an alias:
 
-  <%= config.bin %> <%= command.id %> --target-env=myusername@example.com.qa
+  <%= config.bin %> <%= command.id %> --target-org=myusername@example.com.qa
 
 - Delete the org without prompting to confirm :
 
-  <%= config.bin %> <%= command.id %> --target-env=my-sandbox --no-prompt
+  <%= config.bin %> <%= command.id %> --target-org=my-sandbox --no-prompt
 
-# flags.target-env.summary
+# flags.target-org.summary
 
 Environment alias or login user.
 
 # flags.no-prompt.summary
 
 Do not prompt the user to confirm the deletion
-
-# error.NoDefaultEnv
-
-No default environment found. Use -e or --target-env to specify an environment to display.
 
 # prompt.confirm
 

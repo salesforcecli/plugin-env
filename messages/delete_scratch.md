@@ -10,27 +10,23 @@ Specify an environment with either the username you used when you logged into th
 
 - Delete a scratch org with alias my-scratch-org:
 
-  <%= config.bin %> <%= command.id %> --target-env=my-scratch-org
+  <%= config.bin %> <%= command.id %> --target-org=my-scratch-org
 
 - Specify a username instead of an alias:
 
-  <%= config.bin %> <%= command.id %> --target-env=test-123456-abcdefg@example.com
+  <%= config.bin %> <%= command.id %> --target-org=test-123456-abcdefg@example.com
 
 - Delete the org without prompting to confirm :
 
-  <%= config.bin %> <%= command.id %> --target-env=my-scratch-org --no-prompt
+  <%= config.bin %> <%= command.id %> --target-org=my-scratch-org --no-prompt
 
-# flags.target-env.summary
+# flags.target-org.summary
 
-Environment alias or login user.
+Org alias or login user.
 
 # flags.no-prompt.summary
 
 Do not prompt the user to confirm the deletion
-
-# error.NoDefaultEnv
-
-No default environment found. Use -e or --target-env to specify an environment to display.
 
 # prompt.confirm
 

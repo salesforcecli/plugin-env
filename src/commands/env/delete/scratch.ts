@@ -6,8 +6,9 @@
  */
 
 import { Flags } from '@oclif/core';
-import { Messages, Org } from '@salesforce/core';
-import { SfCommand } from '@salesforce/sf-plugins-core';
+import { Messages } from '@salesforce/core';
+import { SfCommand, requiredOrgFlag } from '@salesforce/sf-plugins-core';
+import { confirm } from '../../../confirm';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'delete_scratch');
@@ -22,8 +23,7 @@ export default class EnvDeleteScratch extends SfCommand<ScratchDeleteResponse> {
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
   public static flags = {
-    'target-org': Flags.string({
-      char: 'e',
+    'target-org': requiredOrgFlag({
       description: messages.getMessage('flags.target-org.summary'),
     }),
     'no-prompt': Flags.boolean({
@@ -34,9 +34,9 @@ export default class EnvDeleteScratch extends SfCommand<ScratchDeleteResponse> {
 
   public async run(): Promise<ScratchDeleteResponse> {
     const { flags } = await this.parse(EnvDeleteScratch);
-    const org = await Org.create({ aliasOrUsername: flags['target-org'] });
+    const org = flags['target-org'];
 
-    if (flags['no-prompt'] || (await this.promptForConfirmation(org.getUsername()))) {
+    if (flags['no-prompt'] || (await confirm(messages.getMessage('prompt.confirm', [org.getUsername()])))) {
       try {
         await org.delete();
         this.log(messages.getMessage('success', [org.getUsername()]));
@@ -50,16 +50,5 @@ export default class EnvDeleteScratch extends SfCommand<ScratchDeleteResponse> {
 
       return { username: org.getUsername(), orgId: org.getOrgId() };
     }
-  }
-
-  private async promptForConfirmation(username: string): Promise<boolean> {
-    const { confirmed } = await this.prompt<{ confirmed: boolean }>([
-      {
-        name: 'confirmed',
-        message: messages.getMessage('prompt.confirm', [username]),
-        type: 'confirm',
-      },
-    ]);
-    return confirmed;
   }
 }

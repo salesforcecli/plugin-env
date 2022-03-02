@@ -80,7 +80,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
   public static readonly examples = messages.getMessages('examples');
   public static flags = {
     alias: Flags.string({
-      char: 'f',
+      char: 'a',
       description: messages.getMessage('flags.alias.description'),
     }),
     'set-default': Flags.boolean({
@@ -114,7 +114,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       defaultValue: 7,
       min: 1,
       max: 30,
-      char: 'd',
+      char: 'y',
       description: messages.getMessage('flags.duration-days.description'),
     }),
     wait: Flags.duration({

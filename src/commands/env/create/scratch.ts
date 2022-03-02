@@ -5,7 +5,6 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import { Flags } from '@oclif/core';
 import {
   Messages,
   ScratchOrgRequest,
@@ -17,16 +16,26 @@ import {
   Config,
   OrgConfigProperties,
 } from '@salesforce/core';
-import {
-  SfCommand,
-  requiredHubFlag,
-  existingFile,
-  buildDurationFlag,
-  apiVersionFlag,
-} from '@salesforce/sf-plugins-core';
+import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 
 Messages.importMessagesDirectory(__dirname);
-const messages = Messages.loadMessages('@salesforce/plugin-env', 'create_scratch');
+const messages = Messages.load('@salesforce/plugin-env', 'create_scratch', [
+  'summary',
+  'description',
+  'examples',
+  'flags.alias.description',
+  'flags.target-hub.summary',
+  'flags.set-default.description',
+  'flags.edition.description',
+  'flags.no-namespace.description',
+  'flags.track-source.description',
+  'flags.no-ancestors.description',
+  'flags.wait.description',
+  'flags.definition-file.description',
+  'flags.client-id.description',
+  'flags.duration-days.description',
+  'prompt.secret',
+]);
 
 export interface ScratchCreateResponse {
   username?: string;
@@ -36,19 +45,24 @@ export interface ScratchCreateResponse {
   orgId: string;
 }
 
-export type OrgCreateResult = Pick<
-  AuthFields,
-  | 'accessToken'
-  | 'clientId'
-  | 'created'
-  | 'createdOrgInstance'
-  | 'devHubUsername'
-  | 'expirationDate'
-  | 'instanceUrl'
-  | 'loginUrl'
-  | 'orgId'
-  | 'username'
->;
+const createResultFields = [
+  'accessToken',
+  'clientId',
+  'created',
+  'createdOrgInstance',
+  'devHubUsername',
+  'expirationDate',
+  'instanceUrl',
+  'loginUrl',
+  'orgId',
+  'username',
+] as const;
+
+const isCreateResultKey = (key: string): key is typeof createResultFields[number] => {
+  return createResultFields.includes(key as typeof createResultFields[number]);
+};
+
+export type OrgCreateResult = Pick<AuthFields, typeof createResultFields[number]>;
 
 const editionOptions = [
   'developer',
@@ -73,12 +87,13 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       char: 'd',
       description: messages.getMessage('flags.set-default.description'),
     }),
-    'definition-file': Flags.existingFile({
+    'definition-file': Flags.file({
+      exists: true,
       char: 'f',
       description: messages.getMessage('flags.definition-file.description'),
     }),
-    'target-dev-hub': requiredHubFlag({
-      description: messages.getMessage('flags.target-org.summary'),
+    'target-dev-hub': Flags.requiredHub({
+      description: messages.getMessage('flags.target-hub.summary'),
     }),
     'no-ancestors': Flags.boolean({
       char: 'c',
@@ -94,20 +109,18 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       char: 'm',
       description: messages.getMessage('flags.no-namespace.description'),
     }),
-    'duration-days': buildDurationFlag({
+    'duration-days': Flags.duration({
       unit: 'days',
       defaultValue: 7,
       min: 1,
       max: 30,
-    })({
       char: 'd',
       description: messages.getMessage('flags.duration-days.description'),
     }),
-    wait: buildDurationFlag({
+    wait: Flags.duration({
       unit: 'minutes',
       defaultValue: 5,
       min: 1,
-    })({
       char: 'w',
       description: messages.getMessage('flags.wait.description'),
     }),
@@ -115,7 +128,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       default: true,
       description: messages.getMessage('flags.track-source.description'),
     }),
-    'api-version': apiVersionFlag(),
+    'api-version': Flags.orgApiVersion(),
     'client-id': Flags.string({
       char: 'i',
       description: messages.getMessage('flags.client-id.description'),
@@ -147,20 +160,9 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
 
     await lifecycle.emit('scratchOrgInfo', scratchOrgInfo);
 
-    // // emit postorgcreate event for hook
-    // const postOrgCreateHookInfo: OrgCreateResult = [authFields].map((element) => ({
-    //   accessToken: element.accessToken,
-    //   clientId: element.clientId,
-    //   created: element.created,
-    //   createdOrgInstance: element.createdOrgInstance,
-    //   devHubUsername: element.devHubUsername,
-    //   expirationDate: element.expirationDate,
-    //   instanceUrl: element.instanceUrl,
-    //   loginUrl: element.loginUrl,
-    //   orgId: element.orgId,
-    //   username: element.username,
-    // }))[0];
-
+    const postOrgCreateHookInfo = Object.fromEntries(
+      Object.entries(authFields).filter(([key]) => isCreateResultKey(key))
+    );
     await Promise.all([
       lifecycle.emit('postorgcreate', postOrgCreateHookInfo),
       this.maybeSetAlias(username, flags.alias),
@@ -182,6 +184,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
 
   private async maybeSetAlias(username: string, alias: string): Promise<void> {
     if (!alias) return;
+    this.logger.debug(`Setting alias ${alias} to ${username}`);
     const globalInfo = await GlobalInfo.create();
     globalInfo.aliases.set(alias, username);
     await globalInfo.write();
@@ -198,12 +201,9 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
     }
 
     // use alias if provided
+    this.logger.debug(`Setting ${config.isGlobal ? 'global' : ''} default to ${alias ?? username}`);
+
     config.set(OrgConfigProperties.TARGET_ORG, alias ?? username);
     await config.write();
   }
-}
-
-function extractFromObjEs2019<T, K extends keyof T>(obj: T, ...keys: K[]): { [P in K]: T[P] } {
-  const entries = keys.map((key) => [key, obj[key]]);
-  return Object.fromEntries(entries);
 }

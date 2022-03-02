@@ -5,9 +5,8 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import { Flags } from '@oclif/core';
 import { Messages } from '@salesforce/core';
-import { SfCommand, requiredOrgFlag } from '@salesforce/sf-plugins-core';
+import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { confirm } from '../../../confirm';
 
 Messages.importMessagesDirectory(__dirname);
@@ -23,7 +22,7 @@ export default class EnvDeleteScratch extends SfCommand<ScratchDeleteResponse> {
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
   public static flags = {
-    'target-org': requiredOrgFlag({
+    'target-org': Flags.requiredOrg({
       description: messages.getMessage('flags.target-org.summary'),
     }),
     'no-prompt': Flags.boolean({

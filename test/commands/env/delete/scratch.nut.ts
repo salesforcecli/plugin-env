@@ -45,7 +45,7 @@ describe('env delete scratch NUTs', () => {
     expect(output.username).to.equal(scratchUsernames[1]);
   });
 
-  it('should delete the 3nd scratch org because it is the default', () => {
+  it('should delete the 3rd scratch org because it is the default', () => {
     const command = 'env delete scratch --no-prompt --json';
     const output = execCmd<ScratchDeleteResponse>(command, { ensureExitCode: 0 }).jsonOutput.result;
     expect(output.username).to.equal(scratchUsernames[2]);

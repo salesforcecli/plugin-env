@@ -8,20 +8,17 @@
 import * as path from 'path';
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
 import { OrgConfigProperties } from '@salesforce/core';
-import { env } from '@salesforce/kit';
 import { expect } from 'chai';
 
 describe('env list NUTs', () => {
   let session: TestSession;
   let usernameOrAlias: string;
   before(async () => {
-    env.setString('TESTKIT_EXECUTABLE_PATH', path.join(process.cwd(), 'bin', 'dev'));
-    session = await TestSession.create({});
-
-    const config = execCmd<Array<{ value: string }>>(`config get ${OrgConfigProperties.TARGET_DEV_HUB} --json`, {
-      cli: 'sf',
-    }).jsonOutput.result;
-    usernameOrAlias = config[0].value;
+    const executablePath = path.join(process.cwd(), 'bin', 'dev');
+    session = await TestSession.create({
+      setupCommands: [`${executablePath} config get ${OrgConfigProperties.TARGET_DEV_HUB} --json`],
+    });
+    usernameOrAlias = (session.setup[0] as { result: [{ value: string }] }).result[0].value;
 
     if (!usernameOrAlias) throw Error('no default username set');
   });

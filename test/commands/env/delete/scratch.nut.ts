@@ -29,8 +29,18 @@ describe('env delete scratch NUTs', () => {
   });
 
   after(async () => {
-    // don't try to run the clean command because the tests are deleting the orgs
-    await fs.promises.rmdir(session.dir, { recursive: true });
+    // clean restores sinon, but will throw when it tries to delete the alread-deleted orgs.
+    // so catch that and delete the dir manually
+    try {
+      session?.clean();
+    } catch {
+      await fs.promises.rmdir(session.dir, { recursive: true });
+    }
+  });
+
+  it('should see default username in help', () => {
+    const output = execCmd<ScratchDeleteResponse>('env delete scratch --help', { ensureExitCode: 0 }).shellOutput;
+    expect(output).to.include(scratchUsernames[2]);
   });
 
   it('should delete the 1st scratch org by alias', () => {
@@ -45,7 +55,7 @@ describe('env delete scratch NUTs', () => {
     expect(output.username).to.equal(scratchUsernames[1]);
   });
 
-  it('should delete the 3nd scratch org because it is the default', () => {
+  it('should delete the 3rd scratch org because it is the default', () => {
     const command = 'env delete scratch --no-prompt --json';
     const output = execCmd<ScratchDeleteResponse>(command, { ensureExitCode: 0 }).jsonOutput.result;
     expect(output.username).to.equal(scratchUsernames[2]);

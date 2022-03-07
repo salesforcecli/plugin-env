@@ -38,8 +38,8 @@ describe('Sandbox Orgs', () => {
     } catch (e) {
       const error = e as SfError;
       // there was a DNS issue, verify we handled it as best as we could
-      expect(error.message, 'env:create:sandbox DNS issue').to.include(messages.getMessage('partialSuccess'));
-      expect(error.message, 'env:create:sandbox DNS issue').to.include(messages.getMessage('dnsTimeout'));
+      expect(error.message, 'env:create:sandbox DNS issue').to.include(messages.getMessage('error.PartialSuccess'));
+      expect(error.message, 'env:create:sandbox DNS issue').to.include(messages.getMessage('error.DnsTimeout'));
       expect(error.exitCode, 'env:create:sandbox DNS issue').to.equal(68);
     }
     const sandboxUsername = `${process.env.TESTKIT_HUB_USERNAME}.${result.SandboxName}`;

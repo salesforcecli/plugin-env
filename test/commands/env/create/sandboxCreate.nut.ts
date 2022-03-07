@@ -9,7 +9,7 @@ import { Lifecycle, Messages, SandboxEvents, SandboxProcessObject, SfError, Stat
 import { expect } from 'chai';
 
 Messages.importMessagesDirectory(__dirname);
-const messages = Messages.loadMessages('@salesforce/plugin-org', 'create');
+const messages = Messages.loadMessages('@salesforce/plugin-env', 'create.sandbox');
 
 describe('Sandbox Orgs', () => {
   let session: TestSession;

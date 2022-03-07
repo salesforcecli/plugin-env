@@ -1,17 +1,26 @@
 [
   {
+    "command": "env:create:sandbox",
+    "plugin": "@salesforce/plugin-env",
+    "flags": ["alias", "def-property", "definitionfile", "json", "set-default", "target-org", "wait"],
+    "alias": []
+  },
+  {
     "command": "env:display",
     "plugin": "@salesforce/plugin-env",
-    "flags": ["json", "target-env"]
+    "flags": ["json", "target-env"],
+    "alias": []
   },
   {
     "command": "env:list",
     "plugin": "@salesforce/plugin-env",
-    "flags": ["all", "columns", "csv", "filter", "json", "no-header", "no-truncate", "output", "sort"]
+    "flags": ["all", "columns", "csv", "filter", "json", "no-header", "no-truncate", "output", "sort"],
+    "alias": []
   },
   {
     "command": "env:open",
     "plugin": "@salesforce/plugin-env",
-    "flags": ["browser", "json", "path", "target-env", "url-only"]
+    "flags": ["browser", "json", "path", "target-env", "url-only"],
+    "alias": []
   }
 ]

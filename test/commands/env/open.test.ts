@@ -7,7 +7,7 @@
 import { expect, test } from '@oclif/test';
 import { AuthInfo, Connection, Org, SfOrg } from '@salesforce/core';
 
-import Open, { OpenResult } from '../../../src/commands/env/open';
+import EnvOpen, { OpenResult } from '../../../src/commands/env/open';
 
 const expectedSfOrgs: Array<Partial<SfOrg>> = [
   {
@@ -45,7 +45,7 @@ describe('open unit tests', () => {
         aliasOrUsername: expectedSfOrgs[0].username,
       } as Org.Options);
     })
-    .stub(Open.prototype, 'open', async (): Promise<void> => {})
+    .stub(EnvOpen.prototype, 'open', async (): Promise<void> => {})
     .stdout()
     .command([
       'env:open',
@@ -83,9 +83,9 @@ describe('open unit tests', () => {
         aliasOrUsername: expectedSfOrgs[0].username,
       } as Org.Options);
     })
-    .stub(Open.prototype, 'open', async (): Promise<void> => {})
+    .stub(EnvOpen.prototype, 'open', async (): Promise<void> => {})
     .stdout()
-    .command(['env:open', '--target-env', expectedSfOrgs[0].username, '--json'])
+    .command(['env:open', '--target-env', expectedSfOrgs[0].username, '--url-only', '--json'])
     .it('should open requested environment', (ctx) => {
       const stdout = ctx.stdout;
       const { result } = JSON.parse(stdout) as { result: OpenResult };
@@ -117,7 +117,7 @@ describe('open throws an error that is NamedOrgNotFoundError', () => {
       err.name = 'NamedOrgNotFoundError';
       throw err;
     })
-    .stub(Open.prototype, 'open', async (): Promise<void> => {})
+    .stub(EnvOpen.prototype, 'open', async (): Promise<void> => {})
     .stdout()
     .command(['env:open', '--target-env', 'foobarbaz@some.org'])
     .catch((error) => expect(error.message).to.to.include('No environment found for'))

@@ -23,6 +23,10 @@ Set the created org as the default username
 
 Alias for the created org
 
+# flags.targetOrg.summary
+
+Username or alias of the org for which a sandbox will be created.
+
 # flags.definitionFile.summary
 
 Path to an sandbox definition file

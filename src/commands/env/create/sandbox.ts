@@ -68,7 +68,7 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
     }),
     'target-org': Flags.string({
       char: 'o',
-      summary: messages.getMessage('flags.alias.summary'),
+      summary: messages.getMessage('flags.targetOrg.summary'),
     }),
   };
 

@@ -1482,10 +1482,10 @@
     "@salesforce/ts-types" "^1.5.20"
     inquirer "^8.2.0"
 
-"@salesforce/sf-plugins-core@^1.5.2":
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/@salesforce/sf-plugins-core/-/sf-plugins-core-1.5.2.tgz#292fd087693ba5a1bc5572063e9ecb19d11c4692"
-  integrity sha512-qKZHYAQL5LDvQzcZWCuj6oUSJnEpBOwmY2aKbURkbcdDCB9F62VnpC+qBgal9tG9oX3xihyrvdDQhR/RkpS5JQ==
+"@salesforce/sf-plugins-core@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@salesforce/sf-plugins-core/-/sf-plugins-core-1.6.0.tgz#bac51b9607c6991fb54821a8eeed7e7dbc9204c4"
+  integrity sha512-eemUTwK3HzVAFjuvxLa/7V/IQwDWhO53uVrCDn0Uf8my48XZ58Kr4VTqHubJCIaCwloKKq+ToXHJNHvIJ/JOIQ==
   dependencies:
     "@oclif/core" "^1.5.2"
     "@salesforce/core" "^3.7.9"

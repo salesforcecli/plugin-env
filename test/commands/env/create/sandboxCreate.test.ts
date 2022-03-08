@@ -83,7 +83,7 @@ describe('org:create', () => {
       const command = await createCommand([
         '-p',
         'licenseType=LicenseFromVarargs',
-        '--definitionfile',
+        '--definition-file',
         'mySandboxDef.json',
         '-o',
         'testProdOrg',
@@ -107,7 +107,7 @@ describe('org:create', () => {
       const command = await createCommand([
         '-p',
         'LicenseType=LicenseFromVarargs',
-        '--definitionfile',
+        '--definition-file',
         'mySandboxDef.json',
         '-o',
         'testProdOrg',

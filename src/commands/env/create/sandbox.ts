@@ -6,7 +6,7 @@
  */
 
 import * as fs from 'fs';
-import { CliUx, Flags } from '@oclif/core';
+import { Flags } from '@oclif/core';
 import { SfCommand } from '@salesforce/sf-plugins-core';
 import {
   AuthInfo,
@@ -43,7 +43,7 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
 
   public static flags = {
     // needs to change when new flags are available
-    definitionfile: Flags.string({
+    'definition-file': Flags.string({
       char: 'f',
       summary: messages.getMessage('flags.definitionFile.summary'),
     }),
@@ -75,7 +75,7 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
   protected readonly lifecycleEventNames = ['postorgcreate'];
   private sandboxAuth?: SandboxUserAuthResponse;
   private flags!: {
-    definitionfile: string;
+    'definition-file': string;
     'set-default': boolean;
     alias: string;
     wait: number;
@@ -89,7 +89,8 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
     this.debug('Create started with args %s ', this.flags);
 
     this.validateSandboxFlags();
-    return this.createSandbox();
+    const r = await this.createSandbox();
+    return r;
   }
 
   private validateSandboxFlags(): void {
@@ -185,7 +186,7 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
         key: { header: 'Field' },
         value: { header: 'Value' },
       };
-      CliUx.ux.styledHeader('Sandbox Org Creation Status');
+      this.styledHeader('Sandbox Org Creation Status');
       this.table(data, columns, {});
       if (results.sandboxRes?.authUserName) {
         const authInfo = await AuthInfo.create({ username: results.sandboxRes?.authUserName });
@@ -251,9 +252,9 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
 
   private readJsonDefFile(): Record<string, unknown> {
     // the -f option
-    if (this.flags.definitionfile) {
-      this.debug('Reading JSON DefFile %s ', this.flags.definitionfile);
-      return JSON.parse(fs.readFileSync(this.flags.definitionfile, 'utf-8')) as Record<string, unknown>;
+    if (this.flags['definition-file']) {
+      this.debug('Reading JSON DefFile %s ', this.flags['definition-file']);
+      return JSON.parse(fs.readFileSync(this.flags['definition-file'], 'utf-8')) as Record<string, unknown>;
     }
   }
 }

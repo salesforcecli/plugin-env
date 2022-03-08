@@ -22,6 +22,7 @@ import { fromStub, stubInterface, stubMethod } from '@salesforce/ts-sinon';
 import * as sinon from 'sinon';
 import { expect } from 'chai';
 import { assert } from 'sinon';
+import { Ux } from '@salesforce/sf-plugins-core/lib/ux';
 import CreateSandbox from '../../../../src/commands/env/create/sandbox';
 import { getSandboxProgress } from '../../../../src/shared/sandboxReporter';
 Messages.importMessagesDirectory(__dirname);
@@ -35,7 +36,7 @@ describe('org:create', () => {
   let createSandboxStub: sinon.SinonStub;
   let uxLogStub: sinon.SinonStub;
   let uxTableStub: sinon.SinonStub;
-  // let uxStyledHeaderStub: sinon.SinonStub;
+  let uxStyledHeaderStub: sinon.SinonStub;
   let cmd: TestCreate;
   let progressUpdate: sinon.SinonStub;
 
@@ -69,7 +70,7 @@ describe('org:create', () => {
     // uxWarnStub = stubMethod(sandbox, UX.prototype, 'warn');
     stubMethod(sandbox, TestCreate.prototype, 'warn');
     uxLogStub = stubMethod(sandbox, TestCreate.prototype, 'log');
-    // uxStyledHeaderStub = stubMethod(sandbox, CliUx.ux, 'styledHeader');
+    uxStyledHeaderStub = stubMethod(sandbox, Ux.prototype, 'styledHeader');
     uxTableStub = stubMethod(sandbox, TestCreate.prototype, 'table');
     progressUpdate = stubMethod(sandbox, Progress.prototype, 'update');
     stubMethod(sandbox, Progress.prototype, 'start');
@@ -215,8 +216,7 @@ describe('org:create', () => {
       Lifecycle.getInstance().on(SandboxEvents.EVENT_RESULT, async (result) => {
         expect(result).to.deep.equal(data);
         expect(uxLogStub.firstCall.args[0]).to.equal('Sandbox TestSandbox(0GR4p000000U8EMXXX) is ready for use.');
-        // expect(uxStyledHeaderStub.firstCall.args[0]).to.equal('Sandbox Org Creation Status');
-        // expect(uxStyledHeaderStub.firstCall.args[0]).to.equal('Sandbox Org Creation Status');
+        expect(uxStyledHeaderStub.firstCall.args[0]).to.equal('Sandbox Org Creation Status');
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         expect(uxTableStub.firstCall.args[0].length).to.equal(12);
         expect(uxTableStub.firstCall.args[0]).to.deep.equal([

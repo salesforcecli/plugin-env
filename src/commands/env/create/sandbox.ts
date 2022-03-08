@@ -117,7 +117,6 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
   }
 
   private createSandboxRequest(): SandboxRequest {
-    // no varargs - need to replace with multiple flag --def-property
     this.debug('Apply Definition Properties: %s ', this.sandboxDefinitionProperties);
     let sandboxDefFileContents = this.readJsonDefFile();
     let capitalizedDefProperties = {};

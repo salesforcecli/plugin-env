@@ -2,7 +2,7 @@
   {
     "command": "env:create:sandbox",
     "plugin": "@salesforce/plugin-env",
-    "flags": ["alias", "def-property", "definitionfile", "json", "set-default", "target-org", "wait"],
+    "flags": ["alias", "def-property", "definition-file", "json", "set-default", "target-org", "wait"],
     "alias": []
   },
   {

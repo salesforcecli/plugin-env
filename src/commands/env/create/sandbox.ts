@@ -89,8 +89,7 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
     this.debug('Create started with args %s ', this.flags);
 
     this.validateSandboxFlags();
-    const r = await this.createSandbox();
-    return r;
+    return await this.createSandbox();
   }
 
   private validateSandboxFlags(): void {

@@ -47,6 +47,10 @@ The streaming client socket timeout (in minutes)
 
 The sandbox org creation process %s is in progress. Run "sf env resume sandbox --job-id %s -o %s" to check for status. If the org is ready, checking the status also authorizes the org for use with Salesforce CLI.
 
+# warning.NoSandboxNameDefined
+
+No SandboxName defined, generating new SandboxName: %s
+
 # error.RequiresTargetOrg
 
 This command requires a target-org. Specify it with the -e parameter or with the "sf config set target-org=<username>" command.

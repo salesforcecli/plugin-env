@@ -139,7 +139,7 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
       // sandbox names are 10 chars or less, a radix of 36 = [a-z][0-9]
       // technically without querying the production org, the generated name could already exist, but the chances of that are lower than the perf penalty of querying and verifying
       sandboxReq.SandboxName = `sbx${Date.now().toString(36).slice(-7)}`;
-      this.warn(`No SandboxName defined, generating new SandboxName: ${sandboxReq.SandboxName}`);
+      this.warn(messages.createWarning('warning.NoSandboxNameDefined', [sandboxReq.SandboxName]));
     }
     if (!sandboxReq.LicenseType) {
       throw messages.createError('missingLicenseType');

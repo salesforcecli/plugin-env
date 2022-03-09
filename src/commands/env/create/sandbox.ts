@@ -74,7 +74,7 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
 
   protected readonly lifecycleEventNames = ['postorgcreate'];
   private sandboxAuth?: SandboxUserAuthResponse;
-  private flags!: {
+  private flags: {
     'definition-file': string;
     'set-default': boolean;
     alias: string;

@@ -9,23 +9,9 @@ import { isArray } from '@salesforce/ts-types';
 import { capitalCase } from 'change-case';
 import { JsonObject } from '@salesforce/sf-plugins-core';
 import { Messages } from '@salesforce/core';
-import { AuthInfo } from '@salesforce/core';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'util');
-
-export type OrgSideEffects = {
-  alias: string;
-  setDefault: boolean;
-  setDefaultDevHub: boolean;
-};
-
-export async function handleSideEffects(authInfo: AuthInfo, sideEffects: OrgSideEffects): Promise<void> {
-  if (sideEffects.alias) await authInfo.setAlias(sideEffects.alias);
-  if (sideEffects.setDefault) await authInfo.setAsDefault({ org: true });
-  if (sideEffects.setDefaultDevHub) await authInfo.setAsDefault({ devHub: true });
-  await authInfo.save();
-}
 
 export function toValue(val: JsonObject[keyof JsonObject]): string | boolean | number {
   if (!val && val !== false) return '';

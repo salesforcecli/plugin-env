@@ -6,8 +6,7 @@
  */
 
 import * as fs from 'fs';
-import { Flags } from '@oclif/core';
-import { SfCommand } from '@salesforce/sf-plugins-core';
+import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import {
   AuthInfo,
   Lifecycle,
@@ -23,8 +22,9 @@ import {
 } from '@salesforce/core';
 import { Duration } from '@salesforce/kit';
 import { Ux } from '@salesforce/sf-plugins-core/lib/ux';
+import * as Interfaces from '@oclif/core/lib/interfaces';
 import { getLogSandboxProcessResult, getSandboxProgress, SandboxProgress } from '../../../shared/sandboxReporter';
-import { handleSideEffects, toKeyValuePairs } from '../../../utils';
+import { toKeyValuePairs } from '../../../utils';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'create.sandbox');
@@ -41,9 +41,11 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
   public static description = messages.getMessage('description');
   public static examples = messages.getMessages('examples');
 
-  public static flags = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public static flags: Interfaces.FlagInput<any> = {
     // needs to change when new flags are available
-    'definition-file': Flags.string({
+    'definition-file': Flags.file({
+      exists: true,
       char: 'f',
       summary: messages.getMessage('flags.definitionFile.summary'),
     }),
@@ -55,18 +57,19 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
       char: 'a',
       summary: messages.getMessage('flags.alias.summary'),
     }),
-    wait: Flags.integer({
+    wait: Flags.duration({
       char: 'w',
       summary: messages.getMessage('flags.wait.summary'),
-      // min: 6,
-      default: 6,
+      min: 6,
+      unit: 'minutes',
+      defaultValue: 6,
     }),
-    'def-property': Flags.string({
-      char: 'p',
+    'sandbox-definition-property': Flags.string({
+      char: 'd',
       summary: messages.getMessage('flags.defProperty.summary'),
       multiple: true,
     }),
-    'target-org': Flags.string({
+    'target-org': Flags.requiredOrg({
       char: 'o',
       summary: messages.getMessage('flags.targetOrg.summary'),
     }),
@@ -78,13 +81,14 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
     'definition-file': string;
     'set-default': boolean;
     alias: string;
-    wait: number;
+    wait: Duration;
     json: boolean;
-    'def-property': string[];
-    'target-org': string;
+    'sandbox-definition-property': string[];
+    'target-org': Org;
   };
   private sandboxDefinitionProperties: Record<string, string>;
   public async run(): Promise<SandboxProcessObject> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     this.flags = (await this.parse(CreateSandbox)).flags;
     this.debug('Create started with args %s ', this.flags);
 
@@ -93,12 +97,8 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
   }
 
   private validateSandboxFlags(): void {
-    if (this.flags['def-property']) {
-      this.sandboxDefinitionProperties = toKeyValuePairs(this.flags['def-property']);
-    }
-
-    if (!this.flags['target-org']) {
-      throw messages.createError('error.RequiresTargetOrg');
+    if (this.flags['sandbox-definition-property']) {
+      this.sandboxDefinitionProperties = toKeyValuePairs(this.flags['sandbox-definition-property']);
     }
   }
 
@@ -124,11 +124,11 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
     if (sandboxDefFileContents) {
       sandboxDefFileContents = this.lowerToUpper(sandboxDefFileContents);
     }
-    // use multiple flag
-    if (this.flags['def-property']) {
+    // use multiple flag sandbox-definition-property
+    if (this.flags['sandbox-definition-property']) {
       capitalizedDefProperties = this.lowerToUpper(this.sandboxDefinitionProperties);
     }
-    // varargs override file input
+    // sandbox-definition-property override file input
     const sandboxReq: SandboxRequest = {
       SandboxName: undefined,
       ...sandboxDefFileContents,
@@ -137,7 +137,9 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
 
     if (!sandboxReq.SandboxName) {
       // sandbox names are 10 chars or less, a radix of 36 = [a-z][0-9]
-      // technically without querying the production org, the generated name could already exist, but the chances of that are lower than the perf penalty of querying and verifying
+      // see https://help.salesforce.com/s/articleView?id=sf.data_sandbox_create.htm&type=5 for sandbox naming criteria
+      // technically without querying the production org, the generated name could already exist,
+      // but the chances of that are lower than the perf penalty of querying and verifying
       sandboxReq.SandboxName = `sbx${Date.now().toString(36).slice(-7)}`;
       this.warn(messages.createWarning('warning.NoSandboxNameDefined', [sandboxReq.SandboxName]));
     }
@@ -148,7 +150,7 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
   }
 
   private async createSandbox(): Promise<SandboxProcessObject> {
-    const prodOrg = await Org.create({ aliasOrUsername: this.flags['target-org'] });
+    const prodOrg = this.flags['target-org'];
     const lifecycle = Lifecycle.getInstance();
     // register the sandbox event listeners before calling `prodOrg.createSandbox()`
 
@@ -156,7 +158,7 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
     // eslint-disable-next-line @typescript-eslint/require-await
     lifecycle.on(SandboxEvents.EVENT_ASYNC_RESULT, async (results: SandboxProcessObject) => {
       this.progress.stop();
-      this.log(messages.getMessage('sandboxSuccess', [results.Id, results.SandboxName, this.flags['target-org']]));
+      this.log(messages.getMessage('sandboxSuccess', [results.Id, results.SandboxName, prodOrg.getUsername()]));
     });
 
     // eslint-disable-next-line @typescript-eslint/require-await
@@ -188,7 +190,7 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
       this.table(data, columns, {});
       if (results.sandboxRes?.authUserName) {
         const authInfo = await AuthInfo.create({ username: results.sandboxRes?.authUserName });
-        await handleSideEffects(authInfo, {
+        await authInfo.handleAliasAndDefaultSettings({
           alias: this.flags.alias,
           setDefault: this.flags['set-default'],
           setDefaultDevHub: undefined,
@@ -211,12 +213,11 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
     const sandboxReq = this.createSandboxRequest();
 
     this.debug('Calling create with SandboxRequest: %s ', sandboxReq);
-    const wait = Duration.minutes(this.flags.wait);
 
     try {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      return prodOrg.createSandbox(sandboxReq, { wait });
+      return prodOrg.createSandbox(sandboxReq, { wait: this.flags.wait });
     } catch (e) {
       this.progress.stop();
       // guaranteed to be SfError from core;
@@ -225,7 +226,7 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
         // there was most likely an issue with DNS when auth'ing to the new sandbox, but it was created.
         if (this.sandboxAuth) {
           const authInfo = await AuthInfo.create({ username: this.sandboxAuth.authUserName });
-          await handleSideEffects(authInfo, {
+          await authInfo.handleAliasAndDefaultSettings({
             alias: this.flags.alias,
             setDefault: this.flags['set-default'],
             setDefaultDevHub: undefined,

@@ -84,34 +84,34 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
   public static flags = {
     alias: Flags.string({
       char: 'a',
-      description: messages.getMessage('flags.alias.description'),
+      summary: messages.getMessage('flags.alias.description'),
     }),
     'set-default': Flags.boolean({
       char: 'd',
-      description: messages.getMessage('flags.set-default.description'),
+      summary: messages.getMessage('flags.set-default.description'),
     }),
     'definition-file': Flags.file({
       exists: true,
       char: 'f',
-      description: messages.getMessage('flags.definition-file.description'),
+      summary: messages.getMessage('flags.definition-file.description'),
       exactlyOne: ['definition-file', 'edition'],
     }),
     'target-dev-hub': Flags.requiredHub({
-      description: messages.getMessage('flags.target-hub.summary'),
+      summary: messages.getMessage('flags.target-hub.summary'),
     }),
     'no-ancestors': Flags.boolean({
       char: 'c',
-      description: messages.getMessage('flags.no-ancestors.description'),
+      summary: messages.getMessage('flags.no-ancestors.description'),
     }),
     edition: Flags.string({
       char: 'e',
-      description: messages.getMessage('flags.edition.description'),
+      summary: messages.getMessage('flags.edition.description'),
       options: editionOptions,
       exactlyOne: ['definition-file', 'edition'],
     }),
     'no-namespace': Flags.boolean({
       char: 'm',
-      description: messages.getMessage('flags.no-namespace.description'),
+      summary: messages.getMessage('flags.no-namespace.description'),
     }),
     'duration-days': Flags.duration({
       unit: 'days',
@@ -119,23 +119,23 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       min: 1,
       max: 30,
       char: 'y',
-      description: messages.getMessage('flags.duration-days.description'),
+      summary: messages.getMessage('flags.duration-days.description'),
     }),
     wait: Flags.duration({
       unit: 'minutes',
       defaultValue: 5,
       min: 1,
       char: 'w',
-      description: messages.getMessage('flags.wait.description'),
+      summary: messages.getMessage('flags.wait.description'),
     }),
     'track-source': Flags.boolean({
       default: true,
-      description: messages.getMessage('flags.track-source.description'),
+      summary: messages.getMessage('flags.track-source.description'),
     }),
     'api-version': Flags.orgApiVersion(),
     'client-id': Flags.string({
       char: 'i',
-      description: messages.getMessage('flags.client-id.description'),
+      summary: messages.getMessage('flags.client-id.description'),
     }),
   };
   private logger: Logger;
@@ -161,6 +161,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
         : JSON.stringify({ edition: flags.edition }),
       clientSecret,
     };
+
     this.spinner.start('');
     // eslint-disable-next-line @typescript-eslint/require-await
     lifecycle.on(scratchOrgLifecycleEventName, async (data: ScratchOrgLifecycleEvent): Promise<void> => {

@@ -5,6 +5,7 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
+import * as fs from 'fs';
 import {
   Messages,
   ScratchOrgRequest,
@@ -15,6 +16,8 @@ import {
   GlobalInfo,
   Config,
   OrgConfigProperties,
+  ScratchOrgLifecycleEvent,
+  scratchOrgLifecycleEventName,
 } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 
@@ -91,6 +94,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       exists: true,
       char: 'f',
       description: messages.getMessage('flags.definition-file.description'),
+      exactlyOne: ['definition-file', 'edition'],
     }),
     'target-dev-hub': Flags.requiredHub({
       description: messages.getMessage('flags.target-hub.summary'),
@@ -103,7 +107,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       char: 'e',
       description: messages.getMessage('flags.edition.description'),
       options: editionOptions,
-      default: 'developer',
+      exactlyOne: ['definition-file', 'edition'],
     }),
     'no-namespace': Flags.boolean({
       char: 'm',
@@ -143,8 +147,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
     const { flags } = await this.parse(EnvCreateScratch);
     const hubOrg = flags['target-dev-hub'];
 
-    // TODO: if we don't have a definition file, we use the edition.
-    const secret = flags['client-id'] ? await this.clientSecretPrompt() : undefined;
+    const clientSecret = flags['client-id'] ? await this.clientSecretPrompt() : undefined;
 
     const createCommandOptions: ScratchOrgRequest = {
       connectedAppConsumerKey: flags['client-id'],
@@ -153,10 +156,21 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       noancestors: flags['no-ancestors'],
       wait: flags.wait,
       apiversion: flags['api-version'],
-      definitionfile: flags['definition-file'],
-      clientSecret: secret,
+      definitionjson: flags['definition-file']
+        ? await this.readJsonDefFile(flags['definition-file'])
+        : JSON.stringify({ edition: flags.edition }),
+      clientSecret,
     };
+    this.spinner.start('');
+    // eslint-disable-next-line @typescript-eslint/require-await
+    lifecycle.on(scratchOrgLifecycleEventName, async (data: ScratchOrgLifecycleEvent): Promise<void> => {
+      this.spinner.status = `status: ${data.stage} | requestId: ${data.scratchOrgInfo?.Id ?? '...'} | orgId ${
+        data.scratchOrgInfo?.ScratchOrg ?? '...'
+      } | username ${data.scratchOrgInfo?.SignupUsername ?? '...'}`;
+    });
     const { username, scratchOrgInfo, authFields, warnings } = await hubOrg.scratchOrgCreate(createCommandOptions);
+    this.spinner.stop();
+    this.log(`Successfully created scratch org ${scratchOrgInfo.ScratchOrg} with username ${username}`);
 
     await lifecycle.emit('scratchOrgInfo', scratchOrgInfo);
 
@@ -166,8 +180,9 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
     await Promise.all([
       lifecycle.emit('postorgcreate', postOrgCreateHookInfo),
       this.maybeSetAlias(username, flags.alias),
-      this.maybeSetDefault(flags.alias, username, flags['set-default']),
     ]);
+    await this.maybeSetDefault(flags.alias, username, flags['set-default']);
+
     return { username, scratchOrgInfo, authFields, warnings, orgId: scratchOrgInfo.Id };
   }
 
@@ -182,12 +197,19 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
     return secret;
   }
 
+  private async readJsonDefFile(path: string): Promise<string> {
+    // the -f option
+    this.logger.debug('Reading JSON DefFile %s ', path);
+    return fs.promises.readFile(path, 'utf-8');
+  }
+
   private async maybeSetAlias(username: string, alias: string): Promise<void> {
     if (!alias) return;
     this.logger.debug(`Setting alias ${alias} to ${username}`);
     const globalInfo = await GlobalInfo.create();
     globalInfo.aliases.set(alias, username);
     await globalInfo.write();
+    this.log(`...and set alias ${alias} to ${username}`);
   }
 
   private async maybeSetDefault(alias?: string, username?: string, defaultFlag?: boolean): Promise<void> {
@@ -201,9 +223,10 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
     }
 
     // use alias if provided
-    this.logger.debug(`Setting ${config.isGlobal ? 'global' : ''} default to ${alias ?? username}`);
+    this.logger.debug(`Setting ${config.isGlobal() ? 'global' : ''} default to ${alias ?? username}`);
 
     config.set(OrgConfigProperties.TARGET_ORG, alias ?? username);
     await config.write();
+    this.log(`...and set ${config.isGlobal() ? 'global ' : ''}default to ${alias ?? username}`);
   }
 }

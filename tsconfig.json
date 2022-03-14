@@ -6,9 +6,9 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@salesforce/kit": [
-        "node_modules/@salesforce/kit"
-      ],
+      "@oclif/core": ["node_modules/@oclif/core"],
+      "@salesforce/kit": ["node_modules/@salesforce/kit"],
+      "@salesforce/core": ["node_modules/@salesforce/core"]
     }
   },
   "include": ["./src/**/*.ts"]

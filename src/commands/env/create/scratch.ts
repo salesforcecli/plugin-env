@@ -131,6 +131,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
     'track-source': Flags.boolean({
       default: true,
       summary: messages.getMessage('flags.track-source.description'),
+      hidden: true, // for future use when AuthInfo supports this field
     }),
     'api-version': Flags.orgApiVersion(),
     'client-id': Flags.string({
@@ -146,7 +147,6 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
 
     const { flags } = await this.parse(EnvCreateScratch);
     const hubOrg = flags['target-dev-hub'];
-
     const clientSecret = flags['client-id'] ? await this.clientSecretPrompt() : undefined;
 
     const createCommandOptions: ScratchOrgRequest = {
@@ -161,17 +161,18 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
         : JSON.stringify({ edition: flags.edition }),
       clientSecret,
     };
+    this.spinner.start('Scratch Org Request');
 
-    this.spinner.start('');
     // eslint-disable-next-line @typescript-eslint/require-await
     lifecycle.on(scratchOrgLifecycleEventName, async (data: ScratchOrgLifecycleEvent): Promise<void> => {
-      this.spinner.status = `status: ${data.stage} | requestId: ${data.scratchOrgInfo?.Id ?? '...'} | orgId ${
-        data.scratchOrgInfo?.ScratchOrg ?? '...'
-      } | username ${data.scratchOrgInfo?.SignupUsername ?? '...'}`;
+      this.spinner.status = `Status: ${data.stage}
+RequestId: ${data.scratchOrgInfo?.Id ?? 'TBD'}
+OrgId ${data.scratchOrgInfo?.ScratchOrg ?? 'TBD'}
+Username ${data.scratchOrgInfo?.SignupUsername ?? 'TBD'}
+`;
     });
     const { username, scratchOrgInfo, authFields, warnings } = await hubOrg.scratchOrgCreate(createCommandOptions);
-    this.spinner.stop();
-    this.log(`Successfully created scratch org ${scratchOrgInfo.ScratchOrg} with username ${username}`);
+    this.spinner.stop(`\nSuccessfully created scratch org ${scratchOrgInfo.ScratchOrg} with username ${username}`);
 
     await lifecycle.emit('scratchOrgInfo', scratchOrgInfo);
 

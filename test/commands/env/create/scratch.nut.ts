@@ -8,7 +8,11 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
 import { expect } from 'chai';
+import { Messages } from '@salesforce/core';
 import { ScratchCreateResponse } from '../../../../src/commands/env/create/scratch';
+
+Messages.importMessagesDirectory(__dirname);
+const messages = Messages.load('@salesforce/plugin-env', 'create_scratch', ['prompt.secret']);
 describe('env create scratch NUTs', () => {
   let session: TestSession;
   before(async () => {
@@ -39,6 +43,13 @@ describe('env create scratch NUTs', () => {
     it('days out of bounds', () => {
       execCmd('env create scratch -f config/project-scratch-def.json -d 50', { ensureExitCode: 1 });
     });
+    it('prompts for client secret if client id present and times out', () => {
+      const error = execCmd('env create scratch --edition developer --client-id someConnectedApp', {
+        ensureExitCode: 1,
+      }).shellOutput;
+      expect(error).to.include(messages.getMessage('prompt.secret'));
+      expect(error).to.include('Timed out after 10000 ms.');
+    });
   });
 
   describe('successes', () => {
@@ -55,7 +66,7 @@ describe('env create scratch NUTs', () => {
       }).jsonOutput.result;
       expect(resp).to.have.all.keys(keys);
     });
-    it('prompts for client secret if client id present');
+
     it('stores default in local sf config', async () => {
       const resp = execCmd<ScratchCreateResponse>('env create scratch --edition developer --json --set-default', {
         ensureExitCode: 0,
@@ -81,9 +92,5 @@ describe('env create scratch NUTs', () => {
       expect(globalJson.orgs).to.have.property(resp.username);
       expect(globalJson.aliases).to.have.property(testAlias, resp.username);
     });
-    it('respects api version from flag');
-    it('respects api version from config when flag is not present');
-    it('creates an org without a namespace when flag is present, even when config file has a namespace');
-    it('receives expected lifecycle events');
   });
 });

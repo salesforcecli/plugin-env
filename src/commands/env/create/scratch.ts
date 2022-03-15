@@ -13,11 +13,9 @@ import {
   Logger,
   Lifecycle,
   AuthFields,
-  GlobalInfo,
-  Config,
-  OrgConfigProperties,
   ScratchOrgLifecycleEvent,
   scratchOrgLifecycleEventName,
+  AuthInfo,
 } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 
@@ -162,14 +160,16 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       clientSecret,
     };
     this.spinner.start('Scratch Org Request');
-
+    for (let i = 0; i < 100; i++) {
+      this.spinner.status = 'second test status';
+    }
     // eslint-disable-next-line @typescript-eslint/require-await
     lifecycle.on(scratchOrgLifecycleEventName, async (data: ScratchOrgLifecycleEvent): Promise<void> => {
-      this.spinner.status = `Status: ${data.stage}
-RequestId: ${data.scratchOrgInfo?.Id ?? 'TBD'}
-OrgId ${data.scratchOrgInfo?.ScratchOrg ?? 'TBD'}
-Username ${data.scratchOrgInfo?.SignupUsername ?? 'TBD'}
+      const status = `Status: ${data.stage} | RequestId: ${data.scratchOrgInfo?.Id ?? 'TBD'} | OrgId ${
+        data.scratchOrgInfo?.ScratchOrg ?? 'TBD'
+      } | Username ${data.scratchOrgInfo?.SignupUsername ?? 'TBD'}
 `;
+      this.log(status);
     });
     const { username, scratchOrgInfo, authFields, warnings } = await hubOrg.scratchOrgCreate(createCommandOptions);
     this.spinner.stop(`\nSuccessfully created scratch org ${scratchOrgInfo.ScratchOrg} with username ${username}`);
@@ -179,11 +179,11 @@ Username ${data.scratchOrgInfo?.SignupUsername ?? 'TBD'}
     const postOrgCreateHookInfo = Object.fromEntries(
       Object.entries(authFields).filter(([key]) => isCreateResultKey(key))
     );
+
     await Promise.all([
       lifecycle.emit('postorgcreate', postOrgCreateHookInfo),
-      this.maybeSetAlias(username, flags.alias),
+      this.maybeSetAliasAndDefault(username, flags['set-default'], flags.alias),
     ]);
-    await this.maybeSetDefault(flags.alias, username, flags['set-default']);
 
     return { username, scratchOrgInfo, authFields, warnings, orgId: scratchOrgInfo.Id };
   }
@@ -201,34 +201,16 @@ Username ${data.scratchOrgInfo?.SignupUsername ?? 'TBD'}
 
   private async readJsonDefFile(path: string): Promise<string> {
     // the -f option
-    this.logger.debug('Reading JSON DefFile %s ', path);
+    this.logger.debug(`Reading JSON DefFile ${path}`);
     return fs.promises.readFile(path, 'utf-8');
   }
 
-  private async maybeSetAlias(username: string, alias: string): Promise<void> {
-    if (!alias) return;
-    this.logger.debug(`Setting alias ${alias} to ${username}`);
-    const globalInfo = await GlobalInfo.create();
-    globalInfo.aliases.set(alias, username);
-    await globalInfo.write();
-    this.log(`...and set alias ${alias} to ${username}`);
-  }
-
-  private async maybeSetDefault(alias?: string, username?: string, defaultFlag?: boolean): Promise<void> {
-    if (!defaultFlag) return;
-    let config: Config;
-    // if we fail to create the local config, default to the global config
-    try {
-      config = await Config.create({ isGlobal: false });
-    } catch {
-      config = await Config.create({ isGlobal: true });
-    }
-
-    // use alias if provided
-    this.logger.debug(`Setting ${config.isGlobal() ? 'global' : ''} default to ${alias ?? username}`);
-
-    config.set(OrgConfigProperties.TARGET_ORG, alias ?? username);
-    await config.write();
-    this.log(`...and set ${config.isGlobal() ? 'global ' : ''}default to ${alias ?? username}`);
+  private async maybeSetAliasAndDefault(username: string, setDefault: boolean, alias?: string): Promise<void> {
+    const authInfo = await AuthInfo.create({ username });
+    return authInfo.handleAliasAndDefaultSettings({
+      alias,
+      setDefault,
+      setDefaultDevHub: false,
+    });
   }
 }

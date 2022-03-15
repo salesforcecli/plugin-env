@@ -4,16 +4,17 @@ Create a sandbox org
 
 # description
 
-Creates a sandbox org using the values specified in a configuration file or --def-property key=value flags that you specify on the command line.
-The --def-property key=value flags values specified on the command line override values in the configuration file.
-Specify a configuration file or provide key=value pairs while creating a scratch org or a sandbox.
+Creates a sandbox org using the values specified in a configuration file or --name and --license-type flags.
+
 When creating sandboxes, the --target-org (-o) must be a production org with sandbox licenses.
 
 # examples
 
 - $ sf env create sandbox -f config/dev-sandbox-def.json -a MyDevSandbox --target-org prodOrg
 
-- $ sf env create sandbox -f config/dev-sandbox-def.json -a MyDevSandbox -o prodOrg --def-property sandboxName=mySandBox --def-property licenseType=Enterprise
+- $ sf env create sandbox -f config/dev-sandbox-def.json -a MyDevSandbox -o prodOrg
+
+- $ sf env create sandbox --name mysandbox --license-type Developer -a MyDevSandbox -o prodOrg
 
 # flags.setDefault.summary
 
@@ -35,17 +36,29 @@ Path to a sandbox definition file
 
 Sandbox definition in JSON format
 
-# flags.defProperty.summary
+# flags.name.summary
 
-Properties to override those found in sandbox definition
+Name of the sandbox
+
+# flags.licenseType.summary
+
+Sandbox license type
 
 # flags.wait.summary
 
 The streaming client socket timeout (in minutes)
 
+# flags.noPrompt.summary
+
+Prevents command from prompting user for config confirmation.
+
 # sandboxSuccess
 
 The sandbox org creation process %s is in progress. Run "sf env resume sandbox --job-id %s -o %s" to check for status. If the org is ready, checking the status also authorizes the org for use with Salesforce CLI.
+
+# isConfigurationOk
+
+Is the configuration correct?
 
 # warning.NoSandboxNameDefined
 
@@ -75,3 +88,11 @@ Please specify an org configuration via file and/or key=value pairs.
 # error.DefPropertiesNotFormattedProperly
 
 The proper format of --def-property entries is "keyword=value". Found "%s".
+
+# error.SandboxNameLength
+
+The sandbox name "%s" should be 10 or fewer characters.
+
+# error.UserNotSatisfiedWithSandboxConfig
+
+The sandbox request configuration is not acceptable.

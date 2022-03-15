@@ -4,16 +4,21 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
+import * as fs from 'fs';
 import {
   AuthInfo,
+  GlobalInfo,
   Lifecycle,
   Messages,
   Org,
   SandboxEvents,
   SandboxProcessObject,
   SandboxUserAuthResponse,
-  SfdxError,
-  SfdxProject,
+  SfError,
+  SfInfo,
+  SfInfoKeys,
+  SfOrg,
+  SfOrgs,
   SfProject,
 } from '@salesforce/core';
 import { Progress } from '@salesforce/sf-plugins-core';
@@ -27,10 +32,48 @@ import CreateSandbox from '../../../../src/commands/env/create/sandbox';
 import { getSandboxProgress } from '../../../../src/shared/sandboxReporter';
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'create.sandbox');
+
+const sandboxProcessObj: SandboxProcessObject = {
+  Id: '0GR4p000000U8EMXXX',
+  Status: 'Completed',
+  SandboxName: 'TestSandbox',
+  SandboxInfoId: '0GQ4p000000U6sKXXX',
+  LicenseType: 'DEVELOPER',
+  CreatedDate: '2021-12-07T16:20:21.000+0000',
+  CopyProgress: 100,
+  SandboxOrganization: '00D2f0000008XXX',
+  SourceId: '123',
+  Description: 'sandbox description',
+  ApexClassId: '123',
+  EndDate: '2021-12-07T16:38:47.000+0000',
+};
+
+const fakeOrg: SfOrg = {
+  orgId: '00Dsomefakeorg1',
+  instanceUrl: 'https://some.fake.org',
+  username: 'somefake.org',
+};
+
+const fakeSfInfo: SfInfo = {
+  [SfInfoKeys.ORGS]: { [fakeOrg.username]: fakeOrg } as SfOrgs,
+  [SfInfoKeys.TOKENS]: {},
+  [SfInfoKeys.ALIASES]: { testProdOrg: fakeOrg.username },
+};
+
 describe('org:create', () => {
+  beforeEach(() => {
+    GlobalInfo.clearInstance();
+    stubMethod(sandbox, GlobalInfo.prototype, 'read').callsFake(async (): Promise<SfInfo> => {
+      return fakeSfInfo;
+    });
+    stubMethod(sandbox, GlobalInfo.prototype, 'write').callsFake(async (): Promise<SfInfo> => {
+      return fakeSfInfo;
+    });
+  });
+
+  process.env.SF_SFDX_INTEROPERABILITY = 'false';
   const sandbox = sinon.createSandbox();
   const oclifConfigStub = fromStub(stubInterface<IConfig>(sandbox));
-
   // stubs
   let resolveProjectConfigStub: sinon.SinonStub;
   let createSandboxStub: sinon.SinonStub;
@@ -57,17 +100,14 @@ describe('org:create', () => {
     // @ts-ignore
     cmd = new TestCreate(params, oclifConfigStub);
     stubMethod(sandbox, cmd, 'assignProject').callsFake(() => {
-      const sfdxProjectStub = fromStub(
-        stubInterface<SfdxProject>(sandbox, {
+      const sfProjectStub = fromStub(
+        stubInterface<SfProject>(sandbox, {
           resolveProjectConfig: resolveProjectConfigStub,
         })
       );
-      cmd.setProject(sfdxProjectStub);
+      cmd.setProject(sfProjectStub);
     });
 
-    createSandboxStub = stubMethod(sandbox, cmd, 'createSandbox').resolves();
-
-    // uxWarnStub = stubMethod(sandbox, UX.prototype, 'warn');
     stubMethod(sandbox, TestCreate.prototype, 'warn');
     uxLogStub = stubMethod(sandbox, TestCreate.prototype, 'log');
     uxStyledHeaderStub = stubMethod(sandbox, Ux.prototype, 'styledHeader');
@@ -75,83 +115,60 @@ describe('org:create', () => {
     progressUpdate = stubMethod(sandbox, Progress.prototype, 'update');
     stubMethod(sandbox, Progress.prototype, 'start');
     stubMethod(sandbox, Progress.prototype, 'stop');
-
     return cmd;
   };
 
   describe('sandbox', () => {
-    it('properly overwrites options from defaults, varargs, and definition file', async () => {
+    it('properly overwrites options from defaults and --license-type', async () => {
+      const command = await createCommand(['--license-type', 'Developer', '-o', 'testProdOrg', '--no-prompt']);
+
+      stubMethod(sandbox, cmd, 'readJsonDefFile').returns({
+        licenseType: 'Developer_Pro',
+        sandboxName: 'sandboxName',
+      });
+      stubMethod(sandbox, Org, 'create').resolves(Org.prototype);
+      stubMethod(sandbox, fs, 'existsSync').returns(true);
+      const prodOrg = stubMethod(sandbox, Org.prototype, 'createSandbox');
+      await command.runIt();
+      expect(prodOrg.firstCall.args[0]).to.deep.equal({
+        SandboxName: 'sandboxName',
+        LicenseType: 'Developer_Pro',
+      });
+    });
+
+    it('properly overwrites options from defaults and definition file with mixed capitalization', async () => {
       const command = await createCommand([
-        '-p',
-        'licenseType=LicenseFromVarargs',
         '--definition-file',
         'mySandboxDef.json',
         '-o',
         'testProdOrg',
+        '--no-prompt',
       ]);
 
-      createSandboxStub.restore();
       stubMethod(sandbox, cmd, 'readJsonDefFile').returns({
-        licenseType: 'licenseFromJson',
-        sandboxName: 'sandboxNameFromJson',
+        licenseType: 'Developer_Pro',
+        sandboxName: 'sandboxName',
       });
       stubMethod(sandbox, Org, 'create').resolves(Org.prototype);
+      stubMethod(sandbox, fs, 'existsSync').returns(true);
       const prodOrg = stubMethod(sandbox, Org.prototype, 'createSandbox');
       await command.runIt();
       expect(prodOrg.firstCall.args[0]).to.deep.equal({
-        SandboxName: 'sandboxNameFromJson',
-        LicenseType: 'LicenseFromVarargs',
+        SandboxName: 'sandboxName',
+        LicenseType: 'Developer_Pro',
       });
     });
-
-    it('properly overwrites options from defaults, varargs, and definition file with mixed capitalization', async () => {
-      const command = await createCommand([
-        '-p',
-        'LicenseType=LicenseFromVarargs',
-        '--definition-file',
-        'mySandboxDef.json',
-        '-o',
-        'testProdOrg',
-      ]);
-
-      createSandboxStub.restore();
-      stubMethod(sandbox, cmd, 'readJsonDefFile').returns({
-        licenseType: 'licenseFromJson',
-        sandboxName: 'sandboxNameFromJson',
-      });
-      stubMethod(sandbox, Org, 'create').resolves(Org.prototype);
-      const prodOrg = stubMethod(sandbox, Org.prototype, 'createSandbox');
-      await command.runIt();
-      expect(prodOrg.firstCall.args[0]).to.deep.equal({
-        SandboxName: 'sandboxNameFromJson',
-        LicenseType: 'LicenseFromVarargs',
-      });
-    });
-
-    const sandboxProcessObj: SandboxProcessObject = {
-      Id: '0GR4p000000U8EMXXX',
-      Status: 'Completed',
-      SandboxName: 'TestSandbox',
-      SandboxInfoId: '0GQ4p000000U6sKXXX',
-      LicenseType: 'DEVELOPER',
-      CreatedDate: '2021-12-07T16:20:21.000+0000',
-      CopyProgress: 100,
-      SandboxOrganization: '00D2f0000008XXX',
-      SourceId: '123',
-      Description: 'sandbox description',
-      ApexClassId: '123',
-      EndDate: '2021-12-07T16:38:47.000+0000',
-    };
 
     it('will print the correct message for asyncResult lifecycle event', async () => {
-      const command = await createCommand(['-o', 'testProdOrg']);
+      const command = await createCommand(['-o', 'testProdOrg', '--no-prompt']);
 
-      createSandboxStub.restore();
       stubMethod(sandbox, cmd, 'readJsonDefFile').returns({
         licenseType: 'licenseFromJon',
       });
       stubMethod(sandbox, Org, 'create').resolves(Org.prototype);
+      stubMethod(sandbox, Org.prototype, 'getUsername').returns('testProdOrg');
       const createStub = stubMethod(sandbox, Org.prototype, 'createSandbox');
+
       await command.runIt();
 
       // no SandboxName defined, so we should generate one that starts with sbx
@@ -171,9 +188,8 @@ describe('org:create', () => {
     });
 
     it('will print the correct message for status lifecycle event (30 seconds left)', async () => {
-      const command = await createCommand(['-o', 'testProdOrg']);
+      const command = await createCommand(['-o', 'testProdOrg', '--no-prompt']);
 
-      createSandboxStub.restore();
       stubMethod(sandbox, cmd, 'readJsonDefFile').returns({
         licenseType: 'licenseFromJon',
         sandboxName: 'sandboxNameFromJson',
@@ -199,9 +215,15 @@ describe('org:create', () => {
     });
 
     it('will print the correct message for result lifecycle event and set alias/defaultusername', async () => {
-      const command = await createCommand(['--alias', 'sandboxAlias', '--set-default', '-o', 'testProdOrg']);
+      const command = await createCommand([
+        '--alias',
+        'sandboxAlias',
+        '--set-default',
+        '-o',
+        'testProdOrg',
+        '--no-prompt',
+      ]);
 
-      createSandboxStub.restore();
       stubMethod(sandbox, cmd, 'readJsonDefFile').returns({
         licenseType: 'licenseFromJon',
       });
@@ -209,6 +231,7 @@ describe('org:create', () => {
       stubMethod(sandbox, AuthInfo, 'create').resolves(AuthInfo.prototype);
       stubMethod(sandbox, AuthInfo.prototype, 'save').resolves(undefined);
       stubMethod(sandbox, Org.prototype, 'createSandbox');
+      stubMethod(sandbox, fs, 'existsSync').returns(true);
       const setAliasStub = stubMethod(sandbox, AuthInfo.prototype, 'setAlias');
       const setAsDefaultStub = stubMethod(sandbox, AuthInfo.prototype, 'setAsDefault');
       await command.runIt();
@@ -284,50 +307,21 @@ describe('org:create', () => {
       await Lifecycle.getInstance().emit(SandboxEvents.EVENT_RESULT, data);
     });
 
-    it('will calculate the correct human readable message (1h 33min 00seconds seconds left)', async () => {
-      const data = {
-        // 186*30 = 5580 = 1 hour, 33 min, 0 seconds. so 186 attempts left, at a 30 second polling interval
-        sandboxProcessObj,
-        interval: 30,
-        retries: 186,
-        waitingOnAuth: false,
-      };
-      const res = getSandboxProgress(data);
-      expect(res).to.have.property('id', 'TestSandbox(0GR4p000000U8EMXXX)');
-      expect(res).to.have.property('status', 'Completed');
-      expect(res).to.have.property('percentComplete', 100);
-      expect(res).to.have.property('remainingWaitTimeHuman', '1 hour 33 minutes until timeout.');
-    });
-
-    it('will calculate the correct human readable message (5 min 30seconds seconds left)', async () => {
-      const data = {
-        sandboxProcessObj,
-        interval: 30,
-        retries: 11,
-        waitingOnAuth: false,
-      };
-      const res = getSandboxProgress(data);
-      expect(res).to.have.property('id', 'TestSandbox(0GR4p000000U8EMXXX)');
-      expect(res).to.have.property('status', 'Completed');
-      expect(res).to.have.property('percentComplete', 100);
-      expect(res).to.have.property('remainingWaitTimeHuman', '5 minutes 30 seconds until timeout.');
-    });
-
     it('will wrap the partial success error correctly', async () => {
-      const command = await createCommand(['-o', 'testProdOrg']);
+      const command = await createCommand(['-o', 'testProdOrg', '--no-prompt']);
 
-      createSandboxStub.restore();
       stubMethod(sandbox, cmd, 'readJsonDefFile').returns({
         licenseType: 'licenseFromJon',
         sandboxName: 'sandboxNameFromJson',
       });
       stubMethod(sandbox, Org, 'create').resolves(Org.prototype);
       stubMethod(sandbox, Org.prototype, 'createSandbox').throws({ message: 'The org cannot be found' });
+      stubMethod(sandbox, fs, 'existsSync').returns(true);
       try {
         await command.runIt();
         assert.fail('the above should throw an error');
       } catch (e) {
-        const error = e as SfdxError;
+        const error = e as SfError;
         expect(error.actions[0]).to.equal(messages.getMessage('error.DnsTimeout'));
         expect(error.actions[1]).to.equal(messages.getMessage('error.PartialSuccess'));
         expect(error.exitCode).to.equal(68);
@@ -352,5 +346,37 @@ describe('org:create', () => {
 
   afterEach(() => {
     sandbox.restore();
+    createSandboxStub?.restore();
+  });
+});
+
+describe('sandbox progress', () => {
+  it('will calculate the correct human readable message (1h 33min 00seconds seconds left)', async () => {
+    const data = {
+      // 186*30 = 5580 = 1 hour, 33 min, 0 seconds. so 186 attempts left, at a 30 second polling interval
+      sandboxProcessObj,
+      interval: 30,
+      retries: 186,
+      waitingOnAuth: false,
+    };
+    const res = getSandboxProgress(data);
+    expect(res).to.have.property('id', 'TestSandbox(0GR4p000000U8EMXXX)');
+    expect(res).to.have.property('status', 'Completed');
+    expect(res).to.have.property('percentComplete', 100);
+    expect(res).to.have.property('remainingWaitTimeHuman', '1 hour 33 minutes until timeout.');
+  });
+
+  it('will calculate the correct human readable message (5 min 30seconds seconds left)', async () => {
+    const data = {
+      sandboxProcessObj,
+      interval: 30,
+      retries: 11,
+      waitingOnAuth: false,
+    };
+    const res = getSandboxProgress(data);
+    expect(res).to.have.property('id', 'TestSandbox(0GR4p000000U8EMXXX)');
+    expect(res).to.have.property('status', 'Completed');
+    expect(res).to.have.property('percentComplete', 100);
+    expect(res).to.have.property('remainingWaitTimeHuman', '5 minutes 30 seconds until timeout.');
   });
 });

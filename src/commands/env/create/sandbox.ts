@@ -24,7 +24,6 @@ import { Duration } from '@salesforce/kit';
 import { Ux } from '@salesforce/sf-plugins-core/lib/ux';
 import * as Interfaces from '@oclif/core/lib/interfaces';
 import { getLogSandboxProcessResult, getSandboxProgress, SandboxProgress } from '../../../shared/sandboxReporter';
-import { toKeyValuePairs } from '../../../utils';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'create.sandbox');
@@ -35,6 +34,15 @@ const progressBarOptions = {
   barIncompleteChar: '\u2591',
   linewrap: true,
 };
+
+export enum SandboxLicenseType {
+  Developer = 'Developer',
+  DeveloperPro = 'Developer_Pro',
+  Partial = 'Partial',
+  Full = 'Full',
+}
+
+const getLicenseTypes = (): string[] => Object.values(SandboxLicenseType);
 
 export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
   public static summary = messages.getMessage('summary');
@@ -48,6 +56,7 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
       exists: true,
       char: 'f',
       summary: messages.getMessage('flags.definitionFile.summary'),
+      exclusive: ['name', 'license-type'],
     }),
     'set-default': Flags.boolean({
       char: 's',
@@ -64,14 +73,24 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
       unit: 'minutes',
       defaultValue: 6,
     }),
-    'sandbox-definition-property': Flags.string({
-      char: 'd',
-      summary: messages.getMessage('flags.defProperty.summary'),
-      multiple: true,
+    name: Flags.string({
+      char: 'n',
+      summary: messages.getMessage('flags.name.summary'),
+      exclusive: ['definition-file'],
+    }),
+    'license-type': Flags.enum({
+      char: 'l',
+      summary: messages.getMessage('flags.licenseType.summary'),
+      exclusive: ['definition-file'],
+      options: getLicenseTypes(),
+      default: SandboxLicenseType.Developer,
     }),
     'target-org': Flags.requiredOrg({
       char: 'o',
       summary: messages.getMessage('flags.targetOrg.summary'),
+    }),
+    'no-prompt': Flags.boolean({
+      summary: messages.getMessage('flags.noPrompt.summary'),
     }),
   };
 
@@ -83,13 +102,14 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
     alias: string;
     wait: Duration;
     json: boolean;
-    'sandbox-definition-property': string[];
+    name: string;
+    'license-type': SandboxLicenseType;
+    'no-prompt': boolean;
     'target-org': Org;
   };
-  private sandboxDefinitionProperties: Record<string, string>;
+
   public async run(): Promise<SandboxProcessObject> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    this.flags = (await this.parse(CreateSandbox)).flags;
+    this.flags = (await this.parse(CreateSandbox)).flags as CreateSandbox['flags'];
     this.debug('Create started with args %s ', this.flags);
 
     this.validateSandboxFlags();
@@ -97,8 +117,8 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
   }
 
   private validateSandboxFlags(): void {
-    if (this.flags['sandbox-definition-property']) {
-      this.sandboxDefinitionProperties = toKeyValuePairs(this.flags['sandbox-definition-property']);
+    if (this.flags.name && this.flags.name.length > 10) {
+      throw messages.createError('error.SandboxNameLength', [this.flags.name]);
     }
   }
 
@@ -117,22 +137,23 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
   }
 
   private createSandboxRequest(): SandboxRequest {
-    this.debug('Apply Definition Properties: %s ', this.sandboxDefinitionProperties);
-    let sandboxDefFileContents = this.readJsonDefFile();
-    let capitalizedDefProperties = {};
+    let sandboxDefFileContents = this.readJsonDefFile() || {};
 
     if (sandboxDefFileContents) {
       sandboxDefFileContents = this.lowerToUpper(sandboxDefFileContents);
     }
-    // use multiple flag sandbox-definition-property
-    if (this.flags['sandbox-definition-property']) {
-      capitalizedDefProperties = this.lowerToUpper(this.sandboxDefinitionProperties);
-    }
-    // sandbox-definition-property override file input
+
+    // build sandbox request from data provided
     const sandboxReq: SandboxRequest = {
       SandboxName: undefined,
       ...sandboxDefFileContents,
-      ...capitalizedDefProperties,
+      ...Object.assign({}, this.flags.name ? { SandboxName: this.flags.name } : {}),
+      ...Object.assign(
+        {},
+        sandboxDefFileContents['LicenseType']
+          ? { LicenseType: sandboxDefFileContents['LicenseType'] as string }
+          : { LicenseType: this.flags['license-type'] }
+      ),
     };
 
     if (!sandboxReq.SandboxName) {
@@ -143,9 +164,7 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
       sandboxReq.SandboxName = `sbx${Date.now().toString(36).slice(-7)}`;
       this.warn(messages.createWarning('warning.NoSandboxNameDefined', [sandboxReq.SandboxName]));
     }
-    if (!sandboxReq.LicenseType) {
-      throw messages.createError('missingLicenseType');
-    }
+
     return sandboxReq;
   }
 
@@ -158,7 +177,9 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
     // eslint-disable-next-line @typescript-eslint/require-await
     lifecycle.on(SandboxEvents.EVENT_ASYNC_RESULT, async (results: SandboxProcessObject) => {
       this.progress.stop();
-      this.log(messages.getMessage('sandboxSuccess', [results.Id, results.SandboxName, prodOrg.getUsername()]));
+      this.log(
+        messages.getMessage('sandboxSuccess', [results.Id, results.SandboxName, prodOrg ? prodOrg.getUsername() : ''])
+      );
     });
 
     // eslint-disable-next-line @typescript-eslint/require-await
@@ -198,6 +219,10 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
       }
     });
 
+    const sandboxReq = this.createSandboxRequest();
+
+    await this.confirmSandboxReq(sandboxReq);
+
     this.progress.start(
       100,
       {
@@ -209,8 +234,6 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
       },
       progressBarOptions
     );
-
-    const sandboxReq = this.createSandboxRequest();
 
     this.debug('Calling create with SandboxRequest: %s ', sandboxReq);
 
@@ -254,6 +277,33 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
     if (this.flags['definition-file']) {
       this.debug('Reading JSON DefFile %s ', this.flags['definition-file']);
       return JSON.parse(fs.readFileSync(this.flags['definition-file'], 'utf-8')) as Record<string, unknown>;
+    }
+  }
+
+  private async confirmSandboxReq(sandboxReq: SandboxRequest): Promise<void> {
+    if (this.flags['no-prompt'] || this.jsonEnabled()) return;
+
+    const columns: Ux.Table.Columns<{ key: string; value: unknown }> = {
+      key: { header: 'Field' },
+      value: { header: 'Value' },
+    };
+
+    const data = Object.entries(sandboxReq).map(([key, value]) => ({ key, value }));
+    this.styledHeader('Config Sandbox Request');
+    this.table(data, columns, {});
+
+    const configurationCorrect = await this.timedPrompt<{ continue: boolean }>(
+      [
+        {
+          name: 'continue',
+          type: 'confirm',
+          message: messages.getMessage('isConfigurationOk'),
+        },
+      ],
+      10_000
+    );
+    if (!configurationCorrect.continue) {
+      throw messages.createError('error.UserNotSatisfiedWithSandboxConfig');
     }
   }
 }

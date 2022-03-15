@@ -8,10 +8,6 @@
 import { isArray } from '@salesforce/ts-types';
 import { capitalCase } from 'change-case';
 import { JsonObject } from '@salesforce/sf-plugins-core';
-import { Messages } from '@salesforce/core';
-
-Messages.importMessagesDirectory(__dirname);
-const messages = Messages.loadMessages('@salesforce/plugin-env', 'util');
 
 export function toValue(val: JsonObject[keyof JsonObject]): string | boolean | number {
   if (!val && val !== false) return '';
@@ -22,20 +18,3 @@ export function toValue(val: JsonObject[keyof JsonObject]): string | boolean | n
 export function toKey(key: string, translations: Record<string, string> = {}): string {
   return translations[key] ?? capitalCase(key);
 }
-
-export const toKeyValuePairs = (source: string | string[]): Record<string, string> => {
-  const s = typeof source === 'string' ? [source] : source;
-  return s
-    .map((property) => {
-      const parts = property.includes(',') ? property.split(',') : [property];
-      return parts.map((part) => {
-        const [key, value] = part.split('=');
-        if (!key || !value) {
-          throw messages.createError('error.KeywordValueNotFormattedProperly', [part]);
-        }
-        return { [key]: value } as Record<string, string>;
-      });
-    })
-    .flat()
-    .reduce((o, e) => Object.assign(o, e), {} as Record<string, string>);
-};

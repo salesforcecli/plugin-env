@@ -15,9 +15,12 @@ import {
   AuthFields,
   ScratchOrgLifecycleEvent,
   scratchOrgLifecycleEventName,
+  scratchOrgLifecycleStages,
   AuthInfo,
+  Org,
 } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+import * as chalk from 'chalk';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.load('@salesforce/plugin-env', 'create_scratch', [
@@ -75,6 +78,7 @@ const editionOptions = [
   'partner-group',
   'partner-professional',
 ];
+
 export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
@@ -144,7 +148,6 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
     this.logger = await Logger.child('env create scratch');
 
     const { flags } = await this.parse(EnvCreateScratch);
-    const hubOrg = flags['target-dev-hub'];
     const clientSecret = flags['client-id'] ? await this.clientSecretPrompt() : undefined;
 
     const createCommandOptions: ScratchOrgRequest = {
@@ -159,37 +162,53 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
         : JSON.stringify({ edition: flags.edition }),
       clientSecret,
     };
-    this.spinner.start('Scratch Org Request');
-    for (let i = 0; i < 100; i++) {
-      this.spinner.status = 'second test status';
-    }
+
+    let lastStatus: string;
+    const baseUrl = flags['target-dev-hub'].getField(Org.Fields.INSTANCE_URL).toString();
+
     // eslint-disable-next-line @typescript-eslint/require-await
     lifecycle.on(scratchOrgLifecycleEventName, async (data: ScratchOrgLifecycleEvent): Promise<void> => {
-      const status = `Status: ${data.stage} | RequestId: ${data.scratchOrgInfo?.Id ?? 'TBD'} | OrgId ${
-        data.scratchOrgInfo?.ScratchOrg ?? 'TBD'
-      } | Username ${data.scratchOrgInfo?.SignupUsername ?? 'TBD'}
-`;
-      this.log(status);
+      lastStatus = this.buildStatus(data, baseUrl);
+      this.spinner.status = lastStatus;
     });
-    const { username, scratchOrgInfo, authFields, warnings } = await hubOrg.scratchOrgCreate(createCommandOptions);
-    this.spinner.stop(`\nSuccessfully created scratch org ${scratchOrgInfo.ScratchOrg} with username ${username}`);
 
-    await lifecycle.emit('scratchOrgInfo', scratchOrgInfo);
+    this.spinner.start('Scratch Org Process');
+    const { username, scratchOrgInfo, authFields, warnings } = await flags['target-dev-hub'].scratchOrgCreate(
+      createCommandOptions
+    );
+    this.spinner.stop(lastStatus);
 
-    const postOrgCreateHookInfo = Object.fromEntries(
-      Object.entries(authFields).filter(([key]) => isCreateResultKey(key))
+    await this.maybeSetAliasAndDefault(username, flags['set-default'], flags.alias);
+    await lifecycle.emit(
+      'postorgcreate',
+      Object.fromEntries(Object.entries(authFields).filter(([key]) => isCreateResultKey(key)))
     );
 
-    await Promise.all([
-      lifecycle.emit('postorgcreate', postOrgCreateHookInfo),
-      this.maybeSetAliasAndDefault(username, flags['set-default'], flags.alias),
-    ]);
-
+    this.log(chalk.green('Your scratch org is ready.'));
     return { username, scratchOrgInfo, authFields, warnings, orgId: scratchOrgInfo.Id };
   }
 
+  private buildStatus(data: ScratchOrgLifecycleEvent, baseUrl: string): string {
+    return `
+Status: ${scratchOrgLifecycleStages
+      .map((stage, stageIndex) => {
+        // current stage
+        if (data.stage === stage) return chalk.bold.blue(stage);
+        // completed stages
+        if (scratchOrgLifecycleStages.indexOf(data.stage) > stageIndex) return chalk.green(stage);
+        // future stage
+        return chalk.dim(stage);
+      })
+      .join(chalk.dim(' -> '))}
+RequestId: ${
+      data.scratchOrgInfo?.Id ? `${chalk.bold(data.scratchOrgInfo?.Id)} (${baseUrl}/${data.scratchOrgInfo?.Id})` : ''
+    }
+OrgId: ${data.scratchOrgInfo?.ScratchOrg ? chalk.bold.blue(data.scratchOrgInfo?.ScratchOrg) : ''}
+Username: ${data.scratchOrgInfo?.SignupUsername ? chalk.bold.blue(data.scratchOrgInfo?.SignupUsername) : ''}`;
+  }
+
   private async clientSecretPrompt(): Promise<string> {
-    const { secret } = await this.prompt<{ secret: string }>([
+    const { secret } = await this.timedPrompt<{ secret: string }>([
       {
         name: 'secret',
         message: messages.getMessage('prompt.secret'),

@@ -5,6 +5,8 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import * as fs from 'fs';
+import * as os from 'os';
+import * as path from 'path';
 import {
   AuthInfo,
   GlobalInfo,
@@ -137,22 +139,22 @@ describe('org:create', () => {
     });
 
     it('properly overwrites options from defaults and definition file with mixed capitalization', async () => {
-      const command = await createCommand([
-        '--definition-file',
-        'mySandboxDef.json',
-        '-o',
-        'testProdOrg',
-        '--no-prompt',
-      ]);
+      const tmpDir = os.tmpdir();
+      const defFile = path.join(tmpDir, 'mySandboxDef.json');
+      fs.writeFileSync(
+        defFile,
+        JSON.stringify({
+          licenseType: 'Developer_Pro',
+          sandboxName: 'sandboxName',
+        }),
+        'utf8'
+      );
+      const command = await createCommand(['--definition-file', defFile, '-o', 'testProdOrg', '--no-prompt']);
 
-      stubMethod(sandbox, cmd, 'readJsonDefFile').returns({
-        licenseType: 'Developer_Pro',
-        sandboxName: 'sandboxName',
-      });
       stubMethod(sandbox, Org, 'create').resolves(Org.prototype);
-      stubMethod(sandbox, fs, 'existsSync').returns(true);
       const prodOrg = stubMethod(sandbox, Org.prototype, 'createSandbox');
       await command.runIt();
+      fs.unlinkSync(defFile);
       expect(prodOrg.firstCall.args[0]).to.deep.equal({
         SandboxName: 'sandboxName',
         LicenseType: 'Developer_Pro',

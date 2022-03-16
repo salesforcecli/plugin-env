@@ -225,6 +225,9 @@ Username: ${data.scratchOrgInfo?.SignupUsername ? chalk.bold.blue(data.scratchOr
   }
 
   private async maybeSetAliasAndDefault(username: string, setDefault: boolean, alias?: string): Promise<void> {
+    if (!setDefault && !alias) {
+      return;
+    }
     const authInfo = await AuthInfo.create({ username });
     return authInfo.handleAliasAndDefaultSettings({
       alias,

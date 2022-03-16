@@ -13,7 +13,6 @@
  */
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
-import { confirm } from '../../../confirm';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'delete_sandbox');
@@ -40,7 +39,7 @@ export default class EnvDeleteSandbox extends SfCommand<SandboxDeleteResponse> {
     const { flags } = await this.parse(EnvDeleteSandbox);
     const org = flags['target-org'];
 
-    if (flags['no-prompt'] || (await confirm(messages.getMessage('prompt.confirm', [org.getUsername()])))) {
+    if (flags['no-prompt'] || (await this.confirm(messages.getMessage('prompt.confirm', [org.getUsername()])))) {
       try {
         await org.delete();
         this.log(messages.getMessage('success', [org.getUsername()]));

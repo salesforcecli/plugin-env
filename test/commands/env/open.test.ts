@@ -7,7 +7,7 @@
 import { expect, test } from '@oclif/test';
 import { AuthInfo, Connection, Org, SfOrg } from '@salesforce/core';
 
-import Open, { OpenResult } from '../../../src/commands/env/open';
+import EnvOpen, { OpenResult } from '../../../src/commands/env/open';
 
 const expectedSfOrgs: Array<Partial<SfOrg>> = [
   {
@@ -45,7 +45,7 @@ describe('open unit tests', () => {
         aliasOrUsername: expectedSfOrgs[0].username,
       } as Org.Options);
     })
-    .stub(Open.prototype, 'open', async (): Promise<void> => {})
+    .stub(EnvOpen.prototype, 'open', async (): Promise<void> => {})
     .stdout()
     .command([
       'env:open',
@@ -83,7 +83,7 @@ describe('open unit tests', () => {
         aliasOrUsername: expectedSfOrgs[0].username,
       } as Org.Options);
     })
-    .stub(Open.prototype, 'open', async (): Promise<void> => {})
+    .stub(EnvOpen.prototype, 'open', async (): Promise<void> => {})
     .stdout()
     .command(['env:open', '--target-env', expectedSfOrgs[0].username, '--json'])
     .it('should open requested environment', (ctx) => {
@@ -94,21 +94,25 @@ describe('open unit tests', () => {
   test
     .stdout()
     .command(['env:open'])
-    .catch((error) =>
-      expect(error.message).to.to.include(
+    .it('should throw error if --target-env is not specified', (ctx) => {
+      expect(ctx.stdout).to.to.include(
         'No default environment found. Use -e or --target-env to specify an environment to open.'
-      )
-    )
-    .it('should throw error if --target-env is not specified');
+      );
+    });
 });
 describe('open throws an error that is not NamedOrgNotFoundError or AuthInfoCreationError', () => {
   test
     .stub(Org, 'create', async (): Promise<Org> => {
       throw new Error('some other error');
     })
+    .stdout()
     .command(['env:open', '--target-env', 'foobarbaz@some.org'])
-    .catch((error) => expect(error.message).to.to.include('some other error'))
-    .it('should throw error open fails for any reason other than NamedOrgNotFoundError or AuthInfoCreationError');
+    .it(
+      'should throw error open fails for any reason other than NamedOrgNotFoundError or AuthInfoCreationError',
+      (ctx) => {
+        expect(ctx.stdout).to.to.include('some other error');
+      }
+    );
 });
 describe('open throws an error that is NamedOrgNotFoundError', () => {
   test
@@ -117,9 +121,10 @@ describe('open throws an error that is NamedOrgNotFoundError', () => {
       err.name = 'NamedOrgNotFoundError';
       throw err;
     })
-    .stub(Open.prototype, 'open', async (): Promise<void> => {})
+    .stub(EnvOpen.prototype, 'open', async (): Promise<void> => {})
     .stdout()
     .command(['env:open', '--target-env', 'foobarbaz@some.org'])
-    .catch((error) => expect(error.message).to.to.include('No environment found for'))
-    .it('should throw error open fails for no env found');
+    .it('should throw error open fails for no env found', (ctx) => {
+      expect(ctx.stdout).to.to.include('No environment found for');
+    });
 });

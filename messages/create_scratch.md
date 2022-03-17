@@ -4,63 +4,59 @@ Create a scratch org.
 
 # description
 
-Blah.
+Using a DevHub, create a scratch org based on a configuration file or an edition.
 
 # examples
 
-- Delete a scratch org with alias my-scratch-org:
+- Create a Developer edition org from your default Dev hub
 
-  <%= config.bin %> <%= command.id %> --target-org=my-scratch-org
+  <%= config.bin %> <%= command.id %> --edition=developer
 
-- Specify a username instead of an alias:
+- Specify a DevHub and a scratch org definition file. Set the org to expire in 3 days and be as your default org
 
-  <%= config.bin %> <%= command.id %> --target-org=test-123456-abcdefg@example.com
-
-- Delete the org without prompting to confirm :
-
-  <%= config.bin %> <%= command.id %> --target-org=my-scratch-org --no-prompt
+  <%= config.bin %> <%= command.id %> --target-hub=myHub --definition-file config/project-scratch-def.json --duration-days 3 --set-default
 
 # flags.target-hub.summary
 
 Org alias or username for the DevHub
 
-# flags.alias.description
+# flags.alias.summary
 
 alias for the created env
 
-# flags.set-default.description
+# flags.set-default.summary
 
-Set the org as your default org
+set the org as your default org
 
-# flags.no-ancestors.description
+# flags.no-ancestors.summary
 
-Do not include second-generation package ancestors
+do not include second-generation package ancestors
 
-# flags.edition.description
+# flags.edition.summary
 
-Optional values are: developer (default), enterprise, group, and professional. Additionally, partners can create partner edition scratch orgs from a partner business org as using: partner-developer, partner-enterprise, partner-group, and partner-professional.
+the options beginning with "partner-" are available if the DevHub is a partner business org
 
-# flags.definition-file.description
+# flags.definition-file.summary
 
-path to an org definition file
+path to an org definition file. <https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs_def_file.htm>
 
-# flags.client-id.description
+# flags.client-id.summary
 
 connected app consumer key
 
-# flags.wait.description
+# flags.wait.summary
 
 how long to wait for the scratch org to be ready
 
-# flags.track-source.description
+# flags.track-source.summary
 
 enable/disable source tracking
 
-# flags.no-namespace.description
+# flags.no-namespace.summary
 
-Create the scratch org with no namespace
+create the scratch org with no namespace, even if the DevHub has a namespace
 
-# flags.duration-days.description
+# flags.duration-days.summary
 
 Duration of the scratch org in days
 
@@ -70,8 +66,4 @@ OAuth client secret of personal connected app
 
 # success
 
-Successfully marked scratch org %s for deletion.
-
-# success.Idempotent
-
-Successfully deleted scratch org %s.
+Your scratch org is ready.

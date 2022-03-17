@@ -26,18 +26,19 @@ const messages = Messages.load('@salesforce/plugin-env', 'create_scratch', [
   'summary',
   'description',
   'examples',
-  'flags.alias.description',
+  'flags.alias.summary',
   'flags.target-hub.summary',
-  'flags.set-default.description',
-  'flags.edition.description',
-  'flags.no-namespace.description',
-  'flags.track-source.description',
-  'flags.no-ancestors.description',
-  'flags.wait.description',
-  'flags.definition-file.description',
-  'flags.client-id.description',
-  'flags.duration-days.description',
+  'flags.set-default.summary',
+  'flags.edition.summary',
+  'flags.no-namespace.summary',
+  'flags.track-source.summary',
+  'flags.no-ancestors.summary',
+  'flags.wait.summary',
+  'flags.definition-file.summary',
+  'flags.client-id.summary',
+  'flags.duration-days.summary',
   'prompt.secret',
+  'success',
 ]);
 
 export interface ScratchCreateResponse {
@@ -74,16 +75,16 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
   public static flags = {
     alias: Flags.string({
       char: 'a',
-      summary: messages.getMessage('flags.alias.description'),
+      summary: messages.getMessage('flags.alias.summary'),
     }),
     'set-default': Flags.boolean({
       char: 'd',
-      summary: messages.getMessage('flags.set-default.description'),
+      summary: messages.getMessage('flags.set-default.summary'),
     }),
     'definition-file': Flags.file({
       exists: true,
       char: 'f',
-      summary: messages.getMessage('flags.definition-file.description'),
+      summary: messages.getMessage('flags.definition-file.summary'),
       exactlyOne: ['definition-file', 'edition'],
     }),
     'target-dev-hub': Flags.requiredHub({
@@ -91,11 +92,12 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
     }),
     'no-ancestors': Flags.boolean({
       char: 'c',
-      summary: messages.getMessage('flags.no-ancestors.description'),
+      summary: messages.getMessage('flags.no-ancestors.summary'),
+      helpGroup: 'Packaging',
     }),
     edition: Flags.string({
       char: 'e',
-      summary: messages.getMessage('flags.edition.description'),
+      summary: messages.getMessage('flags.edition.summary'),
       options: [
         'developer',
         'enterprise',
@@ -110,7 +112,8 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
     }),
     'no-namespace': Flags.boolean({
       char: 'm',
-      summary: messages.getMessage('flags.no-namespace.description'),
+      summary: messages.getMessage('flags.no-namespace.summary'),
+      helpGroup: 'Packaging',
     }),
     'duration-days': Flags.duration({
       unit: 'days',
@@ -118,24 +121,24 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       min: 1,
       max: 30,
       char: 'y',
-      summary: messages.getMessage('flags.duration-days.description'),
+      summary: messages.getMessage('flags.duration-days.summary'),
     }),
     wait: Flags.duration({
       unit: 'minutes',
       defaultValue: 5,
       min: 1,
       char: 'w',
-      summary: messages.getMessage('flags.wait.description'),
+      summary: messages.getMessage('flags.wait.summary'),
     }),
     'track-source': Flags.boolean({
       default: true,
-      summary: messages.getMessage('flags.track-source.description'),
+      summary: messages.getMessage('flags.track-source.summary'),
       hidden: true, // for future use when AuthInfo supports this field
     }),
     'api-version': Flags.orgApiVersion(),
     'client-id': Flags.string({
       char: 'i',
-      summary: messages.getMessage('flags.client-id.description'),
+      summary: messages.getMessage('flags.client-id.summary'),
     }),
   };
 
@@ -178,7 +181,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       Object.fromEntries(Object.entries(authFields).filter(([key]) => isHookField(key))) as PostOrgCreateHook
     );
 
-    this.log(chalk.green('Your scratch org is ready.'));
+    this.log(chalk.green(messages.getMessage('success')));
     return { username, scratchOrgInfo, authFields, warnings, orgId: scratchOrgInfo.Id };
   }
 

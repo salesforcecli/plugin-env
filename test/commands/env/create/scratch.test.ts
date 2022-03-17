@@ -55,6 +55,8 @@ describe('human output', () => {
       expect(output).includes(`RequestId: ${formatRequest(baseUrl, scratchOrgInfo.Id)}`);
       expect(output).includes(`OrgId: ${formatOrgId(scratchOrgInfo.ScratchOrg)}`);
       expect(output).includes(`Username: ${formatUsername(scratchOrgInfo.SignupUsername)}`);
+      expect(output).not.includes('}');
+      expect(output).not.includes('{');
     });
 
     it('still shows all field names when no data is present', () => {

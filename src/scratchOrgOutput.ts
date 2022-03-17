@@ -11,7 +11,7 @@ export const buildStatus = (data: ScratchOrgLifecycleEvent, baseUrl: string): st
 Status: ${formatStage(data.stage)}
 RequestId: ${formatRequest(baseUrl, data.scratchOrgInfo?.Id)}
 OrgId: ${formatOrgId(data.scratchOrgInfo?.ScratchOrg)}
-Username: ${formatUsername(data.scratchOrgInfo?.SignupUsername)})}`;
+Username: ${formatUsername(data.scratchOrgInfo?.SignupUsername)}`;
 
 export const formatStage = (currentStage: ScratchOrgLifecycleEvent['stage']): string =>
   scratchOrgLifecycleStages

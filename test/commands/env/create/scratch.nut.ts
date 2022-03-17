@@ -8,8 +8,12 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
 import { expect } from 'chai';
-import { Messages } from '@salesforce/core';
-import { ScratchCreateResponse } from '../../../../src/commands/env/create/scratch';
+import { Lifecycle, Messages } from '@salesforce/core';
+import {
+  ScratchCreateResponse,
+  PostOrgCreateHook,
+  postOrgCreateHookFields,
+} from '../../../../src/commands/env/create/scratch';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.load('@salesforce/plugin-env', 'create_scratch', ['prompt.secret']);
@@ -54,6 +58,7 @@ describe('env create scratch NUTs', () => {
 
   describe('successes', () => {
     const keys = ['username', 'orgId', 'scratchOrgInfo', 'authFields', 'warnings'];
+
     it('creates an org from edition flag only', () => {
       const resp = execCmd<ScratchCreateResponse>('env create scratch --edition developer --json', {
         ensureExitCode: 0,
@@ -91,6 +96,22 @@ describe('env create scratch NUTs', () => {
       ) as Record<string, unknown>;
       expect(globalJson.orgs).to.have.property(resp.username);
       expect(globalJson.aliases).to.have.property(testAlias, resp.username);
+    });
+    it.only('postorgcreate lifecycle event', async () => {
+      const lifecycleResults: PostOrgCreateHook[] = [];
+      const lifecycle = Lifecycle.getInstance();
+      lifecycle.on('postorgcreate', async (event: PostOrgCreateHook): Promise<void> => {
+        // eslint-disable-next-line no-console
+        console.log(event);
+        lifecycleResults.push(event);
+      });
+      const resp = execCmd<ScratchCreateResponse>('env create scratch --edition developer --json', {
+        ensureExitCode: 0,
+      }).jsonOutput.result;
+
+      expect(lifecycleResults).to.have.lengthOf.at.least(1);
+      const hookEvent = lifecycleResults.find((e) => e.username === resp.username);
+      expect(hookEvent).to.have.all.keys(postOrgCreateHookFields);
     });
   });
 });

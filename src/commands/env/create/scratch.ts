@@ -161,7 +161,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
     const baseUrl = flags['target-dev-hub'].getField(Org.Fields.INSTANCE_URL).toString();
 
     // eslint-disable-next-line @typescript-eslint/require-await
-    lifecycle.on(scratchOrgLifecycleEventName, async (data: ScratchOrgLifecycleEvent): Promise<void> => {
+    lifecycle.on<ScratchOrgLifecycleEvent>(scratchOrgLifecycleEventName, async (data): Promise<void> => {
       lastStatus = buildStatus(data, baseUrl);
       this.spinner.status = lastStatus;
     });

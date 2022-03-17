@@ -10,7 +10,6 @@ import {
   Messages,
   ScratchOrgRequest,
   ScratchOrgInfo,
-  Logger,
   Lifecycle,
   AuthFields,
   ScratchOrgLifecycleEvent,
@@ -79,6 +78,23 @@ const editionOptions = [
   'partner-professional',
 ];
 
+export const buildStatus = (data: ScratchOrgLifecycleEvent, baseUrl: string): string => `
+Status: ${scratchOrgLifecycleStages
+  .map((stage, stageIndex) => {
+    // current stage
+    if (data.stage === stage) return chalk.bold.blue(stage);
+    // completed stages
+    if (scratchOrgLifecycleStages.indexOf(data.stage) > stageIndex) return chalk.green(stage);
+    // future stage
+    return chalk.dim(stage);
+  })
+  .join(chalk.dim(' -> '))}
+RequestId: ${
+  data.scratchOrgInfo?.Id ? `${chalk.bold(data.scratchOrgInfo?.Id)} (${baseUrl}/${data.scratchOrgInfo?.Id})` : ''
+}
+OrgId: ${data.scratchOrgInfo?.ScratchOrg ? chalk.bold.blue(data.scratchOrgInfo?.ScratchOrg) : ''}
+Username: ${data.scratchOrgInfo?.SignupUsername ? chalk.bold.blue(data.scratchOrgInfo?.SignupUsername) : ''}`;
+
 export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
@@ -141,16 +157,14 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       summary: messages.getMessage('flags.client-id.description'),
     }),
   };
-  private logger: Logger;
 
   public async run(): Promise<ScratchCreateResponse> {
     const lifecycle = Lifecycle.getInstance();
-    this.logger = await Logger.child('env create scratch');
 
     const { flags } = await this.parse(EnvCreateScratch);
-    const clientSecret = flags['client-id'] ? await this.clientSecretPrompt() : undefined;
 
     const createCommandOptions: ScratchOrgRequest = {
+      clientSecret: flags['client-id'] ? await this.clientSecretPrompt() : undefined,
       connectedAppConsumerKey: flags['client-id'],
       durationDays: flags['duration-days'].days,
       nonamespace: flags['no-namespace'],
@@ -158,9 +172,8 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       wait: flags.wait,
       apiversion: flags['api-version'],
       definitionjson: flags['definition-file']
-        ? await this.readJsonDefFile(flags['definition-file'])
+        ? await fs.promises.readFile(flags['definition-file'], 'utf-8')
         : JSON.stringify({ edition: flags.edition }),
-      clientSecret,
     };
 
     let lastStatus: string;
@@ -168,7 +181,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
 
     // eslint-disable-next-line @typescript-eslint/require-await
     lifecycle.on(scratchOrgLifecycleEventName, async (data: ScratchOrgLifecycleEvent): Promise<void> => {
-      lastStatus = this.buildStatus(data, baseUrl);
+      lastStatus = buildStatus(data, baseUrl);
       this.spinner.status = lastStatus;
     });
 
@@ -188,25 +201,6 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
     return { username, scratchOrgInfo, authFields, warnings, orgId: scratchOrgInfo.Id };
   }
 
-  private buildStatus(data: ScratchOrgLifecycleEvent, baseUrl: string): string {
-    return `
-Status: ${scratchOrgLifecycleStages
-      .map((stage, stageIndex) => {
-        // current stage
-        if (data.stage === stage) return chalk.bold.blue(stage);
-        // completed stages
-        if (scratchOrgLifecycleStages.indexOf(data.stage) > stageIndex) return chalk.green(stage);
-        // future stage
-        return chalk.dim(stage);
-      })
-      .join(chalk.dim(' -> '))}
-RequestId: ${
-      data.scratchOrgInfo?.Id ? `${chalk.bold(data.scratchOrgInfo?.Id)} (${baseUrl}/${data.scratchOrgInfo?.Id})` : ''
-    }
-OrgId: ${data.scratchOrgInfo?.ScratchOrg ? chalk.bold.blue(data.scratchOrgInfo?.ScratchOrg) : ''}
-Username: ${data.scratchOrgInfo?.SignupUsername ? chalk.bold.blue(data.scratchOrgInfo?.SignupUsername) : ''}`;
-  }
-
   private async clientSecretPrompt(): Promise<string> {
     const { secret } = await this.timedPrompt<{ secret: string }>([
       {
@@ -216,12 +210,6 @@ Username: ${data.scratchOrgInfo?.SignupUsername ? chalk.bold.blue(data.scratchOr
       },
     ]);
     return secret;
-  }
-
-  private async readJsonDefFile(path: string): Promise<string> {
-    // the -f option
-    this.logger.debug(`Reading JSON DefFile ${path}`);
-    return fs.promises.readFile(path, 'utf-8');
   }
 
   private async maybeSetAliasAndDefault(username: string, setDefault: boolean, alias?: string): Promise<void> {

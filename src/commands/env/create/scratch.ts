@@ -14,12 +14,12 @@ import {
   AuthFields,
   ScratchOrgLifecycleEvent,
   scratchOrgLifecycleEventName,
-  scratchOrgLifecycleStages,
   AuthInfo,
   Org,
 } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import * as chalk from 'chalk';
+import { buildStatus } from '../../../scratchOrgOutput';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.load('@salesforce/plugin-env', 'create_scratch', [
@@ -48,7 +48,7 @@ export interface ScratchCreateResponse {
   orgId: string;
 }
 
-const createResultFields = [
+export const postOrgCreateHookFields = [
   'accessToken',
   'clientId',
   'created',
@@ -61,39 +61,11 @@ const createResultFields = [
   'username',
 ] as const;
 
-const isCreateResultKey = (key: string): key is typeof createResultFields[number] => {
-  return createResultFields.includes(key as typeof createResultFields[number]);
+const isHookField = (key: string): key is typeof postOrgCreateHookFields[number] => {
+  return postOrgCreateHookFields.includes(key as typeof postOrgCreateHookFields[number]);
 };
 
-export type OrgCreateResult = Pick<AuthFields, typeof createResultFields[number]>;
-
-const editionOptions = [
-  'developer',
-  'enterprise',
-  'group',
-  'professional',
-  'partner-developer',
-  'partner-enterprise',
-  'partner-group',
-  'partner-professional',
-];
-
-export const buildStatus = (data: ScratchOrgLifecycleEvent, baseUrl: string): string => `
-Status: ${scratchOrgLifecycleStages
-  .map((stage, stageIndex) => {
-    // current stage
-    if (data.stage === stage) return chalk.bold.blue(stage);
-    // completed stages
-    if (scratchOrgLifecycleStages.indexOf(data.stage) > stageIndex) return chalk.green(stage);
-    // future stage
-    return chalk.dim(stage);
-  })
-  .join(chalk.dim(' -> '))}
-RequestId: ${
-  data.scratchOrgInfo?.Id ? `${chalk.bold(data.scratchOrgInfo?.Id)} (${baseUrl}/${data.scratchOrgInfo?.Id})` : ''
-}
-OrgId: ${data.scratchOrgInfo?.ScratchOrg ? chalk.bold.blue(data.scratchOrgInfo?.ScratchOrg) : ''}
-Username: ${data.scratchOrgInfo?.SignupUsername ? chalk.bold.blue(data.scratchOrgInfo?.SignupUsername) : ''}`;
+export type PostOrgCreateHook = Pick<AuthFields, typeof postOrgCreateHookFields[number]>;
 
 export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
   public static readonly summary = messages.getMessage('summary');
@@ -124,7 +96,16 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
     edition: Flags.string({
       char: 'e',
       summary: messages.getMessage('flags.edition.description'),
-      options: editionOptions,
+      options: [
+        'developer',
+        'enterprise',
+        'group',
+        'professional',
+        'partner-developer',
+        'partner-enterprise',
+        'partner-group',
+        'partner-professional',
+      ],
       exactlyOne: ['definition-file', 'edition'],
     }),
     'no-namespace': Flags.boolean({
@@ -194,7 +175,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
     await this.maybeSetAliasAndDefault(username, flags['set-default'], flags.alias);
     await lifecycle.emit(
       'postorgcreate',
-      Object.fromEntries(Object.entries(authFields).filter(([key]) => isCreateResultKey(key)))
+      Object.fromEntries(Object.entries(authFields).filter(([key]) => isHookField(key))) as PostOrgCreateHook
     );
 
     this.log(chalk.green('Your scratch org is ready.'));

@@ -85,7 +85,7 @@ describe('open unit tests', () => {
     })
     .stub(EnvOpen.prototype, 'open', async (): Promise<void> => {})
     .stdout()
-    .command(['env:open', '--target-env', expectedSfOrgs[0].username, '--json'])
+    .command(['env:open', '--target-env', expectedSfOrgs[0].username, '--url-only', '--json'])
     .it('should open requested environment', (ctx) => {
       const stdout = ctx.stdout;
       const { result } = JSON.parse(stdout) as { result: OpenResult };

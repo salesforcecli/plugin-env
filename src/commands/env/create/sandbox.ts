@@ -123,17 +123,9 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
   }
 
   private lowerToUpper(object: Record<string, unknown>): Record<string, unknown> {
-    // the API has keys defined in capital camel case, while the definition schema has them as lower camel case
-    // we need to convert lower camel case to upper before merging options, so they will override properly
-    Object.keys(object).map((key) => {
-      const upperCase = key.charAt(0).toUpperCase();
-      if (key.charAt(0) !== upperCase) {
-        const capitalKey = upperCase + key.slice(1);
-        object[capitalKey] = object[key];
-        delete object[key];
-      }
-    });
-    return object;
+   return Object.fromEntries(
+  Object.entries(object).map(([k, v]) => [`${k.charAt(0).toUpperCase()}${k.slice(1)}`, v])
+);
   }
 
   private createSandboxRequest(): SandboxRequest {

@@ -64,9 +64,81 @@ sfdx plugins
 
 <!-- commands -->
 
+- [`sf env delete sandbox`](#sf-env-delete-sandbox)
+- [`sf env delete scratch`](#sf-env-delete-scratch)
 - [`sf env display`](#sf-env-display)
 - [`sf env list`](#sf-env-list)
 - [`sf env open`](#sf-env-open)
+
+## `sf env delete sandbox`
+
+Delete a sandbox.
+
+```
+USAGE
+  $ sf env delete sandbox [--json] [-e <value>] [-p]
+
+FLAGS
+  -e, --target-org=<value>  Environment alias or login user.
+  -p, --no-prompt           Do not prompt the user to confirm the deletion
+
+GLOBAL FLAGS
+  --json  Format output as json.
+
+DESCRIPTION
+  Delete a sandbox.
+
+  Specify an environment with either the username you used when you logged into the environment with "sf login", or the
+  alias you gave the environment when you created it. Run "sf env list" to view all your environments and their aliases.
+
+EXAMPLES
+  Delete a sandbox with alias my-sandbox:
+
+    $ sf env delete sandbox --target-org=my-sandbox
+
+  Specify a username instead of an alias:
+
+    $ sf env delete sandbox --target-org=myusername@example.com.qa
+
+  Delete the org without prompting to confirm :
+
+    $ sf env delete sandbox --target-org=my-sandbox --no-prompt
+```
+
+## `sf env delete scratch`
+
+Delete a scratch org.
+
+```
+USAGE
+  $ sf env delete scratch [--json] [-e <value>] [-p]
+
+FLAGS
+  -e, --target-org=<value>  Org alias or login user.
+  -p, --no-prompt           Do not prompt the user to confirm the deletion
+
+GLOBAL FLAGS
+  --json  Format output as json.
+
+DESCRIPTION
+  Delete a scratch org.
+
+  Specify an environment with either the username you used when you logged into the environment with "sf login", or the
+  alias you gave the environment when you created it. Run "sf env list" to view all your environments and their aliases.
+
+EXAMPLES
+  Delete a scratch org with alias my-scratch-org:
+
+    $ sf env delete scratch --target-org=my-scratch-org
+
+  Specify a username instead of an alias:
+
+    $ sf env delete scratch --target-org=test-123456-abcdefg@example.com
+
+  Delete the org without prompting to confirm :
+
+    $ sf env delete scratch --target-org=my-scratch-org --no-prompt
+```
 
 ## `sf env display`
 

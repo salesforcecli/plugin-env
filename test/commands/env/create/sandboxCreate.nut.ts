@@ -11,8 +11,7 @@ import { expect } from 'chai';
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'create.sandbox');
 
-// TODO: test is waiting on delete sand box command to be available
-describe.skip('Sandbox Orgs', () => {
+describe('Sandbox Orgs', () => {
   let session: TestSession;
 
   before(async () => {

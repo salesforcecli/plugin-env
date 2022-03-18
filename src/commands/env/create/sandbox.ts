@@ -123,9 +123,7 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
   }
 
   private lowerToUpper(object: Record<string, unknown>): Record<string, unknown> {
-   return Object.fromEntries(
-  Object.entries(object).map(([k, v]) => [`${k.charAt(0).toUpperCase()}${k.slice(1)}`, v])
-);
+    return Object.fromEntries(Object.entries(object).map(([k, v]) => [`${k.charAt(0).toUpperCase()}${k.slice(1)}`, v]));
   }
 
   private createSandboxRequest(): SandboxRequest {

@@ -49,12 +49,11 @@ describe('Sandbox Orgs', () => {
     expect(openResult, 'env:open').to.be.ok;
     expect(openResult.url, 'env:open').to.ok;
 
-    const deleteResult = execCmd<{ username: string }>('force:org:delete -u mySandbox --no-prompt --json', {
+    const deleteResult = execCmd<{ username: string }>('env:delete:sandbox -o mySandbox --no-prompt --json', {
       ensureExitCode: 0,
-      cli: 'sfdx',
     }).jsonOutput.result;
-    expect(deleteResult, 'delete:org').to.be.ok;
-    expect(deleteResult.username, 'delete:org').to.equal(sandboxUsername);
+    expect(deleteResult, 'env:delete:sandbox').to.be.ok;
+    expect(deleteResult.username, 'env:delete:sandbox').to.equal(sandboxUsername);
   });
 
   after(async () => {

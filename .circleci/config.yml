@@ -51,15 +51,15 @@ workflows:
                 - lts
                 - maintenance
       - release-management/test-nut:
-          matrix:
-            parameters:
-              os:
-                - linux
-                - windows
-              sfdx_version:
-                - latest
-              node_version:
-                - latest
+          name: nuts-on-linux
+          sfdx_version: latest
+          requires:
+            - release-management/test-package
+      - release-management/test-nut:
+          name: nuts-on-windows
+          node_version: lts
+          sfdx_version: latest
+          os: windows
           requires:
             - release-management/test-package
       - release-management/run-command-keyword:

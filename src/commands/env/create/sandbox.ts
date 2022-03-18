@@ -36,10 +36,10 @@ const progressBarOptions = {
 };
 
 export enum SandboxLicenseType {
-  Developer = 'Developer',
-  DeveloperPro = 'Developer_Pro',
-  Partial = 'Partial',
-  Full = 'Full',
+  developer = 'Developer',
+  developerPro = 'Developer_Pro',
+  partial = 'Partial',
+  full = 'Full',
 }
 
 const getLicenseTypes = (): string[] => Object.values(SandboxLicenseType);
@@ -77,13 +77,19 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
       char: 'n',
       summary: messages.getMessage('flags.name.summary'),
       exclusive: ['definition-file'],
+      parse: (name: string): Promise<string> => {
+        if (name.length > 10) {
+          throw messages.createError('error.SandboxNameLength', [name]);
+        }
+        return Promise.resolve(name);
+      },
     }),
     'license-type': Flags.enum({
       char: 'l',
       summary: messages.getMessage('flags.licenseType.summary'),
       exclusive: ['definition-file'],
       options: getLicenseTypes(),
-      default: SandboxLicenseType.Developer,
+      default: SandboxLicenseType.developer,
     }),
     'target-org': Flags.requiredOrg({
       char: 'o',
@@ -112,14 +118,7 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
     this.flags = (await this.parse(CreateSandbox)).flags as CreateSandbox['flags'];
     this.debug('Create started with args %s ', this.flags);
 
-    this.validateSandboxFlags();
     return await this.createSandbox();
-  }
-
-  private validateSandboxFlags(): void {
-    if (this.flags.name && this.flags.name.length > 10) {
-      throw messages.createError('error.SandboxNameLength', [this.flags.name]);
-    }
   }
 
   private lowerToUpper(object: Record<string, unknown>): Record<string, unknown> {

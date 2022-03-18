@@ -73,7 +73,6 @@ describe('org:create', () => {
     });
   });
 
-  process.env.SF_SFDX_INTEROPERABILITY = 'false';
   const sandbox = sinon.createSandbox();
   const oclifConfigStub = fromStub(stubInterface<IConfig>(sandbox));
   // stubs

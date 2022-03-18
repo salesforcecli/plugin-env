@@ -192,6 +192,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
         message: messages.getMessage('prompt.secret'),
         type: 'password',
       },
+      60000,
     ]);
     return secret;
   }

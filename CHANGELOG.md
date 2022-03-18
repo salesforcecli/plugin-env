@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/salesforcecli/plugin-env/compare/v1.1.1...v1.2.0) (2022-03-18)
+
+### Features
+
+- commands to delete scratch orgs and sandboxes ([27e460d](https://github.com/salesforcecli/plugin-env/commit/27e460d3d7710a404d11172b11dff85042774a95))
+
+### Bug Fixes
+
+- add caret to @salesforce/core and fix tests ([#251](https://github.com/salesforcecli/plugin-env/issues/251)) ([07d80fc](https://github.com/salesforcecli/plugin-env/commit/07d80fcbf8ef8805336843205ae2c3df6981b7bc))
+
 ### [1.1.1](https://github.com/salesforcecli/plugin-env/compare/v1.1.0...v1.1.1) (2022-02-16)
 
 ### Bug Fixes

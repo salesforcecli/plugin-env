@@ -21,6 +21,7 @@ export default class EnvDeleteSandbox extends SfCommand<SandboxDeleteResponse> {
   public static flags = {
     'target-org': Flags.requiredOrg({
       summary: messages.getMessage('flags.target-org.summary'),
+      char: 'o',
     }),
     'no-prompt': Flags.boolean({
       char: 'p',

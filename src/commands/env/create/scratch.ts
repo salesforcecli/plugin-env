@@ -88,6 +88,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       exactlyOne: ['definition-file', 'edition'],
     }),
     'target-dev-hub': Flags.requiredHub({
+      char: 'v',
       summary: messages.getMessage('flags.target-hub.summary'),
     }),
     'no-ancestors': Flags.boolean({

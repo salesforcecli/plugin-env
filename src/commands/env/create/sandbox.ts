@@ -56,6 +56,7 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
       exists: true,
       char: 'f',
       summary: messages.getMessage('flags.definitionFile.summary'),
+      description: messages.getMessage('flags.definitionFile.description'),
       exclusive: ['name', 'license-type'],
     }),
     'set-default': Flags.boolean({
@@ -65,6 +66,7 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
     alias: Flags.string({
       char: 'a',
       summary: messages.getMessage('flags.alias.summary'),
+      description: messages.getMessage('flags.alias.description'),
     }),
     wait: Flags.duration({
       char: 'w',
@@ -76,6 +78,7 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
     name: Flags.string({
       char: 'n',
       summary: messages.getMessage('flags.name.summary'),
+      description: messages.getMessage('flags.name.description'),
       exclusive: ['definition-file'],
       parse: (name: string): Promise<string> => {
         if (name.length > 10) {
@@ -94,6 +97,7 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
     'target-org': Flags.requiredOrg({
       char: 'o',
       summary: messages.getMessage('flags.targetOrg.summary'),
+      description: messages.getMessage('flags.targetOrg.description'),
     }),
     'no-prompt': Flags.boolean({
       summary: messages.getMessage('flags.noPrompt.summary'),

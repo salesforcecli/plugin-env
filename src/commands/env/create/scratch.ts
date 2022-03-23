@@ -22,24 +22,7 @@ import * as chalk from 'chalk';
 import { buildStatus } from '../../../scratchOrgOutput';
 
 Messages.importMessagesDirectory(__dirname);
-const messages = Messages.load('@salesforce/plugin-env', 'create_scratch', [
-  'summary',
-  'description',
-  'examples',
-  'flags.alias.summary',
-  'flags.target-hub.summary',
-  'flags.set-default.summary',
-  'flags.edition.summary',
-  'flags.no-namespace.summary',
-  'flags.track-source.summary',
-  'flags.no-ancestors.summary',
-  'flags.wait.summary',
-  'flags.definition-file.summary',
-  'flags.client-id.summary',
-  'flags.duration-days.summary',
-  'prompt.secret',
-  'success',
-]);
+const messages = Messages.loadMessages('@salesforce/plugin-env', 'create_scratch');
 
 export interface ScratchCreateResponse {
   username?: string;
@@ -76,6 +59,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
     alias: Flags.string({
       char: 'a',
       summary: messages.getMessage('flags.alias.summary'),
+      description: messages.getMessage('flags.alias.description'),
     }),
     'set-default': Flags.boolean({
       char: 'd',
@@ -85,11 +69,13 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       exists: true,
       char: 'f',
       summary: messages.getMessage('flags.definition-file.summary'),
+      description: messages.getMessage('flags.definition-file.description'),
       exactlyOne: ['definition-file', 'edition'],
     }),
     'target-dev-hub': Flags.requiredHub({
       char: 'v',
       summary: messages.getMessage('flags.target-hub.summary'),
+      description: messages.getMessage('flags.target-hub.description'),
     }),
     'no-ancestors': Flags.boolean({
       char: 'c',
@@ -99,6 +85,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
     edition: Flags.string({
       char: 'e',
       summary: messages.getMessage('flags.edition.summary'),
+      description: messages.getMessage('flags.edition.description'),
       options: [
         'developer',
         'enterprise',
@@ -134,6 +121,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
     'track-source': Flags.boolean({
       default: true,
       summary: messages.getMessage('flags.track-source.summary'),
+      description: messages.getMessage('flags.track-source.description'),
       hidden: true, // for future use when AuthInfo supports this field
     }),
     'api-version': Flags.orgApiVersion(),

@@ -22,24 +22,7 @@ import * as chalk from 'chalk';
 import { buildStatus } from '../../../scratchOrgOutput';
 
 Messages.importMessagesDirectory(__dirname);
-const messages = Messages.load('@salesforce/plugin-env', 'create_scratch', [
-  'summary',
-  'description',
-  'examples',
-  'flags.alias.summary',
-  'flags.target-hub.summary',
-  'flags.set-default.summary',
-  'flags.edition.summary',
-  'flags.no-namespace.summary',
-  'flags.track-source.summary',
-  'flags.no-ancestors.summary',
-  'flags.wait.summary',
-  'flags.definition-file.summary',
-  'flags.client-id.summary',
-  'flags.duration-days.summary',
-  'prompt.secret',
-  'success',
-]);
+const messages = Messages.loadMessages('@salesforce/plugin-env', 'create_scratch');
 
 export interface ScratchCreateResponse {
   username?: string;

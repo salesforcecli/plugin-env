@@ -1291,7 +1291,33 @@
     semver "^7.3.5"
     ts-retry-promise "^0.6.0"
 
-"@salesforce/core@^3.7.9", "@salesforce/core@^3.8.0":
+"@salesforce/core@^3.10.0":
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-3.10.0.tgz#8fa07d41e4d953ce501f52af43ee1e67f2f3ef05"
+  integrity sha512-LXgb/SqdPeSm7RqSGtqHDUKo9B2kXr/bckNS6VFH2502DHnDFdi+WV2sIq/D7YYSoJGrS+RpgkNH0f5gNx35sQ==
+  dependencies:
+    "@oclif/core" "^1.5.1"
+    "@salesforce/bunyan" "^2.0.0"
+    "@salesforce/kit" "^1.5.34"
+    "@salesforce/schemas" "^1.1.0"
+    "@salesforce/ts-types" "^1.5.20"
+    "@types/graceful-fs" "^4.1.5"
+    "@types/mkdirp" "^1.0.2"
+    "@types/semver" "^7.3.9"
+    archiver "^5.3.0"
+    change-case "^4.1.2"
+    debug "^3.2.7"
+    faye "^1.4.0"
+    form-data "^4.0.0"
+    graceful-fs "^4.2.9"
+    js2xmlparser "^4.0.1"
+    jsen "0.6.6"
+    jsforce "2.0.0-beta.7"
+    jsonwebtoken "8.5.1"
+    mkdirp "1.0.4"
+    ts-retry-promise "^0.6.0"
+
+"@salesforce/core@^3.7.9":
   version "3.8.0"
   resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-3.8.0.tgz#f264fe315eefd411d5518716a52213e2a17050c3"
   integrity sha512-q6rPyLIwQgTtDijKDGmvi7dLpI1/JUohlOZzc9/ACA9b3kAN53W/DzDviihGtXWVLaAknyPVcBfzfZvKlYoUpA==

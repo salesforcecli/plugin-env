@@ -114,7 +114,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
     wait: Flags.duration({
       unit: 'minutes',
       defaultValue: 5,
-      min: 1,
+      min: 2,
       char: 'w',
       summary: messages.getMessage('flags.wait.summary'),
     }),

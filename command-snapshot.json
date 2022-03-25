@@ -14,7 +14,6 @@
       "no-namespace",
       "set-default",
       "target-dev-hub",
-      "track-source",
       "wait"
     ],
     "alias": []

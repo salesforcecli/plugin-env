@@ -16,7 +16,7 @@ You must specify a Dev Hub to create a scratch org, either with the --target-dev
 
 - Specify the Dev Hub using its alias and a scratch org definition file. Set the scratch org as your default and specify that it expires in 3 days:
 
-  <%= config.bin %> <%= command.id %> --target-dev-hub=MyHub --definition-file config/project-scratch-def.json --set-default --duration-days 3 
+  <%= config.bin %> <%= command.id %> --target-dev-hub=MyHub --definition-file config/project-scratch-def.json --set-default --duration-days 3
 
 # flags.target-hub.summary
 
@@ -56,7 +56,7 @@ Path to a scratch org definition file.
 
 # flags.definition-file.description
 
-The scratch org definition file is a blueprint for the scratch org. It mimics the shape of an org that you use in the development life cycle, such as acceptance testing, packaging, or production. See https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs_def_file.htm for all the option you can specify in the definition file.
+The scratch org definition file is a blueprint for the scratch org. It mimics the shape of an org that you use in the development life cycle, such as acceptance testing, packaging, or production. See <https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs_def_file.htm> for all the option you can specify in the definition file.
 
 # flags.client-id.summary
 
@@ -65,10 +65,6 @@ Consumer key of the Dev Hub connected app.
 # flags.wait.summary
 
 Number of minutes to wait for the scratch org to be ready.
-
-# flags.track-source.summary
-
-Enable or disable source tracking.
 
 # flags.track-source.description
 

@@ -118,12 +118,6 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       char: 'w',
       summary: messages.getMessage('flags.wait.summary'),
     }),
-    'track-source': Flags.boolean({
-      default: true,
-      summary: messages.getMessage('flags.track-source.summary'),
-      description: messages.getMessage('flags.track-source.description'),
-      hidden: true, // for future use when AuthInfo supports this field
-    }),
     'api-version': Flags.orgApiVersion(),
     'client-id': Flags.string({
       char: 'i',

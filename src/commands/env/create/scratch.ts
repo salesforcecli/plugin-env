@@ -152,7 +152,8 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       this.spinner.status = lastStatus;
     });
 
-    this.spinner.start('Scratch Org Process');
+    this.log();
+    this.spinner.start('Creating Scratch Org');
     const { username, scratchOrgInfo, authFields, warnings } = await flags['target-dev-hub'].scratchOrgCreate(
       createCommandOptions
     );
@@ -163,7 +164,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       'postorgcreate',
       Object.fromEntries(Object.entries(authFields).filter(([key]) => isHookField(key))) as PostOrgCreateHook
     );
-
+    this.log();
     this.log(chalk.green(messages.getMessage('success')));
     return { username, scratchOrgInfo, authFields, warnings, orgId: scratchOrgInfo.Id };
   }

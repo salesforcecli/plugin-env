@@ -171,14 +171,16 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
   }
 
   private async clientSecretPrompt(): Promise<string> {
-    const { secret } = await this.timedPrompt<{ secret: string }>([
-      {
-        name: 'secret',
-        message: messages.getMessage('prompt.secret'),
-        type: 'password',
-      },
-      secretTimeout,
-    ]);
+    const { secret } = await this.timedPrompt<{ secret: string }>(
+      [
+        {
+          name: 'secret',
+          message: messages.getMessage('prompt.secret'),
+          type: 'password',
+        },
+      ],
+      secretTimeout
+    );
     return secret;
   }
 

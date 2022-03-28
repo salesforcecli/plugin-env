@@ -47,8 +47,10 @@ describe('env create scratch NUTs', () => {
       const error = execCmd('env create scratch --edition developer --client-id someConnectedApp', {
         ensureExitCode: 1,
       }).shellOutput;
-      expect(error).to.include(messages.getMessage('prompt.secret'));
-      expect(error).to.include(`Timed out after ${secretTimeout} ms.`);
+      // eslint-disable-next-line no-console
+      console.log(error);
+      expect(error.stdout).to.include(messages.getMessage('prompt.secret'));
+      expect(error.stderr).to.include(`Timed out after ${secretTimeout} ms.`);
     });
   });
 

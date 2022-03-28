@@ -7,8 +7,7 @@
     "baseUrl": ".",
     "paths": {
       "@oclif/core": ["node_modules/@oclif/core"],
-      "@salesforce/kit": ["node_modules/@salesforce/kit"],
-      "@salesforce/core": ["node_modules/@salesforce/core"]
+      "@salesforce/kit": ["node_modules/@salesforce/kit"]
     }
   },
   "include": ["./src/**/*.ts"]

@@ -48,7 +48,7 @@ describe('env create scratch NUTs', () => {
         ensureExitCode: 1,
       }).shellOutput;
       expect(error).to.include(messages.getMessage('prompt.secret'));
-      expect(error).to.include('Timed out after 10000 ms.');
+      expect(error).to.include('Timed out after 60000 ms.');
     });
   });
 

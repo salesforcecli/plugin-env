@@ -9,7 +9,7 @@ import * as path from 'path';
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
 import { expect } from 'chai';
 import { Messages } from '@salesforce/core';
-import { ScratchCreateResponse } from '../../../../src/commands/env/create/scratch';
+import { ScratchCreateResponse, secretTimeout } from '../../../../src/commands/env/create/scratch';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.load('@salesforce/plugin-env', 'create_scratch', ['prompt.secret']);
@@ -48,7 +48,7 @@ describe('env create scratch NUTs', () => {
         ensureExitCode: 1,
       }).shellOutput;
       expect(error).to.include(messages.getMessage('prompt.secret'));
-      expect(error).to.include('Timed out after 60000 ms.');
+      expect(error).to.include(`Timed out after ${secretTimeout} ms.`);
     });
   });
 

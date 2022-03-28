@@ -49,6 +49,7 @@ const isHookField = (key: string): key is typeof postOrgCreateHookFields[number]
   return postOrgCreateHookFields.includes(key as typeof postOrgCreateHookFields[number]);
 };
 
+export const secretTimeout = 60000;
 export type PostOrgCreateHook = Pick<AuthFields, typeof postOrgCreateHookFields[number]>;
 
 export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
@@ -176,7 +177,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
         message: messages.getMessage('prompt.secret'),
         type: 'password',
       },
-      60000,
+      secretTimeout,
     ]);
     return secret;
   }

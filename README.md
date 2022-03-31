@@ -64,11 +64,88 @@ sfdx plugins
 
 <!-- commands -->
 
+- [`sf env create scratch`](#sf-env-create-scratch)
 - [`sf env delete sandbox`](#sf-env-delete-sandbox)
 - [`sf env delete scratch`](#sf-env-delete-scratch)
 - [`sf env display`](#sf-env-display)
 - [`sf env list`](#sf-env-list)
 - [`sf env open`](#sf-env-open)
+
+## `sf env create scratch`
+
+Create a scratch org.
+
+```
+USAGE
+  $ sf env create scratch [--json] [-a <value>] [-d] [-f <value>] [-v <value>] [-c] [-e
+    developer|enterprise|group|professional|partner-developer|partner-enterprise|partner-group|partner-professional]
+    [-m] [-y <value>] [-w <value>] [--api-version <value>] [-i <value>]
+
+FLAGS
+  -a, --alias=<value>            Alias for the scratch org.
+  -d, --set-default              Set the scratch org as your default org
+  -e, --edition=<option>         Salesforce edition of the scratch org.
+                                 <options: developer|enterprise|group|professional|partner-developer|partner-enterprise|
+                                 partner-group|partner-professional>
+  -f, --definition-file=<value>  Path to a scratch org definition file.
+  -i, --client-id=<value>        Consumer key of the Dev Hub connected app.
+  -v, --target-dev-hub=<value>   Username or alias of the Dev Hub org.
+  -w, --wait=<value>             [default: 5 minutes] Number of minutes to wait for the scratch org to be ready.
+  -y, --duration-days=<value>    [default: 7 days] Number of days before the org expires.
+  --api-version=<value>          Override the api version used for api requests made by this command
+
+PACKAGING FLAGS
+  -c, --no-ancestors  Don't include second-generation managed package (2GP) ancestors in the scratch org.
+  -m, --no-namespace  Create the scratch org with no namespace, even if the Dev Hub has a namespace.
+
+GLOBAL FLAGS
+  --json  Format output as json.
+
+DESCRIPTION
+  Create a scratch org.
+
+  There are two ways to create a scratch org: specify a definition file that contains the options or use the --edition
+  flag to specify the one required option. If you want to set options other than the edition, such as org features or
+  settings, you must use a definition file.
+
+  You must specify a Dev Hub to create a scratch org, either with the --target-dev-hub flag or by setting your default
+  Dev Hub with the target-dev-hub configuration variable.
+
+EXAMPLES
+  Create a Developer edition scratch org using your default Dev Hub and give the scratch org an alias:
+
+    $ sf env create scratch --edition=developer --alias my-scratch-org
+
+  Specify the Dev Hub using its alias and a scratch org definition file. Set the scratch org as your default and
+  specify that it expires in 3 days:
+
+    $ sf env create scratch --target-dev-hub=MyHub --definition-file config/project-scratch-def.json --set-default \
+      --duration-days 3
+
+FLAG DESCRIPTIONS
+  -a, --alias=<value>  Alias for the scratch org.
+
+    New scratch orgs include one administrator by default. The admin user's username is auto-generated and looks
+    something like test-wvkpnfm5z113@example.com. When you set an alias for a new scratch org, it's assigned this
+    username.
+
+  -e, --edition=developer|enterprise|group|professional|partner-developer|partner-enterprise|partner-group|partner-professional
+
+    Salesforce edition of the scratch org.
+
+    The editions that begin with "partner-" are available only if the Dev Hub org is a Partner Business Org.
+
+  -f, --definition-file=<value>  Path to a scratch org definition file.
+
+    The scratch org definition file is a blueprint for the scratch org. It mimics the shape of an org that you use in
+    the development life cycle, such as acceptance testing, packaging, or production. See
+    <https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs_def_file.htm> for
+    all the option you can specify in the definition file.
+
+  -v, --target-dev-hub=<value>  Username or alias of the Dev Hub org.
+
+    Overrides the value of the target-dev-hub configuration variable, if set.
+```
 
 ## `sf env delete sandbox`
 
@@ -76,10 +153,10 @@ Delete a sandbox.
 
 ```
 USAGE
-  $ sf env delete sandbox [--json] [-e <value>] [-p]
+  $ sf env delete sandbox [--json] [-o <value>] [-p]
 
 FLAGS
-  -e, --target-org=<value>  Environment alias or login user.
+  -o, --target-org=<value>  Environment alias or login user.
   -p, --no-prompt           Do not prompt the user to confirm the deletion
 
 GLOBAL FLAGS
@@ -111,10 +188,10 @@ Delete a scratch org.
 
 ```
 USAGE
-  $ sf env delete scratch [--json] [-e <value>] [-p]
+  $ sf env delete scratch [--json] [-o <value>] [-p]
 
 FLAGS
-  -e, --target-org=<value>  Org alias or login user.
+  -o, --target-org=<value>  Org alias or login user.
   -p, --no-prompt           Do not prompt the user to confirm the deletion
 
 GLOBAL FLAGS

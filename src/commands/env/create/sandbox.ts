@@ -23,17 +23,11 @@ import {
 import { Duration } from '@salesforce/kit';
 import { Ux } from '@salesforce/sf-plugins-core/lib/ux';
 import * as Interfaces from '@oclif/core/lib/interfaces';
-import { getLogSandboxProcessResult, getSandboxProgress, SandboxProgress } from '../../../shared/sandboxReporter';
+import { SandboxProgress, SandboxStatusData } from '../../../shared/sandboxProgress';
+import { State } from '../../../shared/stagedProgress';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'create.sandbox');
-const progressBarOptions = {
-  title: 'Sandbox Create',
-  format: '%s | {id} | {status} | {bar} | {percentComplete}%. {remainingWaitTimeHuman}',
-  barCompleteChar: '\u2588',
-  barIncompleteChar: '\u2591',
-  linewrap: true,
-};
 
 export enum SandboxLicenseType {
   developer = 'Developer',
@@ -75,6 +69,18 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
       unit: 'minutes',
       defaultValue: 6,
     }),
+    'poll-interval': Flags.duration({
+      char: 'i',
+      summary: messages.getMessage('flags.poll-interval.summary'),
+      min: 15,
+      unit: 'seconds',
+      defaultValue: 30,
+    }),
+    // TODO: un-hide async flag when async support is available.
+    async: Flags.boolean({
+      summary: messages.getMessage('flags.async.summary'),
+      hidden: true,
+    }),
     name: Flags.string({
       char: 'n',
       summary: messages.getMessage('flags.name.summary'),
@@ -105,11 +111,13 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
   };
 
   protected readonly lifecycleEventNames = ['postorgcreate'];
-  private sandboxAuth?: SandboxUserAuthResponse;
+  protected sandboxAuth?: SandboxUserAuthResponse;
   private flags: {
     'definition-file': string;
     'set-default': boolean;
     alias: string;
+    async: boolean;
+    'poll-interval': Duration;
     wait: Duration;
     json: boolean;
     name: string;
@@ -118,10 +126,13 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
     'target-org': Org;
   };
 
+  private sandboxProgress: SandboxProgress;
+
   public async run(): Promise<SandboxProcessObject> {
     this.flags = (await this.parse(CreateSandbox)).flags as CreateSandbox['flags'];
     this.debug('Create started with args %s ', this.flags);
-
+    this.validateFlags();
+    this.sandboxProgress = new SandboxProgress();
     return await this.createSandbox();
   }
 
@@ -155,7 +166,7 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
       // technically without querying the production org, the generated name could already exist,
       // but the chances of that are lower than the perf penalty of querying and verifying
       sandboxReq.SandboxName = `sbx${Date.now().toString(36).slice(-7)}`;
-      this.warn(messages.createWarning('warning.NoSandboxNameDefined', [sandboxReq.SandboxName]));
+      this.info(messages.createWarning('warning.NoSandboxNameDefined', [sandboxReq.SandboxName]));
     }
 
     return sandboxReq;
@@ -169,15 +180,20 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
     // `on` doesn't support synchronous methods
     // eslint-disable-next-line @typescript-eslint/require-await
     lifecycle.on(SandboxEvents.EVENT_ASYNC_RESULT, async (results: SandboxProcessObject) => {
-      this.progress.stop();
-      this.log(
-        messages.getMessage('sandboxSuccess', [results.Id, results.SandboxName, prodOrg ? prodOrg.getUsername() : ''])
-      );
+      if (!this.flags.async) {
+        this.spinner.stop();
+      }
+      this.info(messages.getMessage('sandboxSuccess', [results.Id]));
+      // TODO: uncomment when async option is implemented
+      // this.info(messages.getMessage('checkSandboxStatus', [results.Id, prodOrg ? prodOrg.getUsername() : '']));
     });
 
     // eslint-disable-next-line @typescript-eslint/require-await
     lifecycle.on(SandboxEvents.EVENT_STATUS, async (results: StatusEvent) => {
-      this.updateProgress(getSandboxProgress(results));
+      const progress = this.sandboxProgress.getSandboxProgress(results);
+      const currentStage = progress.status;
+      this.updateStage(currentStage, State.inProgress);
+      this.updateProgress(results);
     });
 
     // eslint-disable-next-line @typescript-eslint/require-await
@@ -186,16 +202,14 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
     });
 
     lifecycle.on(SandboxEvents.EVENT_RESULT, async (results: ResultEvent) => {
-      const progress = getSandboxProgress({
-        sandboxProcessObj: results.sandboxProcessObj,
-        waitingOnAuth: false,
-        retries: 0,
-        interval: 0,
-      });
-      this.updateProgress(progress);
-      const { sandboxReadyForUse, data } = getLogSandboxProcessResult(results);
-      this.progress.stop();
-      this.log(sandboxReadyForUse);
+      this.sandboxProgress.updateCurrentStage(State.completed);
+      this.updateProgress(results);
+      if (!this.flags.async) {
+        this.progress.stop();
+      }
+      const { sandboxReadyForUse, data } = this.sandboxProgress.getLogSandboxProcessResult(results);
+      this.info(sandboxReadyForUse);
+      this.log();
       const columns: Ux.Table.Columns<{ key: string; value: string }> = {
         key: { header: 'Field' },
         value: { header: 'Value' },
@@ -216,53 +230,49 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
 
     await this.confirmSandboxReq(sandboxReq);
 
-    this.progress.start(
-      100,
-      {
-        id: '',
-        status: '',
-        remainingWaitTime: 0,
-        remainingWaitTimeHuman: 'unknown',
-        percentComplete: 0,
-      },
-      progressBarOptions
-    );
+    if (!this.flags.async) {
+      this.spinner.start('Sandbox Create');
+    }
 
     this.debug('Calling create with SandboxRequest: %s ', sandboxReq);
 
-    try {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      return prodOrg.createSandbox(sandboxReq, { wait: this.flags.wait });
-    } catch (e) {
-      this.progress.stop();
-      // guaranteed to be SfError from core;
-      const err = e as SfError;
-      if (err?.message.includes('The org cannot be found')) {
-        // there was most likely an issue with DNS when auth'ing to the new sandbox, but it was created.
-        if (this.sandboxAuth) {
-          const authInfo = await AuthInfo.create({ username: this.sandboxAuth.authUserName });
-          await authInfo.handleAliasAndDefaultSettings({
-            alias: this.flags.alias,
-            setDefault: this.flags['set-default'],
-            setDefaultDevHub: undefined,
-          });
-        }
-        err.actions = [messages.getMessage('error.DnsTimeout'), messages.getMessage('error.PartialSuccess')];
-        err.exitCode = 68;
+    return prodOrg
+      .createSandbox(sandboxReq, {
+        wait: this.flags.wait,
+        interval: this.flags['poll-interval'],
+        async: this.flags.async,
+      })
+      .catch((reason) => {
+        // guaranteed to be SfError from core;
+        const err = reason as SfError;
+        this.handleSandboxCreateErrors(prodOrg, err);
         throw err;
-      }
+      });
+  }
+
+  private handleSandboxCreateErrors(prodOrg: Org, err: SfError): void {
+    if (err?.message.includes('The org cannot be found')) {
+      err.actions = [messages.getMessage('error.DnsTimeout')];
+      err.exitCode = 68;
+    }
+    if (!this.flags.async) {
+      this.sandboxProgress.updateCurrentStage(State.failed);
+      this.spinner.status = undefined;
+      this.spinner.stop();
+      this.log();
     }
   }
 
-  private updateProgress(sandboxProgress: SandboxProgress): void {
-    this.progress.update(sandboxProgress.percentComplete, {
-      id: sandboxProgress.id,
-      status: sandboxProgress.status,
-      remainingWaitTime: sandboxProgress.remainingWaitTime,
-      remainingWaitTimeHuman: sandboxProgress.remainingWaitTimeHuman,
-      percentComplete: sandboxProgress.percentComplete,
-    });
+  private updateProgress(event: ResultEvent | StatusEvent): void {
+    if (!this.flags.async) {
+      const sandboxProgress = this.sandboxProgress.getSandboxProgress(event);
+      const sandboxData = {
+        sandboxUsername: (event as ResultEvent).sandboxRes?.authUserName,
+        sandboxProgress,
+        sandboxProcessObj: event.sandboxProcessObj,
+      } as SandboxStatusData;
+      this.spinner.status = this.sandboxProgress.formatProgressStatus(sandboxData);
+    }
   }
 
   private readJsonDefFile(): Record<string, unknown> {
@@ -297,6 +307,21 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
     );
     if (!configurationCorrect.continue) {
       throw messages.createError('error.UserNotSatisfiedWithSandboxConfig');
+    }
+  }
+
+  private validateFlags(): void {
+    if (this.flags['poll-interval'].seconds > this.flags.wait.seconds) {
+      throw messages.createError('error.pollIntervalGreaterThanWait', [
+        this.flags['poll-interval'].seconds,
+        this.flags.wait.seconds,
+      ]);
+    }
+  }
+
+  private updateStage(stage: string | undefined, state: State): void {
+    if (stage) {
+      this.sandboxProgress.transitionStages(stage, state);
     }
   }
 }

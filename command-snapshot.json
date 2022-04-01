@@ -4,11 +4,13 @@
     "plugin": "@salesforce/plugin-env",
     "flags": [
       "alias",
+      "async",
       "definition-file",
       "json",
       "license-type",
       "name",
       "no-prompt",
+      "poll-interval",
       "set-default",
       "target-org",
       "wait"

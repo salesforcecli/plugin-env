@@ -1,0 +1,113 @@
+/*
+ * Copyright (c) 2020, salesforce.com, inc.
+ * All rights reserved.
+ * Licensed under the BSD 3-Clause license.
+ * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
+ */
+import * as os from 'os';
+import { StatusEvent, ResultEvent, SandboxProcessObject } from '@salesforce/core';
+import { Ux } from '@salesforce/sf-plugins-core/lib/ux';
+import { CliUx } from '@oclif/core';
+import { getClockForSeconds } from '../utils/timeUtils';
+import { StagedProgress } from './stagedProgress';
+
+const columns: Ux.Table.Columns<{ key: string; value: string }> = {
+  key: { header: 'Field' },
+  value: { header: 'Value' },
+};
+
+export type SandboxProgressData = {
+  id: string;
+  status: string;
+  percentComplete: number;
+  remainingWaitTime: number;
+  remainingWaitTimeHuman: string;
+};
+
+export type SandboxStatusData = {
+  sandboxUsername: string;
+  sandboxProgress: SandboxProgressData;
+  sandboxProcessObj?: SandboxProcessObject | undefined;
+};
+
+export class SandboxProgress extends StagedProgress<SandboxStatusData> {
+  public constructor() {
+    super(['Pending', 'Processing', 'Activating', 'Authenticating']);
+  }
+  public getLogSandboxProcessResult(
+    result: ResultEvent
+    // sandboxProcessObj.CopyProgress is a number
+  ): { sandboxReadyForUse: string; data: Array<{ key: string; value: string | number }> } {
+    const { sandboxProcessObj, sandboxRes } = result;
+    const sandboxReadyForUse = `Sandbox ${sandboxProcessObj.SandboxName}(${sandboxProcessObj.Id}) is ready for use.`;
+
+    const data = this.getTableDataFromProcessObj(sandboxRes.authUserName, sandboxProcessObj);
+
+    return { sandboxReadyForUse, data };
+  }
+
+  public getTableDataFromProcessObj(
+    authUserName: string,
+    sandboxProcessObj: SandboxProcessObject
+  ): Array<{ key: string; value: string | number }> {
+    return [
+      { key: 'Id', value: sandboxProcessObj.Id },
+      { key: 'SandboxName', value: sandboxProcessObj.SandboxName },
+      { key: 'Status', value: sandboxProcessObj.Status },
+      { key: 'CopyProgress', value: sandboxProcessObj.CopyProgress },
+      { key: 'Description', value: sandboxProcessObj.Description },
+      { key: 'LicenseType', value: sandboxProcessObj.LicenseType },
+      { key: 'SandboxInfoId', value: sandboxProcessObj.SandboxInfoId },
+      { key: 'SourceId', value: sandboxProcessObj.SourceId },
+      { key: 'SandboxOrg', value: sandboxProcessObj.SandboxOrganization },
+      { key: 'Created Date', value: sandboxProcessObj.CreatedDate },
+      { key: 'ApexClassId', value: sandboxProcessObj.ApexClassId },
+      { key: 'Authorized Sandbox Username', value: authUserName },
+    ].filter((v) => !!v.value);
+  }
+
+  public getSandboxProgress(event: StatusEvent | ResultEvent): SandboxProgressData {
+    const statusUpdate = event as StatusEvent;
+    const retries = statusUpdate.retries ?? 0;
+    const interval = statusUpdate.interval ?? 0;
+    const waitingOnAuth = statusUpdate.waitingOnAuth ?? false;
+    const { sandboxProcessObj } = event;
+    const waitTimeInSec = retries * interval;
+
+    const sandboxIdentifierMsg = `${sandboxProcessObj.SandboxName}(${sandboxProcessObj.Id})`;
+
+    return {
+      id: sandboxIdentifierMsg,
+      status: waitingOnAuth ? 'Authenticating' : sandboxProcessObj.Status,
+      percentComplete: sandboxProcessObj.CopyProgress,
+      remainingWaitTime: waitTimeInSec,
+      remainingWaitTimeHuman: waitTimeInSec === 0 ? '' : `${getClockForSeconds(waitTimeInSec)} until timeout.`,
+    };
+  }
+
+  public getSandboxTableAsText(sandboxUsername: string, sandboxProgress?: SandboxProcessObject): string[] {
+    if (!sandboxProgress) {
+      return [];
+    }
+    const tableRows: string[] = [];
+    CliUx.ux.table(this.getTableDataFromProcessObj(sandboxUsername, sandboxProgress), columns, {
+      printLine: (s: string): void => {
+        tableRows.push(s);
+      },
+    });
+    return tableRows;
+  }
+
+  public formatProgressStatus(options: SandboxStatusData): string {
+    const table = this.getSandboxTableAsText(undefined, options.sandboxProcessObj).join(os.EOL);
+    return [
+      `${options.sandboxProgress.id} ${getClockForSeconds(options.sandboxProgress.remainingWaitTime)} until timeout. ${
+        options.sandboxProgress.percentComplete
+      }%`,
+      table,
+      '---------------------',
+      'Sandbox Create Stages',
+      this.formatStages(),
+    ].join(os.EOL);
+  }
+}

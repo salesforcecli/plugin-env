@@ -67,7 +67,7 @@ describe('display unit tests', () => {
     .stderr()
     .command(['env:display'])
     .it('should throw error if --target-env is not specified', (ctx) => {
-      expect(ctx.stdout).to.to.include(
+      expect(ctx.stderr).to.to.include(
         'No default environment found. Use -e or --target-env to specify an environment to display.'
       );
     });

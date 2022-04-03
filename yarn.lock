@@ -1349,9 +1349,9 @@
     tslib "^2"
 
 "@salesforce/plugin-functions@^1.7.1":
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/@salesforce/plugin-functions/-/plugin-functions-1.7.1.tgz#0d802f87ddb07decf81c56580ebcfff327ac6272"
-  integrity sha512-1xvcY9i1v6BtN55zwqf1XLHDlNbHMnlENU1vRFk/n7n0UY07ehRUNQdZnXZS1jRnrpFVD3DiojKg14dhrJNT8A==
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/@salesforce/plugin-functions/-/plugin-functions-1.7.2.tgz#322bd480a19267647148353dba4f271a9220a7f4"
+  integrity sha512-jmsSz2emSCJVXb387WqfTK/3BuJnW9OSKMUpXLPXtOEwovnNSqGormOtWRm8zaXISOD5EtG20/SKYtCvGEjKfQ==
   dependencies:
     "@heroku-cli/color" "^1.1.14"
     "@heroku-cli/schema" "^1.0.25"

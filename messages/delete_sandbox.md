@@ -4,7 +4,7 @@ Delete a sandbox.
 
 # description
 
-Specify an environment with either the username you used when you logged into the environment with "sf login", or the alias you gave the environment when you created it. Run "sf env list" to view all your environments and their aliases.
+Specify a sandbox with either the username you used when you logged into it with "sf login", or the alias you gave the sandbox when you created it. Run "sf env list" to view all your environments, including sandboxes, and their aliases.
 
 # examples
 
@@ -16,22 +16,22 @@ Specify an environment with either the username you used when you logged into th
 
   <%= config.bin %> <%= command.id %> --target-org=myusername@example.com.qa
 
-- Delete the org without prompting to confirm :
+- Delete the sandbox without prompting to confirm :
 
   <%= config.bin %> <%= command.id %> --target-org=my-sandbox --no-prompt
 
 # flags.target-org.summary
 
-Environment alias or login user.
+Sandbox alias or login user.
 
 # flags.no-prompt.summary
 
-Do not prompt the user to confirm the deletion
+Don't prompt the user to confirm the deletion.
 
 # prompt.confirm
 
-Delete sandbox with name: %s? Are you sure?
+Are you sure you want to delete the sandbox with name: %s?
 
 # success
 
-Successfully marked sandbox %s for deletion
+Successfully marked sandbox %s for deletion.

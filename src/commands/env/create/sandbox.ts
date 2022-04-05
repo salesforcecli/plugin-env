@@ -109,7 +109,7 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
       summary: messages.getMessage('flags.noPrompt.summary'),
     }),
   };
-
+  public static readonly state = 'beta';
   protected sandboxAuth?: SandboxUserAuthResponse;
   protected readonly lifecycleEventNames = ['postorgcreate'];
   private flags: {

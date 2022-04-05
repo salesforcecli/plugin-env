@@ -6,6 +6,7 @@
  */
 import { expect } from 'chai';
 import { ResultEvent, SandboxProcessObject } from '@salesforce/core';
+import { Duration } from '@salesforce/cli-plugins-testkit';
 import { SandboxProgress } from '../../src/shared/sandboxProgress';
 
 const sandboxProcessObj: SandboxProcessObject = {
@@ -34,7 +35,7 @@ describe('sandbox progress', () => {
         // 186*30 = 5580 = 1 hour, 33 min, 0 seconds. so 186 attempts left, at a 30 second polling interval
         sandboxProcessObj,
         interval: 30,
-        retries: 186,
+        remainingWait: Duration.minutes(93).seconds,
         waitingOnAuth: false,
       };
       const res = sandboxProgress.getSandboxProgress(data);
@@ -48,7 +49,7 @@ describe('sandbox progress', () => {
       const data = {
         sandboxProcessObj,
         interval: 30,
-        retries: 11,
+        remainingWait: Duration.minutes(5).seconds + Duration.seconds(30).seconds,
         waitingOnAuth: false,
       };
       const res = sandboxProgress.getSandboxProgress(data);

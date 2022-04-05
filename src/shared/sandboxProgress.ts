@@ -54,7 +54,7 @@ export class SandboxProgress extends StagedProgress<SandboxStatusData> {
       { key: 'Id', value: sandboxProcessObj.Id },
       { key: 'SandboxName', value: sandboxProcessObj.SandboxName },
       { key: 'Status', value: sandboxProcessObj.Status },
-      { key: 'CopyProgress', value: sandboxProcessObj.CopyProgress },
+      { key: 'CopyProgress', value: `${sandboxProcessObj.CopyProgress}%` },
       { key: 'Description', value: sandboxProcessObj.Description },
       { key: 'LicenseType', value: sandboxProcessObj.LicenseType },
       { key: 'SandboxInfoId', value: sandboxProcessObj.SandboxInfoId },
@@ -68,11 +68,9 @@ export class SandboxProgress extends StagedProgress<SandboxStatusData> {
 
   public getSandboxProgress(event: StatusEvent | ResultEvent): SandboxProgressData {
     const statusUpdate = event as StatusEvent;
-    const retries = statusUpdate.retries ?? 0;
-    const interval = statusUpdate.interval ?? 0;
     const waitingOnAuth = statusUpdate.waitingOnAuth ?? false;
     const { sandboxProcessObj } = event;
-    const waitTimeInSec = retries * interval;
+    const waitTimeInSec = statusUpdate.remainingWait ?? 0;
 
     const sandboxIdentifierMsg = `${sandboxProcessObj.SandboxName}(${sandboxProcessObj.Id})`;
 
@@ -101,7 +99,7 @@ export class SandboxProgress extends StagedProgress<SandboxStatusData> {
   public formatProgressStatus(options: SandboxStatusData): string {
     const table = this.getSandboxTableAsText(undefined, options.sandboxProcessObj).join(os.EOL);
     return [
-      `${options.sandboxProgress.id} ${getClockForSeconds(options.sandboxProgress.remainingWaitTime)} until timeout. ${
+      `${getClockForSeconds(options.sandboxProgress.remainingWaitTime)} until timeout. ${
         options.sandboxProgress.percentComplete
       }%`,
       table,

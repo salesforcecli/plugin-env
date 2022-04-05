@@ -99,7 +99,7 @@ The sandbox license type is required, but you didn't provide a value. Specify th
 
 # error.DnsTimeout
 
-The sandbox was successfully created and authenticated. However, the sandbox DNS records aren't ready yet and so the sandbox may not be available. Run "sf env list" and check if the sandbox is listed correctly. If it isn't listed, run "sf env status" to view its status and, if necessary, authenticate to it again. If this issue happens frequently, try setting the SFDX_DNS_TIMEOUT environment variable to a larger number; the default value is 3 seconds.
+The sandbox creation failed because the DNS name resolution timed out.
 
 # error.PartialSuccess
 

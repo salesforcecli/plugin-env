@@ -110,8 +110,8 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
     }),
   };
 
-  protected readonly lifecycleEventNames = ['postorgcreate'];
   protected sandboxAuth?: SandboxUserAuthResponse;
+  protected readonly lifecycleEventNames = ['postorgcreate'];
   private flags: {
     'definition-file': string;
     'set-default': boolean;
@@ -127,6 +127,8 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
   };
 
   private sandboxProgress: SandboxProgress;
+  // TODO: uncomment when async/resume option are implemented
+  // private latestSandboxProgressObj: SandboxProcessObject;
 
   public async run(): Promise<SandboxProcessObject> {
     this.flags = (await this.parse(CreateSandbox)).flags as CreateSandbox['flags'];
@@ -180,16 +182,20 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
     // `on` doesn't support synchronous methods
     // eslint-disable-next-line @typescript-eslint/require-await
     lifecycle.on(SandboxEvents.EVENT_ASYNC_RESULT, async (results: SandboxProcessObject) => {
+      // TODO: uncomment when async/resume option are implemented
+      // this.latestSandboxProgressObj = results;
       if (!this.flags.async) {
         this.spinner.stop();
       }
       this.info(messages.getMessage('sandboxSuccess', [results.Id]));
-      // TODO: uncomment when async option is implemented
+      // TODO: uncomment when async/resume option are implemented
       // this.info(messages.getMessage('checkSandboxStatus', [results.Id, prodOrg ? prodOrg.getUsername() : '']));
     });
 
     // eslint-disable-next-line @typescript-eslint/require-await
     lifecycle.on(SandboxEvents.EVENT_STATUS, async (results: StatusEvent) => {
+      // TODO: uncomment when async/resume option are implemented
+      // this.latestSandboxProgressObj = results.sandboxProcessObj;
       const progress = this.sandboxProgress.getSandboxProgress(results);
       const currentStage = progress.status;
       this.updateStage(currentStage, State.inProgress);
@@ -202,6 +208,8 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
     });
 
     lifecycle.on(SandboxEvents.EVENT_RESULT, async (results: ResultEvent) => {
+      // TODO: uncomment when async/resume option are implemented
+      // this.latestSandboxProgressObj = results.sandboxProcessObj;
       this.sandboxProgress.updateCurrentStage(State.completed);
       this.updateProgress(results);
       if (!this.flags.async) {
@@ -236,24 +244,31 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
 
     this.debug('Calling create with SandboxRequest: %s ', sandboxReq);
 
-    return prodOrg
-      .createSandbox(sandboxReq, {
+    try {
+      return await prodOrg.createSandbox(sandboxReq, {
         wait: this.flags.wait,
         interval: this.flags['poll-interval'],
         async: this.flags.async,
-      })
-      .catch((reason) => {
-        // guaranteed to be SfError from core;
-        const err = reason as SfError;
-        this.handleSandboxCreateErrors(prodOrg, err);
-        throw err;
       });
+    } catch (err) {
+      throw this.handleSandboxCreateErrors(this.flags['target-org'], err);
+    }
   }
 
-  private handleSandboxCreateErrors(prodOrg: Org, err: SfError): void {
-    if (err?.message.includes('The org cannot be found')) {
-      err.actions = [messages.getMessage('error.DnsTimeout')];
-      err.exitCode = 68;
+  private handleSandboxCreateErrors(prodOrg: Org, err: SfError): SfError {
+    // TODO: uncomment when async/resume option are implemented
+    // write the sandboxProgressObject to config keyed by sandboxProgressObject.Id
+    let wrappedError = err;
+    if (err?.message.includes('The client has timed out.')) {
+      wrappedError = messages.createError(
+        'error.DnsTimeout',
+        [],
+        // TODO: uncomment when async/resume option are implemented
+        // [messages.getMessage('checkSandboxStatus', [this.latestSandboxProgressObj.Id, prodOrg.getUsername()])],
+        [],
+        68,
+        err as Error
+      );
     }
     if (!this.flags.async) {
       this.sandboxProgress.updateCurrentStage(State.failed);
@@ -261,6 +276,7 @@ export default class CreateSandbox extends SfCommand<SandboxProcessObject> {
       this.spinner.stop();
       this.log();
     }
+    return wrappedError;
   }
 
   private updateProgress(event: ResultEvent | StatusEvent): void {

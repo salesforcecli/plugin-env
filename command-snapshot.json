@@ -5,6 +5,7 @@
     "flags": [
       "alias",
       "api-version",
+      "async",
       "client-id",
       "definition-file",
       "duration-days",
@@ -46,6 +47,12 @@
     "command": "env:open",
     "plugin": "@salesforce/plugin-env",
     "flags": ["browser", "json", "path", "target-env", "url-only"],
+    "alias": []
+  },
+  {
+    "command": "env:resume:scratch",
+    "plugin": "@salesforce/plugin-env",
+    "flags": ["job-id", "json", "use-most-recent"],
     "alias": []
   }
 ]

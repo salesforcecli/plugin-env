@@ -46,6 +46,10 @@ Don't include second-generation managed package (2GP) ancestors in the scratch o
 
 Salesforce edition of the scratch org.
 
+# flags.async.summary
+
+Request the org, but do not wait for it to complete.
+
 # flags.edition.description
 
 The editions that begin with "partner-" are available only if the Dev Hub org is a Partner Business Org.
@@ -87,3 +91,11 @@ OAuth client secret of your personal connected app
 # success
 
 Your scratch org is ready.
+
+# timeoutUnexpected
+
+The scratch org did not complete within your wait time of %s minutes
+
+# action.resume
+
+Resume scratch org creation by running sf env resume scratch --job-id %s

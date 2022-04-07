@@ -109,9 +109,9 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
     const lifecycle = Lifecycle.getInstance();
     const { flags } = await this.parse(EnvCreateScratch);
     const baseUrl = flags['target-dev-hub'].getField(Org.Fields.INSTANCE_URL).toString();
-    const definitionjson = flags['definition-file']
-      ? await fs.promises.readFile(flags['definition-file'], 'utf-8')
-      : JSON.stringify({ edition: flags.edition });
+    const orgConfig = flags['definition-file']
+      ? (JSON.parse(await fs.promises.readFile(flags['definition-file'], 'utf-8')) as Record<string, unknown>)
+      : { edition: flags.edition };
 
     const createCommandOptions: ScratchOrgCreateOptions = {
       hubOrg: flags['target-dev-hub'],
@@ -122,7 +122,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       noancestors: flags['no-ancestors'],
       wait: flags.async ? Duration.minutes(0) : flags.wait,
       apiversion: flags['api-version'],
-      definitionjson,
+      orgConfig,
       alias: flags.alias,
       setDefault: flags['set-default'],
     };

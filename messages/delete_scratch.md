@@ -4,7 +4,7 @@ Delete a scratch org.
 
 # description
 
-Specify an environment with either the username you used when you logged into the environment with "sf login", or the alias you gave the environment when you created it. Run "sf env list" to view all your environments and their aliases.
+Specify a scratch org with either the username you used when you logged into it with "sf login", or the alias you gave the scratch org when you created it. Run "sf env list" to view all your environments, including scratch orgs, and their aliases.
 
 # examples
 
@@ -16,21 +16,21 @@ Specify an environment with either the username you used when you logged into th
 
   <%= config.bin %> <%= command.id %> --target-org=test-123456-abcdefg@example.com
 
-- Delete the org without prompting to confirm :
+- Delete the scratch org without prompting to confirm :
 
   <%= config.bin %> <%= command.id %> --target-org=my-scratch-org --no-prompt
 
 # flags.target-org.summary
 
-Org alias or login user.
+Scratch org alias or login user.
 
 # flags.no-prompt.summary
 
-Do not prompt the user to confirm the deletion
+Don't prompt the user to confirm the deletion.
 
 # prompt.confirm
 
-Enqueue scratch org with name: %s for deletion? Are you sure?
+Are you sure you want to delete the scratch org with name: %s?
 
 # success
 

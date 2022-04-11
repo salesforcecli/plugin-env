@@ -18,7 +18,6 @@ import {
   SfError,
 } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
-import * as chalk from 'chalk';
 import { buildStatus } from '../../../shared/scratchOrgOutput';
 import { ScratchCreateResponse } from '../../../types';
 Messages.importMessagesDirectory(__dirname);
@@ -146,11 +145,12 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
 
       this.spinner.stop(lastStatus);
       this.log();
-      this.log(
-        flags.async
-          ? messages.getMessage('action.resume', [scratchOrgInfo.Id])
-          : chalk.green(messages.getMessage('success'))
-      );
+      if (flags.async) {
+        this.log(messages.getMessage('action.resume', [scratchOrgInfo.Id]));
+      } else {
+        this.logSuccess(messages.getMessage('success'));
+      }
+
       return { username, scratchOrgInfo, authFields, warnings, orgId: scratchOrgInfo.Id };
     } catch (error) {
       if (error instanceof SfError && error.name === 'ScratchOrgInfoTimeoutError') {

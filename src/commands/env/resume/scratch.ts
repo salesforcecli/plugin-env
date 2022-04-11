@@ -14,7 +14,6 @@ import {
   ScratchOrgLifecycleEvent,
   scratchOrgLifecycleEventName,
 } from '@salesforce/core';
-import * as chalk from 'chalk';
 import { ScratchCreateResponse } from '../../../types';
 import { buildStatus } from '../../../shared/scratchOrgOutput';
 
@@ -63,7 +62,7 @@ export default class EnvResumeScratch extends SfCommand<ScratchCreateResponse> {
     this.spinner.stop(lastStatus);
 
     this.log();
-    this.log(chalk.green(messages.getMessage('success')));
+    this.logSuccess(messages.getMessage('success'));
     return { username, scratchOrgInfo, authFields, warnings, orgId: scratchOrgInfo.Id };
   }
 }

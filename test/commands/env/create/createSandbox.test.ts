@@ -179,7 +179,7 @@ describe('env:create:sandbox', () => {
 
       Lifecycle.getInstance().on(SandboxEvents.EVENT_ASYNC_RESULT, async (result) => {
         expect(result).to.deep.equal(sandboxProcessObj);
-        expect(uxLogStub.firstCall.args[0]).to.includes('The sandbox org creation 0GR4p000000U8EMXXX is in progress.');
+        expect(uxLogStub.firstCall.args[0]).to.includes('0GR4p000000U8EMXXX');
       });
 
       await Lifecycle.getInstance().emit(SandboxEvents.EVENT_ASYNC_RESULT, sandboxProcessObj);

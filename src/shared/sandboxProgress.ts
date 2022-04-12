@@ -34,16 +34,10 @@ export class SandboxProgress extends StagedProgress<SandboxStatusData> {
   public constructor() {
     super(['Pending', 'Processing', 'Activating', 'Authenticating']);
   }
-  public getLogSandboxProcessResult(
-    result: ResultEvent
-    // sandboxProcessObj.CopyProgress is a number
-  ): { sandboxReadyForUse: string; data: Array<{ key: string; value: string | number }> } {
-    const { sandboxProcessObj, sandboxRes } = result;
+  public getLogSandboxProcessResult(result: ResultEvent): string {
+    const { sandboxProcessObj } = result;
     const sandboxReadyForUse = `Sandbox ${sandboxProcessObj.SandboxName}(${sandboxProcessObj.Id}) is ready for use.`;
-
-    const data = this.getTableDataFromProcessObj(sandboxRes.authUserName, sandboxProcessObj);
-
-    return { sandboxReadyForUse, data };
+    return sandboxReadyForUse;
   }
 
   public getTableDataFromProcessObj(
@@ -76,7 +70,7 @@ export class SandboxProgress extends StagedProgress<SandboxStatusData> {
 
     return {
       id: sandboxIdentifierMsg,
-      status: waitingOnAuth ? 'Authenticating' : sandboxProcessObj.Status,
+      status: waitingOnAuth || sandboxProcessObj.Status === 'Completed' ? 'Authenticating' : sandboxProcessObj.Status,
       percentComplete: sandboxProcessObj.CopyProgress,
       remainingWaitTime: waitTimeInSec,
       remainingWaitTimeHuman: waitTimeInSec === 0 ? '' : `${getClockForSeconds(waitTimeInSec)} until timeout.`,
@@ -96,16 +90,20 @@ export class SandboxProgress extends StagedProgress<SandboxStatusData> {
     return tableRows;
   }
 
-  public formatProgressStatus(options: SandboxStatusData): string {
-    const table = this.getSandboxTableAsText(undefined, options.sandboxProcessObj).join(os.EOL);
+  public formatProgressStatus(withClock = true): string {
+    const table = this.getSandboxTableAsText(undefined, this.statusData.sandboxProcessObj).join(os.EOL);
     return [
-      `${getClockForSeconds(options.sandboxProgress.remainingWaitTime)} until timeout. ${
-        options.sandboxProgress.percentComplete
-      }%`,
+      withClock
+        ? `${getClockForSeconds(this.statusData.sandboxProgress.remainingWaitTime)} until timeout. ${
+            this.statusData.sandboxProgress.percentComplete
+          }%`
+        : undefined,
       table,
       '---------------------',
       'Sandbox Create Stages',
       this.formatStages(),
-    ].join(os.EOL);
+    ]
+      .filter((line) => line)
+      .join(os.EOL);
   }
 }

@@ -40,6 +40,8 @@ export type Stage = {
 };
 
 export abstract class StagedProgress<T> {
+  // eslint-disable-next-line @typescript-eslint/explicit-member-accessibility
+  #statusData: T;
   private theStages: Stage;
   private currentStage: string;
   private previousStage: string;
@@ -53,6 +55,12 @@ export abstract class StagedProgress<T> {
       .reduce((m, b) => Object.assign(m, b), {} as Stage);
   }
 
+  public get statusData(): T {
+    return this.#statusData;
+  }
+  public set statusData(statusData: T) {
+    this.#statusData = statusData;
+  }
   public formatStages(): string {
     return Object.entries(this.theStages)
       .sort(compareStages)
@@ -66,9 +74,21 @@ export abstract class StagedProgress<T> {
     if (this.previousStage && this.previousStage !== currentStage) {
       this.updateStages(this.previousStage, State.completed);
     }
+
+    // mark all previous stages as visited and completed
+    this.markPreviousStagesAsCompleted(currentStage);
+
     this.previousStage = currentStage;
     this.currentStage = currentStage;
     this.updateStages(currentStage, newState);
+  }
+
+  public markPreviousStagesAsCompleted(currentStage?: string): void {
+    Object.entries(this.theStages).forEach(([stage, stageState]) => {
+      if (!currentStage || stageState.index < this.theStages[currentStage].index) {
+        this.updateStages(stage, State.completed);
+      }
+    });
   }
 
   public updateCurrentStage(newState: State): void {
@@ -97,5 +117,5 @@ export abstract class StagedProgress<T> {
     return this.theStages;
   }
 
-  public abstract formatProgressStatus(options: T): string;
+  public abstract formatProgressStatus(withClock: boolean): string;
 }

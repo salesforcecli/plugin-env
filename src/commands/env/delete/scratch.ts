@@ -5,11 +5,16 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import { Messages } from '@salesforce/core';
+import { Messages, Org } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+import * as Interfaces from '@oclif/core/lib/interfaces';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'delete_scratch');
+type FlagsDef = {
+  'target-org': Org;
+  'no-prompt': boolean;
+};
 
 export interface ScratchDeleteResponse {
   orgId: string;
@@ -20,7 +25,8 @@ export default class EnvDeleteScratch extends SfCommand<ScratchDeleteResponse> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
-  public static flags = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public static flags: Interfaces.FlagInput<any> = {
     'target-org': Flags.requiredOrg({
       summary: messages.getMessage('flags.target-org.summary'),
     }),
@@ -31,7 +37,7 @@ export default class EnvDeleteScratch extends SfCommand<ScratchDeleteResponse> {
   };
 
   public async run(): Promise<ScratchDeleteResponse> {
-    const { flags } = await this.parse(EnvDeleteScratch);
+    const flags = (await this.parse(EnvDeleteScratch)).flags as FlagsDef;
     const org = flags['target-org'];
 
     if (flags['no-prompt'] || (await this.confirm(messages.getMessage('prompt.confirm', [org.getUsername()])))) {

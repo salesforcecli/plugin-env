@@ -46,5 +46,11 @@
     "plugin": "@salesforce/plugin-env",
     "flags": ["browser", "json", "path", "target-env", "url-only"],
     "alias": []
+  },
+  {
+    "command": "env:resume:sandbox",
+    "plugin": "@salesforce/plugin-env",
+    "flags": ["alias", "id", "json", "name", "poll-interval", "set-default", "target-org", "wait"],
+    "alias": []
   }
 ]

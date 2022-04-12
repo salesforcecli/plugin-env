@@ -5,9 +5,9 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import { expect } from 'chai';
-import { ResultEvent, SandboxProcessObject } from '@salesforce/core';
 import { Duration } from '@salesforce/cli-plugins-testkit';
 import { SandboxProgress } from '../../src/shared/sandboxProgress';
+import { SandboxProcessObject } from '../../../sfdx-core';
 
 const sandboxProcessObj: SandboxProcessObject = {
   Id: '0GR4p000000U8EMXXX',
@@ -40,7 +40,7 @@ describe('sandbox progress', () => {
       };
       const res = sandboxProgress.getSandboxProgress(data);
       expect(res).to.have.property('id', 'TestSandbox(0GR4p000000U8EMXXX)');
-      expect(res).to.have.property('status', 'Completed');
+      expect(res).to.have.property('status', 'Authenticating');
       expect(res).to.have.property('percentComplete', 100);
       expect(res).to.have.property('remainingWaitTimeHuman', '01:33:00 until timeout.');
     });
@@ -54,32 +54,12 @@ describe('sandbox progress', () => {
       };
       const res = sandboxProgress.getSandboxProgress(data);
       expect(res).to.have.property('id', 'TestSandbox(0GR4p000000U8EMXXX)');
-      expect(res).to.have.property('status', 'Completed');
+      expect(res).to.have.property('status', 'Authenticating');
       expect(res).to.have.property('percentComplete', 100);
       expect(res).to.have.property('remainingWaitTimeHuman', '00:05:30 until timeout.');
     });
   });
-  describe('getLogSandboxProcessResult', () => {
-    it('getLogSandboxProcessResult should work', () => {
-      const data: ResultEvent = {
-        // 186*30 = 5580 = 1 hour, 33 min, 0 seconds. so 186 attempts left, at a 30 second polling interval
-        sandboxProcessObj,
-        sandboxRes: {
-          authUserName: 'admin@prod.org.sandbox',
-          instanceUrl: 'https://cs42.salesforce.com',
-          loginUrl: 'https://test.salesforce.com',
-          authCode: 'someauthcode',
-        },
-      };
-      const logData = sandboxProgress.getLogSandboxProcessResult(data);
-      expect(logData.data.find((r) => r.key === 'Authorized Sandbox Username')).to.have.property(
-        'value',
-        'admin@prod.org.sandbox'
-      );
-      expect(logData.sandboxReadyForUse).to.be.ok;
-      expect(logData.data.find((r) => r.key === 'SandboxInfoId')).to.have.property('value', '0GQ4p000000U6sKXXX');
-    });
-  });
+
   describe('getTableDataFromProcessObj', () => {
     it('getTableDataFromProcessObj should work', () => {
       const tableData = sandboxProgress.getTableDataFromProcessObj('admin@prod.org.sandbox', sandboxProcessObj);

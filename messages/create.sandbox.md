@@ -72,15 +72,6 @@ Don't wait for the sandbox create to complete.
 
 Don't prompt for confirmation about the sandbox configuration.
 
-# sandboxSuccess
-
-The sandbox org creation %s is in progress.
-
-# checkSandboxStatus
-
-Run "sf env resume sandbox --job-id %s -o %s" to check for status.
-If the org is ready, checking the status also authorizes the org for use with Salesforce CLI.
-
 # isConfigurationOk
 
 Is the configuration correct?
@@ -96,15 +87,6 @@ This command requires a target-org. Specify it with the --target-org flag or by 
 # error.MissingLicenseType
 
 The sandbox license type is required, but you didn't provide a value. Specify the license type in the sandbox definition file with the "licenseType" option, or specify the --license-type and --name flags at the command-line. See https://developer.salesforce.com/docs/atlas.en-us.sf_dev.meta/sf_dev/sf_dev_sandbox_definition.htm for more information.
-
-# error.DnsTimeout
-
-The sandbox creation failed because the DNS name resolution timed out.
-
-# error.PartialSuccess
-
-If you specified the -a or -s flags, but the sandbox wasn't immediately available, the "env create sandbox" command may not have finished setting the alias or target-org.
-If so, set the alias manually with "sf alias set" and the target-org with "sf config set".
 
 # error.NoConfig
 

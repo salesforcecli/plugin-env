@@ -4,8 +4,14 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import { Messages } from '@salesforce/core';
+import { Org, Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+import * as Interfaces from '@oclif/core/lib/interfaces';
+
+type FlagsDef = {
+  'target-org': Org;
+  'no-prompt': boolean;
+};
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'delete_sandbox');
@@ -18,7 +24,8 @@ export default class EnvDeleteSandbox extends SfCommand<SandboxDeleteResponse> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
-  public static flags = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public static flags: Interfaces.FlagInput<any> = {
     'target-org': Flags.requiredOrg({
       summary: messages.getMessage('flags.target-org.summary'),
     }),
@@ -29,8 +36,12 @@ export default class EnvDeleteSandbox extends SfCommand<SandboxDeleteResponse> {
   };
 
   public async run(): Promise<SandboxDeleteResponse> {
-    const { flags } = await this.parse(EnvDeleteSandbox);
+    const flags = (await this.parse(EnvDeleteSandbox)).flags as FlagsDef;
     const org = flags['target-org'];
+
+    if (!(await org.isSandbox())) {
+      throw messages.createError('error.isNotSandbox', [org.getUsername()]);
+    }
 
     if (flags['no-prompt'] || (await this.confirm(messages.getMessage('prompt.confirm', [org.getUsername()])))) {
       try {

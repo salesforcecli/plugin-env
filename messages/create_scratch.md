@@ -92,10 +92,6 @@ OAuth client secret of your personal connected app
 
 Your scratch org is ready.
 
-# timeoutUnexpected
-
-The scratch org did not complete within your wait time of %s minutes
-
 # action.resume
 
 Resume scratch org creation by running sf env resume scratch --job-id %s

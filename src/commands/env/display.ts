@@ -23,7 +23,6 @@ export default class EnvDisplay extends SfCommand<JsonObject> {
       description: messages.getMessage('flags.target-env.summary'),
     }),
   };
-  public static readonly state = 'beta';
 
   public async run(): Promise<JsonObject> {
     const { flags } = await this.parse(EnvDisplay);

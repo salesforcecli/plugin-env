@@ -7,7 +7,15 @@
 
 import * as fs from 'fs';
 import { Flags } from '@salesforce/sf-plugins-core';
-import { Lifecycle, Messages, Org, SandboxProcessObject, SandboxRequest } from '@salesforce/core';
+import {
+  Lifecycle,
+  Messages,
+  Org,
+  SandboxEvents,
+  SandboxProcessObject,
+  SandboxRequest,
+  SfError,
+} from '@salesforce/core';
 import { Duration } from '@salesforce/kit';
 import { Ux } from '@salesforce/sf-plugins-core/lib/ux';
 import * as Interfaces from '@oclif/core/lib/interfaces';
@@ -187,11 +195,21 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
       });
       this.latestSandboxProgressObj = sandboxProcessObject;
       this.saveSandboxProgressConfig();
+      if (this.flags.async) {
+        process.exitCode = 68;
+      }
       return sandboxProcessObject;
     } catch (err) {
       this.spinner.stop();
+      const error = err as SfError;
       if (this.pollingTimeOut) {
-        throw messages.createError('error.CreateTimeout', [], [], 68, err);
+        void lifecycle.emit(SandboxEvents.EVENT_ASYNC_RESULT, undefined);
+        process.exitCode = 68;
+        return this.latestSandboxProgressObj;
+      } else if (error.name === 'SandboxCreateNotCompleteError') {
+        void lifecycle.emit(SandboxEvents.EVENT_ASYNC_RESULT, undefined);
+        process.exitCode = 68;
+        return this.latestSandboxProgressObj;
       }
       throw err;
     }

@@ -171,9 +171,13 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
       const error = err as SfError;
       if (this.pollingTimeOut) {
         void lifecycle.emit(SandboxEvents.EVENT_ASYNC_RESULT, undefined);
-        throw messages.createError('error.ResumeTimeout', [this.flags.wait.minutes], [], 68, err);
-      } else if (error.name === 'SandboxCreateNotCompletedError') {
+        // throw messages.createError('error.ResumeTimeout', [this.flags.wait.minutes], [], 68, err);
+        process.exitCode = 68;
+        return this.latestSandboxProgressObj;
+      } else if (error.name === 'SandboxCreateNotCompleteError') {
         void lifecycle.emit(SandboxEvents.EVENT_ASYNC_RESULT, undefined);
+        process.exitCode = 68;
+        return this.latestSandboxProgressObj;
       }
       throw err;
     }

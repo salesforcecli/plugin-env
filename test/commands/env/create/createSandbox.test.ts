@@ -4,9 +4,6 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import * as fs from 'fs';
-import * as os from 'os';
-import * as path from 'path';
 import {
   GlobalInfo,
   Lifecycle,
@@ -113,50 +110,6 @@ describe('env:create:sandbox', () => {
   };
 
   describe('sandbox', () => {
-    it('properly overwrites options from defaults and --license-type', async () => {
-      const command = await createCommand(['--license-type', 'Developer', '-o', 'testProdOrg', '--no-prompt']);
-
-      stubMethod(sandbox, cmd, 'readJsonDefFile').returns({
-        licenseType: 'Developer_Pro',
-        sandboxName: 'sandboxName',
-      });
-      stubMethod(sandbox, Org, 'create').resolves(Org.prototype);
-      stubMethod(sandbox, fs, 'existsSync').returns(true);
-      const prodOrg = stubMethod(sandbox, Org.prototype, 'createSandbox').callsFake(async () => {
-        return (async () => {})().catch();
-      });
-      await command.runIt();
-      expect(prodOrg.firstCall.args[0]).to.deep.equal({
-        SandboxName: 'sandboxName',
-        LicenseType: 'Developer_Pro',
-      });
-    });
-
-    it('properly overwrites options from defaults and definition file with mixed capitalization', async () => {
-      const tmpDir = os.tmpdir();
-      const defFile = path.join(tmpDir, 'mySandboxDef.json');
-      fs.writeFileSync(
-        defFile,
-        JSON.stringify({
-          licenseType: 'Developer_Pro',
-          sandboxName: 'sandboxName',
-        }),
-        'utf8'
-      );
-      const command = await createCommand(['--definition-file', defFile, '-o', 'testProdOrg', '--no-prompt']);
-
-      stubMethod(sandbox, Org, 'create').resolves(Org.prototype);
-      const prodOrg = stubMethod(sandbox, Org.prototype, 'createSandbox').callsFake(async () => {
-        return (async () => {})().catch();
-      });
-      await command.runIt();
-      fs.unlinkSync(defFile);
-      expect(prodOrg.firstCall.args[0]).to.deep.equal({
-        SandboxName: 'sandboxName',
-        LicenseType: 'Developer_Pro',
-      });
-    });
-
     it('will print the correct message for asyncResult lifecycle event', async () => {
       const command = await createCommand(['-o', 'testProdOrg', '--name', 'mysandboxx', '--no-prompt']);
 

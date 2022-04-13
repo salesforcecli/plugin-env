@@ -50,7 +50,17 @@
   {
     "command": "env:resume:sandbox",
     "plugin": "@salesforce/plugin-env",
-    "flags": ["alias", "id", "json", "name", "poll-interval", "set-default", "target-org", "wait"],
+    "flags": [
+      "alias",
+      "job-id",
+      "json",
+      "name",
+      "poll-interval",
+      "set-default",
+      "target-org",
+      "use-most-recent",
+      "wait"
+    ],
     "alias": []
   }
 ]

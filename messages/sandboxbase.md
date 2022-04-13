@@ -20,6 +20,10 @@ Is the configuration correct?
 
 No SandboxName defined, generating new SandboxName: %s.
 
+# warning.ClientTimeoutWaitingForSandboxCreate
+
+The wait time for the sandbox creation has been exhausted. Please see the results below for more information.
+
 # error.RequiresTargetOrg
 
 This command requires a target-org. Specify it with the --target-org flag or by running the "sf config set target-org=<username>" command.

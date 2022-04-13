@@ -5,12 +5,10 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
-import { Lifecycle, Messages, SandboxEvents, SandboxProcessObject, SfError, StatusEvent } from '@salesforce/core';
+import { Lifecycle, Messages, SandboxEvents, SandboxProcessObject, StatusEvent } from '@salesforce/core';
 import { expect } from 'chai';
 
 Messages.importMessagesDirectory(__dirname);
-// const messages = Messages.loadMessages('@salesforce/plugin-env', 'create.sandbox');
-const baseMessages = Messages.loadMessages('@salesforce/plugin-env', 'sandboxbase');
 
 describe('Sandbox Orgs', () => {
   let session: TestSession;
@@ -37,18 +35,14 @@ describe('Sandbox Orgs', () => {
       expect(result).to.be.ok;
       // expect(result.CopyProgress, 'env:create:sandbox').to.equal(100);
       expect(result.SandboxName.startsWith('sbx'), 'env:create:sandbox').to.be.true;
+      result = execCmd<SandboxProcessObject>(
+        `env:resume:sandbox --name ${result.SandboxName} -a mySandbox -s -o ${process.env.TESTKIT_HUB_USERNAME} -w 60 --json`,
+        { timeout: 3600000 }
+      ).jsonOutput.result;
+      expect(result).to.be.ok;
     } catch (e) {
-      // eslint-disable-next-line no-console
-      console.log(JSON.stringify(e));
-      const error = e as SfError;
-      // there was a DNS issue, verify we handled it as best as we could
-      expect(error.message, 'env:create:sandbox DNS issue').to.include(baseMessages.getMessage('error.DnsTimeout'));
-      expect(error.exitCode, 'env:create:sandbox DNS issue').to.equal(68);
+      expect(false).to.be.true(JSON.stringify(e));
     }
-    result = execCmd<SandboxProcessObject>(
-      `env:resume:sandbox -a mySandbox -s -o ${process.env.TESTKIT_HUB_USERNAME} -w 60 --json`,
-      { timeout: 3600000 }
-    ).jsonOutput.result;
 
     const sandboxUsername = `${process.env.TESTKIT_HUB_USERNAME}.${result.SandboxName}`;
     // even if a DNS issue occurred, the sandbox should still be present and available.

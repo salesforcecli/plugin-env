@@ -103,3 +103,7 @@ The sandbox request configuration isn't acceptable.
 # error.pollIntervalGreaterThanWait
 
 The poll interval (%d seconds) can't be larger that wait (%d in seconds).
+
+# error.CreateTimeout
+
+The wait timeout (%d minutes) has expired. Check command results for more information.

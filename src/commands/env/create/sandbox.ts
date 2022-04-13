@@ -168,10 +168,10 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
       alias: this.flags.alias,
       prodOrg,
     });
-
     const sandboxReq = this.createSandboxRequest();
 
     await this.confirmSandboxReq(sandboxReq);
+    this.initSandboxProcessData(prodOrg, sandboxReq);
 
     if (!this.flags.async) {
       this.spinner.start('Sandbox Create');
@@ -186,11 +186,24 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
         async: this.flags.async,
       });
       this.latestSandboxProgressObj = sandboxProcessObject;
-      // await this.saveSandboxProgressConfig();
+      this.saveSandboxProgressConfig();
       return sandboxProcessObject;
     } catch (err) {
-      throw this.handleSandboxCreateErrors(this.flags['target-org'], err, this.flags.async);
+      this.spinner.stop();
+      if (this.pollingTimeOut) {
+        throw messages.createError('error.CreateTimeout', [], [], 68, err);
+      }
+      throw err;
     }
+  }
+
+  private initSandboxProcessData(prodOrg: Org, sandboxReq: SandboxRequest): void {
+    this.sandboxRequestData.alias = this.flags.alias;
+    this.sandboxRequestData.setDefault = this.flags['set-default'];
+    this.sandboxRequestData.prodOrgUsername = prodOrg.getUsername();
+    this.sandboxRequestData.sandboxProcessObject.SandboxName = sandboxReq.SandboxName;
+    this.sandboxRequestData.sandboxRequest = sandboxReq;
+    this.saveSandboxProgressConfig();
   }
 
   private readJsonDefFile(): Record<string, unknown> {

@@ -91,3 +91,7 @@ Please retry the command using either the --name or --job-id flags.
 #error.NoSandboxRequestFound
 
 Could not find a sandbox request using the provided sandbox name or job ID.
+
+# error.ResumeTimeout
+
+The wait timeout (%d minutes) has expired. Check command results for more information.

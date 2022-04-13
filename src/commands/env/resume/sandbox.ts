@@ -14,8 +14,10 @@ import {
   ResultEvent,
   SandboxEvents,
   SandboxProcessObject,
+  SandboxRequestCacheEntry,
   ResumeSandboxRequest,
   SandboxUserAuthResponse,
+  SfError,
 } from '@salesforce/core';
 import { Duration } from '@salesforce/kit';
 import * as Interfaces from '@oclif/core/lib/interfaces';
@@ -122,10 +124,10 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
   }
 
   private async resumeSandbox(): Promise<SandboxProcessObject> {
-    const name = this.resolveSandboxName();
-    const prodOrgUsername: string = this.flags['target-org']?.getUsername();
+    this.sandboxRequestData = this.buildSandboxRequestCacheEntry();
+    const prodOrgUsername: string = this.sandboxRequestData.prodOrgUsername || this.flags['target-org']?.getUsername();
 
-    if (!name) {
+    if (!this.sandboxRequestData.sandboxProcessObject.SandboxName) {
       if (!this.flags['name'] && !this.flags['job-id']) {
         throw messages.createError('error.NoSandboxNameOrJobId');
       }
@@ -140,7 +142,14 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
       prodOrg,
     });
 
-    if (await this.verifyIfAuthExists(prodOrg, name, this.flags['job-id'], lifecycle)) {
+    if (
+      await this.verifyIfAuthExists(
+        prodOrg,
+        this.sandboxRequestData.sandboxProcessObject.SandboxName,
+        this.flags['job-id'],
+        lifecycle
+      )
+    ) {
       return this.latestSandboxProgressObj;
     }
 
@@ -159,28 +168,47 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
       });
     } catch (err) {
       this.spinner.stop();
-      if (!this.pollingTimeOut) {
-        throw err;
+      const error = err as SfError;
+      if (this.pollingTimeOut) {
+        void lifecycle.emit(SandboxEvents.EVENT_ASYNC_RESULT, undefined);
+        throw messages.createError('error.ResumeTimeout', [this.flags.wait.minutes], [], 68, err);
+      } else if (error.name === 'SandboxCreateNotCompletedError') {
+        void lifecycle.emit(SandboxEvents.EVENT_ASYNC_RESULT, undefined);
       }
+      throw err;
     }
   }
 
-  private resolveSandboxName(): string | undefined {
+  private buildSandboxRequestCacheEntry(): SandboxRequestCacheEntry {
+    let sandboxRequestCacheEntry = {
+      alias: '',
+      setDefault: false,
+      prodOrgUsername: '',
+      sandboxProcessObject: {},
+      sandboxRequest: {},
+    } as SandboxRequestCacheEntry;
+
     let name: string | undefined;
+    let entry: SandboxRequestCacheEntry | undefined;
 
     if (this.flags['use-most-recent']) {
-      name = this.sandboxRequestConfig.getLatestKey();
+      [name, entry] = this.sandboxRequestConfig.getLatestEntry();
       if (!name) {
         throw messages.createError('error.LatestSandboxRequestNotFound');
       }
+      sandboxRequestCacheEntry = entry;
     } else if (this.flags.name) {
-      return this.flags.name;
+      sandboxRequestCacheEntry.sandboxProcessObject.SandboxName = this.flags.name;
     } else if (this.flags['job-id']) {
-      name = Object.keys(this.sandboxRequestConfig.getContents())
-        .map((k) => this.sandboxRequestConfig.get(k))
-        .find((entry) => entry.sandboxProcessObject?.Id === this.flags['job-id'])?.sandboxProcessObject?.SandboxName;
+      sandboxRequestCacheEntry.sandboxProcessObject.Id = this.flags['job-id'];
     }
-    return name;
+    sandboxRequestCacheEntry.prodOrgUsername =
+      sandboxRequestCacheEntry.prodOrgUsername || this.flags['target-org']?.getUsername();
+    sandboxRequestCacheEntry.alias = sandboxRequestCacheEntry.alias || this.flags.alias;
+    sandboxRequestCacheEntry.setDefault = sandboxRequestCacheEntry.setDefault || this.flags['set-default'];
+    sandboxRequestCacheEntry.sandboxProcessObject.SandboxName =
+      sandboxRequestCacheEntry.sandboxProcessObject.SandboxName || this.flags.name;
+    return sandboxRequestCacheEntry;
   }
 
   private async verifyIfAuthExists(

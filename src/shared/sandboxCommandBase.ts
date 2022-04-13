@@ -18,7 +18,6 @@ import {
   SandboxRequestCache,
   SandboxRequestCacheEntry,
   SandboxUserAuthResponse,
-  SfError,
   StatusEvent,
 } from '@salesforce/core';
 import { SandboxProgress, SandboxStatusData } from './sandboxProgress';
@@ -34,6 +33,7 @@ export abstract class SandboxCommandBase<T> extends SfCommand<T> {
   protected pollingTimeOut = false;
   protected sandboxRequestConfig: SandboxRequestCache;
   protected sandboxRequestData: SandboxRequestCacheEntry = {
+    alias: '',
     setDefault: false,
     prodOrgUsername: '',
     sandboxProcessObject: {},
@@ -64,24 +64,36 @@ export abstract class SandboxCommandBase<T> extends SfCommand<T> {
     // eslint-disable-next-line @typescript-eslint/require-await
     lifecycle.on(SandboxEvents.EVENT_RESUME, async (results: SandboxProcessObject) => {
       this.latestSandboxProgressObj = results;
+      this.sandboxProgress.markPreviousStagesAsCompleted(
+        results.Status !== 'Completed' ? results.Status : 'Authenticating'
+      );
       this.updateSandboxRequestData();
     });
 
     // eslint-disable-next-line @typescript-eslint/require-await
-    lifecycle.on(SandboxEvents.EVENT_ASYNC_RESULT, async (results: SandboxProcessObject) => {
-      this.latestSandboxProgressObj = results;
+    lifecycle.on(SandboxEvents.EVENT_ASYNC_RESULT, async (results?: SandboxProcessObject) => {
+      this.latestSandboxProgressObj = results || this.latestSandboxProgressObj;
       this.updateSandboxRequestData();
       if (!options.isAsync) {
         this.spinner.stop();
       }
-      const progress = this.sandboxProgress.getSandboxProgress({ sandboxProcessObj: results, sandboxRes: undefined });
+      const progress = this.sandboxProgress.getSandboxProgress({
+        sandboxProcessObj: this.latestSandboxProgressObj,
+        sandboxRes: undefined,
+      });
       const currentStage = progress.status;
       this.sandboxProgress.markPreviousStagesAsCompleted(currentStage);
       this.updateStage(currentStage, State.inProgress);
-      this.updateProgress({ sandboxProcessObj: results, sandboxRes: undefined }, options.isAsync);
+      this.updateProgress({ sandboxProcessObj: this.latestSandboxProgressObj, sandboxRes: undefined }, options.isAsync);
+      if (this.pollingTimeOut) {
+        this.warn(messages.getMessage('warning.ClientTimeoutWaitingForSandboxCreate'));
+      }
       this.log(this.sandboxProgress.formatProgressStatus(false));
       this.info(
-        messages.getMessage('checkSandboxStatus', [results.Id, options.prodOrg ? options.prodOrg.getUsername() : ''])
+        messages.getMessage('checkSandboxStatus', [
+          this.latestSandboxProgressObj.Id,
+          options.prodOrg ? options.prodOrg.getUsername() : '',
+        ])
       );
     });
 
@@ -137,29 +149,6 @@ export abstract class SandboxCommandBase<T> extends SfCommand<T> {
     );
   }
 
-  protected handleSandboxCreateErrors(prodOrg: Org, err: SfError, isAsync: boolean): SfError {
-    if (!isAsync) {
-      this.sandboxProgress.updateCurrentStage(State.failed);
-      this.spinner.status = undefined;
-      this.spinner.stop();
-      this.log();
-    }
-
-    let wrappedError = err;
-    if (err?.message.includes('The client has timed out.')) {
-      wrappedError = messages.createError(
-        'error.DnsTimeout',
-        [],
-        // TODO: uncomment when async/resume option are implemented
-        // [messages.getMessage('checkSandboxStatus', [this.latestSandboxProgressObj.Id, prodOrg.getUsername()])],
-        [],
-        68,
-        err as Error
-      );
-    }
-    return wrappedError;
-  }
-
   protected updateProgress(event: ResultEvent | StatusEvent, isAsync: boolean): void {
     const sandboxProgress = this.sandboxProgress.getSandboxProgress(event);
     const sandboxData = {
@@ -185,7 +174,7 @@ export abstract class SandboxCommandBase<T> extends SfCommand<T> {
   }
 
   protected saveSandboxProgressConfig(): void {
-    this.sandboxRequestConfig.set(this.latestSandboxProgressObj.SandboxName, this.sandboxRequestData);
+    this.sandboxRequestConfig.set(this.sandboxRequestData.sandboxProcessObject.SandboxName, this.sandboxRequestData);
     this.sandboxRequestConfig.writeSync();
   }
 

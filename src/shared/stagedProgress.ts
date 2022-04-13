@@ -6,6 +6,7 @@
  */
 import * as os from 'os';
 import * as chalk from 'chalk';
+import { StandardColors } from '@salesforce/sf-plugins-core';
 const compareStages = ([, aValue], [, bValue]): number => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   return aValue.index - bValue.index;
@@ -30,7 +31,7 @@ export type StageAttributes = {
 
 export const StateConstants: { [stage: string]: StageAttributes } = {
   inProgress: { color: boldPurple, char: '…', visited: false, state: State.inProgress },
-  completed: { color: chalk.bold.green, char: '✓', visited: false, state: State.completed },
+  completed: { color: StandardColors.success, char: '✓', visited: false, state: State.completed },
   failed: { color: chalk.bold.red, char: '✖', visited: false, state: State.failed },
   unknown: { color: chalk.dim, char: '…', visited: false, state: State.unknown },
 };

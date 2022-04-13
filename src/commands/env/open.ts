@@ -41,7 +41,6 @@ export default class EnvOpen extends SfCommand<OpenResult> {
       description: messages.getMessage('flags.browser.description'),
     }),
   };
-  public static readonly state = 'beta';
 
   public async run(): Promise<OpenResult> {
     const { flags } = await this.parse(EnvOpen);

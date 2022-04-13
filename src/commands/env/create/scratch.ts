@@ -103,7 +103,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       summary: messages.getMessage('flags.client-id.summary'),
     }),
   };
-
+  public static readonly state = 'beta';
   public async run(): Promise<ScratchCreateResponse> {
     const lifecycle = Lifecycle.getInstance();
     const { flags } = await this.parse(EnvCreateScratch);

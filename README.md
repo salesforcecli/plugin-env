@@ -156,8 +156,8 @@ USAGE
   $ sf env delete sandbox [--json] [-o <value>] [-p]
 
 FLAGS
-  -o, --target-org=<value>  Environment alias or login user.
-  -p, --no-prompt           Do not prompt the user to confirm the deletion
+  -o, --target-org=<value>  Sandbox alias or login user.
+  -p, --no-prompt           Don't prompt the user to confirm the deletion.
 
 GLOBAL FLAGS
   --json  Format output as json.
@@ -165,8 +165,8 @@ GLOBAL FLAGS
 DESCRIPTION
   Delete a sandbox.
 
-  Specify an environment with either the username you used when you logged into the environment with "sf login", or the
-  alias you gave the environment when you created it. Run "sf env list" to view all your environments and their aliases.
+  Specify a sandbox with either the username you used when you logged into it with "sf login", or the alias you gave the
+  sandbox when you created it. Run "sf env list" to view all your environments, including sandboxes, and their aliases.
 
 EXAMPLES
   Delete a sandbox with alias my-sandbox:
@@ -177,7 +177,7 @@ EXAMPLES
 
     $ sf env delete sandbox --target-org=myusername@example.com.qa
 
-  Delete the org without prompting to confirm :
+  Delete the sandbox without prompting to confirm :
 
     $ sf env delete sandbox --target-org=my-sandbox --no-prompt
 ```
@@ -191,8 +191,8 @@ USAGE
   $ sf env delete scratch [--json] [-o <value>] [-p]
 
 FLAGS
-  -o, --target-org=<value>  Org alias or login user.
-  -p, --no-prompt           Do not prompt the user to confirm the deletion
+  -o, --target-org=<value>  Scratch org alias or login user.
+  -p, --no-prompt           Don't prompt the user to confirm the deletion.
 
 GLOBAL FLAGS
   --json  Format output as json.
@@ -200,8 +200,9 @@ GLOBAL FLAGS
 DESCRIPTION
   Delete a scratch org.
 
-  Specify an environment with either the username you used when you logged into the environment with "sf login", or the
-  alias you gave the environment when you created it. Run "sf env list" to view all your environments and their aliases.
+  Specify a scratch org with either the username you used when you logged into it with "sf login", or the alias you gave
+  the scratch org when you created it. Run "sf env list" to view all your environments, including scratch orgs, and
+  their aliases.
 
 EXAMPLES
   Delete a scratch org with alias my-scratch-org:
@@ -212,7 +213,7 @@ EXAMPLES
 
     $ sf env delete scratch --target-org=test-123456-abcdefg@example.com
 
-  Delete the org without prompting to confirm :
+  Delete the scratch org without prompting to confirm :
 
     $ sf env delete scratch --target-org=my-scratch-org --no-prompt
 ```

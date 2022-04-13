@@ -79,6 +79,8 @@ export default class EnvList extends SfCommand<Environments> {
       summary: messages.getMessage('flags.sort.summary'),
     }),
   };
+  public static readonly state = 'beta';
+
   private flags!: {
     all: boolean;
     columns: string[];

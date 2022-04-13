@@ -28,12 +28,14 @@ export default class EnvDeleteSandbox extends SfCommand<SandboxDeleteResponse> {
   public static flags: Interfaces.FlagInput<any> = {
     'target-org': Flags.requiredOrg({
       summary: messages.getMessage('flags.target-org.summary'),
+      char: 'o',
     }),
     'no-prompt': Flags.boolean({
       char: 'p',
       summary: messages.getMessage('flags.no-prompt.summary'),
     }),
   };
+  public static readonly state = 'beta';
 
   public async run(): Promise<SandboxDeleteResponse> {
     const flags = (await this.parse(EnvDeleteSandbox)).flags as FlagsDef;

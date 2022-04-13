@@ -92,7 +92,6 @@ describe('open unit tests', () => {
       expect(result.url).to.be.equal(expectedSfOrgs[0].instanceUrl);
     });
   test
-    .stdout()
     .stderr()
     .command(['env:open'])
     .it('should throw error if --target-env is not specified', (ctx) => {
@@ -106,7 +105,6 @@ describe('open throws an error that is not NamedOrgNotFoundError or AuthInfoCrea
     .stub(Org, 'create', async (): Promise<Org> => {
       throw new Error('some other error');
     })
-    .stdout()
     .stderr()
     .command(['env:open', '--target-env', 'foobarbaz@some.org'])
     .it(
@@ -124,7 +122,6 @@ describe('open throws an error that is NamedOrgNotFoundError', () => {
       throw err;
     })
     .stub(EnvOpen.prototype, 'open', async (): Promise<void> => {})
-    .stdout()
     .stderr()
     .command(['env:open', '--target-env', 'foobarbaz@some.org'])
     .it('should throw error open fails for no env found', (ctx) => {

@@ -28,6 +28,7 @@ export default class EnvDeleteScratch extends SfCommand<ScratchDeleteResponse> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public static flags: Interfaces.FlagInput<any> = {
     'target-org': Flags.requiredOrg({
+      char: 'o',
       summary: messages.getMessage('flags.target-org.summary'),
     }),
     'no-prompt': Flags.boolean({
@@ -35,6 +36,7 @@ export default class EnvDeleteScratch extends SfCommand<ScratchDeleteResponse> {
       summary: messages.getMessage('flags.no-prompt.summary'),
     }),
   };
+  public static readonly state = 'beta';
 
   public async run(): Promise<ScratchDeleteResponse> {
     const flags = (await this.parse(EnvDeleteScratch)).flags as FlagsDef;

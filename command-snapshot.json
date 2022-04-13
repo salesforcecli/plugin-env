@@ -18,6 +18,25 @@
     "alias": []
   },
   {
+    "command": "env:create:scratch",
+    "plugin": "@salesforce/plugin-env",
+    "flags": [
+      "alias",
+      "api-version",
+      "client-id",
+      "definition-file",
+      "duration-days",
+      "edition",
+      "json",
+      "no-ancestors",
+      "no-namespace",
+      "set-default",
+      "target-dev-hub",
+      "wait"
+    ],
+    "alias": []
+  },
+  {
     "command": "env:delete:sandbox",
     "plugin": "@salesforce/plugin-env",
     "flags": ["json", "no-prompt", "target-org"],

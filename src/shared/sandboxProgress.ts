@@ -31,8 +31,8 @@ export type SandboxStatusData = {
 };
 
 export class SandboxProgress extends StagedProgress<SandboxStatusData> {
-  public constructor() {
-    super(['Pending', 'Processing', 'Activating', 'Authenticating']);
+  public constructor(stageNames: string[] = ['Pending', 'Processing', 'Activating', 'Authenticating']) {
+    super(stageNames);
   }
   public getLogSandboxProcessResult(result: ResultEvent): string {
     const { sandboxProcessObj } = result;
@@ -105,5 +105,17 @@ export class SandboxProgress extends StagedProgress<SandboxStatusData> {
     ]
       .filter((line) => line)
       .join(os.EOL);
+  }
+  protected mapCurrentStage(currentStage: string): string {
+    switch (currentStage) {
+      case 'Pending Remote Creation':
+        return 'Pending';
+      case 'Remote Sandbox Created':
+        return 'Pending';
+      case 'Completed':
+        return 'Authenticating';
+      default:
+        return currentStage;
+    }
   }
 }

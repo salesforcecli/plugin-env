@@ -36,6 +36,7 @@ type FlagsDef = {
   'license-type': SandboxLicenseType;
   'no-prompt': boolean;
   'target-org': Org;
+  clone: string;
 };
 
 export enum SandboxLicenseType {
@@ -103,6 +104,11 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
         return Promise.resolve(name);
       },
     }),
+    clone: Flags.string({
+      char: 'n',
+      summary: messages.getMessage('flags.clone.summary'),
+      description: messages.getMessage('flags.clone.description'),
+    }),
     'license-type': Flags.enum({
       char: 'l',
       summary: messages.getMessage('flags.licenseType.summary'),
@@ -122,6 +128,7 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
   public static readonly state = 'beta';
   protected readonly lifecycleEventNames = ['postorgcreate'];
   private flags: FlagsDef;
+
   public async run(): Promise<SandboxProcessObject> {
     this.sandboxRequestConfig = await this.getSandboxRequestConfig();
     this.flags = (await this.parse(CreateSandbox)).flags as FlagsDef;
@@ -134,7 +141,7 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
     return Object.fromEntries(Object.entries(object).map(([k, v]) => [`${k.charAt(0).toUpperCase()}${k.slice(1)}`, v]));
   }
 
-  private createSandboxRequest(): SandboxRequest {
+  private async createSandboxRequest(prodOrg: Org): Promise<SandboxRequest> {
     let sandboxDefFileContents = this.readJsonDefFile() || {};
 
     if (sandboxDefFileContents) {
@@ -163,6 +170,11 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
       this.info(messages.createWarning('warning.NoSandboxNameDefined', [sandboxReq.SandboxName]));
     }
 
+    const sourceId = await this.getSourceId(prodOrg);
+    if (sourceId) {
+      sandboxReq.SourceId = sourceId;
+      delete sandboxReq.LicenseType;
+    }
     return sandboxReq;
   }
 
@@ -176,9 +188,8 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
       alias: this.flags.alias,
       prodOrg,
     });
-    const sandboxReq = this.createSandboxRequest();
-
-    await this.confirmSandboxReq(sandboxReq);
+    const sandboxReq = await this.createSandboxRequest(prodOrg);
+    await this.confirmSandboxReq({ ...sandboxReq, CloneSource: this.flags.clone });
     this.initSandboxProcessData(prodOrg, sandboxReq);
 
     if (!this.flags.async) {
@@ -232,7 +243,7 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
     }
   }
 
-  private async confirmSandboxReq(sandboxReq: SandboxRequest): Promise<void> {
+  private async confirmSandboxReq(sandboxReq: SandboxRequest & { CloneSource: string }): Promise<void> {
     if (this.flags['no-prompt'] || this.jsonEnabled()) return;
 
     const columns: Ux.Table.Columns<{ key: string; value: unknown }> = {
@@ -265,6 +276,18 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
         this.flags['poll-interval'].seconds,
         this.flags.wait.seconds,
       ]);
+    }
+  }
+
+  private async getSourceId(prodOrg: Org): Promise<string> {
+    if (!this.flags.clone) {
+      return undefined;
+    }
+    try {
+      const sourceOrg = await prodOrg.querySandboxProcessBySandboxName(this.flags.clone);
+      return sourceOrg.SandboxInfoId;
+    } catch (err) {
+      throw messages.createError('error.noCloneSource', [this.flags.clone], err);
     }
   }
 }

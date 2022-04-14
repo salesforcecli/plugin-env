@@ -125,20 +125,20 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
 
   private async resumeSandbox(): Promise<SandboxProcessObject> {
     this.sandboxRequestData = this.buildSandboxRequestCacheEntry();
-    const prodOrgUsername: string = this.sandboxRequestData.prodOrgUsername || this.flags['target-org']?.getUsername();
+    const prodOrgUsername: string = this.sandboxRequestData.prodOrgUsername;
 
     if (!this.sandboxRequestData.sandboxProcessObject.SandboxName) {
       if (!this.flags['name'] && !this.flags['job-id']) {
         throw messages.createError('error.NoSandboxNameOrJobId');
       }
     }
-    const prodOrg = this.flags['target-org'] || (await Org.create({ aliasOrUsername: prodOrgUsername }));
+    const prodOrg = await Org.create({ aliasOrUsername: prodOrgUsername });
     const lifecycle = Lifecycle.getInstance();
 
     this.registerLifecycleListeners(lifecycle, {
       isAsync: false,
-      alias: this.flags.alias,
-      setDefault: this.flags['set-default'],
+      alias: this.sandboxRequestData.alias,
+      setDefault: this.sandboxRequestData.setDefault,
       prodOrg,
     });
 
@@ -185,9 +185,9 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
 
   private buildSandboxRequestCacheEntry(): SandboxRequestCacheEntry {
     let sandboxRequestCacheEntry = {
-      alias: '',
-      setDefault: false,
-      prodOrgUsername: '',
+      alias: undefined,
+      setDefault: undefined,
+      prodOrgUsername: undefined,
       sandboxProcessObject: {},
       sandboxRequest: {},
     } as SandboxRequestCacheEntry;

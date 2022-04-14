@@ -52,6 +52,14 @@ Name of the sandbox org.
 
 The name must be a unique alphanumeric string (10 or fewer characters) to identify the sandbox. You can’t reuse a name while a sandbox is in the process of being deleted.
 
+# flags.clone.summary
+
+Name of the sandbox org to clone.
+
+# flags.clone.description
+
+The value of clone must be an existing sandbox in the same target-org.
+
 # flags.licenseType.summary
 
 Type of sandbox license.
@@ -107,3 +115,7 @@ The poll interval (%d seconds) can't be larger that wait (%d in seconds).
 # error.CreateTimeout
 
 The wait timeout (%d minutes) has expired. Check command results for more information.
+
+# error.noCloneSource
+
+Could not find the clone sandbox name "%s" in the target org.

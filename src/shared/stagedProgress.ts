@@ -72,6 +72,7 @@ export abstract class StagedProgress<T> {
   }
 
   public transitionStages(currentStage: string, newState?: State): void {
+    currentStage = this.mapCurrentStage(currentStage);
     if (this.previousStage && this.previousStage !== currentStage) {
       this.updateStages(this.previousStage, State.completed);
     }
@@ -85,6 +86,7 @@ export abstract class StagedProgress<T> {
   }
 
   public markPreviousStagesAsCompleted(currentStage?: string): void {
+    currentStage = this.mapCurrentStage(currentStage);
     Object.entries(this.theStages).forEach(([stage, stageState]) => {
       if (!currentStage || stageState.index < this.theStages[currentStage].index) {
         this.updateStages(stage, State.completed);
@@ -97,6 +99,7 @@ export abstract class StagedProgress<T> {
   }
 
   public updateStages(currentStage: string, newState?: State): void {
+    currentStage = this.mapCurrentStage(currentStage);
     if (!this.theStages[currentStage]) {
       const sortedEntries = Object.entries(this.theStages).sort(compareStages);
       const visitedEntries = sortedEntries.filter(([, stageState]) => stageState.visited);
@@ -116,6 +119,10 @@ export abstract class StagedProgress<T> {
 
   public getStages(): Stage {
     return this.theStages;
+  }
+
+  protected mapCurrentStage(currentStage: string): string {
+    return currentStage;
   }
 
   public abstract formatProgressStatus(withClock: boolean): string;

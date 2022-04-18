@@ -48,7 +48,11 @@ Salesforce edition of the scratch org.
 
 # flags.async.summary
 
-Request the org, but do not wait for it to complete.
+Request the org, but don't wait for it to complete.
+
+# flag.async.description
+
+The command immediately displays the job ID and returns control of the terminal to you. This way, you can continue to use the CLI. To resume the scratch org creation, run "sf env resume scratch".
 
 # flags.edition.description
 
@@ -69,6 +73,10 @@ Consumer key of the Dev Hub connected app.
 # flags.wait.summary
 
 Number of minutes to wait for the scratch org to be ready.
+
+# flags.wait.description
+
+If the command continues to run after the wait period, the CLI returns control of the terminal to you and displays the job ID. To resume the scratch org creation, run "sf env resume scratch".
 
 # flags.track-source.description
 

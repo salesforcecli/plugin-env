@@ -26,12 +26,11 @@ import { SandboxCommandBase } from '../../../shared/sandboxCommandBase';
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'resume.sandbox');
 
-type FlagsDef = {
+type CmdFlags = {
   'set-default': boolean;
   alias: string;
   'poll-interval': Duration;
   wait: Duration;
-  json: boolean;
   name: string;
   'job-id': string;
   'target-org': Org;
@@ -43,8 +42,7 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
   public static description = messages.getMessage('description');
   public static examples = messages.getMessages('examples');
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public static flags: Interfaces.FlagInput<any> = {
+  public static flags: Interfaces.FlagInput<CmdFlags> = {
     'set-default': Flags.boolean({
       char: 's',
       summary: messages.getMessage('flags.setDefault.summary'),
@@ -99,11 +97,11 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
   };
   public static readonly state = 'beta';
   protected readonly lifecycleEventNames = ['postorgcreate'];
-  private flags: FlagsDef;
+  private flags: CmdFlags;
 
   public async run(): Promise<SandboxProcessObject> {
     this.sandboxRequestConfig = await this.getSandboxRequestConfig();
-    this.flags = (await this.parse(ResumeSandbox)).flags as FlagsDef;
+    this.flags = (await this.parse(ResumeSandbox)).flags;
     this.debug('Resume started with args %s ', this.flags);
     this.validateFlags();
     return await this.resumeSandbox();

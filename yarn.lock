@@ -1406,10 +1406,10 @@
   resolved "https://registry.yarnpkg.com/@salesforce/schemas/-/schemas-1.1.0.tgz#bbf94a11ee036f2b0ec6ba82306cd9565a6ba26b"
   integrity sha512-6D7DvE6nFxpLyyTnrOIbbAeCJw2r/EpinFAcMh6gU0gA/CGfSbwV/8uR3uHLYL2zCyCZLH8jJ4dZ3BzCMqc+Eg==
 
-"@salesforce/sf-plugins-core@^1.11.3":
-  version "1.11.3"
-  resolved "https://registry.yarnpkg.com/@salesforce/sf-plugins-core/-/sf-plugins-core-1.11.3.tgz#eca4adf78c79daae3dd139b1967aa7573a83c74e"
-  integrity sha512-h2e1XrwqYEhxfsOmpO/iwV1GCi0Gemx2UVwXe0yrhzNfwnLukGv/XtvWgT3R6p6OoYPtGEWBkovwZeIkokoQOQ==
+"@salesforce/sf-plugins-core@^1.12.0":
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/@salesforce/sf-plugins-core/-/sf-plugins-core-1.12.0.tgz#d979fb115594454b86b3cf2c94417dbf523e50a5"
+  integrity sha512-6I2xCP2n05yYoXVi5CQ3ckNRcUSrvCCqcbCojnu3DVzll1UbyrqG3Szgg6DAo7LuJsbCLtJv6I0PYz7PkeCjEQ==
   dependencies:
     "@oclif/core" "^1.6.3"
     "@salesforce/core" "^3.11.0"

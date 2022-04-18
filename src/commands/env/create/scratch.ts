@@ -19,8 +19,6 @@ import {
 } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import * as chalk from 'chalk';
-import * as Interfaces from '@oclif/core/lib/interfaces';
-import { Duration } from '@salesforce/kit';
 import { buildStatus } from '../../../scratchOrgOutput';
 
 Messages.importMessagesDirectory(__dirname);
@@ -54,25 +52,11 @@ const isHookField = (key: string): key is typeof postOrgCreateHookFields[number]
 export const secretTimeout = 60000;
 export type PostOrgCreateHook = Pick<AuthFields, typeof postOrgCreateHookFields[number]>;
 
-export type CmdFlags = {
-  alias: string;
-  'set-default': boolean;
-  'definition-file': string;
-  'target-dev-hub': Org;
-  'no-ancestors': boolean;
-  edition: string;
-  'no-namespace': boolean;
-  'duration-days': Duration;
-  'api-version': string;
-  'client-id': string;
-  wait: Duration;
-};
-
 export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
-  public static flags: Interfaces.FlagInput<CmdFlags> = {
+  public static flags = {
     alias: Flags.string({
       char: 'a',
       summary: messages.getMessage('flags.alias.summary'),
@@ -151,7 +135,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
     const createCommandOptions: ScratchOrgRequest = {
       clientSecret: flags['client-id'] ? await this.clientSecretPrompt() : undefined,
       connectedAppConsumerKey: flags['client-id'],
-      durationDays: flags['duration-days'].days,
+      durationDays: flags['duration-days']?.days,
       nonamespace: flags['no-namespace'],
       noancestors: flags['no-ancestors'],
       wait: flags.wait,

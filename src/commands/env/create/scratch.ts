@@ -39,6 +39,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
     }),
     async: Flags.boolean({
       summary: messages.getMessage('flags.async.summary'),
+      description: messages.getMessage('flags.async.description'),
     }),
     'set-default': Flags.boolean({
       char: 'd',
@@ -96,6 +97,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       min: 2,
       char: 'w',
       summary: messages.getMessage('flags.wait.summary'),
+      description: messages.getMessage('flags.wait.description'),
     }),
     'api-version': Flags.orgApiVersion(),
     'client-id': Flags.string({

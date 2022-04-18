@@ -1,32 +1,38 @@
 # summary
 
-Resume a scratch org.
+Resume the creation of an incomplete scratch org.
 
 # description
 
-If you already started a scratch org, but it did not complete, you can resume where you left off.
+When the original "sf env create scratch" command either times out or is run with the --async flag, it displays a job ID.
+
+Run this command by either passing it a job ID or using the --use-most-recent flag to specify the most recent incomplete scratch org.
 
 # examples
 
-- Resume a scratch org with a job id ()
+- Resume a scratch org create with a job ID:
 
   <%= config.bin %> <%= command.id %> --job-id 2SR3u0000008fBDGAY
 
-- Resume your most recent incomplete scratch org
+- Resume your most recent incomplete scratch org:
 
   <%= config.bin %> <%= command.id %> --use-most-recent
 
 # flags.job-id.summary
 
-ID of the ScratchOrgInfo record from your previous job
+Job ID of the incomplete scratch org create that you want to resume.
+
+# flags.job-id.description
+
+The job ID is the same as the record ID of the incomplete scratch org in the ScratchOrgInfo object of the Dev Hub.
 
 # flags.use-most-recent.summary
 
-Use the most recent ScratchOrgInfo record
+Use the job ID of the most recent incomplete scratch org. 
 
 # error.NoRecentJobId
 
-There are no recent ScratchOrgInfo requests in your cache. Maybe it completed or already resumed?
+There are no recent job IDs (ScratchOrgInfo requests) in your cache. Maybe it completed or already resumed?
 
 # success
 

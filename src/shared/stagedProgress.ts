@@ -41,8 +41,7 @@ export type Stage = {
 };
 
 export abstract class StagedProgress<T> {
-  // eslint-disable-next-line @typescript-eslint/explicit-member-accessibility
-  #statusData: T;
+  private dataForTheStatus: T;
   private theStages: Stage;
   private currentStage: string;
   private previousStage: string;
@@ -57,10 +56,10 @@ export abstract class StagedProgress<T> {
   }
 
   public get statusData(): T {
-    return this.#statusData;
+    return this.dataForTheStatus;
   }
   public set statusData(statusData: T) {
-    this.#statusData = statusData;
+    this.dataForTheStatus = statusData;
   }
   public formatStages(): string {
     return Object.entries(this.theStages)

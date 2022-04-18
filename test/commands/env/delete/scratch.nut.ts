@@ -32,7 +32,7 @@ describe('env delete scratch NUTs', () => {
     // clean restores sinon, but will throw when it tries to delete the alread-deleted orgs.
     // so catch that and delete the dir manually
     try {
-      session?.clean();
+      await session?.clean();
     } catch {
       await fs.promises.rmdir(session.dir, { recursive: true });
     }

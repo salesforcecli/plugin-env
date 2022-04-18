@@ -48,6 +48,8 @@ export enum SandboxLicenseType {
 
 const getLicenseTypes = (): string[] => Object.values(SandboxLicenseType);
 
+type SandboxConfirmData = SandboxRequest & { CloneSource?: string };
+
 export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObject> {
   public static summary = messages.getMessage('summary');
   public static description = messages.getMessage('description');
@@ -189,7 +191,7 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
       prodOrg,
     });
     const sandboxReq = await this.createSandboxRequest(prodOrg);
-    await this.confirmSandboxReq({ ...sandboxReq, CloneSource: this.flags.clone });
+    await this.confirmSandboxReq({ ...sandboxReq, ...(this.flags.clone ? { CloneSource: this.flags.clone } : {}) });
     this.initSandboxProcessData(prodOrg, sandboxReq);
 
     if (!this.flags.async) {
@@ -243,7 +245,7 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
     }
   }
 
-  private async confirmSandboxReq(sandboxReq: SandboxRequest & { CloneSource: string }): Promise<void> {
+  private async confirmSandboxReq(sandboxReq: SandboxConfirmData): Promise<void> {
     if (this.flags['no-prompt'] || this.jsonEnabled()) return;
 
     const columns: Ux.Table.Columns<{ key: string; value: unknown }> = {
@@ -287,7 +289,7 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
       const sourceOrg = await prodOrg.querySandboxProcessBySandboxName(this.flags.clone);
       return sourceOrg.SandboxInfoId;
     } catch (err) {
-      throw messages.createError('error.noCloneSource', [this.flags.clone], err);
+      throw messages.createError('error.noCloneSource', [this.flags.clone], [], err as Error);
     }
   }
 }

@@ -29,7 +29,6 @@ const messages = Messages.loadMessages('@salesforce/plugin-env', 'resume.sandbox
 type CmdFlags = {
   'set-default': boolean;
   alias: string;
-  'poll-interval': Duration;
   wait: Duration;
   name: string;
   'job-id': string;
@@ -58,13 +57,6 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
       min: 0,
       unit: 'minutes',
       defaultValue: 0,
-    }),
-    'poll-interval': Flags.duration({
-      char: 'i',
-      summary: messages.getMessage('flags.poll-interval.summary'),
-      min: 15,
-      unit: 'seconds',
-      defaultValue: 30,
     }),
     name: Flags.string({
       char: 'n',
@@ -103,7 +95,6 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
     this.sandboxRequestConfig = await this.getSandboxRequestConfig();
     this.flags = (await this.parse(ResumeSandbox)).flags;
     this.debug('Resume started with args %s ', this.flags);
-    this.validateFlags();
     return await this.resumeSandbox();
   }
 
@@ -162,7 +153,7 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
     try {
       return await prodOrg.resumeSandbox(sandboxReq, {
         wait: this.flags.wait,
-        interval: this.flags['poll-interval'],
+        interval: this.flags.wait.seconds < 30 ? this.flags.wait : Duration.seconds(30),
       });
     } catch (err) {
       this.spinner.stop();
@@ -232,17 +223,6 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
       return true;
     }
     return false;
-  }
-
-  private validateFlags(): void {
-    this.flags.wait = this.flags.wait ?? Duration.minutes(0);
-    this.flags['poll-interval'] = this.flags.wait.seconds === 0 ? Duration.seconds(0) : this.flags['poll-interval'];
-    if (this.flags['poll-interval'].seconds > this.flags.wait.seconds) {
-      throw messages.createError('error.pollIntervalGreaterThanWait', [
-        this.flags['poll-interval'].seconds,
-        this.flags.wait.seconds,
-      ]);
-    }
   }
 
   private async getSandboxProcessObject(

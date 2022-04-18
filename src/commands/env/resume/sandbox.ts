@@ -164,7 +164,7 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
         process.exitCode = 68;
         return this.latestSandboxProgressObj;
       } else if (error.name === 'SandboxCreateNotCompleteError') {
-        void lifecycle.emit(SandboxEvents.EVENT_ASYNC_RESULT, undefined);
+        // void lifecycle.emit(SandboxEvents.EVENT_ASYNC_RESULT, undefined);
         process.exitCode = 68;
         return this.latestSandboxProgressObj;
       }

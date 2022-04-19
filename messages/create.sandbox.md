@@ -70,7 +70,7 @@ Number of minutes to wait for the sandbox org to be ready.
 
 # flags.wait.description
 
-If the command continues to run after the wait period, the CLI returns control of the terminal to you and displays the job ID. To check the status of the sandbox creation, run "sf env resume sandbox".
+If the command continues to run after the wait period, the CLI returns control of the terminal to you and displays the "sf env resume sandbox" command you run to check the status of the create.  The displayed command includes the job ID for the running sandbox creation. 
 
 # flags.poll-interval.summary
 

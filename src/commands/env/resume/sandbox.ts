@@ -27,8 +27,6 @@ Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'resume.sandbox');
 
 type CmdFlags = {
-  'set-default': boolean;
-  alias: string;
   wait: Duration;
   name: string;
   'job-id': string;
@@ -42,15 +40,6 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
   public static examples = messages.getMessages('examples');
 
   public static flags: Interfaces.FlagInput<CmdFlags> = {
-    'set-default': Flags.boolean({
-      char: 's',
-      summary: messages.getMessage('flags.setDefault.summary'),
-    }),
-    alias: Flags.string({
-      char: 'a',
-      summary: messages.getMessage('flags.alias.summary'),
-      description: messages.getMessage('flags.alias.description'),
-    }),
     wait: Flags.duration({
       char: 'w',
       summary: messages.getMessage('flags.wait.summary'),
@@ -200,8 +189,6 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
     }
     sandboxRequestCacheEntry.prodOrgUsername =
       sandboxRequestCacheEntry.prodOrgUsername || this.flags['target-org']?.getUsername();
-    sandboxRequestCacheEntry.alias = sandboxRequestCacheEntry.alias || this.flags.alias;
-    sandboxRequestCacheEntry.setDefault = sandboxRequestCacheEntry.setDefault || this.flags['set-default'];
     sandboxRequestCacheEntry.sandboxProcessObject.SandboxName =
       sandboxRequestCacheEntry.sandboxProcessObject.SandboxName || this.flags.name;
     return sandboxRequestCacheEntry;

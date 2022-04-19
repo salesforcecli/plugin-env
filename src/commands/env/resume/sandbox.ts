@@ -98,6 +98,10 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
     return await this.resumeSandbox();
   }
 
+  protected getCheckSandboxStatusParams(): string[] {
+    return [this.latestSandboxProgressObj.Id, this.flags['target-org'].getUsername()];
+  }
+
   private createResumeSandboxRequest(): ResumeSandboxRequest {
     if (this.flags['use-most-recent']) {
       const [, sandboxRequestData] = this.sandboxRequestConfig.getLatestEntry();
@@ -122,6 +126,7 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
       }
     }
     const prodOrg = await Org.create({ aliasOrUsername: prodOrgUsername });
+    this.flags['target-org'] = prodOrg;
     const lifecycle = Lifecycle.getInstance();
 
     this.registerLifecycleListeners(lifecycle, {
@@ -144,7 +149,7 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
 
     const sandboxReq = this.createResumeSandboxRequest();
 
-    if (this.flags.wait.seconds > 0) {
+    if (this.flags.wait?.seconds > 0) {
       this.spinner.start('Resume Create');
     }
 
@@ -152,8 +157,8 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
 
     try {
       return await prodOrg.resumeSandbox(sandboxReq, {
-        wait: this.flags.wait,
-        interval: this.flags.wait.seconds < 30 ? this.flags.wait : Duration.seconds(30),
+        wait: this.flags.wait ?? Duration.seconds(0),
+        interval: Duration.seconds(30),
       });
     } catch (err) {
       this.spinner.stop();
@@ -183,7 +188,7 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
     let entry: SandboxRequestCacheEntry | undefined;
 
     if (this.flags['use-most-recent']) {
-      [name, entry] = this.sandboxRequestConfig.getLatestEntry();
+      [name, entry] = this.sandboxRequestConfig.getLatestEntry() || [undefined, undefined];
       if (!name) {
         throw messages.createError('error.LatestSandboxRequestNotFound');
       }

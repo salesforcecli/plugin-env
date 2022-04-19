@@ -43,7 +43,6 @@ export abstract class SandboxCommandBase<T> extends SfCommand<T> {
     super(argv, config);
     this.sandboxProgress = new SandboxProgress();
   }
-
   protected async getSandboxRequestConfig(): Promise<SandboxRequestCache> {
     if (!this.sandboxRequestConfig) {
       this.sandboxRequestConfig = await SandboxRequestCache.create();
@@ -89,12 +88,7 @@ export abstract class SandboxCommandBase<T> extends SfCommand<T> {
         this.warn(messages.getMessage('warning.ClientTimeoutWaitingForSandboxCreate'));
       }
       this.log(this.sandboxProgress.formatProgressStatus(false));
-      this.info(
-        messages.getMessage('checkSandboxStatus', [
-          this.latestSandboxProgressObj.Id,
-          options.prodOrg ? options.prodOrg.getUsername() : '',
-        ])
-      );
+      this.info(messages.getMessage('checkSandboxStatus', this.getCheckSandboxStatusParams()));
     });
 
     // eslint-disable-next-line @typescript-eslint/require-await
@@ -182,4 +176,6 @@ export abstract class SandboxCommandBase<T> extends SfCommand<T> {
     this.sandboxRequestConfig.unset(this.latestSandboxProgressObj.SandboxName);
     this.sandboxRequestConfig.writeSync();
   }
+
+  protected abstract getCheckSandboxStatusParams(): string[];
 }

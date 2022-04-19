@@ -139,6 +139,10 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
     return await this.createSandbox();
   }
 
+  protected getCheckSandboxStatusParams(): string[] {
+    return [this.latestSandboxProgressObj.Id, this.flags['target-org'].getUsername()];
+  }
+
   private lowerToUpper(object: Record<string, unknown>): Record<string, unknown> {
     return Object.fromEntries(Object.entries(object).map(([k, v]) => [`${k.charAt(0).toUpperCase()}${k.slice(1)}`, v]));
   }

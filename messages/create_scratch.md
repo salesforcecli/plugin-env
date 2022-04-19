@@ -76,7 +76,7 @@ Number of minutes to wait for the scratch org to be ready.
 
 # flags.wait.description
 
-If the command continues to run after the wait period, the CLI returns control of the terminal to you and displays the job ID. To resume the scratch org creation, run "sf env resume scratch".
+If the command continues to run after the wait period, the CLI returns control of the terminal to you and displays the job ID. To resume the scratch org creation, run the env resume scratch command and pass it the job ID.
 
 # flags.track-source.description
 

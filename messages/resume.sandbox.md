@@ -10,7 +10,7 @@ You can also use the sandbox name to check the status or the --use-most-recent f
 
 # examples
 
-- Check the status of sandbox creation using the sandbox name and a production org with alias "prodOrg":
+- Check the status of a sandbox creation using its name and specify a production org with alias "prodOrg":
 
   <%= config.bin %> <%= command.id %> --name mysandbox --target-org prodOrg
 

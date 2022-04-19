@@ -54,6 +54,7 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
     wait: Flags.duration({
       char: 'w',
       summary: messages.getMessage('flags.wait.summary'),
+      description: messages.getMessage('flags.wait.description'),
       min: 0,
       unit: 'minutes',
       defaultValue: 0,
@@ -61,7 +62,6 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
     name: Flags.string({
       char: 'n',
       summary: messages.getMessage('flags.name.summary'),
-      description: messages.getMessage('flags.name.description'),
       parse: (name: string): Promise<string> => {
         if (name.length > 10) {
           throw messages.createError('error.SandboxNameLength', [name]);
@@ -79,7 +79,6 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
     'use-most-recent': Flags.boolean({
       char: 'l',
       summary: messages.getMessage('flags.use-most-recent.summary'),
-      description: messages.getMessage('flags.use-most-recent.description'),
     }),
     'target-org': Flags.optionalOrg({
       char: 'o',

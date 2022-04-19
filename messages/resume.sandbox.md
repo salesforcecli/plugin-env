@@ -1,24 +1,26 @@
 # summary
 
-Check sandbox create status and complete authorization, if possible.
+Check the status of a sandbox creation, and log in to it if it's ready.
 
 # description
 
-Sandbox creation can take a long time, so we check the status of the sandbox creation using <%= config.bin %> <%= command.id %>.
+Sandbox creation can take a long time. If the original "sf env create sandbox" command either times out, or you specified the --async flag, the command displays a job ID. Use this job ID to check whether the sandbox creation is complete, and if it is, the command then logs into it.
+
+You can also use the sandbox name to check the status or the --use-most-recent flag to use the job ID of the most recent sandbox creation.
 
 # examples
 
-- Check the status of sandbox creation using the sandbox name.
+- Check the status of sandbox creation using the sandbox name and a production org with alias "prodOrg":
 
-  <%= config.bin %> <%= command.id %> --name <sandbox name> [--target-org <production org username>]
+  <%= config.bin %> <%= command.id %> --name mysandbox --target-org prodOrg
 
-- Check the status of sandbox creation using the sandbox request job id.
+- Check the status using the job ID:
 
-  <%= config.bin %> <%= command.id %> --job-id 0GRxxxxxxxxxxxxxxx [--target-org <production org username>]
+  <%= config.bin %> <%= command.id %> --job-id 0GRxxxxxxxx
 
-- Check the status of sandbox creation using the latest sandbox request.
+- Check the status of the most recent sandbox create request:
 
-  <%= config.bin %> <%= command.id %> --use-latest-request
+  <%= config.bin %> <%= command.id %> --use-most-recent
 
 # flags.setDefault.summary
 
@@ -26,11 +28,11 @@ Set the sandbox org as your default org.
 
 # flags.id.summary
 
-The sandbox process object Id.
+Job ID of the incomplete sandbox creation that you want to check the status of.
 
 # flags.id.description
 
-The sandbox process object Id.
+The job ID is valid for 24 hours after you start the sandbox creation.
 
 # flags.alias.summary
 
@@ -52,27 +54,15 @@ When it creates the sandbox org, Salesforce copies the metadata, and optionally 
 
 Name of the sandbox org.
 
-# flags.name.description
-
-Name of the sandbox org.
-
 # flags.wait.summary
 
 Number of minutes to wait for the sandbox org to be ready.
 
-# flags.poll-interval.summary
+# flags.wait.description
 
-Number of seconds to wait between retries.
-
-# flags.async.summary
-
-Don't wait for the sandbox create to complete.
+If the command continues to run after the wait period, the CLI returns control of the terminal window to you and returns the job ID. To resume checking the sandbox creation, rerun this command.
 
 # flags.use-most-recent.summary
-
-Use the most recent sandbox create request.
-
-# flags.use-most-recent.description
 
 Use the most recent sandbox create request.
 
@@ -86,11 +76,11 @@ No sandbox name or job ID were provided.
 
 # error.LatestSandboxRequestNotFound
 
-Please retry the command using either the --name or --job-id flags.
+Retry the command using either the --name or --job-id flags.
 
 #error.NoSandboxRequestFound
 
-Could not find a sandbox request using the provided sandbox name or job ID.
+Couldn't find a sandbox creation request using the provided sandbox name or job ID.
 
 # error.ResumeTimeout
 

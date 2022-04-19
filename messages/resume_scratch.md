@@ -26,6 +26,8 @@ Job ID of the incomplete scratch org create that you want to resume.
 
 The job ID is the same as the record ID of the incomplete scratch org in the ScratchOrgInfo object of the Dev Hub.
 
+The job ID is valid for 24 hours after you start the scratch org creation.
+
 # flags.use-most-recent.summary
 
 Use the job ID of the most recent incomplete scratch org. 

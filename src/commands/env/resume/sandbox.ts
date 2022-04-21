@@ -183,14 +183,17 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
       }
       sandboxRequestCacheEntry = entry;
     } else if (this.flags.name) {
-      sandboxRequestCacheEntry.sandboxProcessObject.SandboxName = this.flags.name;
+      sandboxRequestCacheEntry = this.sandboxRequestConfig.get(this.flags.name) || sandboxRequestCacheEntry;
     } else if (this.flags['job-id']) {
-      sandboxRequestCacheEntry.sandboxProcessObject.Id = this.flags['job-id'];
+      const sce: SandboxRequestCacheEntry = this.sandboxRequestConfig
+        .entries()
+        .find(
+          ([, e]) => (e as SandboxRequestCacheEntry).sandboxProcessObject.Id === this.flags['job-id']
+        )[1] as SandboxRequestCacheEntry;
+      sandboxRequestCacheEntry = sce || sandboxRequestCacheEntry;
     }
-    sandboxRequestCacheEntry.prodOrgUsername =
-      sandboxRequestCacheEntry.prodOrgUsername || this.flags['target-org']?.getUsername();
-    sandboxRequestCacheEntry.sandboxProcessObject.SandboxName =
-      sandboxRequestCacheEntry.sandboxProcessObject.SandboxName || this.flags.name;
+    sandboxRequestCacheEntry.prodOrgUsername ??= this.flags['target-org']?.getUsername();
+    sandboxRequestCacheEntry.sandboxProcessObject.SandboxName ??= this.flags.name;
     return sandboxRequestCacheEntry;
   }
 

@@ -31,16 +31,20 @@ export default class EnvDeleteSandbox extends SfCommand<SandboxDeleteResponse> {
   public static readonly state = 'beta';
 
   public async run(): Promise<SandboxDeleteResponse> {
-    const { flags } = await this.parse(EnvDeleteSandbox);
+    const flags = (await this.parse(EnvDeleteSandbox)).flags;
     const org = flags['target-org'];
+
+    if (!(await org.isSandbox())) {
+      throw messages.createError('error.isNotSandbox', [org.getUsername()]);
+    }
 
     if (flags['no-prompt'] || (await this.confirm(messages.getMessage('prompt.confirm', [org.getUsername()])))) {
       try {
         await org.delete();
-        this.log(messages.getMessage('success', [org.getUsername()]));
+        this.logSuccess(messages.getMessage('success', [org.getUsername()]));
       } catch (e) {
         if (e instanceof Error && e.name === 'SandboxNotFound') {
-          this.log(messages.getMessage('success.Idempotent', [org.getUsername()]));
+          this.logSuccess(messages.getMessage('success.Idempotent', [org.getUsername()]));
         } else {
           throw e;
         }

@@ -82,7 +82,7 @@ export default class EnvOpen extends SfCommand<OpenResult> {
         const browserName = browser ? browser : 'the default browser';
 
         await this.open(url, browser);
-        this.log(`Opening ${nameOrAlias} in ${browserName}.`);
+        this.logSuccess(`Opening ${nameOrAlias} in ${browserName}.`);
       }
     } else {
       throw messages.createError('error.EnvironmentNotSupported', [nameOrAlias]);

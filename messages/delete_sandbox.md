@@ -35,3 +35,7 @@ Are you sure you want to delete the sandbox with name: %s?
 # success
 
 Successfully marked sandbox %s for deletion.
+
+# error.isNotSandbox
+
+The target org, %s, is not a sandbox.

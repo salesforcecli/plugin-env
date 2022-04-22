@@ -51,17 +51,20 @@ workflows:
                 - lts
                 - maintenance
       - release-management/test-nut:
-          name: nuts-on-linux
-          sfdx_version: latest
+          matrix:
+            parameters:
+              os:
+                - linux
+                - windows
+              sfdx_version:
+                - latest
+              node_version:
+                - latest
           requires:
             - release-management/test-package
-      - release-management/test-nut:
-          name: nuts-on-windows
-          node_version: lts
-          sfdx_version: latest
-          os: windows
-          requires:
-            - release-management/test-package
+          context:
+            - na40-auth-url
+            - na40-jwt
       - release-management/run-command-keyword:
           name: sandbox-nuts
           git_key_word: '[sb-nuts]'
@@ -70,8 +73,13 @@ workflows:
           requires:
             - nuts-on-windows
             - nuts-on-linux
+          context:
+            - na40-auth-url
+            - na40-jwt
       - release-management/release-package:
-          context: AWS
+          context:
+            - AWS
+            - release
           sign: true
           github-release: true
           requires:
@@ -103,6 +111,8 @@ workflows:
               os:
                 - linux
                 - windows
+          context:
+            - na40-auth-url
   dependabot-automerge:
     triggers:
       - schedule:
@@ -112,4 +122,5 @@ workflows:
               only:
                 - main
     jobs:
-      - release-management/dependabot-automerge
+      - release-management/dependabot-automerge:
+          context: release

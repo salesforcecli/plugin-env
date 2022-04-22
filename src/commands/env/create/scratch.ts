@@ -110,6 +110,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       min: 1,
       max: 30,
       char: 'y',
+      helpValue: '<days>',
       summary: messages.getMessage('flags.duration-days.summary'),
     }),
     wait: Flags.duration({
@@ -117,6 +118,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       defaultValue: 5,
       min: 2,
       char: 'w',
+      helpValue: '<minutes>',
       summary: messages.getMessage('flags.wait.summary'),
     }),
     'api-version': Flags.orgApiVersion(),

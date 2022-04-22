@@ -45,6 +45,7 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
       summary: messages.getMessage('flags.wait.summary'),
       min: 0,
       unit: 'minutes',
+      helpValue: '<minutes>',
       defaultValue: 0,
     }),
     name: Flags.string({
@@ -59,7 +60,8 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
       },
       exclusive: ['job-id'],
     }),
-    'job-id': Flags.string({
+    'job-id': Flags.salesforceId({
+      startsWith: '0GR',
       char: 'i',
       summary: messages.getMessage('flags.id.summary'),
       description: messages.getMessage('flags.id.description'),

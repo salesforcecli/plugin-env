@@ -80,6 +80,7 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
       min: 1,
       unit: 'minutes',
       defaultValue: 30,
+      helpValue: '<minutes>',
       exclusive: ['async'],
     }),
     'poll-interval': Flags.duration({
@@ -88,6 +89,7 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
       min: 15,
       unit: 'seconds',
       defaultValue: 30,
+      helpValue: '<seconds>',
       exclusive: ['async'],
     }),
     async: Flags.boolean({

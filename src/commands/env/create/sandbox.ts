@@ -77,6 +77,7 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
     wait: Flags.duration({
       char: 'w',
       summary: messages.getMessage('flags.wait.summary'),
+      description: messages.getMessage('flags.wait.description'),
       min: 1,
       unit: 'minutes',
       defaultValue: 30,
@@ -94,6 +95,7 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
     }),
     async: Flags.boolean({
       summary: messages.getMessage('flags.async.summary'),
+      description: messages.getMessage('flags.async.description'),
       exclusive: ['wait', 'poll-interval'],
     }),
     name: Flags.string({

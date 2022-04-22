@@ -28,6 +28,7 @@ export default class EnvResumeScratch extends SfCommand<ScratchCreateResponse> {
     'job-id': Flags.salesforceId({
       char: 'i',
       summary: messages.getMessage('flags.job-id.summary'),
+      description: messages.getMessage('flags.job-id.description'),
       exactlyOne: ['use-most-recent', 'job-id'],
       startsWith: '2SR',
     }),

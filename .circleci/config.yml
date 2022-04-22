@@ -71,8 +71,7 @@ workflows:
           timeout: 1.5h
           command: test:nuts:sandbox
           requires:
-            - nuts-on-windows
-            - nuts-on-linux
+            - release-management/test-nut
           context:
             - na40-auth-url
             - na40-jwt

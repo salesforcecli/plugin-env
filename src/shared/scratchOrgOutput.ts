@@ -7,6 +7,7 @@
 import { ScratchOrgLifecycleEvent, scratchOrgLifecycleStages } from '@salesforce/core';
 import * as chalk from 'chalk';
 import { capitalCase } from 'change-case';
+import { StandardColors } from '@salesforce/sf-plugins-core';
 
 const boldBlue = (input: string): string => chalk.rgb(81, 176, 235).bold(input);
 const boldPurple = (input: string): string => chalk.rgb(157, 129, 221).bold(input);
@@ -39,8 +40,8 @@ export const formatCurrentStage = (stage: string): string => {
   return boldPurple(capitalCase(stage));
 };
 export const formatCompletedStage = (stage: string): string => {
-  return chalk.bold.green(`✓ ${capitalCase(stage)}`);
+  return StandardColors.success.bold(`✓ ${capitalCase(stage)}`);
 };
 export const formatFutureStage = (stage: string): string => {
-  return chalk.dim(capitalCase(stage));
+  return StandardColors.info(capitalCase(stage));
 };

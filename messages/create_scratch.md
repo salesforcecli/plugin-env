@@ -46,6 +46,14 @@ Don't include second-generation managed package (2GP) ancestors in the scratch o
 
 Salesforce edition of the scratch org.
 
+# flags.async.summary
+
+Request the org, but don't wait for it to complete.
+
+# flag.async.description
+
+The command immediately displays the job ID and returns control of the terminal to you. This way, you can continue to use the CLI. To resume the scratch org creation, run "sf env resume scratch".
+
 # flags.edition.description
 
 The editions that begin with "partner-" are available only if the Dev Hub org is a Partner Business Org.
@@ -65,6 +73,10 @@ Consumer key of the Dev Hub connected app.
 # flags.wait.summary
 
 Number of minutes to wait for the scratch org to be ready.
+
+# flags.wait.description
+
+If the command continues to run after the wait period, the CLI returns control of the terminal to you and displays the job ID. To resume the scratch org creation, run the env resume scratch command and pass it the job ID.
 
 # flags.track-source.description
 
@@ -87,3 +99,7 @@ OAuth client secret of your personal connected app
 # success
 
 Your scratch org is ready.
+
+# action.resume
+
+Resume scratch org creation by running sf env resume scratch --job-id %s

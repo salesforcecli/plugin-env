@@ -6,6 +6,7 @@
  */
 import { expect } from 'chai';
 import { Duration } from '@salesforce/cli-plugins-testkit';
+import { StatusEvent } from '@salesforce/core';
 import { SandboxProgress } from '../../src/shared/sandboxProgress';
 import { SandboxProcessObject } from '../../../sfdx-core';
 
@@ -31,7 +32,7 @@ describe('sandbox progress', () => {
   });
   describe('getSandboxProgress', () => {
     it('will calculate the correct human readable message (1h 33min 00seconds seconds left)', async () => {
-      const data = {
+      const data: StatusEvent = {
         // 186*30 = 5580 = 1 hour, 33 min, 0 seconds. so 186 attempts left, at a 30 second polling interval
         sandboxProcessObj,
         interval: 30,
@@ -46,7 +47,7 @@ describe('sandbox progress', () => {
     });
 
     it('will calculate the correct human readable message (5 min 30seconds seconds left)', async () => {
-      const data = {
+      const data: StatusEvent = {
         sandboxProcessObj,
         interval: 30,
         remainingWait: Duration.minutes(5).seconds + Duration.seconds(30).seconds,

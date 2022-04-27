@@ -20,6 +20,7 @@ export default class EnvDeleteScratch extends SfCommand<ScratchDeleteResponse> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public static flags = {
     'target-org': Flags.requiredOrg({
       char: 'o',
@@ -33,16 +34,16 @@ export default class EnvDeleteScratch extends SfCommand<ScratchDeleteResponse> {
   public static readonly state = 'beta';
 
   public async run(): Promise<ScratchDeleteResponse> {
-    const { flags } = await this.parse(EnvDeleteScratch);
+    const flags = (await this.parse(EnvDeleteScratch)).flags;
     const org = flags['target-org'];
 
     if (flags['no-prompt'] || (await this.confirm(messages.getMessage('prompt.confirm', [org.getUsername()])))) {
       try {
         await org.delete();
-        this.log(messages.getMessage('success', [org.getUsername()]));
+        this.logSuccess(messages.getMessage('success', [org.getUsername()]));
       } catch (e) {
         if (e instanceof Error && e.name === 'ScratchOrgNotFound') {
-          this.log(messages.getMessage('success.Idempotent', [org.getUsername()]));
+          this.logSuccess(messages.getMessage('success.Idempotent', [org.getUsername()]));
         } else {
           throw e;
         }

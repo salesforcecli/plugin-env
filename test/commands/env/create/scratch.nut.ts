@@ -9,7 +9,8 @@ import * as path from 'path';
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
 import { expect } from 'chai';
 import { Messages } from '@salesforce/core';
-import { ScratchCreateResponse, secretTimeout } from '../../../../src/commands/env/create/scratch';
+import { secretTimeout } from '../../../../src/commands/env/create/scratch';
+import { ScratchCreateResponse } from '../../../../src/types';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.load('@salesforce/plugin-env', 'create_scratch', ['prompt.secret']);

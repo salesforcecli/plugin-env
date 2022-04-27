@@ -64,12 +64,106 @@ sfdx plugins
 
 <!-- commands -->
 
+- [`sf env create sandbox`](#sf-env-create-sandbox)
 - [`sf env create scratch`](#sf-env-create-scratch)
 - [`sf env delete sandbox`](#sf-env-delete-sandbox)
 - [`sf env delete scratch`](#sf-env-delete-scratch)
 - [`sf env display`](#sf-env-display)
 - [`sf env list`](#sf-env-list)
 - [`sf env open`](#sf-env-open)
+- [`sf env resume sandbox`](#sf-env-resume-sandbox)
+- [`sf env resume scratch`](#sf-env-resume-scratch)
+
+## `sf env create sandbox`
+
+Create a sandbox org.
+
+```
+USAGE
+  $ sf env create sandbox [--json] [-f <value> | -n <value> | -l Developer|Developer_Pro|Partial|Full] [-s] [-a <value>]
+    [-w <value> | --async] [-i <value> | ] [-c <value> | ] [-o <value>] [--no-prompt]
+
+FLAGS
+  -a, --alias=<value>                                        Alias for the sandbox org.
+  -c, --clone=<value>                                        Name of the sandbox org to clone.
+  -f, --definition-file=<value>                              Path to a sandbox definition file.
+  -i, --poll-interval=<seconds>                              [default: 30 seconds] Number of seconds to wait between
+                                                             retries.
+  -l, --license-type=(Developer|Developer_Pro|Partial|Full)  [default: Developer] Type of sandbox license.
+  -n, --name=<value>                                         Name of the sandbox org.
+  -o, --target-org=<value>                                   Username or alias of the production org that contains the
+                                                             sandbox license.
+  -s, --set-default                                          Set the sandbox org as your default org.
+  -w, --wait=<minutes>                                       [default: 30 minutes] Number of minutes to wait for the
+                                                             sandbox org to be ready.
+  --async                                                    Request the sandbox creation, but don't wait for it to
+                                                             complete.
+  --no-prompt                                                Don't prompt for confirmation about the sandbox
+                                                             configuration.
+
+GLOBAL FLAGS
+  --json  Format output as json.
+
+DESCRIPTION
+  Create a sandbox org.
+
+  There are two ways to create a sandbox org: specify a definition file that contains the sandbox options or use the
+  --name and --license-type flags to specify the two required options. If you want to set an option other than name or
+  license type, such as apexClassId, you must use a definition file.
+
+EXAMPLES
+  Create a sandbox org using a definition file and give it the alias "MyDevSandbox". The production org that contains
+  the sandbox license has the alias "prodOrg".
+
+    $ sf env create sandbox -f config/dev-sandbox-def.json --alias MyDevSandbox --target-org prodOrg
+
+  Create a sandbox org by directly specifying its name and type of license (Developer) instead of using a definition
+  file. Set the sandbox org as your default.
+
+    $ sf env create sandbox --name mysandbox --license-type Developer --alias MyDevSandbox --target-org prodOrg \
+      --set-default
+
+FLAG DESCRIPTIONS
+  -a, --alias=<value>  Alias for the sandbox org.
+
+    When you create a sandbox, the generated usernames are based on the usernames present in the production org. To
+    ensure uniqueness, the new usernames are appended with the name of the sandbox. For example, the username
+    "user@example.com" in the production org results in the username "user@example.com.mysandbox" in a sandbox named
+    "mysandbox". When you set an alias for a sandbox org, it's assigned to the resulting username of the user running
+    this command.
+
+  -c, --clone=<value>  Name of the sandbox org to clone.
+
+    The value of clone must be an existing sandbox in the same target-org.
+
+  -f, --definition-file=<value>  Path to a sandbox definition file.
+
+    The sandbox definition file is a blueprint for the sandbox. You can create different definition files for each
+    sandbox type that you use in the development process. See
+    https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_sandbox_definition.htm for all the
+    options you can specify in the defintion file.
+
+  -n, --name=<value>  Name of the sandbox org.
+
+    The name must be a unique alphanumeric string (10 or fewer characters) to identify the sandbox. You can’t reuse a
+    name while a sandbox is in the process of being deleted.
+
+  -o, --target-org=<value>  Username or alias of the production org that contains the sandbox license.
+
+    When it creates the sandbox org, Salesforce copies the metadata, and optionally data, from your production org to
+    the new sandbox org.
+
+  -w, --wait=<minutes>  Number of minutes to wait for the sandbox org to be ready.
+
+    If the command continues to run after the wait period, the CLI returns control of the terminal to you and displays
+    the "sf env resume sandbox" command you run to check the status of the create. The displayed command includes the
+    job ID for the running sandbox creation.
+
+  --async  Request the sandbox creation, but don't wait for it to complete.
+
+    The command immediately displays the job ID and returns control of the terminal to you. This way, you can continue
+    to use the CLI. To check the status of the sandbox creation, run "sf env resume sandbox".
+```
 
 ## `sf env create scratch`
 
@@ -77,7 +171,7 @@ Create a scratch org.
 
 ```
 USAGE
-  $ sf env create scratch [--json] [-a <value>] [-d] [-f <value>] [-v <value>] [-c] [-e
+  $ sf env create scratch [--json] [-a <value>] [--async] [-d] [-f <value>] [-v <value>] [-c] [-e
     developer|enterprise|group|professional|partner-developer|partner-enterprise|partner-group|partner-professional]
     [-m] [-y <value>] [-w <value>] [--api-version <value>] [-i <value>]
 
@@ -90,9 +184,10 @@ FLAGS
   -f, --definition-file=<value>  Path to a scratch org definition file.
   -i, --client-id=<value>        Consumer key of the Dev Hub connected app.
   -v, --target-dev-hub=<value>   Username or alias of the Dev Hub org.
-  -w, --wait=<value>             [default: 5 minutes] Number of minutes to wait for the scratch org to be ready.
-  -y, --duration-days=<value>    [default: 7 days] Number of days before the org expires.
+  -w, --wait=<minutes>           [default: 5 minutes] Number of minutes to wait for the scratch org to be ready.
+  -y, --duration-days=<days>     [default: 7 days] Number of days before the org expires.
   --api-version=<value>          Override the api version used for api requests made by this command
+  --async                        Request the org, but don't wait for it to complete.
 
 PACKAGING FLAGS
   -c, --no-ancestors  Don't include second-generation managed package (2GP) ancestors in the scratch org.
@@ -145,6 +240,16 @@ FLAG DESCRIPTIONS
   -v, --target-dev-hub=<value>  Username or alias of the Dev Hub org.
 
     Overrides the value of the target-dev-hub configuration variable, if set.
+
+  -w, --wait=<minutes>  Number of minutes to wait for the scratch org to be ready.
+
+    If the command continues to run after the wait period, the CLI returns control of the terminal to you and displays
+    the job ID. To resume the scratch org creation, run the env resume scratch command and pass it the job ID.
+
+  --async  Request the org, but don't wait for it to complete.
+
+    The command immediately displays the job ID and returns control of the terminal to you. This way, you can continue
+    to use the CLI. To resume the scratch org creation, run "sf env resume scratch".
 ```
 
 ## `sf env delete sandbox`
@@ -382,6 +487,104 @@ FLAG DESCRIPTIONS
     You can specify that the environment open in one of the following browsers: Firefox, Safari, Google Chrome, or
     Windows Edge. If you don’t specify --browser, the environment opens in your default browser. The exact names of the
     browser applications differ depending on the operating system you're on; check your documentation for details.
+```
+
+## `sf env resume sandbox`
+
+Check the status of a sandbox creation, and log in to it if it's ready.
+
+```
+USAGE
+  $ sf env resume sandbox [--json] [-w <value>] [-n <value> | -i <value>] [-l] [-o <value>]
+
+FLAGS
+  -i, --job-id=<value>      Job ID of the incomplete sandbox creation that you want to check the status of.
+  -l, --use-most-recent     Use the most recent sandbox create request.
+  -n, --name=<value>        Name of the sandbox org.
+  -o, --target-org=<value>  Username or alias of the production org that contains the sandbox license.
+  -w, --wait=<minutes>      Number of minutes to wait for the sandbox org to be ready.
+
+GLOBAL FLAGS
+  --json  Format output as json.
+
+DESCRIPTION
+  Check the status of a sandbox creation, and log in to it if it's ready.
+
+  Sandbox creation can take a long time. If the original "sf env create sandbox" command either times out, or you
+  specified the --async flag, the command displays a job ID. Use this job ID to check whether the sandbox creation is
+  complete, and if it is, the command then logs into it.
+
+  You can also use the sandbox name to check the status or the --use-most-recent flag to use the job ID of the most
+  recent sandbox creation.
+
+EXAMPLES
+  Check the status of a sandbox creation using its name and specify a production org with alias "prodOrg":
+
+    $ sf env resume sandbox --name mysandbox --target-org prodOrg
+
+  Check the status using the job ID:
+
+    $ sf env resume sandbox --job-id 0GRxxxxxxxx
+
+  Check the status of the most recent sandbox create request:
+
+    $ sf env resume sandbox --use-most-recent
+
+FLAG DESCRIPTIONS
+  -i, --job-id=<value>  Job ID of the incomplete sandbox creation that you want to check the status of.
+
+    The job ID is valid for 24 hours after you start the sandbox creation.
+
+  -o, --target-org=<value>  Username or alias of the production org that contains the sandbox license.
+
+    When it creates the sandbox org, Salesforce copies the metadata, and optionally data, from your production org to
+    the new sandbox org.
+
+  -w, --wait=<minutes>  Number of minutes to wait for the sandbox org to be ready.
+
+    If the command continues to run after the wait period, the CLI returns control of the terminal window to you and
+    returns the job ID. To resume checking the sandbox creation, rerun this command.
+```
+
+## `sf env resume scratch`
+
+Resume the creation of an incomplete scratch org.
+
+```
+USAGE
+  $ sf env resume scratch [--json] [-i <value>] [-r]
+
+FLAGS
+  -i, --job-id=<value>   Job ID of the incomplete scratch org create that you want to resume.
+  -r, --use-most-recent  Use the job ID of the most recent incomplete scratch org.
+
+GLOBAL FLAGS
+  --json  Format output as json.
+
+DESCRIPTION
+  Resume the creation of an incomplete scratch org.
+
+  When the original "sf env create scratch" command either times out or is run with the --async flag, it displays a job
+  ID.
+
+  Run this command by either passing it a job ID or using the --use-most-recent flag to specify the most recent
+  incomplete scratch org.
+
+EXAMPLES
+  Resume a scratch org create with a job ID:
+
+    $ sf env resume scratch --job-id 2SR3u0000008fBDGAY
+
+  Resume your most recent incomplete scratch org:
+
+    $ sf env resume scratch --use-most-recent
+
+FLAG DESCRIPTIONS
+  -i, --job-id=<value>  Job ID of the incomplete scratch org create that you want to resume.
+
+    The job ID is the same as the record ID of the incomplete scratch org in the ScratchOrgInfo object of the Dev Hub.
+
+    The job ID is valid for 24 hours after you start the scratch org creation.
 ```
 
 <!-- commandsstop -->

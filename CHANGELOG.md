@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/salesforcecli/plugin-env/compare/v1.2.3...v1.3.0) (2022-04-27)
+
+### Features
+
+- add env commands for create/resume scratch/sandbox orgs ([#272](https://github.com/salesforcecli/plugin-env/issues/272)) ([c6ab732](https://github.com/salesforcecli/plugin-env/commit/c6ab73247e18a571467cc5437b8211ce8f22b49f)), closes [#254](https://github.com/salesforcecli/plugin-env/issues/254) [#271](https://github.com/salesforcecli/plugin-env/issues/271) [#270](https://github.com/salesforcecli/plugin-env/issues/270)
+
 ### [1.2.3](https://github.com/salesforcecli/plugin-env/compare/v1.2.2...v1.2.3) (2022-04-13)
 
 ### Bug Fixes

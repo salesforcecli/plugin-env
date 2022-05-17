@@ -42,7 +42,7 @@ Path to a sandbox definition file.
 
 # flags.definitionFile.description
 
-The sandbox definition file is a blueprint for the sandbox. You can create different definition files for each sandbox type that you use in the development process. See https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_sandbox_definition.htm for all the options you can specify in the defintion file.
+The sandbox definition file is a blueprint for the sandbox. You can create different definition files for each sandbox type that you use in the development process. See <https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_sandbox_definition.htm> for all the options you can specify in the defintion file.
 
 # flags.name.summary
 
@@ -88,6 +88,16 @@ The command immediately displays the job ID and returns control of the terminal 
 
 Don't prompt for confirmation about the sandbox configuration.
 
+# flags.no-track-source.summary
+
+Do not use source tracking for this sandbox.
+
+# flags.no-track-source.description
+
+We recommend you enable source tracking in Developer and Developer Pro sandbox, which is why it's the default behavior. Source tracking allows you to track the changes you make to your metadata, both in your local project and in the sandbox, and to detect any conflicts between the two.
+
+To disable source tracking in the new sandbox, specify the --no-track-source flag. The main reason to disable source tracking is for performance. For example, while you probably want to deploy metadata and run Apex tests in your CI/CD jobs, you probably don't want to incur the costs of source tracking (checking for conflicts, polling the SourceMember object, various file system operations.) This is a good use case for disabling source tracking in the sandbox.
+
 # isConfigurationOk
 
 Is the configuration correct?
@@ -102,7 +112,7 @@ This command requires a target-org. Specify it with the --target-org flag or by 
 
 # error.MissingLicenseType
 
-The sandbox license type is required, but you didn't provide a value. Specify the license type in the sandbox definition file with the "licenseType" option, or specify the --license-type and --name flags at the command-line. See https://developer.salesforce.com/docs/atlas.en-us.sf_dev.meta/sf_dev/sf_dev_sandbox_definition.htm for more information.
+The sandbox license type is required, but you didn't provide a value. Specify the license type in the sandbox definition file with the "licenseType" option, or specify the --license-type and --name flags at the command-line. See <https://developer.salesforce.com/docs/atlas.en-us.sf_dev.meta/sf_dev/sf_dev_sandbox_definition.htm> for more information.
 
 # error.NoConfig
 

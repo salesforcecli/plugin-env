@@ -106,6 +106,13 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       char: 'i',
       summary: messages.getMessage('flags.client-id.summary'),
     }),
+    'track-source': Flags.boolean({
+      default: true,
+      char: 't',
+      summary: messages.getMessage('flags.track-source.summary'),
+      description: messages.getMessage('flags.track-source.description'),
+      allowNo: true,
+    }),
   };
   public async run(): Promise<ScratchCreateResponse> {
     const lifecycle = Lifecycle.getInstance();
@@ -127,6 +134,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       orgConfig,
       alias: flags.alias,
       setDefault: flags['set-default'],
+      tracking: flags['track-source'],
     };
 
     let lastStatus: string;

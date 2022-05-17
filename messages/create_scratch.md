@@ -78,6 +78,10 @@ Number of minutes to wait for the scratch org to be ready.
 
 If the command continues to run after the wait period, the CLI returns control of the terminal to you and displays the job ID. To resume the scratch org creation, run the env resume scratch command and pass it the job ID.
 
+# flags.track-source.summary
+
+Use source tracking for this scratch org. Set --no-track-source to disable source tracking.
+
 # flags.track-source.description
 
 We recommend you enable source tracking in scratch orgs, which is why it's the default behavior. Source tracking allows you to track the changes you make to your metadata, both in your local project and in the scratch org, and to detect any conflicts between the two.

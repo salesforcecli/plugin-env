@@ -301,6 +301,9 @@
         },
         "expirationDate": {
           "type": "string"
+        },
+        "tracking": {
+          "type": "boolean"
         }
       },
       "additionalProperties": false,

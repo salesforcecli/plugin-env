@@ -44,7 +44,7 @@ describe('env create scratch NUTs', () => {
     it('days out of bounds', () => {
       execCmd('env create scratch -f config/project-scratch-def.json -d 50', { ensureExitCode: 1 });
     });
-    it.skip('prompts for client secret if client id present and times out', () => {
+    it('prompts for client secret if client id present and times out', () => {
       const error = execCmd('env create scratch --edition developer --client-id someConnectedApp', {
         ensureExitCode: 1,
       }).shellOutput;

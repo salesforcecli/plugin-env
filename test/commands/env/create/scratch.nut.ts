@@ -62,7 +62,7 @@ describe('env create scratch NUTs', () => {
       }).jsonOutput.result;
       expect(resp).to.have.all.keys(keys);
       const globalInfo = await GlobalInfo.create();
-      expect(globalInfo.orgs.get(resp.username)).to.have.property('tracking', true);
+      expect(globalInfo.orgs.get(resp.username)).to.have.property('tracksSource', true);
       GlobalInfo.clearInstance();
     });
     it('creates an org from config file flag only', () => {
@@ -77,7 +77,7 @@ describe('env create scratch NUTs', () => {
       }).jsonOutput.result;
       expect(resp).to.have.all.keys(keys);
       const globalInfo = await GlobalInfo.create();
-      expect(globalInfo.orgs.get(resp.username)).to.have.property('tracking', false);
+      expect(globalInfo.orgs.get(resp.username)).to.have.property('tracksSource', false);
       GlobalInfo.clearInstance();
     });
 

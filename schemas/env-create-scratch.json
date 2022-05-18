@@ -302,7 +302,7 @@
         "expirationDate": {
           "type": "string"
         },
-        "tracking": {
+        "tracksSource": {
           "type": "boolean"
         }
       },

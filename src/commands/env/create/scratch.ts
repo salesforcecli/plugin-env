@@ -134,7 +134,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
       orgConfig,
       alias: flags.alias,
       setDefault: flags['set-default'],
-      tracking: flags['track-source'],
+      tracksSource: flags['track-source'],
     };
 
     let lastStatus: string;

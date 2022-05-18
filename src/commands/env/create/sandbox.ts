@@ -204,7 +204,7 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
       setDefault: this.flags['set-default'],
       alias: this.flags.alias,
       prodOrg,
-      tracking: this.flags['no-track-source'] === true ? false : undefined,
+      tracksSource: this.flags['no-track-source'] === true ? false : undefined,
     });
     const sandboxReq = await this.createSandboxRequest(prodOrg);
     await this.confirmSandboxReq({ ...sandboxReq, ...(this.flags.clone ? { CloneSource: this.flags.clone } : {}) });
@@ -250,7 +250,7 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
     this.sandboxRequestData.prodOrgUsername = prodOrg.getUsername();
     this.sandboxRequestData.sandboxProcessObject.SandboxName = sandboxReq.SandboxName;
     this.sandboxRequestData.sandboxRequest = sandboxReq;
-    this.sandboxRequestData.tracking = this.flags['no-track-source'] === true ? false : undefined;
+    this.sandboxRequestData.tracksSource = this.flags['no-track-source'] === true ? false : undefined;
     this.saveSandboxProgressConfig();
   }
 

@@ -38,7 +38,7 @@ export abstract class SandboxCommandBase<T> extends SfCommand<T> {
     prodOrgUsername: '',
     sandboxProcessObject: {},
     sandboxRequest: {},
-    tracking: false,
+    tracksSource: false,
   };
   public constructor(argv: string[], config: Config) {
     super(argv, config);
@@ -73,7 +73,7 @@ export abstract class SandboxCommandBase<T> extends SfCommand<T> {
 
   protected registerLifecycleListeners(
     lifecycle: Lifecycle,
-    options: { isAsync: boolean; alias: string; setDefault: boolean; prodOrg?: Org; tracking?: boolean }
+    options: { isAsync: boolean; alias: string; setDefault: boolean; prodOrg?: Org; tracksSource?: boolean }
   ): void {
     // eslint-disable-next-line @typescript-eslint/require-await
     lifecycle.on('POLLING_TIME_OUT', async () => {
@@ -141,7 +141,7 @@ export abstract class SandboxCommandBase<T> extends SfCommand<T> {
           alias: options.alias,
           setDefault: options.setDefault,
           setDefaultDevHub: undefined,
-          setTracking: await this.calculateTrackingSetting(options.tracking),
+          setTracking: await this.calculateTrackingSetting(options.tracksSource),
         });
       }
       this.removeSandboxProgressConfig();

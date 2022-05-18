@@ -141,7 +141,7 @@ export abstract class SandboxCommandBase<T> extends SfCommand<T> {
           alias: options.alias,
           setDefault: options.setDefault,
           setDefaultDevHub: undefined,
-          setTracking: await this.calculateTrackingSetting(options.tracksSource),
+          setTracksSource: await this.calculateTrackingSetting(options.tracksSource),
         });
       }
       this.removeSandboxProgressConfig();

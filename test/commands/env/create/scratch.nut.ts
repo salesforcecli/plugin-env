@@ -25,7 +25,7 @@ describe('env create scratch NUTs', () => {
   });
 
   after(async () => {
-    // await session?.clean();
+    await session?.clean();
   });
 
   describe('flag failures', () => {

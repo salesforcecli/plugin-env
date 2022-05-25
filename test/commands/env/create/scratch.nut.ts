@@ -8,7 +8,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
 import { expect } from 'chai';
-import { Messages } from '@salesforce/core';
+import { AuthFields, Messages, Global } from '@salesforce/core';
 import { secretTimeout } from '../../../../src/commands/env/create/scratch';
 import { ScratchCreateResponse } from '../../../../src/types';
 
@@ -16,6 +16,17 @@ Messages.importMessagesDirectory(__dirname);
 const messages = Messages.load('@salesforce/plugin-env', 'create_scratch', ['prompt.secret']);
 describe('env create scratch NUTs', () => {
   let session: TestSession;
+
+  const readAuthFile = async (uname: string): Promise<AuthFields> => {
+    const filePath = path.join(session.homeDir, Global.STATE_FOLDER, `${uname}.json`);
+    return JSON.parse(await fs.promises.readFile(filePath, 'utf8')) as AuthFields;
+  };
+
+  const readAliases = async (): Promise<Record<'orgs', Record<string, string>>> => {
+    const filePath = path.join(session.homeDir, Global.STATE_FOLDER, 'alias.json');
+    return JSON.parse(await fs.promises.readFile(filePath, 'utf8')) as Record<'orgs', Record<string, string>>;
+  };
+
   before(async () => {
     session = await TestSession.create({
       project: {
@@ -88,11 +99,12 @@ describe('env create scratch NUTs', () => {
         }
       ).jsonOutput.result;
       expect(resp).to.have.all.keys(keys);
-      const globalJson = JSON.parse(
-        await fs.promises.readFile(path.join(session.dir, '.sf', 'sf.json'), 'utf8')
-      ) as Record<string, unknown>;
-      expect(globalJson.orgs).to.have.property(resp.username);
-      expect(globalJson.aliases).to.have.property(testAlias, resp.username);
+
+      const authFile = await readAuthFile(resp.username);
+      expect(authFile).to.include.keys(['orgId', 'devHubUsername', 'accessToken']);
+
+      const aliases = await readAliases();
+      expect(aliases.orgs).to.have.property(testAlias, resp.username);
     });
   });
 });

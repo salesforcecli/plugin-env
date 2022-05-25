@@ -33,7 +33,14 @@
           "type": "string"
         }
       },
-      "required": ["aliases", "username", "orgId", "instanceUrl", "oauthMethod", "configs"],
+      "required": [
+        "aliases",
+        "username",
+        "orgId",
+        "instanceUrl",
+        "oauthMethod",
+        "configs"
+      ],
       "additionalProperties": false
     }
   }

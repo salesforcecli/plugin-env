@@ -7,7 +7,7 @@
 
 import { Flags } from '@salesforce/sf-plugins-core';
 import {
-  GlobalInfo,
+  StateAggregator,
   Lifecycle,
   Messages,
   Org,
@@ -206,8 +206,8 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
   ): Promise<boolean> {
     const sandboxProcessObject: SandboxProcessObject = await this.getSandboxProcessObject(prodOrg, sandboxName, jobId);
     const sandboxUsername = `${prodOrg.getUsername()}.${sandboxProcessObject.SandboxName}`;
-
-    if ((await GlobalInfo.getInstance()).orgs.has(sandboxUsername)) {
+    const exists = await (await StateAggregator.getInstance()).orgs.exists(sandboxUsername);
+    if (exists) {
       this.latestSandboxProgressObj = sandboxProcessObject;
       const resultEvent = {
         sandboxProcessObj: this.latestSandboxProgressObj,

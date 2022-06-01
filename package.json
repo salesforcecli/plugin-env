@@ -1,7 +1,7 @@
 {
   "name": "@salesforce/plugin-env",
   "description": "An sf plugin for logging into and interacting with different Salesforce environments.",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "author": "Salesforce",
   "bugs": "https://github.com/forcedotcom/cli/issues",
   "dependencies": {
@@ -91,7 +91,7 @@
     ],
     "topics": {
       "env": {
-        "description": "Commands to manage your environments, such as orgs."
+        "description": "Commands to manage your environments, such as orgs and compute environments."
       }
     }
   },

@@ -38,6 +38,7 @@ export abstract class SandboxCommandBase<T> extends SfCommand<T> {
     prodOrgUsername: '',
     sandboxProcessObject: {},
     sandboxRequest: {},
+    tracksSource: false,
   };
   public constructor(argv: string[], config: Config) {
     super(argv, config);
@@ -50,9 +51,29 @@ export abstract class SandboxCommandBase<T> extends SfCommand<T> {
     return this.sandboxRequestConfig;
   }
 
+  protected async calculateTrackingSetting(tracking = true): Promise<boolean> {
+    // sandbox types that don't support tracking
+    if (['Partial', 'Full'].includes(this.sandboxRequestData.sandboxRequest.LicenseType)) {
+      return false;
+    }
+    // returns false for a sandbox type that supports it but user has opted out
+    if (tracking === false) {
+      return false;
+    }
+    // if user hasn't opted out of tracking, and sandbox type supports it, verify that prod org supports tracking-enabled sandboxes
+    const sourceTrackingSettings = await this.prodOrg
+      .getConnection()
+      .metadata.read('SourceTrackingSettings', 'SourceTrackingSettings');
+    if (sourceTrackingSettings.enableSourceTrackingSandboxes !== true) {
+      return false;
+    }
+    // default for Dev/DevPro when prod org has feature enabled for sandboxes
+    return true;
+  }
+
   protected registerLifecycleListeners(
     lifecycle: Lifecycle,
-    options: { isAsync: boolean; alias: string; setDefault: boolean; prodOrg?: Org }
+    options: { isAsync: boolean; alias: string; setDefault: boolean; prodOrg?: Org; tracksSource?: boolean }
   ): void {
     // eslint-disable-next-line @typescript-eslint/require-await
     lifecycle.on('POLLING_TIME_OUT', async () => {
@@ -120,6 +141,7 @@ export abstract class SandboxCommandBase<T> extends SfCommand<T> {
           alias: options.alias,
           setDefault: options.setDefault,
           setDefaultDevHub: undefined,
+          setTracksSource: await this.calculateTrackingSetting(options.tracksSource),
         });
       }
       this.removeSandboxProgressConfig();

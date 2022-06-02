@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/salesforcecli/plugin-env/compare/v1.3.2...v1.4.0) (2022-06-02)
+
+### Features
+
+- no-track-source flag for scratch/sandbox ([3bc3582](https://github.com/salesforcecli/plugin-env/commit/3bc358241bd9ce4600a6daecb963f325fb0c00b8))
+
 ### [1.3.2](https://github.com/salesforcecli/plugin-env/compare/v1.3.1...v1.3.2) (2022-06-01)
 
 ### Bug Fixes

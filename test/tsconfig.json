@@ -4,6 +4,11 @@
   "compilerOptions": {
     "target": "es2021",
     "lib": ["es2021"],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@oclif/core": ["../node_modules/@oclif/core"],
+      "@salesforce/kit": ["../node_modules/@salesforce/kit"]
+    }
   }
 }

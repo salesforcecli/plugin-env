@@ -124,6 +124,7 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
       alias: this.sandboxRequestData.alias,
       setDefault: this.sandboxRequestData.setDefault,
       prodOrg,
+      tracksSource: this.sandboxRequestData.tracksSource,
     });
 
     if (
@@ -172,6 +173,7 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
       prodOrgUsername: undefined,
       sandboxProcessObject: {},
       sandboxRequest: {},
+      tracksSource: undefined,
     } as SandboxRequestCacheEntry;
 
     let name: string | undefined;

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.1](https://github.com/salesforcecli/plugin-env/compare/v1.4.0...v1.4.1) (2022-06-06)
+
+### Bug Fixes
+
+- resume command does not store prod org in class property ([#293](https://github.com/salesforcecli/plugin-env/issues/293)) ([c8baf92](https://github.com/salesforcecli/plugin-env/commit/c8baf92f669509b8d13fca783442fda6a02d5489))
+
 ## [1.4.0](https://github.com/salesforcecli/plugin-env/compare/v1.3.2...v1.4.0) (2022-06-02)
 
 ### Features

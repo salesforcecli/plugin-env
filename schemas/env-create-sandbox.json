@@ -42,7 +42,14 @@
           "type": "string"
         }
       },
-      "required": ["Id", "Status", "SandboxName", "SandboxInfoId", "LicenseType", "CreatedDate"],
+      "required": [
+        "Id",
+        "Status",
+        "SandboxName",
+        "SandboxInfoId",
+        "LicenseType",
+        "CreatedDate"
+      ],
       "additionalProperties": false
     }
   }

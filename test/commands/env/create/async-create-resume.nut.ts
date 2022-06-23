@@ -9,7 +9,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
 import { expect } from 'chai';
-import { ScratchOrgCache } from '@salesforce/core';
+import { AuthFields, Global, ScratchOrgCache } from '@salesforce/core';
 import { JsonMap } from '@salesforce/ts-types';
 import { CachedOptions } from '@salesforce/core/lib/org/scratchOrgCache';
 import { ScratchCreateResponse } from '../../../../src/types';
@@ -17,7 +17,6 @@ import { ScratchCreateResponse } from '../../../../src/types';
 describe('env create scratch async/resume', () => {
   let session: TestSession;
   let cacheFilePath: string;
-  let sfJsonPath: string;
   let soiId: string;
   let username: string;
 
@@ -28,6 +27,16 @@ describe('env create scratch async/resume', () => {
     return JSON.parse(await fs.promises.readFile(cacheFilePath, 'utf8')) as unknown as Record<string, CachedOptions>;
   };
 
+  const readAuthFile = async (uname: string): Promise<AuthFields> => {
+    const filePath = path.join(session.homeDir, Global.STATE_FOLDER, `${uname}.json`);
+    return JSON.parse(await fs.promises.readFile(filePath, 'utf8')) as AuthFields;
+  };
+
+  const readAliases = async (): Promise<Record<'orgs', Record<string, string>>> => {
+    const filePath = path.join(session.homeDir, Global.STATE_FOLDER, 'alias.json');
+    return JSON.parse(await fs.promises.readFile(filePath, 'utf8')) as Record<'orgs', Record<string, string>>;
+  };
+
   before(async () => {
     session = await TestSession.create({
       project: {
@@ -35,7 +44,6 @@ describe('env create scratch async/resume', () => {
       },
     });
     cacheFilePath = path.join(session.dir, '.sf', ScratchOrgCache.getFileName());
-    sfJsonPath = path.join(session.dir, '.sf', 'sf.json');
   });
 
   after(async () => {
@@ -64,8 +72,8 @@ describe('env create scratch async/resume', () => {
       expect(resp).to.have.all.keys(completeKeys);
     });
     it('org is authenticated', async () => {
-      const sfJson = JSON.parse(await fs.promises.readFile(sfJsonPath, 'utf8')) as unknown as { orgs: JsonMap };
-      expect(sfJson.orgs[username]).to.include.keys(['orgId', 'devHubUsername', 'accessToken']);
+      const authFile = await readAuthFile(username);
+      expect(authFile).to.include.keys(['orgId', 'devHubUsername', 'accessToken']);
     });
     it('is NOT present in cache', async () => {
       const cache = await readCacheFile();
@@ -108,12 +116,10 @@ describe('env create scratch async/resume', () => {
       expect(resp).to.have.all.keys(completeKeys);
     });
     it('org is authenticated with alias and config', async () => {
-      const sfJson = JSON.parse(await fs.promises.readFile(sfJsonPath, 'utf8')) as unknown as {
-        orgs: JsonMap;
-        aliases: JsonMap;
-      };
-      expect(sfJson.orgs[username]).to.include.keys(['orgId', 'devHubUsername', 'accessToken']);
-      expect(sfJson.aliases[testAlias]).to.equal(username);
+      const authFile = await readAuthFile(username);
+      const aliases = await readAliases();
+      expect(authFile).to.include.keys(['orgId', 'devHubUsername', 'accessToken']);
+      expect(aliases.orgs[testAlias]).to.equal(username);
 
       const config = JSON.parse(
         await fs.promises.readFile(path.join(session.project.dir, '.sf', 'config.json'), 'utf8')

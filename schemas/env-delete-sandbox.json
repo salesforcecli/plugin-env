@@ -12,7 +12,10 @@
           "type": "string"
         }
       },
-      "required": ["orgId", "username"],
+      "required": [
+        "orgId",
+        "username"
+      ],
       "additionalProperties": false
     }
   }

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/salesforcecli/plugin-env/compare/v1.4.1...v1.5.0) (2022-06-23)
+
+### Features
+
+- use StateAggregator ([259cceb](https://github.com/salesforcecli/plugin-env/commit/259cceb0233a9033372560e504129e87f33982ae))
+
 ### [1.4.1](https://github.com/salesforcecli/plugin-env/compare/v1.4.0...v1.4.1) (2022-06-06)
 
 ### Bug Fixes

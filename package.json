@@ -91,7 +91,18 @@
     ],
     "topics": {
       "env": {
-        "description": "Commands to manage your environments, such as orgs and compute environments."
+        "description": "Commands to manage your environments, such as orgs and compute environments.",
+        "subtopics": {
+          "create": {
+            "description": "Commands to create environments."
+          },
+          "resume": {
+            "description": "Commands to resume environment creation."
+          },
+          "delete": {
+            "description": "Commands to delete environments."
+          }
+        }
       }
     }
   },

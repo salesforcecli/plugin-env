@@ -13,7 +13,12 @@
         },
         "oauthMethod": {
           "type": "string",
-          "enum": ["jwt", "web", "token", "unknown"]
+          "enum": [
+            "jwt",
+            "web",
+            "token",
+            "unknown"
+          ]
         },
         "aliases": {
           "anyOf": [
@@ -71,7 +76,12 @@
           ]
         }
       },
-      "required": ["orgId", "username", "oauthMethod", "isExpired"],
+      "required": [
+        "orgId",
+        "username",
+        "oauthMethod",
+        "isExpired"
+      ],
       "additionalProperties": false
     }
   }

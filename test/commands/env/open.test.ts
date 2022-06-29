@@ -5,16 +5,16 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import { expect, test } from '@oclif/test';
-import { AuthInfo, Connection, Org, SfOrg } from '@salesforce/core';
+import { AuthInfo, Connection, Org, OrgAuthorization } from '@salesforce/core';
 
 import EnvOpen, { OpenResult } from '../../../src/commands/env/open';
 
-const expectedSfOrgs: Array<Partial<SfOrg>> = [
+const expectedSfOrgs: Array<Partial<OrgAuthorization>> = [
   {
     orgId: '00Dxx54321987654321',
     accessToken: '00Dxx54321987654321!lasfdlkjasfdljkerwklj;afsdlkjdhk;f',
     instanceUrl: 'https://some.other.salesforce.com',
-    alias: 'someOtherAlias',
+    aliases: ['someOtherAlias'],
     oauthMethod: 'web',
     username: 'some-other-user@some.other.salesforce.com',
     error: 'some auth error',
@@ -26,7 +26,11 @@ describe('open unit tests', () => {
     .stub(Connection.prototype, 'getAuthInfo', (): AuthInfo => {
       return {} as AuthInfo;
     })
-    .stub(AuthInfo.prototype, 'listAllAuthorizations', async (): Promise<Array<Partial<SfOrg>>> => expectedSfOrgs)
+    .stub(
+      AuthInfo.prototype,
+      'listAllAuthorizations',
+      async (): Promise<Array<Partial<OrgAuthorization>>> => expectedSfOrgs
+    )
     .stub(
       AuthInfo.prototype,
       'getOrgFrontDoorUrl',
@@ -68,7 +72,11 @@ describe('open unit tests', () => {
     .stub(Connection.prototype, 'getAuthInfo', (): AuthInfo => {
       return {} as AuthInfo;
     })
-    .stub(AuthInfo.prototype, 'listAllAuthorizations', async (): Promise<Array<Partial<SfOrg>>> => expectedSfOrgs)
+    .stub(
+      AuthInfo.prototype,
+      'listAllAuthorizations',
+      async (): Promise<Array<Partial<OrgAuthorization>>> => expectedSfOrgs
+    )
     .stub(AuthInfo.prototype, 'getOrgFrontDoorUrl', (): string => expectedSfOrgs[0].instanceUrl)
     .stub(Org.prototype, 'getConnection', (): Connection => {
       const getAuthInfo = (): AuthInfo => {

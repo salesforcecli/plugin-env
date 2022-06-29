@@ -7,7 +7,7 @@
 
 import { Flags } from '@salesforce/sf-plugins-core';
 import {
-  GlobalInfo,
+  StateAggregator,
   Lifecycle,
   Messages,
   Org,
@@ -115,21 +115,21 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
         throw messages.createError('error.NoSandboxNameOrJobId');
       }
     }
-    const prodOrg = await Org.create({ aliasOrUsername: prodOrgUsername });
-    this.flags['target-org'] = prodOrg;
+    this.prodOrg = await Org.create({ aliasOrUsername: prodOrgUsername });
+    this.flags['target-org'] = this.prodOrg;
     const lifecycle = Lifecycle.getInstance();
 
     this.registerLifecycleListeners(lifecycle, {
       isAsync: false,
       alias: this.sandboxRequestData.alias,
       setDefault: this.sandboxRequestData.setDefault,
-      prodOrg,
+      prodOrg: this.prodOrg,
       tracksSource: this.sandboxRequestData.tracksSource,
     });
 
     if (
       await this.verifyIfAuthExists(
-        prodOrg,
+        this.prodOrg,
         this.sandboxRequestData.sandboxProcessObject.SandboxName,
         this.flags['job-id'],
         lifecycle
@@ -147,7 +147,7 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
     this.debug('Calling create with ResumeSandboxRequest: %s ', sandboxReq);
 
     try {
-      return await prodOrg.resumeSandbox(sandboxReq, {
+      return await this.prodOrg.resumeSandbox(sandboxReq, {
         wait: this.flags.wait ?? Duration.seconds(0),
         interval: Duration.seconds(30),
       });
@@ -208,8 +208,8 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
   ): Promise<boolean> {
     const sandboxProcessObject: SandboxProcessObject = await this.getSandboxProcessObject(prodOrg, sandboxName, jobId);
     const sandboxUsername = `${prodOrg.getUsername()}.${sandboxProcessObject.SandboxName}`;
-
-    if ((await GlobalInfo.getInstance()).orgs.has(sandboxUsername)) {
+    const exists = await (await StateAggregator.getInstance()).orgs.exists(sandboxUsername);
+    if (exists) {
       this.latestSandboxProgressObj = sandboxProcessObject;
       const resultEvent = {
         sandboxProcessObj: this.latestSandboxProgressObj,

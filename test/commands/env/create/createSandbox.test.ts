@@ -4,24 +4,14 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import {
-  GlobalInfo,
-  Lifecycle,
-  Org,
-  SandboxEvents,
-  SandboxProcessObject,
-  SfInfo,
-  SfInfoKeys,
-  SfOrg,
-  SfOrgs,
-  SfProject,
-} from '@salesforce/core';
+import { Lifecycle, Org, SandboxEvents, SandboxProcessObject, SfProject, AuthFields } from '@salesforce/core';
 import { Spinner } from '@salesforce/sf-plugins-core/lib/ux';
 import { Config as IConfig } from '@oclif/core/lib/interfaces';
 import { fromStub, stubInterface, stubMethod } from '@salesforce/ts-sinon';
 import * as sinon from 'sinon';
 import { expect } from 'chai';
 import { Ux } from '@salesforce/sf-plugins-core/lib/ux';
+import { OrgAccessor } from '@salesforce/core/lib/stateAggregator';
 import CreateSandbox from '../../../../src/commands/env/create/sandbox';
 import { SandboxProgress } from '../../../../lib/shared/sandboxProgress';
 
@@ -40,27 +30,19 @@ const sandboxProcessObj: SandboxProcessObject = {
   EndDate: '2021-12-07T16:38:47.000+0000',
 };
 
-const fakeOrg: SfOrg = {
+const fakeOrg: AuthFields = {
   orgId: '00Dsomefakeorg1',
   instanceUrl: 'https://some.fake.org',
   username: 'somefake.org',
 };
 
-const fakeSfInfo: SfInfo = {
-  [SfInfoKeys.ORGS]: { [fakeOrg.username]: fakeOrg } as SfOrgs,
-  [SfInfoKeys.TOKENS]: {},
-  [SfInfoKeys.ALIASES]: { testProdOrg: fakeOrg.username },
-  [SfInfoKeys.SANDBOXES]: {},
-};
-
 describe('env:create:sandbox', () => {
   beforeEach(() => {
-    GlobalInfo.clearInstance();
-    stubMethod(sandbox, GlobalInfo.prototype, 'read').callsFake(async (): Promise<SfInfo> => {
-      return fakeSfInfo;
+    stubMethod(sandbox, OrgAccessor.prototype, 'read').callsFake(async (): Promise<AuthFields> => {
+      return fakeOrg;
     });
-    stubMethod(sandbox, GlobalInfo.prototype, 'write').callsFake(async (): Promise<SfInfo> => {
-      return fakeSfInfo;
+    stubMethod(sandbox, OrgAccessor.prototype, 'write').callsFake(async (): Promise<AuthFields> => {
+      return fakeOrg;
     });
   });
 

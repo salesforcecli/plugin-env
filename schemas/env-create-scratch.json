@@ -24,7 +24,11 @@
           "type": "string"
         }
       },
-      "required": ["scratchOrgInfo", "warnings", "orgId"],
+      "required": [
+        "scratchOrgInfo",
+        "warnings",
+        "orgId"
+      ],
       "additionalProperties": false
     },
     "ScratchOrgInfo": {
@@ -86,7 +90,11 @@
         },
         "Release": {
           "type": "string",
-          "enum": ["Current", "Previous", "Preview"]
+          "enum": [
+            "Current",
+            "Previous",
+            "Preview"
+          ]
         },
         "ScratchOrg": {
           "type": "string"
@@ -102,7 +110,13 @@
         },
         "Status": {
           "type": "string",
-          "enum": ["New", "Creating", "Active", "Error", "Deleted"]
+          "enum": [
+            "New",
+            "Creating",
+            "Active",
+            "Error",
+            "Deleted"
+          ]
         },
         "SignupEmail": {
           "type": "string"
@@ -142,7 +156,10 @@
               }
             }
           },
-          "required": ["enabled", "disabled"],
+          "required": [
+            "enabled",
+            "disabled"
+          ],
           "additionalProperties": false
         }
       },
@@ -195,7 +212,12 @@
       "description": "Any valid JSON value."
     },
     "JsonPrimitive": {
-      "type": ["null", "boolean", "number", "string"],
+      "type": [
+        "null",
+        "boolean",
+        "number",
+        "string"
+      ],
       "description": "Any valid JSON primitive value."
     },
     "JsonCollection": {
@@ -304,9 +326,6 @@
         },
         "tracksSource": {
           "type": "boolean"
-        },
-        "__computed": {
-          "type": ["string", "null"]
         }
       },
       "additionalProperties": false,

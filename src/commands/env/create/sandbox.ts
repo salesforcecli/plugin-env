@@ -196,19 +196,19 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
   }
 
   private async createSandbox(): Promise<SandboxProcessObject> {
-    const prodOrg = this.flags['target-org'];
+    this.prodOrg = this.flags['target-org'];
     const lifecycle = Lifecycle.getInstance();
 
     this.registerLifecycleListeners(lifecycle, {
       isAsync: this.flags.async,
       setDefault: this.flags['set-default'],
       alias: this.flags.alias,
-      prodOrg,
+      prodOrg: this.prodOrg,
       tracksSource: this.flags['no-track-source'] === true ? false : undefined,
     });
-    const sandboxReq = await this.createSandboxRequest(prodOrg);
+    const sandboxReq = await this.createSandboxRequest(this.prodOrg);
     await this.confirmSandboxReq({ ...sandboxReq, ...(this.flags.clone ? { CloneSource: this.flags.clone } : {}) });
-    this.initSandboxProcessData(prodOrg, sandboxReq);
+    this.initSandboxProcessData(this.prodOrg, sandboxReq);
 
     if (!this.flags.async) {
       this.spinner.start('Sandbox Create');
@@ -217,7 +217,7 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
     this.debug('Calling create with SandboxRequest: %s ', sandboxReq);
 
     try {
-      const sandboxProcessObject = await prodOrg.createSandbox(sandboxReq, {
+      const sandboxProcessObject = await this.prodOrg.createSandbox(sandboxReq, {
         wait: this.flags.wait,
         interval: this.flags['poll-interval'],
         async: this.flags.async,

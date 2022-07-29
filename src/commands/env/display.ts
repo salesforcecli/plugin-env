@@ -20,7 +20,7 @@ export default class EnvDisplay extends SfCommand<JsonObject> {
   public static flags = {
     'target-env': Flags.string({
       char: 'e',
-      description: messages.getMessage('flags.target-env.summary'),
+      summary: messages.getMessage('flags.target-env.summary'),
     }),
   };
 

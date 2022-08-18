@@ -5,8 +5,8 @@ jobs:
   unit-tests:
     strategy:
       matrix:
-        os: ['windows-latest', 'ubuntu-latest']
-        node_version: [latest, lts/*]
+        os: ['ubuntu-latest']
+        node_version: [lts/*-2]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3

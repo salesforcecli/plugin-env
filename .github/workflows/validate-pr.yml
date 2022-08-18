@@ -17,6 +17,9 @@ jobs:
         if: |
           github.event.pull_request.user.login != 'dependabot' ||
           github.event.pull_request.user.login != 'SF-CLI-BOT'
+        run: |
+          echo "PRs from known bots are ok"
+          exit 0
       - uses: actions-ecosystem/action-regex-match@9e6c4fb3d5e898f505be7a1fb6e7b0a278f6665b
         id: regex-match-gus-wi
         with:

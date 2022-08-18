@@ -23,4 +23,6 @@ jobs:
       - name: validate PR
         run: |
           echo "PR does not reference work item or github issue"
+          echo "${{ github.event.pull_request.title }}"
+          echo "${{ github.event.pull_request.body }}"
           exit 1

@@ -23,7 +23,7 @@ jobs:
     steps:
       - name: validate PR
         run: |
-          REF=$(echo -n ${{ format(github.event.pull_request.title,'\n','' ) }} ${{ github.event.pull_request.body, '\n','' }} | grep -Eo '@W-[0-9]+@|#[0-9]+')
+          REF=$(echo -n ${${{ github.event.pull_request.title }}//[$'\t\r\n']} ${${{ github.event.pull_request.body }}//[$'\t\r\n']} | grep -Eo '@W-[0-9]+@|#[0-9]+')
           if [ -z "$REF" ]; then
               echo "PR does not reference work item or github issue"
               exit 1

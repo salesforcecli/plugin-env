@@ -1,13 +1,14 @@
 name: automerge
 on:
+  push:
+    branches: [sm/gha]
   workflow_dispatch:
-  schedule:
-    - cron: '0 4 * * *'
+  # schedule:
+  # - cron: '42 2,5,8,11 * * *'
 
 jobs:
   dependabot-automerge:
     runs-on: 'ubuntu-latest'
-    # how to get CLI and plugin-rel-mgmt installed?
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3

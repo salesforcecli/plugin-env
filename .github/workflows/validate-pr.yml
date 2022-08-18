@@ -34,7 +34,9 @@ jobs:
           echo "PR does not reference work item or github issue"
           exit 1
       - name: output success
-        if: ${{ steps.regex-match-gus-wi.outputs.match != '' }} || ${{ steps.regex-match-gh-issue.outputs.match != '' }}
+        if: |
+          steps.regex-match-gus-wi.outputs.match != '' ||
+          steps.regex-match-gh-issue.outputs.match != ''
         run: |
           echo "PR references ${{ steps.regex-match-gus-wi.outputs.match }} ${{ steps.regex-match-gh-issue.outputs.match }}"
           exit 0

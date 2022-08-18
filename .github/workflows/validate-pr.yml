@@ -1,0 +1,21 @@
+# test push
+name: pr-validation
+
+on:
+  pull_request:
+    types: [opened, reopened, edited]
+    branches-ignore: [main]
+
+jobs:
+  pr-validation:
+    runs-on: 'ubuntu-latest'
+    if: ${{ github.event.actor.login !== 'dependabot' && github.event.actor.login !== 'SF-CLI-BOT }}
+    steps:
+      - run: |
+          REF=$(echo ${{ github.event.pull_request.title}} ${{ github.event.pull_request.body}} | grep -Eo '@W-[0-9]+@|#[0-9]+')
+          if [ -z "$REF" ]; then
+              echo "PR does not reference work item or github issue"
+              exit 1
+          else
+              echo "PR references $REF"
+          fi

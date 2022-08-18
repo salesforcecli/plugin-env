@@ -1,0 +1,19 @@
+name: automerge
+on:
+  workflow_dispatch:
+  # schedule:
+  # - cron: '42 2,5,8,11 * * *'
+
+jobs:
+  dependabot-automerge:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 'lts'
+      - run: npm install -g sfdx-cli
+      - run: sfdx plugins:install @salesforce/plugin-release-management
+      - run: sfdx dependabot:automerge --skip-ci \
+          --max-version-bump minor \
+          --merge-method squash

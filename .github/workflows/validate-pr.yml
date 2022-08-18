@@ -3,6 +3,7 @@ name: pr-validation
 
 on:
   workflow_dispatch:
+  push:
   pull_request:
     types: [opened, reopened, edited]
     # only applies to PRs that want to merge to main
@@ -14,14 +15,18 @@ jobs:
     steps:
       - run: |
           echo "${{ github.event.pull_request.title }}"
-          echo "${{ github.event.pull_request.body }}"
+          echo "${{ format(github.event.pull_request.body, '\r', '\n' ' }}"
+          echo "${${{ format(github.event.pull_request.body, '\r', '\n' ' }}//$'\r'"
           echo "${{ github.event.pull_request.user.login }}"
-      - name: validate PR
+      - name: bypass for bots
         if: |
-          github.event.pull_request.user.login != 'dependabot' &&
-          github.event.pull_request.user.login != 'SF-CLI-BOT' &&
-          !contains(github.event.pull_request.title, '@W-') &&
-          !contains(github.event.pull_request.body, '@W-')
+          github.event.pull_request.user.login != 'dependabot' ||
+          github.event.pull_request.user.login != 'SF-CLI-BOT'
+        run: |
+          echo "Approving PR from a bot"
+      - name: body contains gus WI
+        if: |
+          echo !contains(github.event.pull_request.body, '@W-')
         run: |
           echo "PR does not reference work item or github issue"
           exit 1

@@ -24,9 +24,9 @@ jobs:
           github.event.pull_request.user.login != 'SF-CLI-BOT'
         run: |
           echo "Approving PR from a bot"
-      - name: body contains gus WI
-        if: |
-          echo !contains(github.event.pull_request.body, '@W-')
-        run: |
-          echo "PR does not reference work item or github issue"
-          exit 1
+      # - name: body contains gus WI
+      #   if: |
+      #     echo !contains(github.event.pull_request.body, '@W-')
+      #   run: |
+      #     echo "PR does not reference work item or github issue"
+      #     exit 1

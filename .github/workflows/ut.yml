@@ -13,6 +13,8 @@ jobs:
         os: ['windows-latest', 'ubuntu-latest']
         node_version: [latest, lts/*]
     steps:
+      # required while reusable action is in same repo
+      - uses: actions/checkout@v3
       - uses: ./.github/shared/unitTest
         with:
           node-version: ${{ matrix.node_version }}

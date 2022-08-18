@@ -3,7 +3,6 @@ name: pr-validation
 
 on:
   workflow_dispatch:
-  push:
   pull_request:
     types: [opened, reopened, edited]
     # only applies to PRs that want to merge to main
@@ -13,13 +12,6 @@ jobs:
   pr-validation:
     runs-on: 'ubuntu-latest'
     steps:
-      - name: bypass for bots
-        if: |
-          github.event.pull_request.user.login != 'dependabot' ||
-          github.event.pull_request.user.login != 'SF-CLI-BOT'
-        run: |
-          echo "PRs from known bots are ok"
-          exit 0
       - uses: actions-ecosystem/action-regex-match@9e6c4fb3d5e898f505be7a1fb6e7b0a278f6665b
         id: regex-match-gus-wi
         with:
@@ -32,12 +24,17 @@ jobs:
           text: ${{ github.event.pull_request.body }}
           regex: '#[0-9]+'
           flags: gm
-      - name: mark as success
-        if: ${{ steps.regex-match-gus-wi.outputs.match != '' }} || ${{ steps.regex-match-gh-issue.outputs.match != '' }}
-        run: |
-          echo "PR references ${{ steps.regex-match-gus-wi.outputs.match }} ${{ steps.regex-match-gh-issue.outputs.match }}"
-          exit 0
       - name: fail
+        if: |
+          github.event.pull_request.user.login != 'dependabot' &&
+          github.event.pull_request.user.login != 'SF-CLI-BOT' &&
+          steps.regex-match-gus-wi.outputs.match != '' &&
+          steps.regex-match-gh-issue.outputs.match != ''
         run: |
           echo "PR does not reference work item or github issue"
           exit 1
+      - name: output success
+        if: ${{ steps.regex-match-gus-wi.outputs.match == '' }} || ${{ steps.regex-match-gh-issue.outputs.match == '' }}
+        run: |
+          echo "PR references ${{ steps.regex-match-gus-wi.outputs.match }} ${{ steps.regex-match-gh-issue.outputs.match }}"
+          exit 0

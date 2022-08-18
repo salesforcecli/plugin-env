@@ -3,26 +3,27 @@ name: pr-validation
 
 on:
   workflow_dispatch:
-  push:
-    branches-ignore: [main]
   pull_request:
     types: [opened, reopened, edited]
+    # only applies to PRs that want to merge to main
     branches: [main]
 
 jobs:
   pr-validation:
     runs-on: 'ubuntu-latest'
-    if: |
-      github.event.actor.login != 'dependabot' &&
-      github.event.actor.login != 'SF-CLI-BOT' &&
-      !contains(github.event.pull_request.title, '@W-') &&
-      !contains(github.event.pull_request.body, '@W-') &&
-      !contains(github.event.pull_request.title, '#') &&
-      !contains(github.event.pull_request.body, '#')
     steps:
-      - name: validate PR
-        run: |
-          echo "PR does not reference work item or github issue"
+      - run: |
           echo "${{ github.event.pull_request.title }}"
           echo "${{ github.event.pull_request.body }}"
+          echo "{{github.event.actor.login}}"
+      - name: validate PR
+        if: |
+          github.event.actor.login != 'dependabot' &&
+          github.event.actor.login != 'SF-CLI-BOT' &&
+          !contains(github.event.pull_request.title, '@W-') &&
+          !contains(github.event.pull_request.body, '@W-') &&
+          !contains(github.event.pull_request.title, '#') &&
+          !contains(github.event.pull_request.body, '#')
+        run: |
+          echo "PR does not reference work item or github issue"
           exit 1

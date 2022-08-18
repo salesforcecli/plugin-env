@@ -15,7 +15,7 @@ jobs:
       - run: |
           echo "${{ github.event.pull_request.title }}"
           echo "${{ github.event.pull_request.body }}"
-          echo "{{github.event.actor.login}}"
+          echo "${{ github.event.actor.login }}"
       - name: validate PR
         if: |
           github.event.actor.login != 'dependabot' &&

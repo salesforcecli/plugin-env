@@ -9,24 +9,18 @@ on:
     types: [opened, reopened, edited]
     branches: [main]
 
-#  !contains(github github.event.pull_request.title, '@W-' &&
-#  !contains(github github.event.pull_request.body, '@W-' &&
-#  !contains(github github.event.pull_request.title, '#' &&
-#  !contains(github github.event.pull_request.body, '#' &&
-
 jobs:
   pr-validation:
     runs-on: 'ubuntu-latest'
     if: |
       github.event.actor.login != 'dependabot' &&
-      github.event.actor.login != 'SF-CLI-BOT'
+      github.event.actor.login != 'SF-CLI-BOT' &&
+      !contains(github github.event.pull_request.title, '@W-' &&
+      !contains(github github.event.pull_request.body, '@W-' &&
+      !contains(github github.event.pull_request.title, '#' &&
+      !contains(github github.event.pull_request.body, '#'
     steps:
       - name: validate PR
         run: |
-          REF=$(echo -n ${${{ github.event.pull_request.title }}//[$'\t\r\n']} ${${{ github.event.pull_request.body }}//[$'\t\r\n']} | grep -Eo '@W-[0-9]+@|#[0-9]+')
-          if [ -z "$REF" ]; then
-              echo "PR does not reference work item or github issue"
-              exit 1
-          else
-              echo "PR references $REF"
-          fi
+          echo "PR does not reference work item or github issue"
+          exit 1

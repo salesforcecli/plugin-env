@@ -15,7 +15,7 @@ jobs:
     steps:
       # required while reusable action is in same repo
       - uses: actions/checkout@v3
-      - uses: ./.github/exportable/unitTest
+      - uses: ./.github/exportable/unitTest.yml
         with:
           node-version: ${{ matrix.node_version }}
           os: ${{ matrix.os }}

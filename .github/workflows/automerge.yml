@@ -19,4 +19,4 @@ jobs:
       - name: run automerge command
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: sfdx dependabot:automerge --dryrun
+        run: sfdx dependabot:automerge

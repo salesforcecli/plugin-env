@@ -12,7 +12,7 @@ on:
 jobs:
   pr-validation:
     runs-on: 'ubuntu-latest'
-    # if: ${{ github.event.actor.login !== 'dependabot' && github.event.actor.login !== 'SF-CLI-BOT }}
+    if: ${{ github.event.actor.login !== 'dependabot' && github.event.actor.login !== 'SF-CLI-BOT }}
     steps:
       - name: validate PR
         run: |

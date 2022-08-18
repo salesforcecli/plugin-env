@@ -1,0 +1,29 @@
+on:
+  workflow_call:
+    inputs:
+      node_version:
+        description: version of node to run tests against
+        type: string
+        default: 'latest'
+      os:
+        description: operating system you want to test against
+        type: choice
+        options: ['linux', 'windows']
+        default: 'linux'
+      command:
+        description: command that will execute tests
+        type: string
+        default: 'yarn test'
+
+jobs:
+  unit-test:
+    runs-on: ${{ inputs.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ inputs.node_version }}
+          cache: yarn
+      - run: yarn install
+      - run: yarn build
+      - run: yarn test

@@ -6,18 +6,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  unit-tests:
+  test:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         os: ['windows-latest', 'ubuntu-latest']
-        node: [latest, lts/*]
-    runs-on: ${{ matrix.os }}
+        node_version: [latest, lts/*]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: ./.github/shared/unitTest
         with:
-          node-version: ${{ matrix.node }}
-          cache: yarn
-      - run: yarn install
-      - run: yarn build
-      - run: yarn test
+          node-version: ${{ matrix.node_version }}
+          os: ${{ matrix.os }}

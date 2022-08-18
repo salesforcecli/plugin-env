@@ -21,9 +21,7 @@ jobs:
           github.event.pull_request.user.login != 'dependabot' &&
           github.event.pull_request.user.login != 'SF-CLI-BOT' &&
           !contains(github.event.pull_request.title, '@W-') &&
-          !contains(github.event.pull_request.body, '@W-') &&
-          !contains(github.event.pull_request.title, '#') &&
-          !contains(github.event.pull_request.body, '#')
+          !contains(github.event.pull_request.body, '@W-')
         run: |
           echo "PR does not reference work item or github issue"
           exit 1

@@ -15,8 +15,8 @@ jobs:
     steps:
       - run: |
           echo "${{ github.event.pull_request.title }}"
-          echo "${{ format(github.event.pull_request.body, '\r', '\n' ') }}"
-          echo "${${{ github.event.pull_request.body }}//$'\r'"
+          echo "${{ format(github.event.pull_request.body, '\r', '\n', ' ') }}"
+          echo "${${{ github.event.pull_request.body }}//$'\r'}"
           echo "${{ github.event.pull_request.user.login }}"
       - name: bypass for bots
         if: |

@@ -1,21 +1,10 @@
 # test push
-name: unitTests
+name: tests
 on:
   push:
     branches: [sm/gha]
   workflow_dispatch:
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        os: ['windows-latest', 'ubuntu-latest']
-        node_version: [latest, lts/*]
-    steps:
-      # required while reusable action is in same repo
-      - uses: actions/checkout@v3
-      - uses: ./.github/workflows/unitTest.yml
-        with:
-          node-version: ${{ matrix.node_version }}
-          os: ${{ matrix.os }}
+  unit-tests:
+    uses: ./github/workflows/unitTest.yml

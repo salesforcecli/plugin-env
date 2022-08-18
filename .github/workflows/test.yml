@@ -2,7 +2,8 @@
 name: tests
 on:
   push:
-    branches: [sm/gha]
+    branches: [not-a-branch]
+    # branches: [sm/gha]
   workflow_dispatch:
 
 jobs:

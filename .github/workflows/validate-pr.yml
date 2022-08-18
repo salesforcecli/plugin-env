@@ -12,7 +12,7 @@ jobs:
     if: ${{ github.event.actor.login !== 'dependabot' && github.event.actor.login !== 'SF-CLI-BOT }}
     steps:
       - run: |
-          REF=$(echo ${{ github.event.pull_request.title}} ${{ github.event.pull_request.body}} | grep -Eo '@W-[0-9]+@|#[0-9]+')
+          REF=$(echo ${{ github.event.pull_request.title }} ${{ github.event.pull_request.body }} | grep -Eo '@W-[0-9]+@|#[0-9]+')
           if [ -z "$REF" ]; then
               echo "PR does not reference work item or github issue"
               exit 1

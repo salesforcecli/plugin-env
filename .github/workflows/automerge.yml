@@ -12,7 +12,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: latest
-          cache: yarn
       - run: npm install -g sfdx-cli
       - run: sfdx plugins:install @salesforce/plugin-release-management
       - run: sfdx dependabot:automerge --dryrun

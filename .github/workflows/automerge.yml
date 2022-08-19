@@ -4,6 +4,8 @@ on:
   # schedule:
   # - cron: '42 2,5,8,11 * * *'
 
+permissions: write-all
+
 jobs:
   dependabot-automerge:
     runs-on: 'ubuntu-latest'
@@ -14,4 +16,7 @@ jobs:
           node-version: latest
       - run: npm install -g sfdx-cli
       - run: sfdx plugins:install @salesforce/plugin-release-management
-      - run: sfdx dependabot:automerge --dryrun
+      - name: run automerge command
+        env:
+          GITHUB_TOKEN: ${{ secrets.SF_CLI_BOT_GITHUB_TOKEN }}
+        run: sfdx dependabot:automerge

@@ -8,4 +8,4 @@ on:
 
 jobs:
   unit-tests:
-    uses: salesforcecli/github-workflows/.github/workflows/sharedWorkflows/unitTest.yml@main
+    uses: salesforcecli/github-workflows/.github/workflows/unitTest.yml@main

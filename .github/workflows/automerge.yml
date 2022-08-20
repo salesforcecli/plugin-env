@@ -4,19 +4,6 @@ on:
   # schedule:
   # - cron: '42 2,5,8,11 * * *'
 
-permissions: write-all
-
 jobs:
-  dependabot-automerge:
-    runs-on: 'ubuntu-latest'
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: latest
-      - run: npm install -g sfdx-cli
-      - run: sfdx plugins:install @salesforce/plugin-release-management
-      - name: run automerge command
-        env:
-          GITHUB_TOKEN: ${{ secrets.SF_CLI_BOT_GITHUB_TOKEN }}
-        run: sfdx dependabot:automerge
+  automerge:
+    uses: salesforcecli/github-workflows/.github/workflows/automerge.yml@main

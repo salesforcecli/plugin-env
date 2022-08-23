@@ -24,5 +24,4 @@ jobs:
     uses: salesforcecli/github-workflows/.github/workflows/nut.yml@main
     secrets: inherit
     with:
-      timeout: 1.5h
       command: test:nuts:sandbox

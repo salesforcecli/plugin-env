@@ -14,14 +14,14 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
+    with:
+      os: ${{ matrix.os }}
   # conditional nuts based on commit tag
   sandbox-nuts:
     needs: [nuts, unit-tests]
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
     if: contains(github.event.push.head_commit.message,'[sb-nuts]')
     uses: salesforcecli/github-workflows/.github/workflows/nut.yml@main
     secrets: inherit
     with:
       command: test:nuts:sandbox
+      os: ubuntu-latest

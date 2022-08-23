@@ -5,13 +5,24 @@ on:
   workflow_dispatch:
 
 jobs:
-  # unit-tests:
-  #   uses: salesforcecli/github-workflows/.github/workflows/unitTest.yml@main
+  unit-tests:
+    uses: salesforcecli/github-workflows/.github/workflows/unitTest.yml@main
   nuts:
-    # needs: unit-tests
+    needs: unit-tests
     uses: salesforcecli/github-workflows/.github/workflows/nut.yml@main
     secrets: inherit
     strategy:
       matrix:
         os: [ubuntu-latest]
-# TODO: sandbox conditional nuts
+  # conditional nuts based on commit tag
+  sandbox-nuts:
+    needs: [nuts, unit-tests]
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    if: contains(github.event.push.head_commit.message,'[sb-nuts]')
+    uses: salesforcecli/github-workflows/.github/workflows/nut.yml@main
+    secrets: inherit
+    with:
+      timeout: 1.5h
+      command: test:nuts:sandbox

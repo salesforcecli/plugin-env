@@ -87,15 +87,13 @@ FLAGS
   -a, --alias=<value>                                        Alias for the sandbox org.
   -c, --clone=<value>                                        Name of the sandbox org to clone.
   -f, --definition-file=<value>                              Path to a sandbox definition file.
-  -i, --poll-interval=<seconds>                              [default: 30 seconds] Number of seconds to wait between
-                                                             retries.
+  -i, --poll-interval=<seconds>                              Number of seconds to wait between retries.
   -l, --license-type=(Developer|Developer_Pro|Partial|Full)  [default: Developer] Type of sandbox license.
   -n, --name=<value>                                         Name of the sandbox org.
   -o, --target-org=<value>                                   Username or alias of the production org that contains the
                                                              sandbox license.
   -s, --set-default                                          Set the sandbox org as your default org.
-  -w, --wait=<minutes>                                       [default: 30 minutes] Number of minutes to wait for the
-                                                             sandbox org to be ready.
+  -w, --wait=<minutes>                                       Number of minutes to wait for the sandbox org to be ready.
   --async                                                    Request the sandbox creation, but don't wait for it to
                                                              complete.
   --no-prompt                                                Don't prompt for confirmation about the sandbox
@@ -199,8 +197,8 @@ FLAGS
   -t, --[no-]track-source        Use source tracking for this scratch org. Set --no-track-source to disable source
                                  tracking.
   -v, --target-dev-hub=<value>   Username or alias of the Dev Hub org.
-  -w, --wait=<minutes>           [default: 5 minutes] Number of minutes to wait for the scratch org to be ready.
-  -y, --duration-days=<days>     [default: 7 days] Number of days before the org expires.
+  -w, --wait=<minutes>           Number of minutes to wait for the scratch org to be ready.
+  -y, --duration-days=<days>     Number of days before the org expires.
   --api-version=<value>          Override the api version used for api requests made by this command
   --async                        Request the org, but don't wait for it to complete.
 

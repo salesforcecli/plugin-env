@@ -32,9 +32,7 @@ const expectedSfOrgs: SalesforceOrg[] = [
 const expectedEnvironments: Environments = {
   salesforceOrgs: expectedSfOrgs,
 };
-const makeTableObj = (title: string, data: SalesforceOrg[]) => {
-  return { type: 'salesforceOrgs', title, data, keys: KEYS };
-};
+const makeTableObj = (title: string, data: SalesforceOrg[]) => ({ type: 'salesforceOrgs', title, data, keys: KEYS });
 
 describe('list unit tests', () => {
   test

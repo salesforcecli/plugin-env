@@ -31,8 +31,7 @@ const envOrderBy = (a: Env.Table<JsonObject>, b: Env.Table<JsonObject>): number 
   return 1;
 };
 
-const buildColumns = (table: Env.Table<JsonObject>): Record<string, { header?: string }> => {
-  return table.data.flatMap(Object.keys).reduce((x, y) => {
+const buildColumns = (table: Env.Table<JsonObject>): Record<string, { header?: string }> => table.data.flatMap(Object.keys).reduce((x, y) => {
     if (x[y]) return x;
     const columnEntry = {
       header: toKey(y, table.keys),
@@ -40,7 +39,6 @@ const buildColumns = (table: Env.Table<JsonObject>): Record<string, { header?: s
     };
     return { ...x, [y]: columnEntry };
   }, {});
-};
 
 export type Environments = {
   [type: string]: JsonObject[];

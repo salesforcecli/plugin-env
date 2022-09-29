@@ -23,9 +23,7 @@ const expectedSfOrgs: Array<Partial<OrgAuthorization>> = [
 
 describe('open unit tests', () => {
   test
-    .stub(Connection.prototype, 'getAuthInfo', (): AuthInfo => {
-      return {} as AuthInfo;
-    })
+    .stub(Connection.prototype, 'getAuthInfo', (): AuthInfo => ({} as AuthInfo))
     .stub(
       AuthInfo.prototype,
       'listAllAuthorizations',
@@ -37,18 +35,14 @@ describe('open unit tests', () => {
       (): string => `${expectedSfOrgs[0].instanceUrl}?sid=${expectedSfOrgs[0].accessToken}`
     )
     .stub(Org.prototype, 'getConnection', (): Connection => {
-      const getAuthInfo = (): AuthInfo => {
-        return new AuthInfo();
-      };
+      const getAuthInfo = (): AuthInfo => new AuthInfo();
       const conn = { getAuthInfo } as Connection;
       return conn;
     })
     .stub(Org.prototype, 'refreshAuth', async (): Promise<void> => {})
-    .stub(Org, 'create', async (): Promise<Org> => {
-      return new Org({
+    .stub(Org, 'create', async (): Promise<Org> => new Org({
         aliasOrUsername: expectedSfOrgs[0].username,
-      } as Org.Options);
-    })
+      } as Org.Options))
     .stub(EnvOpen.prototype, 'open', async (): Promise<void> => {})
     .stdout()
     .command([
@@ -69,9 +63,7 @@ describe('open unit tests', () => {
       expect(result.url).match(urlEndRegEx);
     });
   test
-    .stub(Connection.prototype, 'getAuthInfo', (): AuthInfo => {
-      return {} as AuthInfo;
-    })
+    .stub(Connection.prototype, 'getAuthInfo', (): AuthInfo => ({} as AuthInfo))
     .stub(
       AuthInfo.prototype,
       'listAllAuthorizations',
@@ -79,18 +71,14 @@ describe('open unit tests', () => {
     )
     .stub(AuthInfo.prototype, 'getOrgFrontDoorUrl', (): string => expectedSfOrgs[0].instanceUrl)
     .stub(Org.prototype, 'getConnection', (): Connection => {
-      const getAuthInfo = (): AuthInfo => {
-        return new AuthInfo();
-      };
+      const getAuthInfo = (): AuthInfo => new AuthInfo();
       const conn = { getAuthInfo } as Connection;
       return conn;
     })
     .stub(Org.prototype, 'refreshAuth', async (): Promise<void> => {})
-    .stub(Org, 'create', async (): Promise<Org> => {
-      return new Org({
+    .stub(Org, 'create', async (): Promise<Org> => new Org({
         aliasOrUsername: expectedSfOrgs[0].username,
-      } as Org.Options);
-    })
+      } as Org.Options))
     .stub(EnvOpen.prototype, 'open', async (): Promise<void> => {})
     .stdout()
     .command(['env:open', '--target-env', expectedSfOrgs[0].username, '--url-only', '--json'])

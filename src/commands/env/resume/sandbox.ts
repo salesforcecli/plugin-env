@@ -206,7 +206,7 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
     jobId: string,
     lifecycle: Lifecycle
   ): Promise<boolean> {
-    const sandboxProcessObject: SandboxProcessObject = await this.getSandboxProcessObject(prodOrg, sandboxName, jobId);
+    const sandboxProcessObject: SandboxProcessObject = await getSandboxProcessObject(prodOrg, sandboxName, jobId);
     const sandboxUsername = `${prodOrg.getUsername()}.${sandboxProcessObject.SandboxName}`;
     const exists = await (await StateAggregator.getInstance()).orgs.exists(sandboxUsername);
     if (exists) {
@@ -220,20 +220,20 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
     }
     return false;
   }
-
-  private async getSandboxProcessObject(
-    prodOrg: Org,
-    sandboxName?: string,
-    jobId?: string
-  ): Promise<SandboxProcessObject> {
-    const where = sandboxName ? `SandboxName='${sandboxName}'` : `Id='${jobId}'`;
-    const queryStr = `SELECT Id, Status, SandboxName, SandboxInfoId, LicenseType, CreatedDate, CopyProgress, SandboxOrganization, SourceId, Description, EndDate FROM SandboxProcess WHERE ${where} AND Status != 'D'`;
-    try {
-      return await prodOrg.getConnection().singleRecordQuery(queryStr, {
-        tooling: true,
-      });
-    } catch (err) {
-      throw messages.createError('error.NoSandboxRequestFound');
-    }
-  }
 }
+
+const getSandboxProcessObject = async (
+  prodOrg: Org,
+  sandboxName?: string,
+  jobId?: string
+): Promise<SandboxProcessObject> => {
+  const where = sandboxName ? `SandboxName='${sandboxName}'` : `Id='${jobId}'`;
+  const queryStr = `SELECT Id, Status, SandboxName, SandboxInfoId, LicenseType, CreatedDate, CopyProgress, SandboxOrganization, SourceId, Description, EndDate FROM SandboxProcess WHERE ${where} AND Status != 'D'`;
+  try {
+    return await prodOrg.getConnection().singleRecordQuery(queryStr, {
+      tooling: true,
+    });
+  } catch (err) {
+    throw messages.createError('error.NoSandboxRequestFound');
+  }
+};

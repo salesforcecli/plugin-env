@@ -154,15 +154,11 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
     return [this.latestSandboxProgressObj.Id, this.flags['target-org'].getUsername()];
   }
 
-  private lowerToUpper(object: Record<string, unknown>): Record<string, unknown> {
-    return Object.fromEntries(Object.entries(object).map(([k, v]) => [`${k.charAt(0).toUpperCase()}${k.slice(1)}`, v]));
-  }
-
   private async createSandboxRequest(prodOrg: Org): Promise<SandboxRequest> {
     let sandboxDefFileContents = this.readJsonDefFile() || {};
 
     if (sandboxDefFileContents) {
-      sandboxDefFileContents = this.lowerToUpper(sandboxDefFileContents);
+      sandboxDefFileContents = lowerToUpper(sandboxDefFileContents);
     }
 
     // build sandbox request from data provided
@@ -310,3 +306,6 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
     }
   }
 }
+
+const lowerToUpper = (object: Record<string, unknown>): Record<string, unknown> =>
+  Object.fromEntries(Object.entries(object).map(([k, v]) => [`${k.charAt(0).toUpperCase()}${k.slice(1)}`, v]));

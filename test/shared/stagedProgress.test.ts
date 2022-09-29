@@ -10,6 +10,7 @@ import { StagedProgress, State, StateConstants } from '../../src/shared/stagedPr
 import { SandboxStatusData } from '../../src/shared/sandboxProgress';
 
 class TestStagedProgress extends StagedProgress<SandboxStatusData> {
+  // eslint-disable-next-line class-methods-use-this
   public formatProgressStatus(): string {
     return '';
   }

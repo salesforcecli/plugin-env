@@ -34,12 +34,14 @@ export class SandboxProgress extends StagedProgress<SandboxStatusData> {
   public constructor(stageNames: string[] = ['Pending', 'Processing', 'Activating', 'Authenticating']) {
     super(stageNames);
   }
+  // eslint-disable-next-line class-methods-use-this
   public getLogSandboxProcessResult(result: ResultEvent): string {
     const { sandboxProcessObj } = result;
     const sandboxReadyForUse = `Sandbox ${sandboxProcessObj.SandboxName}(${sandboxProcessObj.Id}) is ready for use.`;
     return sandboxReadyForUse;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   public getTableDataFromProcessObj(
     authUserName: string,
     sandboxProcessObj: SandboxProcessObject
@@ -60,6 +62,7 @@ export class SandboxProgress extends StagedProgress<SandboxStatusData> {
     ].filter((v) => !!v.value);
   }
 
+  // eslint-disable-next-line class-methods-use-this
   public getSandboxProgress(event: StatusEvent | ResultEvent): SandboxProgressData {
     const statusUpdate = event as StatusEvent;
     const waitingOnAuth = statusUpdate.waitingOnAuth ?? false;
@@ -106,6 +109,7 @@ export class SandboxProgress extends StagedProgress<SandboxStatusData> {
       .filter((line) => line)
       .join(os.EOL);
   }
+  // eslint-disable-next-line class-methods-use-this
   protected mapCurrentStage(currentStage: string): string {
     switch (currentStage) {
       case 'Pending Remote Creation':

@@ -38,12 +38,8 @@ const fakeOrg: AuthFields = {
 
 describe('env:create:sandbox', () => {
   beforeEach(() => {
-    stubMethod(sandbox, OrgAccessor.prototype, 'read').callsFake(async (): Promise<AuthFields> => {
-      return fakeOrg;
-    });
-    stubMethod(sandbox, OrgAccessor.prototype, 'write').callsFake(async (): Promise<AuthFields> => {
-      return fakeOrg;
-    });
+    stubMethod(sandbox, OrgAccessor.prototype, 'read').callsFake(async (): Promise<AuthFields> => fakeOrg);
+    stubMethod(sandbox, OrgAccessor.prototype, 'write').callsFake(async (): Promise<AuthFields> => fakeOrg);
   });
 
   const sandbox = sinon.createSandbox();
@@ -100,9 +96,7 @@ describe('env:create:sandbox', () => {
       });
       stubMethod(sandbox, Org, 'create').resolves(Org.prototype);
       stubMethod(sandbox, Org.prototype, 'getUsername').returns('testProdOrg');
-      const createStub = stubMethod(sandbox, Org.prototype, 'createSandbox').callsFake(async () => {
-        return (async () => {})().catch();
-      });
+      const createStub = stubMethod(sandbox, Org.prototype, 'createSandbox').callsFake(async () => (async () => {})().catch());
 
       await command.runIt();
 

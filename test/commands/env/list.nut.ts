@@ -6,23 +6,12 @@
  */
 
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
-import { OrgConfigProperties } from '@salesforce/core';
 import { expect } from 'chai';
 
 describe('env list NUTs', () => {
   let session: TestSession;
-  let usernameOrAlias: string;
   before(async () => {
     session = await TestSession.create({ devhubAuthStrategy: 'AUTO' });
-
-    const config = execCmd<Array<{ name: string; value: string }>>(
-      `config get ${OrgConfigProperties.TARGET_DEV_HUB} --json`,
-      { ensureExitCode: 0, cli: 'sf' }
-    ).jsonOutput.result;
-
-    usernameOrAlias = config.find((org) => org.name === OrgConfigProperties.TARGET_DEV_HUB).value;
-
-    if (!usernameOrAlias) throw Error('no default username set');
   });
 
   after(async () => {
@@ -32,6 +21,6 @@ describe('env list NUTs', () => {
   it('should list dev hub', () => {
     const command = 'env list';
     const output = execCmd(command, { ensureExitCode: 0 }).shellOutput.stdout;
-    expect(output).to.contain(usernameOrAlias);
+    expect(output).to.contain(session.hubOrg.username);
   });
 });

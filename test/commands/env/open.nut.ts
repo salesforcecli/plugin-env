@@ -6,23 +6,13 @@
  */
 
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
-import { OrgConfigProperties } from '@salesforce/core';
 import { expect } from 'chai';
 
 describe('env open NUTs', () => {
   let session: TestSession;
-  let usernameOrAlias: string;
 
   before(async () => {
     session = await TestSession.create({ devhubAuthStrategy: 'AUTO' });
-    const config = execCmd<Array<{ name: string; value: string }>>(
-      `config get ${OrgConfigProperties.TARGET_DEV_HUB} --json`,
-      { ensureExitCode: 0, cli: 'sf' }
-    ).jsonOutput.result;
-
-    usernameOrAlias = config.find((org) => org.name === OrgConfigProperties.TARGET_DEV_HUB).value;
-
-    if (!usernameOrAlias) throw Error('no default username set');
   });
 
   after(async () => {
@@ -30,7 +20,7 @@ describe('env open NUTs', () => {
   });
 
   it('should show url with decrypted token', () => {
-    const command = `env open --url-only --target-env ${usernameOrAlias}`;
+    const command = `env open --url-only --target-env ${session.hubOrg.username}`;
     const output = execCmd(command, { ensureExitCode: 0 }).shellOutput.stdout;
     expect(output).to.contain('salesforce.com');
     expect(output).to.match(/sid=00D[0-9a-zA-Z]+!/);

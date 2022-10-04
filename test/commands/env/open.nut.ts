@@ -5,7 +5,6 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import * as path from 'path';
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
 import { OrgConfigProperties } from '@salesforce/core';
 import { expect } from 'chai';
@@ -15,11 +14,13 @@ describe('env open NUTs', () => {
   let usernameOrAlias: string;
 
   before(async () => {
-    const executablePath = path.join(process.cwd(), 'bin', 'dev');
-    session = await TestSession.create({
-      setupCommands: [`${executablePath} config get ${OrgConfigProperties.TARGET_DEV_HUB} --json`],
-    });
-    usernameOrAlias = (session.setup[0] as { result: [{ value: string }] }).result[0].value;
+    session = await TestSession.create({ devhubAuthStrategy: 'AUTO' });
+    const config = execCmd<Array<{ name: string; value: string }>>(
+      `config get ${OrgConfigProperties.TARGET_DEV_HUB} --json`,
+      { ensureExitCode: 0, cli: 'sf' }
+    ).jsonOutput.result;
+
+    usernameOrAlias = config.find((org) => org.name === OrgConfigProperties.TARGET_DEV_HUB).value;
 
     if (!usernameOrAlias) throw Error('no default username set');
   });

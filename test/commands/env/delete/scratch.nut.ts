@@ -5,6 +5,7 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
+import * as path from 'path';
 import * as fs from 'fs';
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
 import { expect } from 'chai';
@@ -12,20 +13,36 @@ import { ScratchDeleteResponse } from '../../../../src/commands/env/delete/scrat
 
 describe('env delete scratch NUTs', () => {
   const scratchOrgAlias = 'scratch-org';
+  const scratchOrgAlias2 = 'scratch-org-2';
   let session: TestSession;
-  let scratchUsernames: string[];
+
   before(async () => {
     session = await TestSession.create({
       project: {
         name: 'testProject',
       },
-      setupCommands: [
-        `sfdx force:org:create -f config/project-scratch-def.json -d 1 -a ${scratchOrgAlias}`,
-        'sfdx force:org:create -f config/project-scratch-def.json -d 1',
-        'sfdx force:org:create -f config/project-scratch-def.json -d 1 -s',
+      devhubAuthStrategy: 'AUTO',
+      scratchOrgs: [
+        {
+          executable: 'sf',
+          alias: scratchOrgAlias,
+          duration: 1,
+          config: path.join('config', 'project-scratch-def.json'),
+        },
+        {
+          executable: 'sf',
+          alias: scratchOrgAlias2,
+          duration: 1,
+          config: path.join('config', 'project-scratch-def.json'),
+        },
+        {
+          executable: 'sf',
+          setDefault: true,
+          duration: 1,
+          config: path.join('config', 'project-scratch-def.json'),
+        },
       ],
     });
-    scratchUsernames = (session.setup as Array<{ result: { username: string } }>).map((setup) => setup.result.username);
   });
 
   after(async () => {
@@ -40,24 +57,25 @@ describe('env delete scratch NUTs', () => {
 
   it('should see default username in help', () => {
     const output = execCmd<ScratchDeleteResponse>('env delete scratch --help', { ensureExitCode: 0 }).shellOutput;
-    expect(output).to.include(scratchUsernames[2]);
+    expect(output).to.include(session.orgs.get('default').username);
   });
 
   it('should delete the 1st scratch org by alias', () => {
     const command = `env delete scratch --target-org ${scratchOrgAlias} --no-prompt --json`;
     const output = execCmd<ScratchDeleteResponse>(command, { ensureExitCode: 0 }).jsonOutput.result;
-    expect(output.username).to.equal(scratchUsernames[0]);
+    expect(output.username).to.equal(session.orgs.get(scratchOrgAlias).username);
   });
 
   it('should delete the 2nd scratch org by username', () => {
-    const command = `env delete scratch --target-org ${scratchUsernames[1]} --no-prompt --json`;
+    const username = session.orgs.get(scratchOrgAlias2).username;
+    const command = `env delete scratch --target-org ${username} --no-prompt --json`;
     const output = execCmd<ScratchDeleteResponse>(command, { ensureExitCode: 0 }).jsonOutput.result;
-    expect(output.username).to.equal(scratchUsernames[1]);
+    expect(output.username).to.equal(session.orgs.get(scratchOrgAlias2).username);
   });
 
   it('should delete the 3rd scratch org because it is the default', () => {
     const command = 'env delete scratch --no-prompt --json';
     const output = execCmd<ScratchDeleteResponse>(command, { ensureExitCode: 0 }).jsonOutput.result;
-    expect(output.username).to.equal(scratchUsernames[2]);
+    expect(output.username).to.equal(session.orgs.get('default').username);
   });
 });

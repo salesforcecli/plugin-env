@@ -51,7 +51,10 @@ describe('human output', () => {
     };
 
     it('shows all fields when all data is present', () => {
-      const output = buildStatus({ stage: scratchOrgLifecycleStages[-1], scratchOrgInfo }, baseUrl);
+      const output = buildStatus(
+        { stage: scratchOrgLifecycleStages[scratchOrgLifecycleStages.length - 1], scratchOrgInfo },
+        baseUrl
+      );
       expect(output).includes(`RequestId: ${formatRequest(baseUrl, scratchOrgInfo.Id)}`);
       expect(output).includes(`OrgId: ${formatOrgId(scratchOrgInfo.ScratchOrg)}`);
       expect(output).includes(`Username: ${formatUsername(scratchOrgInfo.SignupUsername)}`);

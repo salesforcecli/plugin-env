@@ -37,9 +37,8 @@ describe('env create scratch async/resume', () => {
 
   before(async () => {
     session = await TestSession.create({
-      project: {
-        name: 'testProject',
-      },
+      project: { name: 'testProject' },
+      devhubAuthStrategy: 'AUTO',
     });
     cacheFilePath = path.join(session.dir, '.sf', ScratchOrgCache.getFileName());
   });

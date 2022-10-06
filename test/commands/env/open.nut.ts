@@ -5,23 +5,14 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import * as path from 'path';
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
-import { OrgConfigProperties } from '@salesforce/core';
 import { expect } from 'chai';
 
 describe('env open NUTs', () => {
   let session: TestSession;
-  let usernameOrAlias: string;
 
   before(async () => {
-    const executablePath = path.join(process.cwd(), 'bin', 'dev');
-    session = await TestSession.create({
-      setupCommands: [`${executablePath} config get ${OrgConfigProperties.TARGET_DEV_HUB} --json`],
-    });
-    usernameOrAlias = (session.setup[0] as { result: [{ value: string }] }).result[0].value;
-
-    if (!usernameOrAlias) throw Error('no default username set');
+    session = await TestSession.create({ devhubAuthStrategy: 'AUTO' });
   });
 
   after(async () => {
@@ -29,7 +20,7 @@ describe('env open NUTs', () => {
   });
 
   it('should show url with decrypted token', () => {
-    const command = `env open --url-only --target-env ${usernameOrAlias}`;
+    const command = `env open --url-only --target-env ${session.hubOrg.username}`;
     const output = execCmd(command, { ensureExitCode: 0 }).shellOutput.stdout;
     expect(output).to.contain('salesforce.com');
     expect(output).to.match(/sid=00D[0-9a-zA-Z]+!/);

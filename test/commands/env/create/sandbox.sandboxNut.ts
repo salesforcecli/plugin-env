@@ -16,6 +16,7 @@ describe('Sandbox Orgs', () => {
   before(async () => {
     session = await TestSession.create({
       project: { name: 'sandboxCreate' },
+      devhubAuthStrategy: 'AUTO',
     });
   });
 

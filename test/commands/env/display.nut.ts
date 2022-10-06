@@ -5,23 +5,14 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import * as path from 'path';
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
-import { OrgConfigProperties } from '@salesforce/core';
 import { expect } from 'chai';
 
 describe('env display NUTs', () => {
   let session: TestSession;
-  let usernameOrAlias: string;
 
   before(async () => {
-    const executablePath = path.join(process.cwd(), 'bin', 'dev');
-    session = await TestSession.create({
-      setupCommands: [`${executablePath} config get ${OrgConfigProperties.TARGET_DEV_HUB} --json`],
-    });
-    usernameOrAlias = (session.setup[0] as { result: [{ value: string }] }).result[0].value;
-
-    if (!usernameOrAlias) throw Error('no default username set');
+    session = await TestSession.create({ devhubAuthStrategy: 'AUTO' });
   });
 
   after(async () => {
@@ -29,8 +20,8 @@ describe('env display NUTs', () => {
   });
 
   it('should display dev hub', () => {
-    const command = `env display --target-env ${usernameOrAlias}`;
+    const command = `env display --target-env ${session.hubOrg.username}`;
     const output = execCmd(command, { ensureExitCode: 0 }).shellOutput.stdout;
-    expect(output).to.contain(usernameOrAlias);
+    expect(output).to.contain(session.hubOrg.username);
   });
 });

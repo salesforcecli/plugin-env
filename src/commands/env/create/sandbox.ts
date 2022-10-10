@@ -147,7 +147,7 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
     this.flags = (await this.parse(CreateSandbox)).flags as CmdFlags;
     this.debug('Create started with args %s ', this.flags);
     this.validateFlags();
-    return await this.createSandbox();
+    return this.createSandbox();
   }
 
   protected getCheckSandboxStatusParams(): string[] {

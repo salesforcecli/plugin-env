@@ -85,7 +85,7 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
     this.sandboxRequestConfig = await this.getSandboxRequestConfig();
     this.flags = (await this.parse(ResumeSandbox)).flags;
     this.debug('Resume started with args %s ', this.flags);
-    return await this.resumeSandbox();
+    return this.resumeSandbox();
   }
 
   protected getCheckSandboxStatusParams(): string[] {

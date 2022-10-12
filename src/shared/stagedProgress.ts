@@ -7,11 +7,9 @@
 import * as os from 'os';
 import * as chalk from 'chalk';
 import { StandardColors } from '@salesforce/sf-plugins-core';
-const compareStages = ([, aValue], [, bValue]): number => {
+const compareStages = ([, aValue], [, bValue]): number =>
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  return aValue.index - bValue.index;
-};
-
+  aValue.index - bValue.index;
 export const boldPurple = chalk.rgb(157, 129, 221).bold;
 
 export enum State {
@@ -47,12 +45,10 @@ export abstract class StagedProgress<T> {
   private previousStage: string;
   public constructor(stages: string[]) {
     this.theStages = stages
-      .map((stage, index) => {
-        return {
-          [stage]: { ...StateConstants[State.unknown], index: (index + 1) * 10 },
-        };
-      })
-      .reduce((m, b) => Object.assign(m, b), {} as Stage);
+      .map((stage, index) => ({
+        [stage]: { ...StateConstants[State.unknown], index: (index + 1) * 10 },
+      }))
+      .reduce<Stage>((m, b) => Object.assign(m, b), {});
   }
 
   public get statusData(): T {
@@ -64,9 +60,7 @@ export abstract class StagedProgress<T> {
   public formatStages(): string {
     return Object.entries(this.theStages)
       .sort(compareStages)
-      .map(([stage, stageState]) => {
-        return stageState.color(`${stageState.char} - ${stage}`);
-      })
+      .map(([stage, stageState]) => stageState.color(`${stageState.char} - ${stage}`))
       .join(os.EOL);
   }
 
@@ -120,6 +114,7 @@ export abstract class StagedProgress<T> {
     return this.theStages;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   protected mapCurrentStage(currentStage: string): string {
     return currentStage;
   }

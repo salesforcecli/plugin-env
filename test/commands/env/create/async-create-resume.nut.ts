@@ -23,9 +23,7 @@ describe('env create scratch async/resume', () => {
   const asyncKeys = ['username', 'orgId', 'scratchOrgInfo', 'warnings'];
   const completeKeys = [...asyncKeys, 'authFields'];
 
-  const readCacheFile = async (): Promise<Record<string, CachedOptions>> => {
-    return JSON.parse(await fs.promises.readFile(cacheFilePath, 'utf8')) as unknown as Record<string, CachedOptions>;
-  };
+  const readCacheFile = async (): Promise<Record<string, CachedOptions>> => JSON.parse(await fs.promises.readFile(cacheFilePath, 'utf8')) as unknown as Record<string, CachedOptions>;
 
   const readAuthFile = async (uname: string): Promise<AuthFields> => {
     const filePath = path.join(session.homeDir, Global.STATE_FOLDER, `${uname}.json`);

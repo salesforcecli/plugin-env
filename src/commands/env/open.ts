@@ -91,6 +91,7 @@ export default class EnvOpen extends SfCommand<OpenResult> {
   }
 
   // TODO login and env open should probably share the same open code. Maybe we should use cli-ux.open?
+  // eslint-disable-next-line class-methods-use-this
   private async open(url: string, browser: string): Promise<void> {
     let options: Options;
 

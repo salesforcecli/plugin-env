@@ -798,7 +798,7 @@
     is-wsl "^2.1.1"
     tslib "^2.3.1"
 
-"@oclif/core@^1.0.8", "@oclif/core@^1.16.4", "@oclif/core@^1.18.0", "@oclif/core@^1.19.1", "@oclif/core@^1.2.1", "@oclif/core@^1.20.0", "@oclif/core@^1.3.6", "@oclif/core@^1.6.0", "@oclif/core@^1.6.3", "@oclif/core@^1.6.4":
+"@oclif/core@^1.0.8", "@oclif/core@^1.18.0", "@oclif/core@^1.19.1", "@oclif/core@^1.2.1", "@oclif/core@^1.20.0", "@oclif/core@^1.3.6", "@oclif/core@^1.6.0", "@oclif/core@^1.6.3", "@oclif/core@^1.6.4":
   version "1.20.0"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-1.20.0.tgz#04a37b66cedeeb21630b91095466641bc499f706"
   integrity sha512-yByf6w5JOFsbIeyYEF8rSbvN4uCI/7O9lGNg0kY0N+HH6edtpCtGHe6p/4+5yPNEmGL6P8IEKi+9s0Ys774mgw==
@@ -993,13 +993,13 @@
   dependencies:
     fancy-test "^1.4.10"
 
-"@oclif/test@^2.2.2":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@oclif/test/-/test-2.2.2.tgz#1dc0992b85b6e6bf8f463758f410994866a572fa"
-  integrity sha512-gzVB+sstU45NHHjaMws3+/VjQmmO4VbDr1AcUg+/IzjMIwEvM6ssYD/d1kNPup0OjIgQqRQgGyVxKJX/vqHMtg==
+"@oclif/test@^2.2.8":
+  version "2.2.8"
+  resolved "https://registry.yarnpkg.com/@oclif/test/-/test-2.2.8.tgz#c4114922428f90f94e3775b596876a88830a91c2"
+  integrity sha512-VPVR1XLiTYqKToXlU7TPRnp5WMZvzfjyyPDH2sqKVCuEj9ZdEsK8m4woTK1n9aX1HI1Yv0tyyvg2a8HbUJOwhw==
   dependencies:
-    "@oclif/core" "^1.16.4"
-    fancy-test "^2.0.4"
+    "@oclif/core" "^1.20.0"
+    fancy-test "^2.0.5"
 
 "@octokit/auth-token@^2.4.4":
   version "2.5.0"
@@ -3907,10 +3907,10 @@ fancy-test@^1.4.10:
     nock "^13.0.0"
     stdout-stderr "^0.1.9"
 
-fancy-test@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/fancy-test/-/fancy-test-2.0.4.tgz#b7650e13598e5ad2a27f0d89ad07813bfb09d53e"
-  integrity sha512-jZbiHiJY1phazdfQkVhdBEY5aZXEydiZzFxK9VqCfrMmRw/kHPgQ6i88+nyqQwpFV3yL2mUbMe/NEfMaSfO7+g==
+fancy-test@^2.0.5:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/fancy-test/-/fancy-test-2.0.6.tgz#e8ac4e652214dd0424a44e8e8a684d70897cdef4"
+  integrity sha512-vzH5MOYK+vAQW/jnRnBiyASemIOAmSYuh2j12w4Ktzh+u2d69OENvI9GLDvNLMxOIqCtwz8ndLMH+5cJHfBmSQ==
   dependencies:
     "@types/chai" "*"
     "@types/lodash" "*"

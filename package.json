@@ -24,7 +24,7 @@
     "@salesforce/plugin-config": "^2.3.2",
     "@salesforce/plugin-functions": "^1.14.2",
     "@salesforce/prettier-config": "^0.0.2",
-    "@salesforce/ts-sinon": "1.4.0",
+    "@salesforce/ts-sinon": "1.4.1",
     "@types/shelljs": "^0.8.11",
     "@typescript-eslint/eslint-plugin": "^5.39.0",
     "@typescript-eslint/parser": "^5.40.1",

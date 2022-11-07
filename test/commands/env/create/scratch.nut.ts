@@ -67,7 +67,7 @@ describe('env create scratch NUTs', () => {
     const keys = ['username', 'orgId', 'scratchOrgInfo', 'authFields', 'warnings'];
 
     it('creates an org from edition flag only and sets tracking to true by default', async () => {
-      const resp = execCmd<ScratchCreateResponse>('env create scratch --edition developer --json', {
+      const resp = execCmd<ScratchCreateResponse>('env create scratch --edition developer --json  --wait 60', {
         ensureExitCode: 0,
       }).jsonOutput.result;
       expect(resp).to.have.all.keys(keys);
@@ -76,15 +76,21 @@ describe('env create scratch NUTs', () => {
       StateAggregator.clearInstance();
     });
     it('creates an org from config file flag only', () => {
-      const resp = execCmd<ScratchCreateResponse>('env create scratch -f config/project-scratch-def.json --json', {
-        ensureExitCode: 0,
-      }).jsonOutput.result;
+      const resp = execCmd<ScratchCreateResponse>(
+        'env create scratch -f config/project-scratch-def.json --json  --wait 60',
+        {
+          ensureExitCode: 0,
+        }
+      ).jsonOutput.result;
       expect(resp).to.have.all.keys(keys);
     });
     it('creates an org with tracking disabled ', async () => {
-      const resp = execCmd<ScratchCreateResponse>('env create scratch --edition developer --no-track-source --json', {
-        ensureExitCode: 0,
-      }).jsonOutput.result;
+      const resp = execCmd<ScratchCreateResponse>(
+        'env create scratch --edition developer --no-track-source --json  --wait 60',
+        {
+          ensureExitCode: 0,
+        }
+      ).jsonOutput.result;
       expect(resp).to.have.all.keys(keys);
       const stateAggregator = await StateAggregator.create();
       expect(await stateAggregator.orgs.read(resp.username)).to.have.property('tracksSource', false);
@@ -92,9 +98,12 @@ describe('env create scratch NUTs', () => {
     });
 
     it('stores default in local sf config', async () => {
-      const resp = execCmd<ScratchCreateResponse>('env create scratch --edition developer --json --set-default', {
-        ensureExitCode: 0,
-      }).jsonOutput.result;
+      const resp = execCmd<ScratchCreateResponse>(
+        'env create scratch --edition developer --json --set-default  --wait 60',
+        {
+          ensureExitCode: 0,
+        }
+      ).jsonOutput.result;
       expect(resp).to.have.all.keys(keys);
 
       expect(
@@ -104,7 +113,7 @@ describe('env create scratch NUTs', () => {
     it('stores alias in global sf.json', async () => {
       const testAlias = 'testAlias';
       const resp = execCmd<ScratchCreateResponse>(
-        `env create scratch --edition developer --json --alias ${testAlias}`,
+        `env create scratch --edition developer --json --alias ${testAlias}  --wait 60`,
         {
           ensureExitCode: 0,
         }

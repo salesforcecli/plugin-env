@@ -23,7 +23,8 @@ describe('env create scratch async/resume', () => {
   const asyncKeys = ['username', 'orgId', 'scratchOrgInfo', 'warnings'];
   const completeKeys = [...asyncKeys, 'authFields'];
 
-  const readCacheFile = async (): Promise<Record<string, CachedOptions>> => JSON.parse(await fs.promises.readFile(cacheFilePath, 'utf8')) as unknown as Record<string, CachedOptions>;
+  const readCacheFile = async (): Promise<Record<string, CachedOptions>> =>
+    JSON.parse(await fs.promises.readFile(cacheFilePath, 'utf8')) as unknown as Record<string, CachedOptions>;
 
   const readAuthFile = async (uname: string): Promise<AuthFields> => {
     const filePath = path.join(session.homeDir, Global.STATE_FOLDER, `${uname}.json`);
@@ -49,7 +50,7 @@ describe('env create scratch async/resume', () => {
 
   describe('just edition', () => {
     it('requests org', () => {
-      const resp = execCmd<ScratchCreateResponse>('env create scratch --edition developer --json --async', {
+      const resp = execCmd<ScratchCreateResponse>('env create scratch --edition developer --json --async --wait 60', {
         ensureExitCode: 0,
       }).jsonOutput.result;
       expect(resp).to.have.all.keys(asyncKeys);
@@ -82,7 +83,7 @@ describe('env create scratch async/resume', () => {
     const testAlias = 'testAlias';
     it('requests org', () => {
       const resp = execCmd<ScratchCreateResponse>(
-        `env create scratch --json --async -f ${path.join(
+        `env create scratch --wait 60 --json --async -f ${path.join(
           'config',
           'project-scratch-def.json'
         )} --set-default --alias ${testAlias}`,

@@ -46,10 +46,6 @@ Run "sf env display" to view details about a specific environment.
 
 Show all environments, even inactive ones.
 
-# flags.extended.summary
-
-Show extra columns.
-
 # flags.columns.summary
 
 List of columns to display.

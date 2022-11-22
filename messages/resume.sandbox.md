@@ -22,10 +22,6 @@ You can also use the sandbox name to check the status or the --use-most-recent f
 
   <%= config.bin %> <%= command.id %> --use-most-recent
 
-# flags.setDefault.summary
-
-Set the sandbox org as your default org.
-
 # flags.id.summary
 
 Job ID of the incomplete sandbox creation that you want to check the status of.
@@ -33,14 +29,6 @@ Job ID of the incomplete sandbox creation that you want to check the status of.
 # flags.id.description
 
 The job ID is valid for 24 hours after you start the sandbox creation.
-
-# flags.alias.summary
-
-Alias for the sandbox org.
-
-# flags.alias.description
-
-When you create a sandbox, the generated usernames are based on the usernames present in the production org. To ensure uniqueness, the new usernames are appended with the name of the sandbox. For example, the username "user@example.com" in the production org results in the username "user@example.com.mysandbox" in a sandbox named "mysandbox". When you set an alias for a sandbox org, it's assigned to the resulting username of the user running this command.
 
 # flags.targetOrg.summary
 
@@ -66,10 +54,6 @@ If the command continues to run after the wait period, the CLI returns control o
 
 Use the most recent sandbox create request.
 
-# error.pollIntervalGreaterThanWait
-
-The poll interval (%d seconds) can't be larger that wait (%d in seconds).
-
 # error.NoSandboxNameOrJobId
 
 No sandbox name or job ID were provided.
@@ -78,10 +62,10 @@ No sandbox name or job ID were provided.
 
 Retry the command using either the --name or --job-id flags.
 
-#error.NoSandboxRequestFound
+# error.NoSandboxRequestFound
 
 Couldn't find a sandbox creation request using the provided sandbox name or job ID.
 
-# error.ResumeTimeout
+# error.SandboxNameLength
 
-The wait timeout (%d minutes) has expired. Check command results for more information.
+The sandbox name "%s" should be 10 or fewer characters.

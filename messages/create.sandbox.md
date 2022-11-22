@@ -106,18 +106,6 @@ Is the configuration correct?
 
 No SandboxName defined, generating new SandboxName: %s.
 
-# error.RequiresTargetOrg
-
-This command requires a target-org. Specify it with the --target-org flag or by running the "sf config set target-org=<username>" command.
-
-# error.MissingLicenseType
-
-The sandbox license type is required, but you didn't provide a value. Specify the license type in the sandbox definition file with the "licenseType" option, or specify the --license-type and --name flags at the command-line. See <https://developer.salesforce.com/docs/atlas.en-us.sf_dev.meta/sf_dev/sf_dev_sandbox_definition.htm> for more information.
-
-# error.NoConfig
-
-Specify either a sandbox definition file or the --name and --license-type flags together.
-
 # error.SandboxNameLength
 
 The sandbox name "%s" should be 10 or fewer characters.
@@ -128,11 +116,7 @@ The sandbox request configuration isn't acceptable.
 
 # error.pollIntervalGreaterThanWait
 
-The poll interval (%d seconds) can't be larger that wait (%d in seconds).
-
-# error.CreateTimeout
-
-The wait timeout (%d minutes) has expired. Check command results for more information.
+The poll interval (%d seconds) c
 
 # error.noCloneSource
 

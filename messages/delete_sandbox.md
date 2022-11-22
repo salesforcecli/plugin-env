@@ -36,6 +36,10 @@ Are you sure you want to delete the sandbox with name: %s?
 
 Successfully marked sandbox %s for deletion.
 
+# success.Idempotent
+
+There is no sandbox with the username %s.
+
 # error.isNotSandbox
 
 The target org, %s, is not a sandbox.

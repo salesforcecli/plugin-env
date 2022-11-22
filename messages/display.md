@@ -37,7 +37,3 @@ No environment found for %s.
 # error.NoDefaultEnv
 
 No default environment found. Use -e or --target-env to specify an environment to display.
-
-# error.NoAuthsAvailable
-
-No authenticated environments found. Log in or create an environment, and then try again.

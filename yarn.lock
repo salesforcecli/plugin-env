@@ -1325,10 +1325,10 @@
   resolved "https://registry.npmjs.org/@salesforce/schemas/-/schemas-1.2.0.tgz#3c7ed492e3ee5d9d9fb24a32b5c574893f6648db"
   integrity sha512-76oYf/9Rsn6Yl+awrTQvLaQuRDNX7F3X9ksRiw53OCJdydIF05buX6XLzN0WDWpkCg/asw+lZMuAzbDVS0tBmg==
 
-"@salesforce/sf-plugins-core@^1.18.1", "@salesforce/sf-plugins-core@^1.7.2", "@salesforce/sf-plugins-core@^1.9.0":
-  version "1.18.1"
-  resolved "https://registry.yarnpkg.com/@salesforce/sf-plugins-core/-/sf-plugins-core-1.18.1.tgz#fdfa6b088751ce8d81e21b4bc52c2d5fe169cdea"
-  integrity sha512-9hB4DAwVk6LAlb/v2+xbjghcH8G3jXjhH3JwUu4opSEayAMqfvSbDcp8nHWtz7mIp2clE9UWJ9h8Wk9Xo0Le6w==
+"@salesforce/sf-plugins-core@^1.19.0", "@salesforce/sf-plugins-core@^1.7.2", "@salesforce/sf-plugins-core@^1.9.0":
+  version "1.19.0"
+  resolved "https://registry.yarnpkg.com/@salesforce/sf-plugins-core/-/sf-plugins-core-1.19.0.tgz#da03eb0179fe7d772ee7bd80014440279083a458"
+  integrity sha512-gZuXkJ7Akh/FKOPun/BP5cbUDTJ+5zwNrHUaNytrYvAa+TCQJmtuxh/qjVskjSOzaT162JwJTKRL80PgRIMBWw==
   dependencies:
     "@oclif/core" "^1.20.4"
     "@salesforce/core" "^3.32.1"

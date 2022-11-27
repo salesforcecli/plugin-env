@@ -1117,14 +1117,14 @@
     semver "^7.3.5"
     ts-retry-promise "^0.6.0"
 
-"@salesforce/core@^3.11.0", "@salesforce/core@^3.24.0", "@salesforce/core@^3.31.16", "@salesforce/core@^3.31.17", "@salesforce/core@^3.32.1", "@salesforce/core@^3.8.0":
-  version "3.32.1"
-  resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-3.32.1.tgz#1a338a1985c58c1be819f99c6b33b24b32817cbe"
-  integrity sha512-hVcweKGy1CS3t0duS+0jxGVou5ZoQMXRZPQmcz1FyW31Oef5U07rhs3wTrwJqhCPHL817R/gm5V9wSRNcYdDtA==
+"@salesforce/core@^3.11.0", "@salesforce/core@^3.24.0", "@salesforce/core@^3.31.16", "@salesforce/core@^3.31.17", "@salesforce/core@^3.32.1", "@salesforce/core@^3.32.3", "@salesforce/core@^3.8.0":
+  version "3.32.3"
+  resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-3.32.3.tgz#111e298836c9172f9b8bdaad33a1939cffdae768"
+  integrity sha512-rsjAXP+j659PIngUvJgaeZ6x7j/VObA981mOyfyCU4l7FJGXIvZAgJPARI97JNUNCovy3fxLSb/uvJAqPREgrw==
   dependencies:
     "@salesforce/bunyan" "^2.0.0"
     "@salesforce/kit" "^1.8.0"
-    "@salesforce/schemas" "^1.1.0"
+    "@salesforce/schemas" "^1.4.0"
     "@salesforce/ts-types" "^1.5.21"
     "@types/graceful-fs" "^4.1.5"
     "@types/semver" "^7.3.9"
@@ -1259,10 +1259,10 @@
   resolved "https://registry.npmjs.org/@salesforce/prettier-config/-/prettier-config-0.0.2.tgz#ded39bf7cb75238edc9db6dd093649111350f8bc"
   integrity sha512-KExM355BLbxCW6siGBV7oUOotXvvVp0tAWERgzUkM2FcMb9fWrjwXDrIHc8V0UdDlA3UXtFltDWgN+Yqi+BA/g==
 
-"@salesforce/schemas@^1.0.1", "@salesforce/schemas@^1.1.0":
-  version "1.2.0"
-  resolved "https://registry.npmjs.org/@salesforce/schemas/-/schemas-1.2.0.tgz#3c7ed492e3ee5d9d9fb24a32b5c574893f6648db"
-  integrity sha512-76oYf/9Rsn6Yl+awrTQvLaQuRDNX7F3X9ksRiw53OCJdydIF05buX6XLzN0WDWpkCg/asw+lZMuAzbDVS0tBmg==
+"@salesforce/schemas@^1.0.1", "@salesforce/schemas@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@salesforce/schemas/-/schemas-1.4.0.tgz#7dff427c8059895d8108176047aee600703c82d6"
+  integrity sha512-BJ25uphssN42Zy6kksheFHMTLiR98AAHe/Wxnv0T4dYxtrEbUjSXVAGKZqfewJPFXA4xB5gxC+rQZtfz6xKCFg==
 
 "@salesforce/sf-plugins-core@^1.19.0", "@salesforce/sf-plugins-core@^1.7.2", "@salesforce/sf-plugins-core@^1.9.0":
   version "1.19.0"

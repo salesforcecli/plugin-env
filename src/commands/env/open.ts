@@ -6,8 +6,7 @@
  */
 
 import { URL } from 'url';
-import { Flags } from '@oclif/core';
-import { SfCommand } from '@salesforce/sf-plugins-core';
+import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { Logger, Messages, Org, SfdxError } from '@salesforce/core';
 import * as open from 'open';
 import type { Options } from 'open';

@@ -5,9 +5,8 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import { Flags } from '@oclif/core';
 import { Messages } from '@salesforce/core';
-import { SfCommand, JsonObject, SfHook, EnvList as Env } from '@salesforce/sf-plugins-core';
+import { Flags, SfCommand, JsonObject, SfHook, EnvList as Env } from '@salesforce/sf-plugins-core';
 import { toKey, toValue } from '../../utils';
 
 Messages.importMessagesDirectory(__dirname);
@@ -31,7 +30,8 @@ const envOrderBy = (a: Env.Table<JsonObject>, b: Env.Table<JsonObject>): number 
   return 1;
 };
 
-const buildColumns = (table: Env.Table<JsonObject>): Record<string, { header?: string }> => table.data.flatMap(Object.keys).reduce((x, y) => {
+const buildColumns = (table: Env.Table<JsonObject>): Record<string, { header?: string }> =>
+  table.data.flatMap(Object.keys).reduce((x, y) => {
     if (x[y]) return x;
     const columnEntry = {
       header: toKey(y, table.keys),

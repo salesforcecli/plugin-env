@@ -5,9 +5,8 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import { Flags } from '@oclif/core';
 import { Messages, SfdxError } from '@salesforce/core';
-import { SfCommand, SfHook, JsonObject } from '@salesforce/sf-plugins-core';
+import { SfCommand, SfHook, JsonObject, Flags } from '@salesforce/sf-plugins-core';
 import { toKey, toValue } from '../../utils';
 
 Messages.importMessagesDirectory(__dirname);

@@ -420,10 +420,10 @@
   resolved "https://registry.npmjs.org/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
 
-"@heroku-cli/color@^1.1.14":
-  version "1.1.14"
-  resolved "https://registry.npmjs.org/@heroku-cli/color/-/color-1.1.14.tgz#035ac4e48e564fcab37c3dc4bd09dbe596f2ad68"
-  integrity sha512-2JYy//YE2YINTe21hpdVMBNc7aYFkgDeY9JUz/BCjFZmYLn0UjGaCc4BpTcMGXNJwuqoUenw2WGOFGHsJqlIDw==
+"@heroku-cli/color@^1.1.14", "@heroku-cli/color@^1.1.15":
+  version "1.1.16"
+  resolved "https://registry.yarnpkg.com/@heroku-cli/color/-/color-1.1.16.tgz#713b7e57441b27ae93d8d0f695b8036aaef8ec1e"
+  integrity sha512-97bYxNaDe/+GCUAKu0V2qudQmR3NFRnv3SrQd2FTtOAa9OWKwkvoBs2WzT7MkNwP4DIpYL6W/e3CSfShfhzEMw==
   dependencies:
     ansi-styles "^3.2.1"
     chalk "^2.4.1"
@@ -460,17 +460,17 @@
     ajv-formats "^2.0.2"
     toml "^3.0.0"
 
-"@hk/functions-core@npm:@heroku/functions-core@0.4.3":
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/@heroku/functions-core/-/functions-core-0.4.3.tgz#fb68556ab27402975cb8f9a68aae9198315ab843"
-  integrity sha512-NCurnYhaabWtPTJNZIQ8aH5lCumznn5kpAjuldj5L+aa9kEq2n/9pr2GH4y8RwOOX05MhbfLvFlQXaWOLOSFkw==
+"@hk/functions-core@npm:@heroku/functions-core@0.5.2":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@heroku/functions-core/-/functions-core-0.5.2.tgz#c3f6dd633a615e7c8aa4a57d159d87c4033007a1"
+  integrity sha512-kqlBT/lT9wuRDxD7q6HyN7j1JZz3+eryo0Jqos5b0Cx0aHxU/3xHNEZF8o+dauX4VvcaReHxNvrRjkxFVt3RwA==
   dependencies:
-    "@heroku-cli/color" "^1.1.14"
+    "@heroku-cli/color" "^1.1.15"
     "@heroku/project-descriptor" "0.0.6"
     "@salesforce/core" "^2.37.1"
     "@salesforce/templates" "^55.1.0"
     axios "^0.27.2"
-    cloudevents "^6.0.2"
+    cloudevents "^6.0.3"
     fs-extra "^10.1.0"
     global-agent "^3.0.0"
     handlebars "^4.7.7"
@@ -480,7 +480,7 @@
     openpgp "^5.5.0"
     semver "^7.3.8"
     sha256-file "^1.0.0"
-    yeoman-environment "~3.12.1"
+    yeoman-environment "~3.13.0"
 
 "@humanwhocodes/config-array@^0.11.6":
   version "0.11.7"
@@ -1221,17 +1221,17 @@
     chalk "^4.1.1"
     tslib "^2"
 
-"@salesforce/plugin-functions@^1.14.6":
-  version "1.14.6"
-  resolved "https://registry.yarnpkg.com/@salesforce/plugin-functions/-/plugin-functions-1.14.6.tgz#c3f9e7d2fc5b2ecd31e44ceba384c9fb6cf8a62c"
-  integrity sha512-g2z8jC1MIe+7teYy9zsyVbRWtQwpBLXviKUu6wqTpy1kOrX0T7BFu0eCX1Wg4K+nYWOJSa8kGI6zeA0i70Pyxg==
+"@salesforce/plugin-functions@^1.17.1":
+  version "1.17.1"
+  resolved "https://registry.yarnpkg.com/@salesforce/plugin-functions/-/plugin-functions-1.17.1.tgz#e8c24d649c61d45cb7da90750daa4651c31ef548"
+  integrity sha512-rSPtZgdrR4ECw0LjA/q3Fgo1Uo8q53g4wFmU/+VPcNc7+MOoEebjl/oGyeTpyNdDk3k7S3e8yWta6r9yjLhH9A==
   dependencies:
     "@heroku-cli/color" "^1.1.14"
     "@heroku-cli/schema" "^1.0.25"
     "@heroku/eventsource" "^1.0.7"
     "@heroku/function-toml" "^0.0.3"
     "@heroku/project-descriptor" "0.0.6"
-    "@hk/functions-core" "npm:@heroku/functions-core@0.4.3"
+    "@hk/functions-core" "npm:@heroku/functions-core@0.5.2"
     "@oclif/core" "^1.6.0"
     "@salesforce/core" "^3.31.16"
     "@salesforce/sf-plugins-core" "^1.7.2"
@@ -1250,7 +1250,7 @@
     kbpgp "^2.1.15"
     lodash "^4.17.21"
     netrc-parser "^3.1.6"
-    node-fetch "^3.2.3"
+    node-fetch "^3.3.0"
     sha256-file "^1.0.0"
     uuid "^8.3.2"
 
@@ -2738,10 +2738,10 @@ cloudevents@^4.0.3:
     ajv "~6.12.3"
     uuid "~8.3.0"
 
-cloudevents@^6.0.2:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/cloudevents/-/cloudevents-6.0.2.tgz#7b4990a92c6c30f6790eb4b59207b4d8949fca12"
-  integrity sha512-mn/4EZnAbhfb/TghubK2jPnxYM15JRjf8LnWJtXidiVKi5ZCkd+p9jyBZbL57w7nRm6oFAzJhjxRLsXd/DNaBQ==
+cloudevents@^6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/cloudevents/-/cloudevents-6.0.3.tgz#e406ab904289edb59586ae14f22656a8bbda87f8"
+  integrity sha512-ADEHAv2KShH/cDIy2GP+npFz3R6Fu/UCsUO/j4kYA9VqN4yhGdF+Zg6wmjeq6qlUvlaKdrVBwgZuH/w57IsyGQ==
   dependencies:
     ajv "^8.11.0"
     ajv-formats "^2.1.1"
@@ -6300,10 +6300,10 @@ node-fetch@^2.6.1, node-fetch@^2.6.7:
   dependencies:
     whatwg-url "^5.0.0"
 
-node-fetch@^3.2.3:
-  version "3.2.5"
-  resolved "https://registry.npmjs.org/node-fetch/-/node-fetch-3.2.5.tgz#7d31da657804db5185540ddac7ddd516a9a2bd26"
-  integrity sha512-u7zCHdJp8JXBwF09mMfo2CL6kp37TslDl1KP3hRGTlCInBtag+UO3LGVy+NF0VzvnL3PVMpA2hXh1EtECFnyhQ==
+node-fetch@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-3.3.0.tgz#37e71db4ecc257057af828d523a7243d651d91e4"
+  integrity sha512-BKwRP/O0UvoMKp7GNdwPlObhYGB5DQqwhEDQlNKuoqwVYSxkSZCSbHjnFFmUEtwSKRPU4kNK8PbDYYitwaE3QA==
   dependencies:
     data-uri-to-buffer "^4.0.0"
     fetch-blob "^3.1.4"
@@ -9000,10 +9000,52 @@ yargs@^17.0.0, yargs@^17.3.1:
     y18n "^5.0.5"
     yargs-parser "^21.0.0"
 
-yeoman-environment@^3.11.1, yeoman-environment@^3.9.1, yeoman-environment@~3.12.1:
+yeoman-environment@^3.11.1, yeoman-environment@^3.9.1:
   version "3.12.1"
   resolved "https://registry.yarnpkg.com/yeoman-environment/-/yeoman-environment-3.12.1.tgz#20fc0ab05d76f84c956ad03ed112e3a32e65e862"
   integrity sha512-q5nC954SE4BEkWFXOwkifbelEZrza6z7vnXCC9bTWvfHjRiaG45eqzv/M6/u4l6PvB/KMmBPgMrACV2mBHE+PQ==
+  dependencies:
+    "@npmcli/arborist" "^4.0.4"
+    are-we-there-yet "^2.0.0"
+    arrify "^2.0.1"
+    binaryextensions "^4.15.0"
+    chalk "^4.1.0"
+    cli-table "^0.3.1"
+    commander "7.1.0"
+    dateformat "^4.5.0"
+    debug "^4.1.1"
+    diff "^5.0.0"
+    error "^10.4.0"
+    escape-string-regexp "^4.0.0"
+    execa "^5.0.0"
+    find-up "^5.0.0"
+    globby "^11.0.1"
+    grouped-queue "^2.0.0"
+    inquirer "^8.0.0"
+    is-scoped "^2.1.0"
+    isbinaryfile "^4.0.10"
+    lodash "^4.17.10"
+    log-symbols "^4.0.0"
+    mem-fs "^1.2.0 || ^2.0.0"
+    mem-fs-editor "^8.1.2 || ^9.0.0"
+    minimatch "^3.0.4"
+    npmlog "^5.0.1"
+    p-queue "^6.6.2"
+    p-transform "^1.3.0"
+    pacote "^12.0.2"
+    preferred-pm "^3.0.3"
+    pretty-bytes "^5.3.0"
+    semver "^7.1.3"
+    slash "^3.0.0"
+    strip-ansi "^6.0.0"
+    text-table "^0.2.0"
+    textextensions "^5.12.0"
+    untildify "^4.0.0"
+
+yeoman-environment@~3.13.0:
+  version "3.13.0"
+  resolved "https://registry.yarnpkg.com/yeoman-environment/-/yeoman-environment-3.13.0.tgz#9db29f47352cb4a38eb0ef830a86091be3fd7240"
+  integrity sha512-eBPpBZCvFzx6yk17x+ZrOHp8ADDv6qHradV+SgdugaQKIy9NjEX5AkbwdTHLOgccSTkQ9rN791xvYOu6OmqjBg==
   dependencies:
     "@npmcli/arborist" "^4.0.4"
     are-we-there-yet "^2.0.0"

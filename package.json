@@ -1,7 +1,7 @@
 {
   "name": "@salesforce/plugin-env",
   "description": "An sf plugin for logging into and interacting with different Salesforce environments.",
-  "version": "1.5.15",
+  "version": "1.5.16",
   "author": "Salesforce",
   "bugs": "https://github.com/forcedotcom/cli/issues",
   "dependencies": {

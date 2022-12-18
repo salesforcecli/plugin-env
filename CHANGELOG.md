@@ -1,3 +1,12 @@
+## [1.5.16](https://github.com/salesforcecli/plugin-env/compare/1.5.15...1.5.16) (2022-12-18)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/core from 3.32.6 to 3.32.11 ([51534dd](https://github.com/salesforcecli/plugin-env/commit/51534dd1165ddffedb2dcfec4c1e7c8664cb9779))
+
+
+
 ## [1.5.15](https://github.com/salesforcecli/plugin-env/compare/1.5.14...1.5.15) (2022-12-11)
 
 

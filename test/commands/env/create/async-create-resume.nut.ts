@@ -70,7 +70,7 @@ describe('env create scratch async/resume', () => {
         const resp = execCmd<ScratchCreateResponse>(`env resume scratch --job-id ${soiId} --json`).jsonOutput;
         if (resp.status === 0) {
           done = true;
-          expect(resp).to.have.all.keys(completeKeys);
+          expect(resp.result).to.have.all.keys(completeKeys);
         } else if (resp.name === 'StillInProgressError') {
           // eslint-disable-next-line no-await-in-loop
           await sleep(Duration.seconds(30));

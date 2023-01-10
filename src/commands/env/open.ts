@@ -21,7 +21,7 @@ export default class EnvOpen extends SfCommand<OpenResult> {
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
 
-  public static flags = {
+  public static readonly flags = {
     path: Flags.string({
       char: 'p',
       summary: messages.getMessage('flags.path.summary'),

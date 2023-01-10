@@ -24,7 +24,7 @@ export default class EnvResumeScratch extends SfCommand<ScratchCreateResponse> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
-  public static flags = {
+  public static readonly flags = {
     'job-id': Flags.salesforceId({
       char: 'i',
       summary: messages.getMessage('flags.job-id.summary'),

@@ -31,7 +31,7 @@ export default class EnvCreateScratch extends SfCommand<ScratchCreateResponse> {
   public static readonly examples = messages.getMessages('examples');
   public static readonly state = 'beta';
 
-  public static flags = {
+  public static readonly flags = {
     alias: Flags.string({
       char: 'a',
       summary: messages.getMessage('flags.alias.summary'),

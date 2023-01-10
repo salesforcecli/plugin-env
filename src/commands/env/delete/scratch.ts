@@ -20,8 +20,7 @@ export default class EnvDeleteScratch extends SfCommand<ScratchDeleteResponse> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public static flags = {
+  public static readonly flags = {
     'target-org': Flags.requiredOrg({
       char: 'o',
       summary: messages.getMessage('flags.target-org.summary'),

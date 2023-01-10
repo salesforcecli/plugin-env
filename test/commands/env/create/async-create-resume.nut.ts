@@ -93,7 +93,7 @@ describe('env create scratch async/resume', () => {
     const testAlias = 'testAlias';
     it('requests org', () => {
       const resp = execCmd<ScratchCreateResponse>(
-        `env create scratch --wait 60 --json --async -f ${path.join(
+        `env create scratch --json --async -f ${path.join(
           'config',
           'project-scratch-def.json'
         )} --set-default --alias ${testAlias}`,
@@ -117,11 +117,20 @@ describe('env create scratch async/resume', () => {
         ) as unknown as JsonMap
       );
     });
-    it('resumes org using latest', () => {
-      const resp = execCmd<ScratchCreateResponse>('env resume scratch --use-most-recent --json', {
-        ensureExitCode: 0,
-      }).jsonOutput.result;
-      expect(resp).to.have.all.keys(completeKeys);
+    it('resumes org using latest', async () => {
+      let done = false;
+      while (!done) {
+        const resp = execCmd<ScratchCreateResponse>('env resume scratch --use-most-recent --json').jsonOutput;
+        if (resp.status === 0) {
+          done = true;
+          expect(resp.result).to.have.all.keys(completeKeys);
+        } else if (resp.name === 'StillInProgressError') {
+          // eslint-disable-next-line no-await-in-loop
+          await sleep(Duration.seconds(30));
+        } else {
+          throw new Error(resp.message);
+        }
+      }
     });
     it('org is authenticated with alias and config', async () => {
       const authFile = await readAuthFile(username);

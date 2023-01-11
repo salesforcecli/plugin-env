@@ -48,7 +48,7 @@ export default class EnvList extends SfCommand<Environments> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
-  public static flags = {
+  public static readonly flags = {
     all: Flags.boolean({
       summary: messages.getMessage('flags.all.summary'),
       char: 'a',

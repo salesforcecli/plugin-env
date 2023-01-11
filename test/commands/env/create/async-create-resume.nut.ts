@@ -12,6 +12,7 @@ import { expect } from 'chai';
 import { AuthFields, Global, ScratchOrgCache } from '@salesforce/core';
 import { JsonMap } from '@salesforce/ts-types';
 import { CachedOptions } from '@salesforce/core/lib/org/scratchOrgCache';
+import { Duration, sleep } from '@salesforce/kit';
 import { ScratchCreateResponse } from '../../../../src/types';
 
 describe('env create scratch async/resume', () => {
@@ -50,7 +51,7 @@ describe('env create scratch async/resume', () => {
 
   describe('just edition', () => {
     it('requests org', () => {
-      const resp = execCmd<ScratchCreateResponse>('env create scratch --edition developer --json --async --wait 60', {
+      const resp = execCmd<ScratchCreateResponse>('env create scratch --edition developer --json --async', {
         ensureExitCode: 0,
       }).jsonOutput.result;
       expect(resp).to.have.all.keys(asyncKeys);
@@ -63,11 +64,20 @@ describe('env create scratch async/resume', () => {
       expect(cache[soiId]).to.include.keys(['hubBaseUrl', 'definitionjson', 'hubUsername']);
       expect(cache[soiId].definitionjson).to.deep.equal({ edition: 'developer' });
     });
-    it('resumes org using id', () => {
-      const resp = execCmd<ScratchCreateResponse>(`env resume scratch --job-id ${soiId} --json`, {
-        ensureExitCode: 0,
-      }).jsonOutput.result;
-      expect(resp).to.have.all.keys(completeKeys);
+    it('resumes org using id', async () => {
+      let done = false;
+      while (!done) {
+        const resp = execCmd<ScratchCreateResponse>(`env resume scratch --job-id ${soiId} --json`).jsonOutput;
+        if (resp.status === 0) {
+          done = true;
+          expect(resp.result).to.have.all.keys(completeKeys);
+        } else if (resp.name === 'StillInProgressError') {
+          // eslint-disable-next-line no-await-in-loop
+          await sleep(Duration.seconds(30));
+        } else {
+          throw new Error(resp.message);
+        }
+      }
     });
     it('org is authenticated', async () => {
       const authFile = await readAuthFile(username);
@@ -83,7 +93,7 @@ describe('env create scratch async/resume', () => {
     const testAlias = 'testAlias';
     it('requests org', () => {
       const resp = execCmd<ScratchCreateResponse>(
-        `env create scratch --wait 60 --json --async -f ${path.join(
+        `env create scratch --json --async -f ${path.join(
           'config',
           'project-scratch-def.json'
         )} --set-default --alias ${testAlias}`,
@@ -107,11 +117,20 @@ describe('env create scratch async/resume', () => {
         ) as unknown as JsonMap
       );
     });
-    it('resumes org using latest', () => {
-      const resp = execCmd<ScratchCreateResponse>('env resume scratch --use-most-recent --json', {
-        ensureExitCode: 0,
-      }).jsonOutput.result;
-      expect(resp).to.have.all.keys(completeKeys);
+    it('resumes org using latest', async () => {
+      let done = false;
+      while (!done) {
+        const resp = execCmd<ScratchCreateResponse>('env resume scratch --use-most-recent --json').jsonOutput;
+        if (resp.status === 0) {
+          done = true;
+          expect(resp.result).to.have.all.keys(completeKeys);
+        } else if (resp.name === 'StillInProgressError') {
+          // eslint-disable-next-line no-await-in-loop
+          await sleep(Duration.seconds(30));
+        } else {
+          throw new Error(resp.message);
+        }
+      }
     });
     it('org is authenticated with alias and config', async () => {
       const authFile = await readAuthFile(username);

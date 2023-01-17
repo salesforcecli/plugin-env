@@ -1,15 +1,13 @@
 {
   "name": "@salesforce/plugin-env",
   "description": "An sf plugin for logging into and interacting with different Salesforce environments.",
-  "version": "1.5.18",
+  "version": "2.0.0",
   "author": "Salesforce",
   "bugs": "https://github.com/forcedotcom/cli/issues",
   "dependencies": {
     "@oclif/core": "^1.23.2",
     "@salesforce/core": "^3.32.11",
-    "@salesforce/kit": "^1.8.2",
     "@salesforce/sf-plugins-core": "^1.21.8",
-    "chalk": "^4",
     "change-case": "^4.1.2",
     "open": "^8.4.0",
     "tslib": "^2"
@@ -86,18 +84,7 @@
     ],
     "topics": {
       "env": {
-        "description": "Commands to manage your environments, such as orgs and compute environments.",
-        "subtopics": {
-          "create": {
-            "description": "Commands to create environments."
-          },
-          "resume": {
-            "description": "Commands to resume environment creation."
-          },
-          "delete": {
-            "description": "Commands to delete environments."
-          }
-        }
+        "description": "Commands to manage your environments, such as orgs and compute environments."
       }
     }
   },

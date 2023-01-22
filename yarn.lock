@@ -420,7 +420,7 @@
   resolved "https://registry.npmjs.org/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
 
-"@heroku-cli/color@^1.1.14", "@heroku-cli/color@^1.1.15":
+"@heroku-cli/color@^1.1.15", "@heroku-cli/color@^1.1.16":
   version "1.1.16"
   resolved "https://registry.yarnpkg.com/@heroku-cli/color/-/color-1.1.16.tgz#713b7e57441b27ae93d8d0f695b8036aaef8ec1e"
   integrity sha512-97bYxNaDe/+GCUAKu0V2qudQmR3NFRnv3SrQd2FTtOAa9OWKwkvoBs2WzT7MkNwP4DIpYL6W/e3CSfShfhzEMw==
@@ -1221,12 +1221,12 @@
     chalk "^4.1.1"
     tslib "^2"
 
-"@salesforce/plugin-functions@^1.17.2":
-  version "1.17.2"
-  resolved "https://registry.yarnpkg.com/@salesforce/plugin-functions/-/plugin-functions-1.17.2.tgz#cf056f95204773e19d1eb11db0da55ccd38ef3f7"
-  integrity sha512-yoJUZb9X1Aa6Fj91lNGg5A9hrVzwfgzG23ODoHxIucjeS0V89KQM0f0c/4VhRvp84XxXBg3v4bXc2OHvEU0O4Q==
+"@salesforce/plugin-functions@^1.17.3":
+  version "1.17.3"
+  resolved "https://registry.yarnpkg.com/@salesforce/plugin-functions/-/plugin-functions-1.17.3.tgz#9d12fb2553ffd9dbfffd7044d05b87880d99ea93"
+  integrity sha512-q2Hu3Ry/94hgP2y5vJDaKmB4pKpPDCWn8fKHqQIvpLCU4IWiF6t8ypxYwOP288o2PDAaysiUI7CluVfnWFD9MQ==
   dependencies:
-    "@heroku-cli/color" "^1.1.14"
+    "@heroku-cli/color" "^1.1.16"
     "@heroku-cli/schema" "^1.0.25"
     "@heroku/eventsource" "^1.0.7"
     "@heroku/function-toml" "^0.0.3"

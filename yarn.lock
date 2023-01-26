@@ -793,7 +793,7 @@
     is-wsl "^2.1.1"
     tslib "^2.3.1"
 
-"@oclif/core@^1.20.3", "@oclif/core@^1.20.4", "@oclif/core@^1.21.0", "@oclif/core@^1.23.1", "@oclif/core@^1.23.2", "@oclif/core@^1.24.0", "@oclif/core@^1.6.0", "@oclif/core@^1.6.3":
+"@oclif/core@^1.20.3", "@oclif/core@^1.20.4", "@oclif/core@^1.21.0", "@oclif/core@^1.23.1", "@oclif/core@^1.24.0", "@oclif/core@^1.6.0", "@oclif/core@^1.6.3":
   version "1.24.0"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-1.24.0.tgz#e94e2f3a1259ebb3cc867d04b12c5bfc31c21f50"
   integrity sha512-J41suyV4fLfLcRRySZdtgFYSjIlpYqD90SY01Fm4+ZJUMcfDh/eQAD4sogyYOsIT0bfEzYOyYCjmfHmgcoX5aA==
@@ -831,6 +831,40 @@
   version "2.0.2-beta.10"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-2.0.2-beta.10.tgz#5b459a91d653b8d5aa234e4324a4cc483747abd2"
   integrity sha512-FgJ5XHE6MjE7DOyQAcOZPD5Xs5cNOzP91zAQBkut8xhOkZA1NRQjv+7BczJqOTerXccohhTlu09pd7OAyDuitw==
+  dependencies:
+    "@types/cli-progress" "^3.11.0"
+    ansi-escapes "^4.3.2"
+    ansi-styles "^4.3.0"
+    cardinal "^2.1.1"
+    chalk "^4.1.2"
+    clean-stack "^3.0.1"
+    cli-progress "^3.10.0"
+    debug "^4.3.4"
+    ejs "^3.1.6"
+    fs-extra "^9.1.0"
+    get-package-type "^0.1.0"
+    globby "^11.1.0"
+    hyperlinker "^1.0.0"
+    indent-string "^4.0.0"
+    is-wsl "^2.2.0"
+    js-yaml "^3.14.1"
+    natural-orderby "^2.0.3"
+    object-treeify "^1.1.33"
+    password-prompt "^1.1.2"
+    semver "^7.3.7"
+    string-width "^4.2.3"
+    strip-ansi "^6.0.1"
+    supports-color "^8.1.1"
+    supports-hyperlinks "^2.2.0"
+    tslib "^2.4.1"
+    widest-line "^3.1.0"
+    wordwrap "^1.0.0"
+    wrap-ansi "^7.0.0"
+
+"@oclif/core@^2.0.6":
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-2.0.6.tgz#8d3a571a162578999e3e95cb20d8b1f0403c33d7"
+  integrity sha512-AOgr1bBjjAyCWcaaai1z7kBULg2zodCuubnmoU7mge2IL/hh2E6F2jdI7wpPK6KI7gVqZq0PKGxsl4EOFsrErQ==
   dependencies:
     "@types/cli-progress" "^3.11.0"
     ansi-escapes "^4.3.2"
@@ -1227,6 +1261,15 @@
     shx "^0.3.3"
     tslib "^2.2.0"
 
+"@salesforce/kit@^1.8.3":
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/@salesforce/kit/-/kit-1.8.3.tgz#b590b78a8618494c51534598a7eb0683ba0da3f2"
+  integrity sha512-p+0tWR2pyCAIjZwDXGhrYFPuLckX9fP3Xa6Jync9POeQBfDGyK9CRd1eaiWj+6BeDS9kwvgm5M6o+OptIEhEjw==
+  dependencies:
+    "@salesforce/ts-types" "^1.7.2"
+    shx "^0.3.3"
+    tslib "^2.2.0"
+
 "@salesforce/plugin-command-reference@^2.2.9":
   version "2.2.9"
   resolved "https://registry.yarnpkg.com/@salesforce/plugin-command-reference/-/plugin-command-reference-2.2.9.tgz#0d56e2acff6486db86312fd4982b0a8a0161d291"
@@ -1298,7 +1341,7 @@
   resolved "https://registry.yarnpkg.com/@salesforce/schemas/-/schemas-1.4.0.tgz#7dff427c8059895d8108176047aee600703c82d6"
   integrity sha512-BJ25uphssN42Zy6kksheFHMTLiR98AAHe/Wxnv0T4dYxtrEbUjSXVAGKZqfewJPFXA4xB5gxC+rQZtfz6xKCFg==
 
-"@salesforce/sf-plugins-core@^1.21.5", "@salesforce/sf-plugins-core@^1.21.8", "@salesforce/sf-plugins-core@^1.7.2", "@salesforce/sf-plugins-core@^1.9.0":
+"@salesforce/sf-plugins-core@^1.21.5", "@salesforce/sf-plugins-core@^1.7.2", "@salesforce/sf-plugins-core@^1.9.0":
   version "1.22.1"
   resolved "https://registry.yarnpkg.com/@salesforce/sf-plugins-core/-/sf-plugins-core-1.22.1.tgz#58c445aa8c72ae7ddd6ec39269ae1d944d059e9b"
   integrity sha512-UAAi7I753+t9zVJDHMzk81XCsYU5q2kq7aSgFbokdvnnPx45i3NptyaKNCRDeOBxp3eYCuNG6iFZ+xzC+v8cfA==
@@ -1306,6 +1349,18 @@
     "@oclif/core" "^1.23.1"
     "@salesforce/core" "^3.32.12"
     "@salesforce/kit" "^1.7.1"
+    "@salesforce/ts-types" "^1.7.1"
+    chalk "^4"
+    inquirer "^8.2.5"
+
+"@salesforce/sf-plugins-core@^2.0.0-beta.5":
+  version "2.0.0-beta.5"
+  resolved "https://registry.yarnpkg.com/@salesforce/sf-plugins-core/-/sf-plugins-core-2.0.0-beta.5.tgz#cdd1e6623d414983aa25f1286a8d16bee59fa241"
+  integrity sha512-IEkUuMakpLBKNlyCBKU/EvA6IJu4fwAv8+SQzp6+cEtBVLk2r9FvL7Sl02qVR5H5cXh2EtlzfGBh6JOWQPuUMQ==
+  dependencies:
+    "@oclif/core" "^2.0.6"
+    "@salesforce/core" "^3.32.12"
+    "@salesforce/kit" "^1.8.3"
     "@salesforce/ts-types" "^1.7.1"
     chalk "^4"
     inquirer "^8.2.5"
@@ -1338,6 +1393,13 @@
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/@salesforce/ts-types/-/ts-types-1.7.1.tgz#86b0d0c3bfd5c9b1752662a019a3d2f3bc8ff118"
   integrity sha512-jwZb8fYxbOmEckoJTxG2+5ZEJNJOFxmRJ/FioPnSu4IMFzpK3QbyujfqpHwLfPKHq0xlKRMx+F8QAVVKI/PA4w==
+  dependencies:
+    tslib "^2.4.1"
+
+"@salesforce/ts-types@^1.7.2":
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/@salesforce/ts-types/-/ts-types-1.7.2.tgz#ab40399d291c7eca57efc9890daf2fa2632197ec"
+  integrity sha512-eCpWKEb03UCKBJ6Svp0Vwcwt+fG6BQbopO4x5wt6CYeT8Rjt0dbDQicZPmVL59j2qyt3Q4Y4EYsxXUGZmdfvDw==
   dependencies:
     tslib "^2.4.1"
 

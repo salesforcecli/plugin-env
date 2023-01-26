@@ -16,29 +16,12 @@ import {
   SandboxRequest,
   SfError,
 } from '@salesforce/core';
-import { Duration } from '@salesforce/kit';
 import { Ux } from '@salesforce/sf-plugins-core/lib/ux';
-import * as Interfaces from '@oclif/core/lib/interfaces';
+import { Interfaces } from '@oclif/core';
 import { SandboxCommandBase } from '../../../shared/sandboxCommandBase';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'create.sandbox');
-
-type CmdFlags = {
-  'definition-file': string;
-  'set-default': boolean;
-  alias: string;
-  async: boolean;
-  'poll-interval': Duration;
-  wait: Duration;
-  name: string;
-  'license-type': string;
-  'no-prompt': boolean;
-  'target-org': Org;
-  clone: string;
-  json: boolean;
-  'no-track-source': boolean;
-};
 
 export enum SandboxLicenseType {
   developer = 'Developer',
@@ -56,8 +39,7 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
   public static description = messages.getMessage('description');
   public static examples = messages.getMessages('examples');
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public static flags: Interfaces.FlagInput<Omit<CmdFlags, 'json'>> = {
+  public static flags = {
     // needs to change when new flags are available
     'definition-file': Flags.file({
       exists: true,
@@ -117,7 +99,7 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
       description: messages.getMessage('flags.clone.description'),
       exclusive: ['license-type'],
     }),
-    'license-type': Flags.enum({
+    'license-type': Flags.string({
       char: 'l',
       summary: messages.getMessage('flags.licenseType.summary'),
       exclusive: ['definition-file', 'clone'],
@@ -140,11 +122,11 @@ export default class CreateSandbox extends SandboxCommandBase<SandboxProcessObje
   };
   public static readonly state = 'beta';
   protected readonly lifecycleEventNames = ['postorgcreate'];
-  private flags: CmdFlags;
+  private flags: Interfaces.InferredFlags<typeof CreateSandbox.flags>;
 
   public async run(): Promise<SandboxProcessObject> {
     this.sandboxRequestConfig = await this.getSandboxRequestConfig();
-    this.flags = (await this.parse(CreateSandbox)).flags as CmdFlags;
+    this.flags = (await this.parse(CreateSandbox)).flags;
     this.debug('Create started with args %s ', this.flags);
     this.validateFlags();
     return this.createSandbox();

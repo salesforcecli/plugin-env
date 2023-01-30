@@ -1,3 +1,12 @@
+## [1.5.19](https://github.com/salesforcecli/plugin-env/compare/1.5.18...1.5.19) (2023-01-29)
+
+
+### Bug Fixes
+
+* **deps:** bump tslib from 2.4.1 to 2.5.0 ([fd85ff1](https://github.com/salesforcecli/plugin-env/commit/fd85ff1a3a25889c2a27837647ed6e85adb808a2))
+
+
+
 ## [1.5.18](https://github.com/salesforcecli/plugin-env/compare/1.5.17...1.5.18) (2023-01-11)
 
 

@@ -5,6 +5,7 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
+import { Interfaces } from '@oclif/core';
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand, JsonObject, SfHook, EnvList as Env } from '@salesforce/sf-plugins-core';
 import { toKey, toValue } from '../../utils';
@@ -78,17 +79,7 @@ export default class EnvList extends SfCommand<Environments> {
     }),
   };
 
-  private flags!: {
-    all: boolean;
-    columns: string[];
-    csv: boolean;
-    filter: string;
-    json: boolean;
-    'no-header': boolean;
-    'no-truncate': boolean;
-    output: string;
-    sort: string;
-  };
+  private flags!: Interfaces.InferredFlags<typeof EnvList.flags>;
 
   public async run(): Promise<Environments> {
     this.flags = (await this.parse(EnvList)).flags;

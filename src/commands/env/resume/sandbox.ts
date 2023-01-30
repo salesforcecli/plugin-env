@@ -20,26 +20,18 @@ import {
   SfError,
 } from '@salesforce/core';
 import { Duration } from '@salesforce/kit';
-import * as Interfaces from '@oclif/core/lib/interfaces';
+import { Interfaces } from '@oclif/core';
 import { SandboxCommandBase } from '../../../shared/sandboxCommandBase';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'resume.sandbox');
-
-type CmdFlags = {
-  wait: Duration;
-  name: string;
-  'job-id': string;
-  'target-org': Org;
-  'use-most-recent': boolean;
-};
 
 export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObject> {
   public static summary = messages.getMessage('summary');
   public static description = messages.getMessage('description');
   public static examples = messages.getMessages('examples');
 
-  public static flags: Interfaces.FlagInput<CmdFlags> = {
+  public static flags = {
     wait: Flags.duration({
       char: 'w',
       summary: messages.getMessage('flags.wait.summary'),
@@ -79,7 +71,7 @@ export default class ResumeSandbox extends SandboxCommandBase<SandboxProcessObje
   };
   public static readonly state = 'beta';
   protected readonly lifecycleEventNames = ['postorgcreate'];
-  private flags: CmdFlags;
+  private flags: Interfaces.InferredFlags<typeof ResumeSandbox.flags>;
 
   public async run(): Promise<SandboxProcessObject> {
     this.sandboxRequestConfig = await this.getSandboxRequestConfig();

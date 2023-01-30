@@ -56,8 +56,6 @@ describe('env:create:sandbox', () => {
       return this.run();
     }
     public setProject(project: SfProject) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       this.project = project;
     }
   }

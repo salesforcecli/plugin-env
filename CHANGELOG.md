@@ -1,3 +1,12 @@
+# [1.6.0](https://github.com/salesforcecli/plugin-env/compare/1.5.19...1.6.0) (2023-01-30)
+
+
+### Features
+
+* update sf-plugins-core and oclif/core ([#493](https://github.com/salesforcecli/plugin-env/issues/493)) ([c2bdb13](https://github.com/salesforcecli/plugin-env/commit/c2bdb13d91cb7413736e42b4aebe9f8185343f1c))
+
+
+
 ## [1.5.19](https://github.com/salesforcecli/plugin-env/compare/1.5.18...1.5.19) (2023-01-29)
 
 

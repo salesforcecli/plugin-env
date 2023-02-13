@@ -20,6 +20,12 @@ export default class EnvOpen extends SfCommand<OpenResult> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
+  public static readonly state = 'deprecated';
+  public static readonly deprecationOptions = {
+    to: messages.getMessage('deprecatedInFavorOf'),
+    message: messages.getMessage('deprecationMessage'),
+    version: '60.0',
+  };
 
   public static readonly flags = {
     path: Flags.string({
@@ -53,6 +59,7 @@ export default class EnvOpen extends SfCommand<OpenResult> {
 
     try {
       const org = await Org.create({ aliasOrUsername: nameOrAlias });
+      // eslint-disable-next-line sf-plugin/get-connection-with-version
       const conn = org.getConnection();
       await org.refreshAuth();
       const authInfo = conn.getAuthInfo();

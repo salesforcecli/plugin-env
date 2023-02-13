@@ -63,3 +63,11 @@ The environment %s doesn't support being opened.
 # error.ApplicationNotFound
 
 Can't find application named %s.
+
+# deprecationMessage
+
+This command will be deprecated in a future release.
+
+# deprecatedInFavorOf
+
+<%= config.bin %> org open

@@ -20,12 +20,6 @@ export default class EnvOpen extends SfCommand<OpenResult> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
-  public static readonly state = 'deprecated';
-  public static readonly deprecationOptions = {
-    to: messages.getMessage('deprecatedInFavorOf'),
-    message: messages.getMessage('deprecationMessage'),
-    version: '60.0',
-  };
 
   public static readonly flags = {
     path: Flags.string({
@@ -48,6 +42,7 @@ export default class EnvOpen extends SfCommand<OpenResult> {
   };
 
   public async run(): Promise<OpenResult> {
+    this.warn(messages.getMessage('warning.orgsNoLongerSupported', [this.config.bin]));
     const { flags } = await this.parse(EnvOpen);
     const nameOrAlias = flags['target-env'];
     let url: string;

@@ -24,6 +24,7 @@ export default class EnvDisplay extends SfCommand<JsonObject> {
   };
 
   public async run(): Promise<JsonObject> {
+    this.warn(messages.getMessage('warning.orgsNoLongerSupported', [this.config.bin]));
     const { flags } = await this.parse(EnvDisplay);
     let data: JsonObject = {};
 

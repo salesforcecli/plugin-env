@@ -64,10 +64,6 @@ The environment %s doesn't support being opened.
 
 Can't find application named %s.
 
-# deprecationMessage
+# warning.orgsNoLongerSupported
 
-This command will be deprecated in a future release.
-
-# deprecatedInFavorOf
-
-<%= config.bin %> org open
+This command only opens a function's environment. Use "%s org open" to open an org.

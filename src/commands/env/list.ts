@@ -75,6 +75,7 @@ export default class EnvList extends SfCommand<Environments> {
   private flags!: Interfaces.InferredFlags<typeof EnvList.flags>;
 
   public async run(): Promise<Environments> {
+    this.warn(messages.getMessage('warning.orgsNoLongerSupported', [this.config.bin]));
     this.flags = (await this.parse(EnvList)).flags;
     const tableOpts = {
       columns: this.flags.columns?.join(','),

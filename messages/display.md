@@ -23,3 +23,7 @@ No results found.
 # error.NoEnvFound
 
 No environment found for %s.
+
+# warning.orgsNoLongerSupported
+
+This command only displays functions environments. Use "%s org display" to display an org.

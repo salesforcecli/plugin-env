@@ -71,3 +71,7 @@ No results found.
 # warning.RequestedColumnsNotPresentInEnvironment
 
 The columns you specified (%s) aren't available in the table for environment "%s".
+
+# warning.orgsNoLongerSupported
+
+This command only lists functions environments. Use "%s org list" to list orgs.

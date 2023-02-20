@@ -33,7 +33,6 @@ export default class EnvOpen extends SfCommand<OpenResult> {
     'target-env': Flags.string({
       char: 'e',
       summary: messages.getMessage('flags.target-env.summary'),
-      description: messages.getMessage('flags.target-env.description'),
     }),
     browser: Flags.string({
       summary: messages.getMessage('flags.browser.summary'),

@@ -71,10 +71,6 @@
     "commands": "./lib/commands",
     "bin": "sf",
     "topicSeparator": " ",
-    "hooks": {
-      "sf:env:display": "./lib/hooks/envDisplay",
-      "sf:env:list": "./lib/hooks/envList"
-    },
     "devPlugins": [
       "@oclif/plugin-help",
       "@oclif/plugin-command-snapshot",

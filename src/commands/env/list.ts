@@ -15,13 +15,6 @@ const messages = Messages.loadMessages('@salesforce/plugin-env', 'list');
 
 const envTypeValues = Object.keys(Env.EnvType);
 const envOrderBy = (a: Env.Table<JsonObject>, b: Env.Table<JsonObject>): number => {
-  // both a && b are well known
-  if (envTypeValues.includes(a.type) && envTypeValues.includes(a.type)) {
-    if (a.type === Env.EnvType.salesforceOrgs && b.type !== Env.EnvType.salesforceOrgs) return -1;
-    if (a.type !== Env.EnvType.salesforceOrgs && b.type === Env.EnvType.salesforceOrgs) return 1;
-    if (a.type === Env.EnvType.scratchOrgs && b.type !== Env.EnvType.scratchOrgs) return -1;
-    return 1;
-  }
   // both a && b are user defined - use natural sort
   if (!envTypeValues.includes(a.type) && !envTypeValues.includes(a.type)) {
     return a.type.localeCompare(b.type);
@@ -82,6 +75,7 @@ export default class EnvList extends SfCommand<Environments> {
   private flags!: Interfaces.InferredFlags<typeof EnvList.flags>;
 
   public async run(): Promise<Environments> {
+    this.warn(messages.getMessage('warning.orgsNoLongerSupported', [this.config.bin]));
     this.flags = (await this.parse(EnvList)).flags;
     const tableOpts = {
       columns: this.flags.columns?.join(','),

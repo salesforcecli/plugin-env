@@ -24,20 +24,16 @@ export default class EnvDisplay extends SfCommand<JsonObject> {
   };
 
   public async run(): Promise<JsonObject> {
+    this.warn(messages.getMessage('warning.orgsNoLongerSupported', [this.config.bin]));
     const { flags } = await this.parse(EnvDisplay);
-    // TODO: access this from ConfigAggregator once target-env config var is supported.
-    const targetEnv = flags['target-env'];
-
-    if (!targetEnv) throw messages.createError('error.NoDefaultEnv');
-
     let data: JsonObject = {};
 
     try {
-      const results = await SfHook.run(this.config, 'sf:env:display', { targetEnv });
+      const results = await SfHook.run(this.config, 'sf:env:display', { targetEnv: flags['target-env'] });
       const result = results.successes.find((s) => !!s.result?.data)?.result || null;
 
       if (!result) {
-        throw messages.createError('error.NoEnvFound', [targetEnv]);
+        throw messages.createError('error.NoEnvFound', [flags['target-env']]);
       }
 
       data = result.data;

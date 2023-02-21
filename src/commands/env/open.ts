@@ -33,7 +33,6 @@ export default class EnvOpen extends SfCommand<OpenResult> {
     'target-env': Flags.string({
       char: 'e',
       summary: messages.getMessage('flags.target-env.summary'),
-      description: messages.getMessage('flags.target-env.description'),
     }),
     browser: Flags.string({
       summary: messages.getMessage('flags.browser.summary'),
@@ -42,6 +41,7 @@ export default class EnvOpen extends SfCommand<OpenResult> {
   };
 
   public async run(): Promise<OpenResult> {
+    this.warn(messages.getMessage('warning.orgsNoLongerSupported', [this.config.bin]));
     const { flags } = await this.parse(EnvOpen);
     const nameOrAlias = flags['target-env'];
     let url: string;
@@ -53,6 +53,7 @@ export default class EnvOpen extends SfCommand<OpenResult> {
 
     try {
       const org = await Org.create({ aliasOrUsername: nameOrAlias });
+      // eslint-disable-next-line sf-plugin/get-connection-with-version
       const conn = org.getConnection();
       await org.refreshAuth();
       const authInfo = conn.getAuthInfo();

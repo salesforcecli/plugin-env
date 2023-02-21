@@ -1,3 +1,12 @@
+# [2.1.0](https://github.com/salesforcecli/plugin-env/compare/2.0.4...2.1.0) (2023-02-21)
+
+
+### Features
+
+* disconnect orgs from env commands ([#513](https://github.com/salesforcecli/plugin-env/issues/513)) ([285c583](https://github.com/salesforcecli/plugin-env/commit/285c5832c4824b45c19b336a2df1591502653b2e)), closes [#520](https://github.com/salesforcecli/plugin-env/issues/520)
+
+
+
 ## [2.0.4](https://github.com/salesforcecli/plugin-env/compare/2.0.3...2.0.4) (2023-02-12)
 
 

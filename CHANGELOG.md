@@ -1,3 +1,12 @@
+## [2.1.1](https://github.com/salesforcecli/plugin-env/compare/2.1.0...2.1.1) (2023-02-28)
+
+
+### Bug Fixes
+
+* remove failing nut - no longer needed ([#526](https://github.com/salesforcecli/plugin-env/issues/526)) ([49a9b00](https://github.com/salesforcecli/plugin-env/commit/49a9b0046f6d95853a4cc232c841a2ed745946c5))
+
+
+
 # [2.1.0](https://github.com/salesforcecli/plugin-env/compare/2.0.4...2.1.0) (2023-02-21)
 
 

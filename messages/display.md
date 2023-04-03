@@ -10,7 +10,9 @@ Output depends on the type of environment.
 
 # examples
 
-- <%- config.bin %> <%- command.id %> --target-env myEnv
+- Display details about the "myEnv" environment:
+
+  <%- config.bin %> <%- command.id %> --target-env myEnv
 
 # flags.target-env.summary
 

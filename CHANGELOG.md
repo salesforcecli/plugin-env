@@ -1,3 +1,12 @@
+## [2.1.5](https://github.com/salesforcecli/plugin-env/compare/2.1.4...2.1.5) (2023-04-06)
+
+
+### Bug Fixes
+
+* teeny messages fix ([814a0a5](https://github.com/salesforcecli/plugin-env/commit/814a0a505904c54c24a2d9c882998573e608ab6d))
+
+
+
 ## [2.1.4](https://github.com/salesforcecli/plugin-env/compare/2.1.3...2.1.4) (2023-04-02)
 
 

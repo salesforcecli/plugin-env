@@ -1,3 +1,12 @@
+## [2.1.6](https://github.com/salesforcecli/plugin-env/compare/2.1.5...2.1.6) (2023-04-08)
+
+
+### Bug Fixes
+
+* **deps:** bump vm2 from 3.9.11 to 3.9.15 ([0655e6d](https://github.com/salesforcecli/plugin-env/commit/0655e6dbb4422d9e3db7683698f0229560ecf69a))
+
+
+
 ## [2.1.5](https://github.com/salesforcecli/plugin-env/compare/2.1.4...2.1.5) (2023-04-06)
 
 

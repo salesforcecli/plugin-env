@@ -7,7 +7,7 @@
 
 import { URL } from 'url';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import { Logger, Messages, Org, SfdxError } from '@salesforce/core';
+import { Logger, Messages, Org, SfError } from '@salesforce/core';
 import * as open from 'open';
 import type { Options } from 'open';
 
@@ -47,7 +47,7 @@ export default class EnvOpen extends SfCommand<OpenResult> {
     let url: string;
 
     if (!nameOrAlias) {
-      // TODO this should be retrieved from sf config once we have those commands. If not found, still throw.
+      // T ODO this should be retrieved from sf config once we have those commands. If not found, still throw.
       throw messages.createError('error.NoDefaultEnv');
     }
 
@@ -62,7 +62,7 @@ export default class EnvOpen extends SfCommand<OpenResult> {
       if (err instanceof Error && err.name !== 'NamedOrgNotFoundError' && err.name !== 'AuthInfoCreationError') {
         throw err;
       }
-      /* Expected - Do nothing */
+      /* E xpected - Do nothing */
     }
 
     if (!url) {
@@ -119,7 +119,7 @@ export default class EnvOpen extends SfCommand<OpenResult> {
       });
 
       const resolveOrReject = (code: number): void => {
-        // stderr could contain warnings or random data, so we will only error if we know there is a valid error.
+        // s tderr could contain warnings or random data, so we will only error if we know there is a valid error.
         const validErrors = [
           'Unable to find application named',
           'InvalidOperationException',
@@ -136,16 +136,16 @@ export default class EnvOpen extends SfCommand<OpenResult> {
         }
       };
 
-      // This never seems to fire.
-      process.once('error', (err) => reject(new SfdxError(err.message, 'OpenError')));
+      // T his never seems to fire.
+      process.once('error', (err) => reject(new SfError(err.message, 'OpenError')));
 
-      // These are sometimes not fired (non-deterministic) for whatever reason, especially on windows. We will just rely on known errors in stderr.
-      // It could be because of See https://github.com/sindresorhus/open/issues/144 but hacking around the open library didn't
-      // seem to fix it.
-      // process.once('close', resolveOrReject);
-      // process.once('exit', resolveOrReject);
+      // The se are sometimes not fired (non-deterministic) for whatever reason, especially on windows. We will just rely on known errors in stderr.
+      // It  could be because of See https://github.com/sindresorhus/open/issues/144 but hacking around the open library didn't
+      // see m to fix it.
+      // pro cess.once('close', resolveOrReject);
+      // pro cess.once('exit', resolveOrReject);
 
-      // Nothing is ever printed to stdout, but we really only care about stderr.
+      // Not hing is ever printed to stdout, but we really only care about stderr.
       process.stderr.once('close', resolveOrReject);
     });
   }

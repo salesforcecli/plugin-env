@@ -40,9 +40,14 @@ describe('open unit tests', () => {
       return conn;
     })
     .stub(Org.prototype, 'refreshAuth', async (): Promise<void> => {})
-    .stub(Org, 'create', async (): Promise<Org> => new Org({
-        aliasOrUsername: expectedSfOrgs[0].username,
-      } as Org.Options))
+    .stub(
+      Org,
+      'create',
+      async (): Promise<Org> =>
+        new Org({
+          aliasOrUsername: expectedSfOrgs[0].username,
+        } as Org.Options)
+    )
     .stub(EnvOpen.prototype, 'open', async (): Promise<void> => {})
     .stdout()
     .command([
@@ -76,9 +81,14 @@ describe('open unit tests', () => {
       return conn;
     })
     .stub(Org.prototype, 'refreshAuth', async (): Promise<void> => {})
-    .stub(Org, 'create', async (): Promise<Org> => new Org({
-        aliasOrUsername: expectedSfOrgs[0].username,
-      } as Org.Options))
+    .stub(
+      Org,
+      'create',
+      async (): Promise<Org> =>
+        new Org({
+          aliasOrUsername: expectedSfOrgs[0].username,
+        } as Org.Options)
+    )
     .stub(EnvOpen.prototype, 'open', async (): Promise<void> => {})
     .stdout()
     .command(['env:open', '--target-env', expectedSfOrgs[0].username, '--url-only', '--json'])

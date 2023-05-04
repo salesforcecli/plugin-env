@@ -5,7 +5,7 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import { Messages, SfdxError } from '@salesforce/core';
+import { Messages } from '@salesforce/core';
 import { SfCommand, SfHook, JsonObject, Flags } from '@salesforce/sf-plugins-core';
 import { toKey, toValue } from '../../utils';
 
@@ -30,7 +30,7 @@ export default class EnvDisplay extends SfCommand<JsonObject> {
 
     try {
       const results = await SfHook.run(this.config, 'sf:env:display', { targetEnv: flags['target-env'] });
-      const result = results.successes.find((s) => !!s.result?.data)?.result || null;
+      const result = results.successes.find((s) => !!s.result?.data)?.result ?? null;
 
       if (!result) {
         throw messages.createError('error.NoEnvFound', [flags['target-env']]);
@@ -46,9 +46,11 @@ export default class EnvDisplay extends SfCommand<JsonObject> {
       this.logSensitive();
       this.table(tableData, columns);
     } catch (error) {
-      const err = error as SfdxError;
+      if (!(error instanceof Error)) {
+        throw error;
+      }
       this.log(messages.getMessage('error.NoResultsFound'));
-      this.error(err);
+      this.error(error);
     }
 
     return data;

@@ -12,8 +12,7 @@ import { toKey, toValue } from '../../utils';
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'display');
 
-export type EnvDisplayResult = JsonObject | null;
-export default class EnvDisplay extends SfCommand<EnvDisplayResult> {
+export default class EnvDisplay extends SfCommand<JsonObject> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
@@ -24,7 +23,7 @@ export default class EnvDisplay extends SfCommand<EnvDisplayResult> {
     }),
   };
 
-  public async run(): Promise<EnvDisplayResult> {
+  public async run(): Promise<JsonObject> {
     this.warn(messages.getMessage('warning.orgsNoLongerSupported', [this.config.bin]));
     const { flags } = await this.parse(EnvDisplay);
 
@@ -37,9 +36,11 @@ export default class EnvDisplay extends SfCommand<EnvDisplayResult> {
       }
 
       const data = result.data;
-
+      if (!data) {
+        throw new Error();
+      }
       const columns = { key: {}, value: {} };
-      const tableData = Object.entries(data ?? {}).map(([key, value]) => ({
+      const tableData = Object.entries(data).map(([key, value]) => ({
         key: toKey(key, result.keys),
         value: toValue(value),
       }));

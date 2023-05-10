@@ -9,7 +9,6 @@ import { URL } from 'url';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { Logger, Messages, Org, SfError } from '@salesforce/core';
 import * as open from 'open';
-import type { Options } from 'open';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'open');
@@ -44,7 +43,7 @@ export default class EnvOpen extends SfCommand<OpenResult> {
     this.warn(messages.getMessage('warning.orgsNoLongerSupported', [this.config.bin]));
     const { flags } = await this.parse(EnvOpen);
     const nameOrAlias = flags['target-env'];
-    let url: string;
+    let url: string | undefined;
 
     if (!nameOrAlias) {
       // T ODO this should be retrieved from sf config once we have those commands. If not found, still throw.
@@ -62,7 +61,7 @@ export default class EnvOpen extends SfCommand<OpenResult> {
       if (err instanceof Error && err.name !== 'NamedOrgNotFoundError' && err.name !== 'AuthInfoCreationError') {
         throw err;
       }
-      /* E xpected - Do nothing */
+      /* Expected - Do nothing */
     }
 
     if (!url) {
@@ -92,9 +91,7 @@ export default class EnvOpen extends SfCommand<OpenResult> {
 
   // TODO login and env open should probably share the same open code. Maybe we should use cli-ux.open?
   // eslint-disable-next-line class-methods-use-this
-  private async open(url: string, browser: string): Promise<void> {
-    let options: Options;
-
+  private async open(url: string, browser?: string): Promise<void> {
     if (browser) {
       if (browser?.toLowerCase().includes('chrome')) {
         browser = open.apps.chrome as string;
@@ -107,14 +104,14 @@ export default class EnvOpen extends SfCommand<OpenResult> {
       if (browser?.toLowerCase().includes('edge')) {
         browser = open.apps.edge as string;
       }
-      options = { app: { name: browser } };
     }
 
+    const options = browser ? { app: { name: browser } } : undefined;
     const chunks: Buffer[] = [];
     const process = await open(url, options);
 
     return new Promise((resolve, reject) => {
-      process.stderr.on('data', (chunk) => {
+      process.stderr?.on('data', (chunk) => {
         chunks.push(Buffer.from(chunk as ArrayBuffer));
       });
 
@@ -146,7 +143,7 @@ export default class EnvOpen extends SfCommand<OpenResult> {
       // pro cess.once('exit', resolveOrReject);
 
       // Not hing is ever printed to stdout, but we really only care about stderr.
-      process.stderr.once('close', resolveOrReject);
+      process.stderr?.once('close', resolveOrReject);
     });
   }
 }

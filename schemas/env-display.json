@@ -1,7 +1,17 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$ref": "#/definitions/JsonObject",
+  "$ref": "#/definitions/EnvDisplayResult",
   "definitions": {
+    "EnvDisplayResult": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/JsonObject"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
     "JsonObject": {
       "type": "object",
       "additionalProperties": {

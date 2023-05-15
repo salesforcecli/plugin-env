@@ -25,7 +25,7 @@ const envOrderBy = (a: Env.Table<JsonObject>, b: Env.Table<JsonObject>): number 
 };
 
 const buildColumns = (table: Env.Table<JsonObject>): Record<string, { header?: string }> =>
-  table.data.flatMap(Object.keys).reduce((x, y) => {
+  table.data.flatMap(Object.keys).reduce<Record<string, { header?: string }>>((x, y) => {
     if (x[y]) return x;
     const columnEntry = {
       header: toKey(y, table.keys),
@@ -120,7 +120,7 @@ export default class EnvList extends SfCommand<Environments> {
   private checkTableForNamedColumns(columns: Record<string, { header?: string }>): boolean {
     return Object.entries(columns).some(([, value]) => {
       if (this.flags?.columns) {
-        return this.flags?.columns.includes(value['header']);
+        return value.header && this.flags?.columns.includes(value.header);
       }
       return true;
     });

@@ -26,18 +26,19 @@ export default class EnvDisplay extends SfCommand<JsonObject> {
   public async run(): Promise<JsonObject> {
     this.warn(messages.getMessage('warning.orgsNoLongerSupported', [this.config.bin]));
     const { flags } = await this.parse(EnvDisplay);
-    let data: JsonObject = {};
 
     try {
-      const results = await SfHook.run(this.config, 'sf:env:display', { targetEnv: flags['target-env'] });
+      const results = await SfHook.run(this.config, 'sf:env:display', { targetEnv: flags['target-env'] as string });
       const result = results.successes.find((s) => !!s.result?.data)?.result ?? null;
 
       if (!result) {
         throw messages.createError('error.NoEnvFound', [flags['target-env']]);
       }
 
-      data = result.data;
-
+      const data = result.data;
+      if (!data) {
+        throw new Error();
+      }
       const columns = { key: {}, value: {} };
       const tableData = Object.entries(data).map(([key, value]) => ({
         key: toKey(key, result.keys),
@@ -45,6 +46,7 @@ export default class EnvDisplay extends SfCommand<JsonObject> {
       }));
       this.logSensitive();
       this.table(tableData, columns);
+      return data;
     } catch (error) {
       if (!(error instanceof Error)) {
         throw error;
@@ -52,7 +54,5 @@ export default class EnvDisplay extends SfCommand<JsonObject> {
       this.log(messages.getMessage('error.NoResultsFound'));
       this.error(error);
     }
-
-    return data;
   }
 }

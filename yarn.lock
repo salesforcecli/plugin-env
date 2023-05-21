@@ -1104,16 +1104,15 @@
     semver "^7.3.5"
     ts-retry-promise "^0.6.0"
 
-"@salesforce/core@^3.24.0", "@salesforce/core@^3.32.12", "@salesforce/core@^3.33.1", "@salesforce/core@^3.33.6", "@salesforce/core@^3.34.1", "@salesforce/core@^3.34.6":
-  version "3.34.6"
-  resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-3.34.6.tgz#816031d3aab098d56165d876db626a3610d86c6e"
-  integrity sha512-9Nd+bQRSvCYDiZo97bhseajLhr7d51J9gsPUnfN3nHy1/TBQXjN+upRAPAeldvzU8G3L98WGDMtEpSTOG/PxkQ==
+"@salesforce/core@^3.24.0", "@salesforce/core@^3.32.12", "@salesforce/core@^3.33.1", "@salesforce/core@^3.33.6", "@salesforce/core@^3.34.1", "@salesforce/core@^3.34.6", "@salesforce/core@^3.36.1":
+  version "3.36.1"
+  resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-3.36.1.tgz#053a5e1079b9749b62e461e6ac3e630b5689694a"
+  integrity sha512-kcjyr9bj35nnL8Bqv8U39xeho3CrZYXJiS/X5X1eEHVNZLd9zckrmKrh1V7z8ElCFpsJrewT989SJsdvi9kE8w==
   dependencies:
     "@salesforce/bunyan" "^2.0.0"
     "@salesforce/kit" "^1.9.2"
     "@salesforce/schemas" "^1.5.1"
     "@salesforce/ts-types" "^1.7.2"
-    "@types/graceful-fs" "^4.1.6"
     "@types/semver" "^7.3.13"
     ajv "^8.12.0"
     archiver "^5.3.0"
@@ -1121,9 +1120,8 @@
     debug "^3.2.7"
     faye "^1.4.0"
     form-data "^4.0.0"
-    graceful-fs "^4.2.11"
     js2xmlparser "^4.0.1"
-    jsforce "^2.0.0-beta.20"
+    jsforce "^2.0.0-beta.21"
     jsonwebtoken "9.0.0"
     ts-retry-promise "^0.7.0"
 
@@ -1510,7 +1508,7 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
-"@types/graceful-fs@^4.1.5", "@types/graceful-fs@^4.1.6":
+"@types/graceful-fs@^4.1.5":
   version "4.1.6"
   resolved "https://registry.yarnpkg.com/@types/graceful-fs/-/graceful-fs-4.1.6.tgz#e14b2576a1c25026b7f02ede1de3b84c3a1efeae"
   integrity sha512-Sig0SNORX9fdW+bQuTEovKj3uHcUL6LQKbCrrqb1X7J6/ReAbhCXRAhc+SMejhLELFj2QcyuxmUooZ4bt5ReSw==
@@ -3576,12 +3574,12 @@ eslint-plugin-prefer-arrow@^1.2.1:
   resolved "https://registry.npmjs.org/eslint-plugin-prefer-arrow/-/eslint-plugin-prefer-arrow-1.2.3.tgz#e7fbb3fa4cd84ff1015b9c51ad86550e55041041"
   integrity sha512-J9I5PKCOJretVuiZRGvPQxCbllxGAV/viI20JO3LYblAodofBxyMnZAJ+WGeClHgANnSJberTNoFWWjrWKBuXQ==
 
-eslint-plugin-sf-plugin@^1.15.1:
-  version "1.15.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-sf-plugin/-/eslint-plugin-sf-plugin-1.15.1.tgz#c922cd4825d118fcfcb4b20629d9d65b0d394d89"
-  integrity sha512-D2i0EiQfTOjVNPivS2Bib/YsLS+l+QU5i72NT4Lhn4nSCTb5VS19PP7lLjlFlW5ffg552q7li3BMM6Cs75YQgw==
+eslint-plugin-sf-plugin@^1.15.3:
+  version "1.15.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-sf-plugin/-/eslint-plugin-sf-plugin-1.15.3.tgz#7eca5f69d42b7e63d80c026212378440a3381d45"
+  integrity sha512-dma7G0RYJ1lqTr+Gct87xiOzFghAm6UHu5d4RtjdWctpjoBBzCAsU42ChpWId2You/E0AiugeQT4ZXQEhd1rrA==
   dependencies:
-    "@salesforce/core" "^3.34.6"
+    "@salesforce/core" "^3.36.1"
     "@typescript-eslint/utils" "^5.58.0"
 
 eslint-scope@^5.1.1:
@@ -4371,7 +4369,7 @@ got@^11, got@^11.8.2:
     p-cancelable "^2.0.0"
     responselike "^2.0.0"
 
-graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.5, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.11, graceful-fs@^4.2.4, graceful-fs@^4.2.6:
+graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.5, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.4, graceful-fs@^4.2.6:
   version "4.2.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.11.tgz#4183e4e8bf08bb6e05bbb2f7d2e0c8f712ca40e3"
   integrity sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==
@@ -5225,10 +5223,10 @@ jsforce@^1.11.0:
     request "^2.72.0"
     xml2js "^0.4.16"
 
-jsforce@^2.0.0-beta.20:
-  version "2.0.0-beta.21"
-  resolved "https://registry.yarnpkg.com/jsforce/-/jsforce-2.0.0-beta.21.tgz#04c94d762d2536bf1af3062d5cca206656f5b12b"
-  integrity sha512-74GUF/96vYBNZo3SUccXtt4CmfvZ0iqTSc0Z3OB940Ec7oU6coOAGhlCZ+XprXaHOMMhXMXrZQ1PCd16yjIA7A==
+jsforce@^2.0.0-beta.21:
+  version "2.0.0-beta.23"
+  resolved "https://registry.yarnpkg.com/jsforce/-/jsforce-2.0.0-beta.23.tgz#5eeb1a2635498ee77f0726ababe089cc12113551"
+  integrity sha512-lfeLHbCJ40ela1JPu4VqgK1GtIzR0NQOMZ/Rxesv9Ty3PyxK18o01AQ4E+JqGAWDDQhwyUp2A/9V+uOqU3w7Rw==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@babel/runtime-corejs3" "^7.12.5"

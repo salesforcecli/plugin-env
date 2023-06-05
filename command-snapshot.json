@@ -3,18 +3,24 @@
     "command": "env:display",
     "plugin": "@salesforce/plugin-env",
     "flags": ["json", "target-env"],
-    "alias": []
+    "alias": [],
+    "flagChars": ["e"],
+    "flagAliases": []
   },
   {
     "command": "env:list",
     "plugin": "@salesforce/plugin-env",
     "flags": ["all", "columns", "csv", "filter", "json", "no-header", "no-truncate", "output", "sort"],
-    "alias": []
+    "alias": [],
+    "flagChars": ["a"],
+    "flagAliases": []
   },
   {
     "command": "env:open",
     "plugin": "@salesforce/plugin-env",
     "flags": ["browser", "json", "path", "target-env", "url-only"],
-    "alias": []
+    "alias": [],
+    "flagChars": ["e", "p", "r"],
+    "flagAliases": []
   }
 ]

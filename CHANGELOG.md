@@ -1,3 +1,12 @@
+## [2.1.10](https://github.com/salesforcecli/plugin-env/compare/2.1.9...2.1.10) (2023-06-11)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/core from 4.1.0 to 4.2.1 ([7978306](https://github.com/salesforcecli/plugin-env/commit/79783069d055e5a1581c9b02c4ef089b7264ab02))
+
+
+
 ## [2.1.9](https://github.com/salesforcecli/plugin-env/compare/2.1.8...2.1.9) (2023-05-17)
 
 

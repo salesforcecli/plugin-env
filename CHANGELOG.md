@@ -1,3 +1,12 @@
+## [2.1.13](https://github.com/salesforcecli/plugin-env/compare/2.1.12...2.1.13) (2023-06-18)
+
+
+### Bug Fixes
+
+* **deps:** bump open from 8.4.1 to 8.4.2 ([fbf44af](https://github.com/salesforcecli/plugin-env/commit/fbf44af0eab9edc3444295181dd5397e5401f489))
+
+
+
 ## [2.1.12](https://github.com/salesforcecli/plugin-env/compare/2.1.11...2.1.12) (2023-06-18)
 
 

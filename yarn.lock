@@ -882,10 +882,10 @@
     chalk "^4.1.0"
     tslib "^2.3.1"
 
-"@oclif/plugin-command-snapshot@^4.0.4":
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-command-snapshot/-/plugin-command-snapshot-4.0.4.tgz#366a54ac648795bddbf47e6871915db489abd98a"
-  integrity sha512-aL7TkSqrNR2SCwabLSrxI2M5WPPnmc0f81FEwkiNB0URLf8Yz+cQ0wNNHZ930qINZYsQYoX7+CV5NYagFTOhdA==
+"@oclif/plugin-command-snapshot@^4.0.5":
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-command-snapshot/-/plugin-command-snapshot-4.0.5.tgz#04365afc5692b024d7a4d4444ec276023a03efdc"
+  integrity sha512-j/oEX/fQISLynLiolUH/STJm5cbQ05XdhHAgWAjMQrwwyGMeTSBV5N/hhvPujjcCAmHnpWxZVcLoyyrzJkJImw==
   dependencies:
     "@oclif/core" "^2.8.7"
     chalk "^4.1.2"
@@ -893,7 +893,7 @@
     lodash "^4.17.21"
     semver "^7.5.2"
     ts-json-schema-generator "^1.2.0"
-    tslib "^2.5.2"
+    tslib "^2.5.3"
 
 "@oclif/plugin-help@^5.1.19":
   version "5.1.20"

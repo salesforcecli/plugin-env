@@ -1,3 +1,12 @@
+## [2.1.17](https://github.com/salesforcecli/plugin-env/compare/2.1.16...2.1.17) (2023-07-11)
+
+
+### Bug Fixes
+
+* **deps:** bump semver from 5.7.1 to 5.7.2 ([bc71f9d](https://github.com/salesforcecli/plugin-env/commit/bc71f9d27b1b6955d87cba160cfe08ea651b3cc9))
+
+
+
 ## [2.1.16](https://github.com/salesforcecli/plugin-env/compare/2.1.15...2.1.16) (2023-07-09)
 
 

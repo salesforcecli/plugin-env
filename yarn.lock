@@ -896,13 +896,13 @@
   resolved "https://registry.npmjs.org/@oclif/screen/-/screen-1.0.4.tgz#b740f68609dfae8aa71c3a6cab15d816407ba493"
   integrity sha512-60CHpq+eqnTxLZQ4PGHYNwUX572hgpMHGPtTWMjdTMsAvlm69lZV/4ly6O3sAYkomo4NggGcomrDpBe34rxUqw==
 
-"@oclif/test@^2.3.31":
-  version "2.3.31"
-  resolved "https://registry.yarnpkg.com/@oclif/test/-/test-2.3.31.tgz#227fdc50d0348b2263b59f501b1fd06ef50b8e7c"
-  integrity sha512-dTWCni+Zv9aSuzyamS95+GJaIub6EAI+CT+pA1MP10RZF54mF7CKaas7t8dvNvDp1Y194hi64cqe+cNwZlR5ng==
+"@oclif/test@^2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@oclif/test/-/test-2.4.0.tgz#138cb846146295350fa38b2f7ee9b15f374b4f53"
+  integrity sha512-eC99f81IdAzJdRtOAH5x28vfTk4Nbuqe9nySq6Y8z8MwA6zkDbJFWNj/Zz5LdBGabtsbuTXBku8U+evFrYMTcw==
   dependencies:
-    "@oclif/core" "^2.9.3"
-    fancy-test "^2.0.29"
+    "@oclif/core" "^2.9.4"
+    fancy-test "^2.0.31"
 
 "@octokit/auth-token@^2.4.4":
   version "2.5.0"
@@ -3744,10 +3744,10 @@ extsprintf@^1.2.0:
   resolved "https://registry.npmjs.org/extsprintf/-/extsprintf-1.4.1.tgz#8d172c064867f235c0c84a596806d279bf4bcc07"
   integrity sha512-Wrk35e8ydCKDj/ArClo1VrPVmN8zph5V4AtHwIuHhvMXsKf73UT3BOD+azBIW+3wOJ4FhEH7zyaJCFvChjYvMA==
 
-fancy-test@^2.0.29:
-  version "2.0.31"
-  resolved "https://registry.yarnpkg.com/fancy-test/-/fancy-test-2.0.31.tgz#2031920a6608c633ed93eb1629513fb2a2026bc7"
-  integrity sha512-Ok4L7GuoVdOBKtwlHdSnBYDBSFeWazcr6+/lhcC0LWS+sJYOXgbyCPP54fTt2TM1T8QWUm4ULHKQGOHKS61pfg==
+fancy-test@^2.0.31:
+  version "2.0.32"
+  resolved "https://registry.yarnpkg.com/fancy-test/-/fancy-test-2.0.32.tgz#3cbf7ea8a83f9912b02d9ee0782517cca71834f9"
+  integrity sha512-yN40FulpMlEDVp/3YbSxVzkdUR/u0ZAk2Wu30vVvv79Dni0LoSz90ZXtLsp6e813ED0SHkaW/zfgDEp8YqF9Lw==
   dependencies:
     "@types/chai" "*"
     "@types/lodash" "*"

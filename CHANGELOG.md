@@ -1,3 +1,12 @@
+## [2.1.21](https://github.com/salesforcecli/plugin-env/compare/2.1.20...2.1.21) (2023-08-06)
+
+
+### Bug Fixes
+
+* **deps:** bump tslib from 2.6.0 to 2.6.1 ([cac8a98](https://github.com/salesforcecli/plugin-env/commit/cac8a98075b5f78e807bcfff126fe52aaab9e32f))
+
+
+
 ## [2.1.20](https://github.com/salesforcecli/plugin-env/compare/2.1.19...2.1.20) (2023-07-23)
 
 

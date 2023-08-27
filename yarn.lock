@@ -1180,10 +1180,10 @@
     handlebars "^4.7.8"
     tslib "^2"
 
-"@salesforce/plugin-functions@^1.21.10":
-  version "1.21.10"
-  resolved "https://registry.yarnpkg.com/@salesforce/plugin-functions/-/plugin-functions-1.21.10.tgz#745a31563d06325eaeeac739a3f114de92590c76"
-  integrity sha512-ugoV39gs7ndFtjjuafK0PdwC0BpbhliBmm4EiXXUuRbOweiAk2y2qmm84EZpxhIetkxhUsgdLNmUp/DJlbRP3g==
+"@salesforce/plugin-functions@^1.21.11":
+  version "1.21.11"
+  resolved "https://registry.yarnpkg.com/@salesforce/plugin-functions/-/plugin-functions-1.21.11.tgz#eb6e43b17ea08f8aa110fa52d27a4e70134b9531"
+  integrity sha512-USa4jpLsgpEcir9cn7R1Ut2wwB1aLgrAFLlnU/OH2Yw8B/2NWivZex8YZyPVDFRCOfXqS1ePvhoT+OfUYUFKLw==
   dependencies:
     "@heroku-cli/color" "^1.1.16"
     "@heroku-cli/schema" "^1.0.25"

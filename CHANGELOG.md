@@ -1,3 +1,12 @@
+## [2.1.25](https://github.com/salesforcecli/plugin-env/compare/2.1.24...2.1.25) (2023-09-03)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/core from 5.2.1 to 5.2.6 ([d5252aa](https://github.com/salesforcecli/plugin-env/commit/d5252aa113d5803212ff96153aed14eddf63e2f1))
+
+
+
 ## [2.1.24](https://github.com/salesforcecli/plugin-env/compare/2.1.23...2.1.24) (2023-09-03)
 
 

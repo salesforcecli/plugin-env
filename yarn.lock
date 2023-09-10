@@ -777,7 +777,7 @@
     is-wsl "^2.1.1"
     tslib "^2.3.1"
 
-"@oclif/core@^2.0.10", "@oclif/core@^2.11.4", "@oclif/core@^2.11.7", "@oclif/core@^2.11.8", "@oclif/core@^2.12.0", "@oclif/core@^2.15.0", "@oclif/core@^2.8.0", "@oclif/core@^2.9.3", "@oclif/core@^2.9.4":
+"@oclif/core@^2.0.10", "@oclif/core@^2.11.4", "@oclif/core@^2.11.7", "@oclif/core@^2.11.8", "@oclif/core@^2.15.0", "@oclif/core@^2.8.0", "@oclif/core@^2.9.3", "@oclif/core@^2.9.4":
   version "2.15.0"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-2.15.0.tgz#f27797b30a77d13279fba88c1698fc34a0bd0d2a"
   integrity sha512-fNEMG5DzJHhYmI3MgpByTvltBOMyFcnRIUMxbiz2ai8rhaYgaTHMG3Q38HcosfIvtw9nCjxpcQtC8MN8QtVCcA==
@@ -1234,13 +1234,13 @@
     chalk "^4"
     inquirer "^8.2.5"
 
-"@salesforce/sf-plugins-core@^3.1.18", "@salesforce/sf-plugins-core@^3.1.20":
-  version "3.1.20"
-  resolved "https://registry.yarnpkg.com/@salesforce/sf-plugins-core/-/sf-plugins-core-3.1.20.tgz#dcefa33d16cc16f85fd546055d3b45d547f9ece2"
-  integrity sha512-27zrOdVt9Sc6byAJOTW1lA5yuIOIC/81Af/t0QQMSofLEj6UkUuMoGUGlKzO0mH82HI34BON5wVXjLjNffIPQg==
+"@salesforce/sf-plugins-core@^3.1.18", "@salesforce/sf-plugins-core@^3.1.22":
+  version "3.1.22"
+  resolved "https://registry.yarnpkg.com/@salesforce/sf-plugins-core/-/sf-plugins-core-3.1.22.tgz#caade6439366fe9a28c819bd3b8fef0cbb2a712a"
+  integrity sha512-t8IvC+8LLzCU+skT3/FGjpkB6qm+VaL3uCbwrqgmZivzQc5tpRQpVcW9YbTgJUgkQrD58yurbkwX/jA9hMR6yg==
   dependencies:
-    "@oclif/core" "^2.12.0"
-    "@salesforce/core" "^5.2.1"
+    "@oclif/core" "^2.15.0"
+    "@salesforce/core" "^5.2.6"
     "@salesforce/kit" "^3.0.11"
     "@salesforce/ts-types" "^2.0.7"
     chalk "^4"

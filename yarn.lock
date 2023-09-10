@@ -777,7 +777,7 @@
     is-wsl "^2.1.1"
     tslib "^2.3.1"
 
-"@oclif/core@^2.0.10", "@oclif/core@^2.11.4", "@oclif/core@^2.11.7", "@oclif/core@^2.11.8", "@oclif/core@^2.15.0", "@oclif/core@^2.8.0", "@oclif/core@^2.9.3", "@oclif/core@^2.9.4":
+"@oclif/core@^2.0.10", "@oclif/core@^2.11.4", "@oclif/core@^2.11.8", "@oclif/core@^2.15.0", "@oclif/core@^2.8.0", "@oclif/core@^2.9.3", "@oclif/core@^2.9.4":
   version "2.15.0"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-2.15.0.tgz#f27797b30a77d13279fba88c1698fc34a0bd0d2a"
   integrity sha512-fNEMG5DzJHhYmI3MgpByTvltBOMyFcnRIUMxbiz2ai8rhaYgaTHMG3Q38HcosfIvtw9nCjxpcQtC8MN8QtVCcA==
@@ -1165,15 +1165,15 @@
     "@salesforce/ts-types" "^2.0.7"
     tslib "^2.6.2"
 
-"@salesforce/plugin-command-reference@^3.0.29":
-  version "3.0.29"
-  resolved "https://registry.yarnpkg.com/@salesforce/plugin-command-reference/-/plugin-command-reference-3.0.29.tgz#3daa647f642344922f20677072d5ea06948b8a3e"
-  integrity sha512-d4mnsvmN+z3S2Wdkf2ZYyunAGn+dYwKQg2djc7YzQivtcONP0bS6xeIA8A+aivPPJsEkt2nCD9slCcggKNksYw==
+"@salesforce/plugin-command-reference@^3.0.32":
+  version "3.0.32"
+  resolved "https://registry.yarnpkg.com/@salesforce/plugin-command-reference/-/plugin-command-reference-3.0.32.tgz#63299759a2c4b515deb1a094914703d58b849fa1"
+  integrity sha512-xLA3ZOV5+01ontotrNPXc8/2kj6WYHbJ0+zEmXK9meZLO6jBfJhZhUSfYHoOu9KDzhNV4gjn0hVJ11txTUz/Xg==
   dependencies:
-    "@oclif/core" "^2.11.7"
-    "@salesforce/core" "^5.2.1"
+    "@oclif/core" "^2.15.0"
+    "@salesforce/core" "^5.2.7"
     "@salesforce/kit" "^3.0.9"
-    "@salesforce/sf-plugins-core" "^3.1.18"
+    "@salesforce/sf-plugins-core" "^3.1.20"
     "@salesforce/ts-types" "^2.0.7"
     chalk "^4"
     handlebars "^4.7.8"
@@ -1234,7 +1234,7 @@
     chalk "^4"
     inquirer "^8.2.5"
 
-"@salesforce/sf-plugins-core@^3.1.18", "@salesforce/sf-plugins-core@^3.1.22":
+"@salesforce/sf-plugins-core@^3.1.20", "@salesforce/sf-plugins-core@^3.1.22":
   version "3.1.22"
   resolved "https://registry.yarnpkg.com/@salesforce/sf-plugins-core/-/sf-plugins-core-3.1.22.tgz#caade6439366fe9a28c819bd3b8fef0cbb2a712a"
   integrity sha512-t8IvC+8LLzCU+skT3/FGjpkB6qm+VaL3uCbwrqgmZivzQc5tpRQpVcW9YbTgJUgkQrD58yurbkwX/jA9hMR6yg==

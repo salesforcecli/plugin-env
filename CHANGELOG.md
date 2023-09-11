@@ -1,3 +1,12 @@
+# [2.2.0](https://github.com/salesforcecli/plugin-env/compare/2.1.26...2.2.0) (2023-09-11)
+
+
+### Features
+
+* use oclif.lock ([1919f8a](https://github.com/salesforcecli/plugin-env/commit/1919f8a03b99f95697fdd75897db6235c5dd31be))
+
+
+
 ## [2.1.26](https://github.com/salesforcecli/plugin-env/compare/2.1.25...2.1.26) (2023-09-10)
 
 

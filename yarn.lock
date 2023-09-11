@@ -777,7 +777,7 @@
     is-wsl "^2.1.1"
     tslib "^2.3.1"
 
-"@oclif/core@^2.0.10", "@oclif/core@^2.11.4", "@oclif/core@^2.11.7", "@oclif/core@^2.11.8", "@oclif/core@^2.12.0", "@oclif/core@^2.15.0", "@oclif/core@^2.8.0", "@oclif/core@^2.9.3", "@oclif/core@^2.9.4":
+"@oclif/core@^2.0.10", "@oclif/core@^2.11.4", "@oclif/core@^2.11.8", "@oclif/core@^2.15.0", "@oclif/core@^2.8.0", "@oclif/core@^2.9.3", "@oclif/core@^2.9.4":
   version "2.15.0"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-2.15.0.tgz#f27797b30a77d13279fba88c1698fc34a0bd0d2a"
   integrity sha512-fNEMG5DzJHhYmI3MgpByTvltBOMyFcnRIUMxbiz2ai8rhaYgaTHMG3Q38HcosfIvtw9nCjxpcQtC8MN8QtVCcA==
@@ -1020,12 +1020,12 @@
     mv "~2"
     safe-json-stringify "~1"
 
-"@salesforce/cli-plugins-testkit@^4.3.2":
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/@salesforce/cli-plugins-testkit/-/cli-plugins-testkit-4.3.2.tgz#64bc6f9405d77f381c1e736a6bcce458f063d019"
-  integrity sha512-kjrFrjvR20axsWRym+JWs9GFna2Eg74KUjZ/c8HCB30Q2mk9VkE30loIYt65VDFId3cs2ChHEXXDm+Xs8e32kA==
+"@salesforce/cli-plugins-testkit@^4.3.5":
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/@salesforce/cli-plugins-testkit/-/cli-plugins-testkit-4.3.5.tgz#3efd4433c57f51dcf0acbcda4337cf530c5b3b33"
+  integrity sha512-pP9PpyLtwXKj3jvkdVGpuxOAgqML+JcTVmyjuORyiOg4BLTQVGnju/e1GXirasNrIA3Wh1DLVymFDqN4HAc32w==
   dependencies:
-    "@salesforce/core" "^5.2.1"
+    "@salesforce/core" "^5.2.7"
     "@salesforce/kit" "^3.0.11"
     "@salesforce/ts-types" "^2.0.6"
     "@types/shelljs" "^0.8.12"
@@ -1033,7 +1033,7 @@
     jszip "^3.10.1"
     shelljs "^0.8.4"
     strip-ansi "6.0.1"
-    ts-retry-promise "^0.7.0"
+    ts-retry-promise "^0.7.1"
 
 "@salesforce/core@^2.37.1":
   version "2.37.1"
@@ -1080,10 +1080,10 @@
     jsonwebtoken "9.0.0"
     ts-retry-promise "^0.7.0"
 
-"@salesforce/core@^5.2.1", "@salesforce/core@^5.2.6":
-  version "5.2.6"
-  resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-5.2.6.tgz#e3a563410f46c116fad0b6c999ea47fb7ec96a9c"
-  integrity sha512-DIUg+RfdnJggbw0YU2mI7JZ7RjqAcWmr/TCUp4VQ9bWQ4T/xAkwnYd3TMle8fPBYVJxGbyvQo22SGcXLBCf7xA==
+"@salesforce/core@^5.2.1", "@salesforce/core@^5.2.6", "@salesforce/core@^5.2.7":
+  version "5.2.7"
+  resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-5.2.7.tgz#aa9c3a92e14abe12695e06f326e072d49e2b958c"
+  integrity sha512-3tRWuPCSx4oTyD00fJUuxhulPMtaEF0BVvNvYcm38Axj/0WeLGOw7CFvoTupmmcCALHJFnxB1Kl20jDvrbB/7w==
   dependencies:
     "@salesforce/kit" "^3.0.11"
     "@salesforce/schemas" "^1.6.0"
@@ -1102,7 +1102,7 @@
     pino-pretty "^10.2.0"
     proper-lockfile "^4.1.2"
     semver "^7.5.4"
-    ts-retry-promise "^0.7.0"
+    ts-retry-promise "^0.7.1"
 
 "@salesforce/dev-config@^4.0.1":
   version "4.0.1"
@@ -1165,15 +1165,15 @@
     "@salesforce/ts-types" "^2.0.7"
     tslib "^2.6.2"
 
-"@salesforce/plugin-command-reference@^3.0.29":
-  version "3.0.29"
-  resolved "https://registry.yarnpkg.com/@salesforce/plugin-command-reference/-/plugin-command-reference-3.0.29.tgz#3daa647f642344922f20677072d5ea06948b8a3e"
-  integrity sha512-d4mnsvmN+z3S2Wdkf2ZYyunAGn+dYwKQg2djc7YzQivtcONP0bS6xeIA8A+aivPPJsEkt2nCD9slCcggKNksYw==
+"@salesforce/plugin-command-reference@^3.0.32":
+  version "3.0.32"
+  resolved "https://registry.yarnpkg.com/@salesforce/plugin-command-reference/-/plugin-command-reference-3.0.32.tgz#63299759a2c4b515deb1a094914703d58b849fa1"
+  integrity sha512-xLA3ZOV5+01ontotrNPXc8/2kj6WYHbJ0+zEmXK9meZLO6jBfJhZhUSfYHoOu9KDzhNV4gjn0hVJ11txTUz/Xg==
   dependencies:
-    "@oclif/core" "^2.11.7"
-    "@salesforce/core" "^5.2.1"
+    "@oclif/core" "^2.15.0"
+    "@salesforce/core" "^5.2.7"
     "@salesforce/kit" "^3.0.9"
-    "@salesforce/sf-plugins-core" "^3.1.18"
+    "@salesforce/sf-plugins-core" "^3.1.20"
     "@salesforce/ts-types" "^2.0.7"
     chalk "^4"
     handlebars "^4.7.8"
@@ -1234,13 +1234,13 @@
     chalk "^4"
     inquirer "^8.2.5"
 
-"@salesforce/sf-plugins-core@^3.1.18", "@salesforce/sf-plugins-core@^3.1.20":
-  version "3.1.20"
-  resolved "https://registry.yarnpkg.com/@salesforce/sf-plugins-core/-/sf-plugins-core-3.1.20.tgz#dcefa33d16cc16f85fd546055d3b45d547f9ece2"
-  integrity sha512-27zrOdVt9Sc6byAJOTW1lA5yuIOIC/81Af/t0QQMSofLEj6UkUuMoGUGlKzO0mH82HI34BON5wVXjLjNffIPQg==
+"@salesforce/sf-plugins-core@^3.1.20", "@salesforce/sf-plugins-core@^3.1.22":
+  version "3.1.22"
+  resolved "https://registry.yarnpkg.com/@salesforce/sf-plugins-core/-/sf-plugins-core-3.1.22.tgz#caade6439366fe9a28c819bd3b8fef0cbb2a712a"
+  integrity sha512-t8IvC+8LLzCU+skT3/FGjpkB6qm+VaL3uCbwrqgmZivzQc5tpRQpVcW9YbTgJUgkQrD58yurbkwX/jA9hMR6yg==
   dependencies:
-    "@oclif/core" "^2.12.0"
-    "@salesforce/core" "^5.2.1"
+    "@oclif/core" "^2.15.0"
+    "@salesforce/core" "^5.2.6"
     "@salesforce/kit" "^3.0.11"
     "@salesforce/ts-types" "^2.0.7"
     chalk "^4"
@@ -8270,10 +8270,10 @@ ts-retry-promise@^0.6.0:
   resolved "https://registry.npmjs.org/ts-retry-promise/-/ts-retry-promise-0.6.1.tgz#cade4d8c72ee177b9f0b9ec3ab21770752996543"
   integrity sha512-6L9PAWahkRtZ4mG48wz3Mxk7LfW1eZKEPsCteIa5fbDE1G2kFk4ThHXbynKlIZLg0RdenDBDw6CLME5liOrBSQ==
 
-ts-retry-promise@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/ts-retry-promise/-/ts-retry-promise-0.7.0.tgz#08f2dcbbf5d2981495841cb63389a268324e8147"
-  integrity sha512-x6yWZXC4BfXy4UyMweOFvbS1yJ/Y5biSz/mEPiILtJZLrqD3ZxIpzVOGGgifHHdaSe3WxzFRtsRbychI6zofOg==
+ts-retry-promise@^0.7.0, ts-retry-promise@^0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/ts-retry-promise/-/ts-retry-promise-0.7.1.tgz#176d6eee6415f07b6c7c286d3657355e284a6906"
+  integrity sha512-NhHOCZ2AQORvH42hOPO5UZxShlcuiRtm7P2jIq2L2RY3PBxw2mLnUsEdHrIslVBFya1v5aZmrR55lWkzo13LrQ==
 
 tsconfig-paths@^3.14.2:
   version "3.14.2"
@@ -8749,10 +8749,10 @@ widest-line@^3.1.0:
   dependencies:
     string-width "^4.0.0"
 
-wireit@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/wireit/-/wireit-0.10.0.tgz#9f2fe35dbf47b232650c488491651858cd7aaff1"
-  integrity sha512-4TX6V9D/2iXUBzdqQaUG+cRePle0mDx1Q7x4Ka2cA8lgp1+ZBhrOTiLsXYRl2roQEldEFgQ2Ff1W8YgyNWAa6w==
+wireit@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/wireit/-/wireit-0.13.0.tgz#7187478f514a72fb75b7276a16a5fe7cf3d7d0d6"
+  integrity sha512-J8+/kWDBLyDTM2isjEFf9nQZxhuXkgICVt6Nntl9ZyZSAjo/P+nxocwKX6D1jUFfT3TDPStUftsV6OYpx149Ow==
   dependencies:
     braces "^3.0.2"
     chokidar "^3.5.3"

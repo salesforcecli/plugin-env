@@ -1,3 +1,9 @@
+## [2.2.3](https://github.com/salesforcecli/plugin-env/compare/2.2.2...2.2.3) (2023-09-28)
+
+### Bug Fixes
+
+- **deps:** bump get-func-name from 2.0.0 to 2.0.2 ([8da2fc5](https://github.com/salesforcecli/plugin-env/commit/8da2fc567287eb9646813248b87a3b401be95693))
+
 ## [2.2.2](https://github.com/salesforcecli/plugin-env/compare/2.2.1...2.2.2) (2023-09-24)
 
 ### Bug Fixes

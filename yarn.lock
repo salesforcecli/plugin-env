@@ -1179,10 +1179,10 @@
     handlebars "^4.7.8"
     tslib "^2"
 
-"@salesforce/plugin-functions@^1.21.11":
-  version "1.21.11"
-  resolved "https://registry.yarnpkg.com/@salesforce/plugin-functions/-/plugin-functions-1.21.11.tgz#eb6e43b17ea08f8aa110fa52d27a4e70134b9531"
-  integrity sha512-USa4jpLsgpEcir9cn7R1Ut2wwB1aLgrAFLlnU/OH2Yw8B/2NWivZex8YZyPVDFRCOfXqS1ePvhoT+OfUYUFKLw==
+"@salesforce/plugin-functions@^1.22.3":
+  version "1.22.3"
+  resolved "https://registry.yarnpkg.com/@salesforce/plugin-functions/-/plugin-functions-1.22.3.tgz#f505f18325203aeb2ed2d9016b828c9f220279e8"
+  integrity sha512-0fiXB5mXMM2qIw0hKmTiqWxqsmOf1iST+jMwSgpYUGopRC+lhzB71D1JqzEnjVbGBMAz1lrVNCPOC9Cwx/IrBQ==
   dependencies:
     "@heroku-cli/color" "^1.1.16"
     "@heroku-cli/schema" "^1.0.25"
@@ -1203,12 +1203,12 @@
     execa "^5.1.1"
     fs-extra "^10.0.1"
     global-agent "^3.0.0"
-    handlebars "^4.7.7"
+    handlebars "^4.7.8"
     jsforce "^1.11.1"
     kbpgp "^2.1.15"
     lodash "^4.17.21"
     netrc-parser "^3.1.6"
-    node-fetch "^3.3.1"
+    node-fetch "^3.3.2"
     sha256-file "^1.0.0"
     uuid "^8.3.2"
 
@@ -6227,10 +6227,10 @@ node-fetch@^2.6.1, node-fetch@^2.6.7:
   dependencies:
     whatwg-url "^5.0.0"
 
-node-fetch@^3.3.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-3.3.1.tgz#b3eea7b54b3a48020e46f4f88b9c5a7430d20b2e"
-  integrity sha512-cRVc/kyto/7E5shrWca1Wsea4y6tL9iYJE5FBCius3JQfb/4P4I295PfhgbJQBLTx6lATE4z+wK0rPM4VS2uow==
+node-fetch@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-3.3.2.tgz#d1e889bacdf733b4ff3b2b243eb7a12866a0b78b"
+  integrity sha512-dRB78srN/l6gqWulah9SrxeYnxeddIG30+GOqK/9OlLVyLg3HPnr6SqOWTWOXKRwC2eGYCkZ59NNuSgvSrpgOA==
   dependencies:
     data-uri-to-buffer "^4.0.0"
     fetch-blob "^3.1.4"

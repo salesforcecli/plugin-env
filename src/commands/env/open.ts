@@ -5,7 +5,7 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import { URL } from 'url';
+import { URL } from 'node:url';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { Logger, Messages, Org, SfError } from '@salesforce/core';
 import * as open from 'open';

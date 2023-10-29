@@ -1283,10 +1283,10 @@
     handlebars "^4.7.8"
     tslib "^2"
 
-"@salesforce/plugin-functions@^1.22.3":
-  version "1.22.3"
-  resolved "https://registry.yarnpkg.com/@salesforce/plugin-functions/-/plugin-functions-1.22.3.tgz#f505f18325203aeb2ed2d9016b828c9f220279e8"
-  integrity sha512-0fiXB5mXMM2qIw0hKmTiqWxqsmOf1iST+jMwSgpYUGopRC+lhzB71D1JqzEnjVbGBMAz1lrVNCPOC9Cwx/IrBQ==
+"@salesforce/plugin-functions@^1.22.8":
+  version "1.22.8"
+  resolved "https://registry.yarnpkg.com/@salesforce/plugin-functions/-/plugin-functions-1.22.8.tgz#11f6df542c1d12351e413a9cb645252556bf39ef"
+  integrity sha512-wK/MvTAnyOkCTWYavA/DXNK1VdV8NQS9UqLdwwoVgMFKvJX+SSVlVuGP/akf1H09CeiRmdaMcMiCICv9wpCKbw==
   dependencies:
     "@heroku-cli/color" "^1.1.16"
     "@heroku-cli/schema" "^1.0.25"
@@ -5302,33 +5302,7 @@ jsforce@^1.11.0, jsforce@^1.11.1:
     request "^2.72.0"
     xml2js "^0.5.0"
 
-jsforce@^2.0.0-beta.23:
-  version "2.0.0-beta.27"
-  resolved "https://registry.yarnpkg.com/jsforce/-/jsforce-2.0.0-beta.27.tgz#ba822b18b77bea4529491060a9b07bc1009735ac"
-  integrity sha512-d9dDWWeHwayRKPo8FJBAIUyk8sNXGSHwdUjR6al3yK0YKci27Jc1XfNaQTxEAuymHQJVaCb1gxTKqmA4uznFdQ==
-  dependencies:
-    "@babel/runtime" "^7.12.5"
-    "@babel/runtime-corejs3" "^7.12.5"
-    "@types/node" "^12.19.9"
-    abort-controller "^3.0.0"
-    base64url "^3.0.1"
-    commander "^4.0.1"
-    core-js "^3.6.4"
-    csv-parse "^4.8.2"
-    csv-stringify "^5.3.4"
-    faye "^1.4.0"
-    form-data "^4.0.0"
-    fs-extra "^8.1.0"
-    https-proxy-agent "^5.0.0"
-    inquirer "^7.0.0"
-    multistream "^3.1.0"
-    node-fetch "^2.6.1"
-    open "^7.0.0"
-    regenerator-runtime "^0.13.3"
-    strip-ansi "^6.0.0"
-    xml2js "^0.5.0"
-
-jsforce@^2.0.0-beta.28:
+jsforce@^2.0.0-beta.23, jsforce@^2.0.0-beta.28:
   version "2.0.0-beta.28"
   resolved "https://registry.yarnpkg.com/jsforce/-/jsforce-2.0.0-beta.28.tgz#5fd8d9b8e5efc798698793b147e00371f3d74e8f"
   integrity sha512-tTmKRhr4yWNinhmurY/tiiltLFQq9RQ+gpYAt3wjFdCGjzd49/wqYQIFw4SsI3+iLjxXnc0uTgGwdAkDjxDWnA==

@@ -8,7 +8,7 @@ import { expect, test } from '@oclif/test';
 import { AuthInfo, Connection, Org, OrgAuthorization } from '@salesforce/core';
 
 import { assert } from 'chai';
-import EnvOpen, { OpenResult } from '../../../src/commands/env/open';
+import EnvOpen, { OpenResult } from '../../../src/commands/env/open.js';
 
 // we can't make this "readonly" or "as const" because OrgAuthorization includes a Nullable in is props
 const expectedSfOrgs: Array<Partial<OrgAuthorization>> = [
@@ -26,32 +26,21 @@ const expectedSfOrgs: Array<Partial<OrgAuthorization>> = [
 describe('open unit tests', () => {
   assert(expectedSfOrgs[0].username);
   test
-    .stub(Connection.prototype, 'getAuthInfo', (): AuthInfo => ({} as AuthInfo))
-    .stub(
-      AuthInfo.prototype,
-      'listAllAuthorizations',
-      async (): Promise<Array<Partial<OrgAuthorization>>> => expectedSfOrgs
+    .stub(Connection.prototype, 'getAuthInfo', (stub) => stub.returns({}))
+    .stub(AuthInfo, 'listAllAuthorizations', (stub) => stub.resolves(expectedSfOrgs))
+    .stub(AuthInfo.prototype, 'getOrgFrontDoorUrl', (stub) =>
+      stub.returns(`${expectedSfOrgs[0].instanceUrl}?sid=${expectedSfOrgs[0].accessToken}`)
     )
-    .stub(
-      AuthInfo.prototype,
-      'getOrgFrontDoorUrl',
-      (): string => `${expectedSfOrgs[0].instanceUrl}?sid=${expectedSfOrgs[0].accessToken}`
+    .stub(Org.prototype, 'getConnection', (stub) =>
+      stub.callsFake(() => {
+        const getAuthInfo = (): AuthInfo => new AuthInfo();
+        const conn = { getAuthInfo } as Connection;
+        return conn;
+      })
     )
-    .stub(Org.prototype, 'getConnection', (): Connection => {
-      const getAuthInfo = (): AuthInfo => new AuthInfo();
-      const conn = { getAuthInfo } as Connection;
-      return conn;
-    })
-    .stub(Org.prototype, 'refreshAuth', async (): Promise<void> => {})
-    .stub(
-      Org,
-      'create',
-      async (): Promise<Org> =>
-        new Org({
-          aliasOrUsername: expectedSfOrgs[0].username,
-        } as Org.Options)
-    )
-    .stub(EnvOpen.prototype, 'open', async (): Promise<void> => {})
+    .stub(Org.prototype, 'refreshAuth', (stub) => stub.resolves())
+    .stub(Org, 'create', (stub) => stub.resolves(new Org({ aliasOrUsername: expectedSfOrgs[0].username })))
+    .stub(EnvOpen.prototype, 'open', (stub) => stub.resolves())
     .stdout()
     .command([
       'env:open',
@@ -71,28 +60,19 @@ describe('open unit tests', () => {
       expect(result.url).match(urlEndRegEx);
     });
   test
-    .stub(Connection.prototype, 'getAuthInfo', (): AuthInfo => ({} as AuthInfo))
-    .stub(
-      AuthInfo.prototype,
-      'listAllAuthorizations',
-      async (): Promise<Array<Partial<OrgAuthorization>>> => expectedSfOrgs
+    .stub(Connection.prototype, 'getAuthInfo', (stub) => stub.returns({}))
+    .stub(AuthInfo, 'listAllAuthorizations', (stub) => stub.resolves(expectedSfOrgs))
+    .stub(AuthInfo.prototype, 'getOrgFrontDoorUrl', (stub) => stub.returns(expectedSfOrgs[0].instanceUrl))
+    .stub(Org.prototype, 'getConnection', (stub) =>
+      stub.callsFake(() => {
+        const getAuthInfo = (): AuthInfo => new AuthInfo();
+        const conn = { getAuthInfo } as Connection;
+        return conn;
+      })
     )
-    .stub(AuthInfo.prototype, 'getOrgFrontDoorUrl', (): string => expectedSfOrgs[0].instanceUrl as string)
-    .stub(Org.prototype, 'getConnection', (): Connection => {
-      const getAuthInfo = (): AuthInfo => new AuthInfo();
-      const conn = { getAuthInfo } as Connection;
-      return conn;
-    })
-    .stub(Org.prototype, 'refreshAuth', async (): Promise<void> => {})
-    .stub(
-      Org,
-      'create',
-      async (): Promise<Org> =>
-        new Org({
-          aliasOrUsername: expectedSfOrgs[0].username,
-        } as Org.Options)
-    )
-    .stub(EnvOpen.prototype, 'open', async (): Promise<void> => {})
+    .stub(Org.prototype, 'refreshAuth', (stub) => stub.resolves())
+    .stub(Org, 'create', (stub) => stub.resolves(new Org({ aliasOrUsername: expectedSfOrgs[0].username })))
+    .stub(EnvOpen.prototype, 'open', (stub) => stub.resolves())
     .stdout()
     .command(['env:open', '--target-env', expectedSfOrgs[0].username, '--url-only', '--json'])
     .it('should open requested environment', (ctx) => {

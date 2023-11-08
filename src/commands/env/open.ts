@@ -10,7 +10,7 @@ import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { Logger, Messages, Org, SfError } from '@salesforce/core';
-import open from 'open';
+import open, { apps } from 'open';
 
 Messages.importMessagesDirectory(dirname(fileURLToPath(import.meta.url)));
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'open');
@@ -96,15 +96,15 @@ export default class EnvOpen extends SfCommand<OpenResult> {
   private async open(url: string, browser?: string): Promise<void> {
     if (browser) {
       if (browser?.toLowerCase().includes('chrome')) {
-        browser = open.apps.chrome as string;
+        browser = apps.chrome as string;
       }
 
       if (browser?.toLowerCase().includes('firefox')) {
-        browser = open.apps.firefox as string;
+        browser = apps.firefox as string;
       }
 
       if (browser?.toLowerCase().includes('edge')) {
-        browser = open.apps.edge as string;
+        browser = apps.edge as string;
       }
     }
 

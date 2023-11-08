@@ -1,3 +1,9 @@
+## [3.0.2](https://github.com/salesforcecli/plugin-env/compare/3.0.1...3.0.2) (2023-11-08)
+
+### Bug Fixes
+
+- bump open ([#752](https://github.com/salesforcecli/plugin-env/issues/752)) ([2295ad7](https://github.com/salesforcecli/plugin-env/commit/2295ad739b1f926f2dffc7163145db5e81e2d394))
+
 ## [3.0.1](https://github.com/salesforcecli/plugin-env/compare/2.2.9...3.0.1) (2023-11-08)
 
 ## [2.2.9](https://github.com/salesforcecli/plugin-env/compare/2.2.8...2.2.9) (2023-10-30)

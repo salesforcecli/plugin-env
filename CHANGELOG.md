@@ -1,3 +1,9 @@
+## [3.0.3](https://github.com/salesforcecli/plugin-env/compare/3.0.2...3.0.3) (2023-11-09)
+
+### Bug Fixes
+
+- **deps:** remove unused devDeps for xNuts ([776b44f](https://github.com/salesforcecli/plugin-env/commit/776b44f3623cecdd281edbe233a4d18b584c6c77))
+
 ## [3.0.2](https://github.com/salesforcecli/plugin-env/compare/3.0.1...3.0.2) (2023-11-08)
 
 ### Bug Fixes

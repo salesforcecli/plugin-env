@@ -1,3 +1,9 @@
+## [3.0.6](https://github.com/salesforcecli/plugin-env/compare/3.0.5...3.0.6) (2023-11-16)
+
+### Bug Fixes
+
+- **deps:** bump tough-cookie from 4.1.2 to 4.1.3 ([5f35f61](https://github.com/salesforcecli/plugin-env/commit/5f35f611c0542d079c75562e014cd6f35ad67b7e))
+
 ## [3.0.5](https://github.com/salesforcecli/plugin-env/compare/3.0.4...3.0.5) (2023-11-12)
 
 ### Bug Fixes

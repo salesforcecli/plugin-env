@@ -96,7 +96,7 @@ EXAMPLES
     $ sf env display --target-env myEnv
 ```
 
-_See code: [src/commands/env/display.ts](https://github.com/salesforcecli/plugin-env/blob/3.0.2/src/commands/env/display.ts)_
+_See code: [src/commands/env/display.ts](https://github.com/salesforcecli/plugin-env/blob/3.0.9/src/commands/env/display.ts)_
 
 ## `sf env list`
 
@@ -108,15 +108,15 @@ USAGE
     [--output csv|json|yaml] [--sort <value>]
 
 FLAGS
-  -a, --all             Show all environments, even inactive ones.
-  --columns=<value>...  List of columns to display.
-  --csv                 Output in csv format [alias: --output=csv]
-  --filter=<value>      Filter property by partial string matching.
-  --no-header           Hide table header from output.
-  --no-truncate         Don't truncate output to fit screen.
-  --output=<option>     Format in which to display the output.
-                        <options: csv|json|yaml>
-  --sort=<value>        Column to sort by (prepend '-' for descending).
+  -a, --all                 Show all environments, even inactive ones.
+      --columns=<value>...  List of columns to display.
+      --csv                 Output in csv format [alias: --output=csv]
+      --filter=<value>      Filter property by partial string matching.
+      --no-header           Hide table header from output.
+      --no-truncate         Don't truncate output to fit screen.
+      --output=<option>     Format in which to display the output.
+                            <options: csv|json|yaml>
+      --sort=<value>        Column to sort by (prepend '-' for descending).
 
 GLOBAL FLAGS
   --json  Format output as json.
@@ -152,7 +152,7 @@ EXAMPLES
     $ sf env list --csv --no-header
 ```
 
-_See code: [src/commands/env/list.ts](https://github.com/salesforcecli/plugin-env/blob/3.0.2/src/commands/env/list.ts)_
+_See code: [src/commands/env/list.ts](https://github.com/salesforcecli/plugin-env/blob/3.0.9/src/commands/env/list.ts)_
 
 ## `sf env open`
 
@@ -166,7 +166,7 @@ FLAGS
   -e, --target-env=<value>  Login user or alias of the environment to open.
   -p, --path=<value>        Path to append to the end of the login URL.
   -r, --url-only            Display the URL, but don’t launch it in a browser.
-  --browser=<value>         Browser in which to open the environment.
+      --browser=<value>     Browser in which to open the environment.
 
 GLOBAL FLAGS
   --json  Format output as json.
@@ -198,6 +198,6 @@ FLAG DESCRIPTIONS
     browser applications differ depending on the operating system you're on; check your documentation for details.
 ```
 
-_See code: [src/commands/env/open.ts](https://github.com/salesforcecli/plugin-env/blob/3.0.2/src/commands/env/open.ts)_
+_See code: [src/commands/env/open.ts](https://github.com/salesforcecli/plugin-env/blob/3.0.9/src/commands/env/open.ts)_
 
 <!-- commandsstop -->

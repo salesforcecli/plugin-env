@@ -1,3 +1,45 @@
+## [3.0.9](https://github.com/salesforcecli/plugin-env/compare/3.0.8...3.0.9) (2023-12-10)
+
+### Bug Fixes
+
+- **deps:** bump @oclif/core from 3.13.1 to 3.14.1 ([398187e](https://github.com/salesforcecli/plugin-env/commit/398187e169e784e11b869141e06d83b89e43c000))
+
+## [3.0.8](https://github.com/salesforcecli/plugin-env/compare/3.0.7...3.0.8) (2023-12-03)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/core from 6.2.1 to 6.2.2 ([7d7c445](https://github.com/salesforcecli/plugin-env/commit/7d7c445af54d5155ea6ac5392676dcf3ee64ec26))
+
+## [3.0.7](https://github.com/salesforcecli/plugin-env/compare/3.0.6...3.0.7) (2023-11-26)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/sf-plugins-core from 5.0.1 to 5.0.3 ([4c366a4](https://github.com/salesforcecli/plugin-env/commit/4c366a4290d6e3603aa66c0daaac1a92226c2813))
+
+## [3.0.6](https://github.com/salesforcecli/plugin-env/compare/3.0.5...3.0.6) (2023-11-16)
+
+### Bug Fixes
+
+- **deps:** bump tough-cookie from 4.1.2 to 4.1.3 ([5f35f61](https://github.com/salesforcecli/plugin-env/commit/5f35f611c0542d079c75562e014cd6f35ad67b7e))
+
+## [3.0.5](https://github.com/salesforcecli/plugin-env/compare/3.0.4...3.0.5) (2023-11-12)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/core from 5.3.19 to 5.3.20 ([488b28f](https://github.com/salesforcecli/plugin-env/commit/488b28f7cd9c3b1253dd30d1b6e62f216bf3c6c2))
+
+## [3.0.4](https://github.com/salesforcecli/plugin-env/compare/3.0.3...3.0.4) (2023-11-12)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/sf-plugins-core from 4.1.0 to 4.1.1 ([ef61772](https://github.com/salesforcecli/plugin-env/commit/ef6177277dbc0516e66e9a655f9f3407b283729b))
+
+## [3.0.3](https://github.com/salesforcecli/plugin-env/compare/3.0.2...3.0.3) (2023-11-09)
+
+### Bug Fixes
+
+- **deps:** remove unused devDeps for xNuts ([776b44f](https://github.com/salesforcecli/plugin-env/commit/776b44f3623cecdd281edbe233a4d18b584c6c77))
+
 ## [3.0.2](https://github.com/salesforcecli/plugin-env/compare/3.0.1...3.0.2) (2023-11-08)
 
 ### Bug Fixes

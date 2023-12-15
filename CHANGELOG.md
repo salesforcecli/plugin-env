@@ -1,3 +1,9 @@
+## [3.0.10](https://github.com/salesforcecli/plugin-env/compare/3.0.9...3.0.10) (2023-12-15)
+
+### Bug Fixes
+
+- remove ts-types wrapper ([#785](https://github.com/salesforcecli/plugin-env/issues/785)) ([9f8d610](https://github.com/salesforcecli/plugin-env/commit/9f8d61035ebb92b486d0d78110607cd2c26d241d))
+
 ## [3.0.9](https://github.com/salesforcecli/plugin-env/compare/3.0.8...3.0.9) (2023-12-10)
 
 ### Bug Fixes

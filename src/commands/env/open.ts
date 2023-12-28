@@ -6,13 +6,13 @@
  */
 
 import { URL } from 'node:url';
-import { dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+
+
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { Logger, Messages, Org, SfError } from '@salesforce/core';
 import open, { apps } from 'open';
 
-Messages.importMessagesDirectory(dirname(fileURLToPath(import.meta.url)));
+Messages.importMessagesDirectoryFromMetaUrl(import.meta.url)
 const messages = Messages.loadMessages('@salesforce/plugin-env', 'open');
 
 export type OpenResult = { url: string };

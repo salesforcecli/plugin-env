@@ -1,3 +1,5 @@
+## [3.0.23](https://github.com/salesforcecli/plugin-env/compare/3.0.22...3.0.23) (2024-02-26)
+
 ## [3.0.22](https://github.com/salesforcecli/plugin-env/compare/3.0.21...3.0.22) (2024-02-26)
 
 ### Bug Fixes

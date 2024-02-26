@@ -1,3 +1,9 @@
+## [3.0.22](https://github.com/salesforcecli/plugin-env/compare/3.0.21...3.0.22) (2024-02-26)
+
+### Bug Fixes
+
+- **deps:** bump change-case from 5.4.2 to 5.4.3 ([e21f3ef](https://github.com/salesforcecli/plugin-env/commit/e21f3efd53217ce223ca77207c7378675a9defb1))
+
 ## [3.0.21](https://github.com/salesforcecli/plugin-env/compare/3.0.20...3.0.21) (2024-02-25)
 
 ### Bug Fixes

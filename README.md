@@ -96,7 +96,7 @@ EXAMPLES
     $ sf env display --target-env myEnv
 ```
 
-_See code: [src/commands/env/display.ts](https://github.com/salesforcecli/plugin-env/blob/3.0.24/src/commands/env/display.ts)_
+_See code: [src/commands/env/display.ts](https://github.com/salesforcecli/plugin-env/blob/3.0.25/src/commands/env/display.ts)_
 
 ## `sf env list`
 
@@ -152,7 +152,7 @@ EXAMPLES
     $ sf env list --csv --no-header
 ```
 
-_See code: [src/commands/env/list.ts](https://github.com/salesforcecli/plugin-env/blob/3.0.24/src/commands/env/list.ts)_
+_See code: [src/commands/env/list.ts](https://github.com/salesforcecli/plugin-env/blob/3.0.25/src/commands/env/list.ts)_
 
 ## `sf env open`
 
@@ -198,6 +198,6 @@ FLAG DESCRIPTIONS
     browser applications differ depending on the operating system you're on; check your documentation for details.
 ```
 
-_See code: [src/commands/env/open.ts](https://github.com/salesforcecli/plugin-env/blob/3.0.24/src/commands/env/open.ts)_
+_See code: [src/commands/env/open.ts](https://github.com/salesforcecli/plugin-env/blob/3.0.25/src/commands/env/open.ts)_
 
 <!-- commandsstop -->

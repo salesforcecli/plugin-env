@@ -1,3 +1,9 @@
+## [3.0.26](https://github.com/salesforcecli/plugin-env/compare/3.0.25...3.0.26) (2024-04-08)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/core from 6.7.3 to 6.7.6 ([d4aaac3](https://github.com/salesforcecli/plugin-env/commit/d4aaac32dc573155eff3e9420f4ced05e9ec20e3))
+
 ## [3.0.25](https://github.com/salesforcecli/plugin-env/compare/3.0.24...3.0.25) (2024-03-10)
 
 ### Bug Fixes

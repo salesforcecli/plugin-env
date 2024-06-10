@@ -1,3 +1,9 @@
+## [3.0.31](https://github.com/salesforcecli/plugin-env/compare/3.0.30...3.0.31) (2024-06-10)
+
+### Bug Fixes
+
+- **deps:** bump @oclif/core from 3.26.6 to 3.27.0 ([b04616f](https://github.com/salesforcecli/plugin-env/commit/b04616f5ac5efb6b6a28dd2be611339d3f9d21de))
+
 ## [3.0.30](https://github.com/salesforcecli/plugin-env/compare/3.0.29...3.0.30) (2024-05-12)
 
 ### Bug Fixes

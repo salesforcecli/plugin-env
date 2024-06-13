@@ -1,3 +1,9 @@
+## [3.0.32](https://github.com/salesforcecli/plugin-env/compare/3.0.31...3.0.32) (2024-06-13)
+
+### Bug Fixes
+
+- **deps:** bump braces from 3.0.2 to 3.0.3 ([307a1b5](https://github.com/salesforcecli/plugin-env/commit/307a1b53c44e45ca56f0653b1ec66c0074cece2a))
+
 ## [3.0.31](https://github.com/salesforcecli/plugin-env/compare/3.0.30...3.0.31) (2024-06-10)
 
 ### Bug Fixes

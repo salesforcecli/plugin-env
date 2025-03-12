@@ -1,3 +1,9 @@
+## [3.0.36](https://github.com/salesforcecli/plugin-env/compare/3.0.35...3.0.36) (2025-03-12)
+
+### Bug Fixes
+
+- **deps:** bump @babel/runtime from 7.22.3 to 7.26.10 ([0acf723](https://github.com/salesforcecli/plugin-env/commit/0acf7232f7794fb4e75a9304b265b06672d8b508))
+
 ## [3.0.35](https://github.com/salesforcecli/plugin-env/compare/3.0.34...3.0.35) (2025-03-12)
 
 ### Bug Fixes

@@ -1,3 +1,9 @@
+## [3.0.35](https://github.com/salesforcecli/plugin-env/compare/3.0.34...3.0.35) (2025-03-12)
+
+### Bug Fixes
+
+- **deps:** bump @babel/runtime-corejs3 from 7.22.3 to 7.26.10 ([927c3ed](https://github.com/salesforcecli/plugin-env/commit/927c3ed3ee4a49e91e4b129c3898d8b49305a399))
+
 ## [3.0.34](https://github.com/salesforcecli/plugin-env/compare/3.0.33...3.0.34) (2024-11-17)
 
 ### Bug Fixes

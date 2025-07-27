@@ -18,7 +18,7 @@
     "@salesforce/dev-scripts": "^8.5.0",
     "@salesforce/plugin-command-reference": "^3.1.62",
     "eslint-plugin-sf-plugin": "^1.20.30",
-    "oclif": "^4.21.1",
+    "oclif": "^4.22.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },
